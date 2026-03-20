@@ -29,6 +29,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Build packages
+        run: npm run build
+
       - name: Validate knowledge schema
         run: node scripts/validate-knowledge.js
 
