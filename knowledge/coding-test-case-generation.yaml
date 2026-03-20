@@ -1,0 +1,31 @@
+id: test-case-generation
+version: 1.0.0
+contributor: Dakan & Feller
+title: Test Case Generation
+domain: coding
+dimensions:
+  delegation:
+    description: Should this task be automated, augmented, or agentic?
+    example: AI generates test cases, developer reviews and integrates.
+    antipattern: AI-generated tests merged without human review.
+  description:
+    description: What context/framing makes the AI most useful here?
+    example: Provide function signatures and edge case requirements.
+    antipattern: No context, leading to incomplete tests.
+  discernment:
+    description: How do you evaluate if the AI output is trustworthy?
+    example: Run generated tests and check coverage improvements.
+    antipattern: Accepting tests without execution.
+  diligence:
+    description: What human accountability is required after AI involvement?
+    example: Developer must validate and maintain test suite.
+    antipattern: Relying solely on AI for test maintenance.
+score_hints:
+  delegation: 0.2
+  description: 0.3
+  discernment: 0.3
+  diligence: 0.2
+tags:
+  - test-case
+  - generation
+  - coding

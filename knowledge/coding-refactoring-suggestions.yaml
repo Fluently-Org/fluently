@@ -1,0 +1,31 @@
+id: refactoring-suggestions
+version: 1.0.0
+contributor: Dakan & Feller
+title: Refactoring Suggestions
+domain: coding
+dimensions:
+  delegation:
+    description: Should this task be automated, augmented, or agentic?
+    example: AI proposes refactoring opportunities, human reviews and approves.
+    antipattern: AI automatically refactors code without human review.
+  description:
+    description: What context/framing makes the AI most useful here?
+    example: Provide codebase structure and known pain points.
+    antipattern: No context, leading to generic suggestions.
+  discernment:
+    description: How do you evaluate if the AI output is trustworthy?
+    example: Validate suggestions against test coverage and code quality metrics.
+    antipattern: Accepting AI refactoring without testing.
+  diligence:
+    description: What human accountability is required after AI involvement?
+    example: Developer must run tests and review changes.
+    antipattern: Merging AI-refactored code without testing.
+score_hints:
+  delegation: 0.2
+  description: 0.3
+  discernment: 0.3
+  diligence: 0.2
+tags:
+  - refactoring
+  - suggestions
+  - coding

@@ -1,0 +1,31 @@
+id: code-review-triage
+version: 1.0.0
+contributor: Dakan & Feller
+title: Code Review Triage
+ domain: coding
+dimensions:
+  delegation:
+    description: Should this task be automated, augmented, or agentic?
+    example: Use AI to triage code review comments, flagging those needing human attention.
+    antipattern: Fully automating code review without human oversight.
+  description:
+    description: What context/framing makes the AI most useful here?
+    example: Provide repository context and recent commit history for accurate triage.
+    antipattern: No context, leading to irrelevant triage suggestions.
+  discernment:
+    description: How do you evaluate if the AI output is trustworthy?
+    example: Compare flagged comments against senior developer feedback.
+    antipattern: Accepting AI triage without validation.
+  diligence:
+    description: What human accountability is required after AI involvement?
+    example: Human must review flagged comments before merging.
+    antipattern: Merging code based solely on AI triage.
+score_hints:
+  delegation: 0.2
+  description: 0.3
+  discernment: 0.3
+  diligence: 0.2
+tags:
+  - code-review
+  - triage
+  - automation

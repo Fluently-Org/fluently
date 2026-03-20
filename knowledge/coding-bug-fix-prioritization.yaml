@@ -1,0 +1,31 @@
+id: bug-fix-prioritization
+version: 1.0.0
+contributor: Dakan & Feller
+title: Bug Fix Prioritization
+domain: coding
+dimensions:
+  delegation:
+    description: Should this task be automated, augmented, or agentic?
+    example: AI suggests bug fix priorities based on impact and frequency.
+    antipattern: Letting AI fully decide bug fix order without human input.
+  description:
+    description: What context/framing makes the AI most useful here?
+    example: Provide bug reports, user impact, and historical data.
+    antipattern: No context, leading to poor prioritization.
+  discernment:
+    description: How do you evaluate if the AI output is trustworthy?
+    example: Cross-check AI prioritization with product manager feedback.
+    antipattern: Accepting AI priorities without review.
+  diligence:
+    description: What human accountability is required after AI involvement?
+    example: Product manager must approve final bug fix order.
+    antipattern: Deploying fixes based solely on AI suggestions.
+score_hints:
+  delegation: 0.2
+  description: 0.3
+  discernment: 0.3
+  diligence: 0.2
+tags:
+  - bug-fix
+  - prioritization
+  - coding
