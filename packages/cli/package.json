@@ -1,0 +1,23 @@
+{
+  "name": "fluently-cli",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "bin": {
+    "4d": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "ora": "^6.1.2",
+    "commander": "^11.0.0",
+    "js-yaml": "^4.1.0",
+    "@inquirer/prompts": "^1.2.2",
+    "zod": "^3.22.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
