@@ -1,0 +1,33 @@
+id: marketing-email-campaign
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "AI-Assisted Marketing Email Campaigns"
+domain: writing
+dimensions:
+  delegation:
+    description: The human marketing strategist designs the campaign's core message, audience segmentation logic, and brand voice. AI then executes variation drafting — subject line alternatives, body copy variants for A/B testing, personalization token suggestions, and CTA phrasing options. The human selects, refines, and approves; AI accelerates the variation space.
+    example: A marketing manager defines the campaign goal (re-engage lapsed subscribers with a 20% discount), the audience segment (users inactive for 90+ days), and the brand voice (friendly, direct, never pushy). She then asks AI to draft five subject line options and three body copy variants, which she narrows to one of each after testing against campaign criteria.
+    antipattern: Having AI independently design the campaign messaging strategy, choose the audience, set the offer, and draft the emails — then simply forwarding the AI output to the email platform without human strategic review or brand alignment check.
+  description:
+    description: "Provide AI with a complete campaign brief: target audience demographics and psychographics, campaign objective and success metrics, desired brand voice with examples, the specific offer or message, any compliance constraints (CAN-SPAM, GDPR), and the desired call to action. The more precisely you define success, the more useful the AI drafts."
+    example: "Prompt: 'Draft three subject line options and two body copy variants for a re-engagement email. Audience: B2B SaaS users, mid-level product managers, inactive 90+ days. Offer: 20% discount on annual plan upgrade. Voice: confident, peer-to-peer, not salesy — like a trusted colleague nudging, not a pushy vendor. CTA: Schedule a 15-min call. Compliance: include unsubscribe link placeholder. Max 150 words body copy.'"
+    antipattern: "Prompting: 'Write a marketing email for our product.' With no audience definition, no campaign goal, no voice guidance, and no offer details, AI produces a generic promotional template that fits no specific audience and advances no particular business goal."
+  discernment:
+    description: Evaluate each AI-drafted variant against your campaign goals, brand standards, audience fit, and legal requirements before sending. Check that claims are factually accurate, that the tone matches your brand, that the offer details are correct, and that no language could mislead recipients or create compliance issues.
+    example: "A campaign manager reviews an AI-drafted email and flags two issues: the subject line 'You''re missing out!' violates the company's brand guideline against FOMO language, and a product claim ('the #1 tool for project managers') is unsubstantiated. She revises both before the email enters the approval workflow."
+    antipattern: Sending AI-drafted campaign emails after only a quick skim for spelling errors — missing off-brand phrasing, unverified product claims, incorrect offer details, or compliance issues that could damage brand trust or trigger regulatory scrutiny.
+  diligence:
+    description: Validate all factual claims, offer details, pricing, and legal disclosures before the email goes out. Consider the ethics of AI use in persuasive marketing communications and whether your audience has any expectation of human-crafted outreach. Maintain a human approval step in the campaign workflow regardless of AI involvement.
+    example: Before deploying a 50,000-recipient campaign, the marketing team runs the AI-drafted email through their compliance checklist (unsubscribe link present, sender identification correct, no deceptive subject lines), has the legal team verify the offer terms, and gets final sign-off from the brand director.
+    antipattern: Auto-deploying AI-drafted emails through an automated campaign platform with no human review step, sending incorrect pricing or expired offers to thousands of recipients, or using AI-generated urgency language ('Act now before midnight!') for a deadline that doesn't actually exist.
+score_hints:
+  delegation: 0.25
+  description: 0.35
+  discernment: 0.20
+  diligence: 0.20
+tags:
+  - marketing
+  - email-campaign
+  - copywriting
+  - brand-voice
+reference: "https://aifluencyframework.org"

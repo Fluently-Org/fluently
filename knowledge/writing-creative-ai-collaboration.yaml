@@ -1,0 +1,33 @@
+id: creative-ai-collaboration
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "Creative Writing with AI as Co-Creator"
+domain: writing
+dimensions:
+  delegation:
+    description: "The human writer sets and holds the creative vision, voice, and thematic intent. AI's role is to explore the possibility space: generating variations, proposing alternative phrasings, suggesting structural options, and expanding on prompts the writer provides. The writer selects, transforms, and integrates — never simply accepting. This asymmetry preserves human creative authorship while genuinely leveraging AI's generative range."
+    example: A short story writer gives AI her protagonist's voice sample and asks for ten possible opening lines for a new story. She finds two that spark something, combines elements from both, and rewrites the result into a line that is distinctly her own — using AI as a creative catalyst, not a ghostwriter.
+    antipattern: Asking AI to generate a complete story with a brief premise, then submitting it to literary publications with minimal editing — claiming authorship of work in which the human's creative contribution was limited to a topic choice and a submit button press.
+  description:
+    description: "Give AI the full creative parameters it needs to generate useful material: genre conventions you are working within or against, your protagonist's established voice and psychology, the narrative constraints of the world you've built, the emotional register of the scene, stylistic influences, and what you specifically want to explore in this session. Richer briefs yield richer possibilities."
+    example: "Prompt: 'Write three alternative versions of the scene where Lena realizes her sister has been lying to her for years. Lena's voice: quiet, measured, suppresses emotion until it breaks through — think Marilynne Robinson's register. Setting: kitchen, early morning, just them. Her sister doesn't know Lena knows yet. Each version should find a different emotional entry point: one through an object, one through silence, one through an unexpected mundane action.'"
+    antipattern: "Prompting: 'Write a scene where two sisters have a conflict.' This produces a generic dialogue with stock emotional beats that has no connection to your specific characters, your established voice, or the narrative weight the scene needs to carry in your story."
+  discernment:
+    description: Evaluate AI-generated creative material against voice consistency, originality, narrative coherence, and emotional truth — not just surface competence. Good writing that doesn't sound like you, that relies on familiar tropes, or that resolves emotional tension too easily is still wrong for your work. Actively seek and reject the generic. What makes AI output valuable is what you do with it, not what it produces on its own.
+    example: A novelist receives five AI-generated dialogue exchanges for a tense confrontation scene. She discards three as tonally flat and relying on predictable beats. One has an image — a character straightening a picture frame mid-argument — that feels true to her story. She uses only that image, embedded in dialogue she writes herself, and the scene becomes one of the book's strongest moments.
+    antipattern: Accepting AI-generated prose because it reads smoothly and competently, without checking whether it sounds like your narrator's voice, advances the scene's specific emotional purpose, or introduces tropes (the dramatic pause before the reveal, the single tear) that undercut the subtlety you are working to achieve.
+  diligence:
+    description: Be honest with your readers, your publishers, and yourself about AI's role in your creative process. Follow your publication venue's disclosure policies. Ensure your creative voice and human intent remain the primary force in the work. Maintain your craft practice — using AI as a crutch that prevents developing your own creative capabilities ultimately diminishes both you and the work.
+    example: A literary fiction writer discloses in her author's note that AI tools were used for brainstorming and exploring structural alternatives during drafting, consistent with her publisher's transparency policy. The novel reflects her voice, her thematic vision, and her years of craft development on every page.
+    antipattern: Using AI to write the bulk of a novel, submitting it under your sole authorship to a publisher who prohibits undisclosed AI content, and publishing work that cannot be defended as primarily yours — creating legal and reputational exposure and undermining the trust relationship between author and reader.
+score_hints:
+  delegation: 0.30
+  description: 0.30
+  discernment: 0.20
+  diligence: 0.20
+tags:
+  - creative-writing
+  - fiction
+  - co-creation
+  - authorship
+reference: "https://aifluencyframework.org"

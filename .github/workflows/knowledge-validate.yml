@@ -1,0 +1,51 @@
+name: Knowledge Base Validation
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'knowledge/**'
+  push:
+    branches: [main]
+    paths:
+      - 'knowledge/**'
+
+jobs:
+  validate-knowledge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate knowledge schema
+        run: node scripts/validate-knowledge.js
+
+      - name: Generate knowledge index
+        run: node scripts/generate-knowledge-index.js
+
+      - name: Commit index.json if changed
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          if git diff --quiet knowledge/index.json; then
+            echo "No changes to index.json"
+          else
+            git add knowledge/index.json
+            git commit -m "chore: update knowledge index"
+            git push
+          fi
+        continue-on-error: true

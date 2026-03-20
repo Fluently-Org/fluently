@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use Fluently - User Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .arrow-right::after { content: "→"; margin: 0 0.5rem; color: #6b7280; }
+        .arrow-down::after { content: "↓"; display: block; text-align: center; color: #6b7280; font-size: 1.5rem; margin: 0.5rem 0; }
+        .step-connector { border-left: 2px dashed #d1d5db; margin-left: 1.25rem; padding-left: 1.5rem; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
+                    <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
+                    <a href="/guide.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Guide</a>
+                    <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
+                    <a href="https://github.com/dakan-ai/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="bg-gradient-to-br from-blue-50 to-indigo-100 py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                Your Complete Guide to Fluently
+            </h1>
+            <p class="text-xl text-gray-600 mb-6">
+                Learn how to use the 4D Framework, the <code class="bg-white px-2 py-1 rounded text-blue-700 font-mono">fluent</code> CLI, and contribute to the shared knowledge base.
+            </p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <a href="#workflow" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-blue-700">The 4D Workflow</a>
+                <a href="#cli" class="bg-white text-blue-600 px-5 py-2 rounded-lg font-medium border border-blue-300 hover:bg-blue-50">CLI Commands</a>
+                <a href="#journey" class="bg-white text-blue-600 px-5 py-2 rounded-lg font-medium border border-blue-300 hover:bg-blue-50">AI Journey</a>
+                <a href="#contribute-guide" class="bg-white text-blue-600 px-5 py-2 rounded-lg font-medium border border-blue-300 hover:bg-blue-50">Contribute</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 1: THE 4D WORKFLOW DIAGRAM -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="workflow" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="bg-blue-100 text-blue-700 text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wide">The 4D Workflow</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-3">How a Fluently 4D Cycle Works</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Every AI-assisted task goes through four dimensions. Fluently helps you apply them consistently.</p>
+            </div>
+
+            <!-- Main cycle diagram -->
+            <div class="grid md:grid-cols-4 gap-0 mb-12 relative">
+                <!-- Connector line (desktop) -->
+                <div class="hidden md:block absolute top-1/4 left-0 right-0 h-0.5 bg-gray-200 z-0" style="top: 3.5rem;"></div>
+
+                <!-- D1: Delegation -->
+                <div class="relative z-10 flex flex-col items-center p-4">
+                    <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg mb-3">1</div>
+                    <div class="bg-blue-50 border-2 border-blue-300 rounded-xl p-5 w-full text-center">
+                        <div class="text-2xl mb-2">🤝</div>
+                        <h3 class="font-bold text-blue-800 text-lg mb-2">Delegation</h3>
+                        <p class="text-sm text-gray-600">Who does what?</p>
+                        <ul class="text-xs text-gray-500 mt-3 space-y-1 text-left">
+                            <li>• Should AI do this fully?</li>
+                            <li>• Should AI assist, human decide?</li>
+                            <li>• What requires human judgment?</li>
+                        </ul>
+                    </div>
+                    <div class="hidden md:block text-gray-400 text-xl mt-2">→</div>
+                </div>
+
+                <!-- D2: Description -->
+                <div class="relative z-10 flex flex-col items-center p-4">
+                    <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg mb-3">2</div>
+                    <div class="bg-green-50 border-2 border-green-300 rounded-xl p-5 w-full text-center">
+                        <div class="text-2xl mb-2">📝</div>
+                        <h3 class="font-bold text-green-800 text-lg mb-2">Description</h3>
+                        <p class="text-sm text-gray-600">What does AI need to know?</p>
+                        <ul class="text-xs text-gray-500 mt-3 space-y-1 text-left">
+                            <li>• Provide context and scope</li>
+                            <li>• Give examples and constraints</li>
+                            <li>• Reduce ambiguity</li>
+                        </ul>
+                    </div>
+                    <div class="hidden md:block text-gray-400 text-xl mt-2">→</div>
+                </div>
+
+                <!-- D3: Discernment -->
+                <div class="relative z-10 flex flex-col items-center p-4">
+                    <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg mb-3">3</div>
+                    <div class="bg-purple-50 border-2 border-purple-300 rounded-xl p-5 w-full text-center">
+                        <div class="text-2xl mb-2">👁️</div>
+                        <h3 class="font-bold text-purple-800 text-lg mb-2">Discernment</h3>
+                        <p class="text-sm text-gray-600">Is this output trustworthy?</p>
+                        <ul class="text-xs text-gray-500 mt-3 space-y-1 text-left">
+                            <li>• Spot hallucinations</li>
+                            <li>• Check for overconfidence</li>
+                            <li>• Verify against sources</li>
+                        </ul>
+                    </div>
+                    <div class="hidden md:block text-gray-400 text-xl mt-2">→</div>
+                </div>
+
+                <!-- D4: Diligence -->
+                <div class="relative z-10 flex flex-col items-center p-4">
+                    <div class="w-16 h-16 bg-orange-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg mb-3">4</div>
+                    <div class="bg-orange-50 border-2 border-orange-300 rounded-xl p-5 w-full text-center">
+                        <div class="text-2xl mb-2">✅</div>
+                        <h3 class="font-bold text-orange-800 text-lg mb-2">Diligence</h3>
+                        <p class="text-sm text-gray-600">Who is accountable?</p>
+                        <ul class="text-xs text-gray-500 mt-3 space-y-1 text-left">
+                            <li>• Define review process</li>
+                            <li>• Create audit trail</li>
+                            <li>• Set escalation triggers</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full Task Journey -->
+            <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Full Task Journey with Fluently</h3>
+                <div class="grid md:grid-cols-5 gap-3 items-center text-center">
+                    <div class="bg-white rounded-xl p-4 border border-gray-200 shadow-sm">
+                        <div class="text-2xl mb-1">💡</div>
+                        <div class="font-bold text-sm text-gray-800">Identify AI Task</div>
+                        <div class="text-xs text-gray-500 mt-1">Something you want AI to help with</div>
+                    </div>
+                    <div class="text-gray-400 text-2xl text-center hidden md:block">→</div>
+                    <div class="bg-white rounded-xl p-4 border border-blue-200 shadow-sm">
+                        <div class="text-2xl mb-1">🔍</div>
+                        <div class="font-bold text-sm text-blue-800">Check Knowledge Base</div>
+                        <div class="text-xs text-gray-500 mt-1"><code class="bg-blue-50 px-1 rounded">fluent score "task"</code></div>
+                    </div>
+                    <div class="text-gray-400 text-2xl text-center hidden md:block">→</div>
+                    <div class="bg-white rounded-xl p-4 border border-green-200 shadow-sm">
+                        <div class="text-2xl mb-1">⚡</div>
+                        <div class="font-bold text-sm text-green-800">Apply 4D Framework</div>
+                        <div class="text-xs text-gray-500 mt-1">Follow the guidance from similar cycles</div>
+                    </div>
+                </div>
+                <div class="text-gray-400 text-xl text-center my-2 hidden md:block">↓</div>
+                <div class="grid md:grid-cols-5 gap-3 items-center text-center mt-2">
+                    <div class="bg-white rounded-xl p-4 border border-purple-200 shadow-sm">
+                        <div class="text-2xl mb-1">🤖</div>
+                        <div class="font-bold text-sm text-purple-800">Execute with AI</div>
+                        <div class="text-xs text-gray-500 mt-1">Use your briefed Delegation + Description</div>
+                    </div>
+                    <div class="text-gray-400 text-2xl text-center hidden md:block">→</div>
+                    <div class="bg-white rounded-xl p-4 border border-orange-200 shadow-sm">
+                        <div class="text-2xl mb-1">🔬</div>
+                        <div class="font-bold text-sm text-orange-800">Evaluate Output</div>
+                        <div class="text-xs text-gray-500 mt-1">Apply Discernment checks</div>
+                    </div>
+                    <div class="text-gray-400 text-2xl text-center hidden md:block">→</div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-300 shadow-sm">
+                        <div class="text-2xl mb-1">📋</div>
+                        <div class="font-bold text-sm text-gray-800">Close the Loop</div>
+                        <div class="text-xs text-gray-500 mt-1">Document + approve (Diligence)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 2: CLI COMMANDS -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="cli" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="bg-green-100 text-green-700 text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wide">CLI Reference</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-3">Using the <code class="text-green-700 font-mono">fluent</code> CLI</h2>
+                <p class="text-gray-600 mt-2">Install once, use everywhere: <code class="bg-gray-800 text-green-400 px-3 py-1 rounded font-mono text-sm">npm install -g fluently</code></p>
+            </div>
+
+            <!-- Command Flow Diagram -->
+            <div class="bg-white rounded-2xl border border-gray-200 shadow-sm p-8 mb-8">
+                <h3 class="font-bold text-gray-700 text-sm uppercase mb-6 tracking-wide">Typical Workflow</h3>
+                <div class="flex flex-col md:flex-row items-stretch gap-4">
+                    <div class="flex-1 bg-gray-900 rounded-xl p-5 text-green-400 font-mono text-sm">
+                        <div class="text-gray-500 text-xs mb-2"># 1. Browse what exists</div>
+                        <div>fluent list</div>
+                        <div class="text-gray-500 mt-1">fluent list coding</div>
+                    </div>
+                    <div class="hidden md:flex items-center text-gray-400 text-2xl">→</div>
+                    <div class="flex-1 bg-gray-900 rounded-xl p-5 text-green-400 font-mono text-sm">
+                        <div class="text-gray-500 text-xs mb-2"># 2. Score your task</div>
+                        <div>fluent score "automate bug triage"</div>
+                    </div>
+                    <div class="hidden md:flex items-center text-gray-400 text-2xl">→</div>
+                    <div class="flex-1 bg-gray-900 rounded-xl p-5 text-green-400 font-mono text-sm">
+                        <div class="text-gray-500 text-xs mb-2"># 3. Deep compare</div>
+                        <div>fluent compare \</div>
+                        <div>&nbsp;&nbsp;--description "..." \</div>
+                        <div>&nbsp;&nbsp;--delegation "augmented"</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Command Cards -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- list -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-blue-100 text-blue-700 font-mono text-sm font-bold px-3 py-1 rounded">list</span>
+                        <span class="text-gray-500 text-sm">Browse cycles</span>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                        fluent list [domain]
+                    </div>
+                    <p class="text-sm text-gray-600">Lists all Fluently 4D cycles in the knowledge base. Filter by domain: <code class="text-xs bg-gray-100 px-1 rounded">coding</code>, <code class="text-xs bg-gray-100 px-1 rounded">writing</code>, <code class="text-xs bg-gray-100 px-1 rounded">research</code>, etc.</p>
+                    <div class="mt-3 bg-gray-50 rounded p-2 text-xs text-gray-500 font-mono">
+                        fluent list coding → Shows 4 cycles
+                    </div>
+                </div>
+
+                <!-- score -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-green-100 text-green-700 font-mono text-sm font-bold px-3 py-1 rounded">score</span>
+                        <span class="text-gray-500 text-sm">Evaluate a task</span>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                        fluent score "your task description"
+                    </div>
+                    <p class="text-sm text-gray-600">Compares your task to the knowledge base and returns a 4D score (Delegation, Description, Discernment, Diligence) with top matching cycles.</p>
+                    <div class="mt-3 bg-gray-50 rounded p-2 text-xs text-gray-500 font-mono">
+                        Returns top 3 similar cycles + scores
+                    </div>
+                </div>
+
+                <!-- compare -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-purple-100 text-purple-700 font-mono text-sm font-bold px-3 py-1 rounded">compare</span>
+                        <span class="text-gray-500 text-sm">Deep analysis</span>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                        fluent compare --description "..." --delegation "augmented"
+                    </div>
+                    <p class="text-sm text-gray-600">Detailed 4D comparison with specific delegation intent. Provides dimension-by-dimension suggestions and improvement tips.</p>
+                </div>
+
+                <!-- contribute -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-orange-100 text-orange-700 font-mono text-sm font-bold px-3 py-1 rounded">contribute</span>
+                        <span class="text-gray-500 text-sm">Add your cycle</span>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                        fluent contribute
+                    </div>
+                    <p class="text-sm text-gray-600">Interactive wizard to create a new Fluently 4D cycle entry. Validates your YAML against the schema before you open a PR.</p>
+                </div>
+
+                <!-- sync -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-gray-100 text-gray-700 font-mono text-sm font-bold px-3 py-1 rounded">sync</span>
+                        <span class="text-gray-500 text-sm">Update knowledge</span>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                        fluent sync
+                    </div>
+                    <p class="text-sm text-gray-600">Updates your local knowledge base from the community repository. Run periodically to get the latest cycles contributed by the community.</p>
+                </div>
+
+                <!-- help -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span class="bg-gray-100 text-gray-700 font-mono text-sm font-bold px-3 py-1 rounded">--help</span>
+                        <span class="text-gray-500 text-sm">Quick reference</span>
+                    </div>
+                    <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                        fluent --help
+                    </div>
+                    <p class="text-sm text-gray-600">Shows all commands and options. Also works per-command: <code class="text-xs bg-gray-100 px-1 rounded">fluent score --help</code>.</p>
+                </div>
+            </div>
+
+            <!-- Score Output Example -->
+            <div class="mt-8 bg-white rounded-2xl border border-gray-200 shadow-sm p-8">
+                <h3 class="font-bold text-gray-800 mb-4">Example: <code class="text-green-700">fluent score "automate code review triage"</code></h3>
+                <div class="bg-gray-900 rounded-xl p-5 font-mono text-sm overflow-x-auto">
+                    <div class="text-green-400">✓ Loaded 16 knowledge entries</div>
+                    <div class="text-white mt-2">Top 3 matching Fluently 4D cycles:</div>
+                    <div class="mt-2">
+                        <div class="text-blue-400">1. Code Review Triage (coding)</div>
+                        <div class="text-gray-400 ml-4">Delegation: 24 | Description: 20 | Discernment: 18 | Diligence: 16</div>
+                        <div class="text-gray-400 ml-4">Overall 4D Score: <span class="text-yellow-400">19.5</span></div>
+                    </div>
+                    <div class="mt-2">
+                        <div class="text-blue-400">2. Bug Fix Prioritization (coding)</div>
+                        <div class="text-gray-400 ml-4">Delegation: 18 | Description: 15 | Discernment: 12 | Diligence: 10</div>
+                    </div>
+                    <div class="mt-2 text-gray-500"># Suggestions follow for each dimension...</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 3: AI COLLABORATION JOURNEY -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="journey" class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="bg-purple-100 text-purple-700 text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wide">AI Collaboration Journey</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-3">Integrating Fluently into Your Daily AI Work</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Fluently works alongside your existing AI tools — it is a thinking framework and guidance system, not a replacement.</p>
+            </div>
+
+            <!-- Before / During / After -->
+            <div class="grid md:grid-cols-3 gap-6 mb-12">
+                <!-- Before -->
+                <div class="bg-blue-50 rounded-2xl p-7 border border-blue-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">1</div>
+                        <div>
+                            <div class="font-bold text-blue-900 text-lg">Before</div>
+                            <div class="text-blue-700 text-sm">Frame the task</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Run <code class="bg-white px-1 rounded text-blue-700">fluent list</code> to see if a cycle exists for your task type</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Decide your <strong>Delegation</strong> posture: full automation, augmented, or advisory?</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Prepare a rich <strong>Description</strong> — context, constraints, examples, desired output format</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-blue-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Run <code class="bg-white px-1 rounded text-blue-700">fluent score "task"</code> to validate your framing</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- During -->
+                <div class="bg-green-50 rounded-2xl p-7 border border-green-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold">2</div>
+                        <div>
+                            <div class="font-bold text-green-900 text-lg">During</div>
+                            <div class="text-green-700 text-sm">Execute and observe</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Use your prepared <strong>Description</strong> as the AI brief — resist the urge to simplify it</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Keep the <strong>Delegation</strong> boundary in mind — intervene when the AI exceeds its scope</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Note any <strong>Discernment</strong> signals: hedging language, factual claims, overconfidence</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-green-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Iterate — the Description-Discernment loop is normal and valuable</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- After -->
+                <div class="bg-orange-50 rounded-2xl p-7 border border-orange-200">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">3</div>
+                        <div>
+                            <div class="font-bold text-orange-900 text-lg">After</div>
+                            <div class="text-orange-700 text-sm">Close the loop</div>
+                        </div>
+                    </div>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-orange-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Apply your <strong>Diligence</strong> checklist — who reviews, approves, and signs off?</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-orange-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Log what AI did and what decisions humans made — create an audit trail</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-orange-500 mt-0.5 flex-shrink-0"></i>
+                            <span>Reflect: was the Delegation boundary right? Refine for next time</span>
+                        </li>
+                        <li class="flex items-start gap-2 text-sm text-gray-700">
+                            <i class="fas fa-check-circle text-orange-500 mt-0.5 flex-shrink-0"></i>
+                            <span>If you discovered a new cycle pattern — <strong>contribute it back!</strong></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- With Existing Tools -->
+            <div class="bg-gray-50 rounded-2xl p-8 border border-gray-200">
+                <h3 class="font-bold text-gray-900 text-lg mb-6 text-center">Works Alongside Your Existing AI Tools</h3>
+                <div class="grid md:grid-cols-4 gap-4 text-center">
+                    <div class="bg-white rounded-xl p-4 border border-gray-200">
+                        <div class="text-2xl mb-2">💬</div>
+                        <div class="font-bold text-sm text-gray-800">Chat AI</div>
+                        <div class="text-xs text-gray-500 mt-1">Claude, ChatGPT, Gemini</div>
+                        <div class="mt-2 text-xs text-blue-600">Use 4D framing for prompts</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200">
+                        <div class="text-2xl mb-2">💻</div>
+                        <div class="font-bold text-sm text-gray-800">Code AI</div>
+                        <div class="text-xs text-gray-500 mt-1">Copilot, Cursor, Claude Code</div>
+                        <div class="mt-2 text-xs text-blue-600">Score your code review cycles</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200">
+                        <div class="text-2xl mb-2">🔧</div>
+                        <div class="font-bold text-sm text-gray-800">MCP Server</div>
+                        <div class="text-xs text-gray-500 mt-1">In-context knowledge access</div>
+                        <div class="mt-2 text-xs text-blue-600">AI reads cycles automatically</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-4 border border-gray-200">
+                        <div class="text-2xl mb-2">🤖</div>
+                        <div class="font-bold text-sm text-gray-800">AI Agents</div>
+                        <div class="text-xs text-gray-500 mt-1">Autonomous workflows</div>
+                        <div class="mt-2 text-xs text-blue-600">Define delegation boundaries</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- SECTION 4: CONTRIBUTION GUIDE -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <section id="contribute-guide" class="py-20 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <span class="bg-orange-100 text-orange-700 text-sm font-bold px-3 py-1 rounded-full uppercase tracking-wide">Contribution Guide</span>
+                <h2 class="text-3xl font-bold text-gray-900 mt-3">Add Your Fluently 4D Cycle</h2>
+                <p class="text-gray-600 mt-2 max-w-2xl mx-auto">Every contribution makes the knowledge base smarter for the entire community.</p>
+            </div>
+
+            <!-- Contribution Steps -->
+            <div class="max-w-3xl mx-auto">
+                <!-- Step 1 -->
+                <div class="flex gap-4 mb-2">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">1</div>
+                        <div class="w-0.5 bg-gray-200 flex-1 mt-1"></div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4 flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2">Find Your Cycle Using the Match Tool</h3>
+                        <p class="text-sm text-gray-600 mb-3">Use the <a href="/knowledge.html#match" class="text-blue-600 hover:underline">Knowledge Match tool</a> on this site. Enter your Delegation and Description. If no strong match exists, you've found a new cycle worth contributing.</p>
+                        <div class="flex gap-2">
+                            <a href="/knowledge.html#match" class="bg-blue-50 text-blue-700 text-xs font-bold px-3 py-1.5 rounded border border-blue-200 hover:bg-blue-100">
+                                <i class="fas fa-search mr-1"></i> Try the Match Tool
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="flex gap-4 mb-2">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">2</div>
+                        <div class="w-0.5 bg-gray-200 flex-1 mt-1"></div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4 flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2">Fork the Repository & Create Your YAML</h3>
+                        <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                            <div>git clone https://github.com/your-username/fluently.git</div>
+                            <div>cd fluently</div>
+                            <div>cp knowledge/coding-bug-fix-prioritization.yaml \</div>
+                            <div>&nbsp;&nbsp;knowledge/[domain]-[your-topic].yaml</div>
+                        </div>
+                        <p class="text-sm text-gray-600">Fill in all 4 dimensions: <strong>delegation</strong>, <strong>description</strong>, <strong>discernment</strong>, <strong>diligence</strong> — each with <code class="text-xs bg-gray-100 px-1 rounded">description</code>, <code class="text-xs bg-gray-100 px-1 rounded">example</code>, and <code class="text-xs bg-gray-100 px-1 rounded">antipattern</code> fields.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="flex gap-4 mb-2">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">3</div>
+                        <div class="w-0.5 bg-gray-200 flex-1 mt-1"></div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4 flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2">Validate Locally</h3>
+                        <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                            <div>npm run build</div>
+                            <div>node scripts/validate-knowledge.js</div>
+                            <div class="text-gray-500"># Should show ✅ for your file</div>
+                        </div>
+                        <p class="text-sm text-gray-600">Your <code class="text-xs bg-gray-100 px-1 rounded">score_hints</code> must sum to 1.0, all fields must be present, and the domain must be one of the supported values.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="flex gap-4 mb-2">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">4</div>
+                        <div class="w-0.5 bg-gray-200 flex-1 mt-1"></div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 mb-4 flex-1">
+                        <h3 class="font-bold text-gray-900 mb-2">Open a Pull Request</h3>
+                        <div class="bg-gray-900 rounded-lg p-3 font-mono text-sm text-green-400 mb-3">
+                            <div>git checkout -b knowledge/add-[your-topic]</div>
+                            <div>git add knowledge/[your-file].yaml</div>
+                            <div>git commit -m "docs: add Fluently 4D cycle for [topic]"</div>
+                            <div>git push origin knowledge/add-[your-topic]</div>
+                        </div>
+                        <p class="text-sm text-gray-600">Open a PR on GitHub. CI will automatically validate your YAML, run tests, and post a 4D quality score as a comment.</p>
+                    </div>
+                </div>
+
+                <!-- Step 5 (CI) -->
+                <div class="flex gap-4">
+                    <div class="flex flex-col items-center">
+                        <div class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center text-white font-bold flex-shrink-0">5</div>
+                    </div>
+                    <div class="bg-white rounded-xl border border-gray-200 p-6 flex-1">
+                        <h3 class="font-bold text-gray-900 mb-3">CI Checks Run Automatically</h3>
+                        <div class="grid sm:grid-cols-2 gap-3">
+                            <div class="flex items-start gap-2 text-sm">
+                                <i class="fas fa-robot text-blue-500 mt-0.5"></i>
+                                <div><strong>Schema validation</strong> — All fields present, score_hints sum to 1.0</div>
+                            </div>
+                            <div class="flex items-start gap-2 text-sm">
+                                <i class="fas fa-vial text-green-500 mt-0.5"></i>
+                                <div><strong>Test suite (30 tests)</strong> — All must pass or PR is blocked</div>
+                            </div>
+                            <div class="flex items-start gap-2 text-sm">
+                                <i class="fas fa-chart-bar text-purple-500 mt-0.5"></i>
+                                <div><strong>4D Score report</strong> — Bot comments your cycle's quality scores</div>
+                            </div>
+                            <div class="flex items-start gap-2 text-sm">
+                                <i class="fas fa-users text-orange-500 mt-0.5"></i>
+                                <div><strong>Community review</strong> — Maintainers give feedback on quality</div>
+                            </div>
+                        </div>
+                        <div class="mt-4 bg-green-50 rounded-lg p-3 border border-green-200">
+                            <p class="text-sm text-green-800"><i class="fas fa-check-circle mr-1"></i> Once merged, your cycle is live in the knowledge base and available to all <code class="text-xs bg-green-100 px-1 rounded">fluent</code> CLI users worldwide.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA -->
+            <div class="text-center mt-12">
+                <a href="/knowledge.html#match" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg inline-block mr-3">
+                    <i class="fas fa-search mr-2"></i> Find Your 4D Match
+                </a>
+                <a href="/contribute.html" class="bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-3 px-8 rounded-lg inline-block">
+                    <i class="fas fa-book-open mr-2"></i> Full Contribution Docs
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-white font-bold mb-4">Fluently</h4>
+                    <p class="text-sm">Operationalizing the AI Fluency 4D Framework</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/knowledge.html" class="hover:text-white">Knowledge Base</a></li>
+                        <li><a href="/guide.html" class="hover:text-white">Guide</a></li>
+                        <li><a href="/contribute.html" class="hover:text-white">Contribute</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Community</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/dakan-ai/fluently" target="_blank" class="hover:text-white">GitHub</a></li>
+                        <li><a href="https://github.com/dakan-ai/fluently/issues" target="_blank" class="hover:text-white">Issues</a></li>
+                        <li><a href="https://github.com/dakan-ai/fluently/discussions" target="_blank" class="hover:text-white">Discussions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">License</h4>
+                    <p class="text-sm">CC BY-NC-SA 4.0</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2024 Fluently / Dakan &amp; Feller. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

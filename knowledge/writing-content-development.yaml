@@ -1,0 +1,33 @@
+id: content-development
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "Story and Content Development with AI"
+domain: writing
+dimensions:
+  delegation:
+    description: Identify which creative elements benefit from AI exploration versus which must remain human-driven. AI excels at generating plot alternatives, brainstorming secondary character names, proposing scene structures, and expanding on prompts. Core voice, thematic meaning, emotional truth, and the author's unique perspective must stay with the human creator.
+    example: A novelist asks AI to generate five possible turning points for chapter 7, then selects and transforms the one that best fits her protagonist's established arc. The AI explores; the human decides and develops.
+    antipattern: Handing the AI a character description and asking it to write entire chapters wholesale, then lightly editing and publishing the result — abdicating the creative authorship that gives the work its distinctive voice and purpose.
+  description:
+    description: Give AI rich, specific creative context — the story world's rules, character backstories, established themes, the emotional arc you are building toward, your narrative voice, and any stylistic constraints. Vague prompts produce generic content; detailed creative briefs produce useful raw material.
+    example: "Prompt: 'This is a near-future climate noir story set in drowned New Orleans, 2067. Protagonist Maya Tran is a cynical water-rights detective, dry wit, Creole heritage, distrusts authority. I need three scene openings for chapter 4 where she visits the Floating Market. Tone: melancholy but alive with sensory detail. Echo Toni Morrison's eye for place.'"
+    antipattern: "Prompting: 'Write a scene for my sci-fi story where the hero goes to a market.' This yields generic content with no connection to the established world, character voice, or thematic purpose — unusable without complete rewriting."
+  discernment:
+    description: Evaluate AI-generated content against your creative vision, not just surface quality. Good AI output that doesn't fit your voice or thematic intent is still the wrong output. Actively reject suggestions that feel generic, that undercut character consistency, or that introduce tropes that conflict with what you are building.
+    example: An author receives three AI-generated chapter openings. Two are competently written but feel tonally flat for her noir voice. The third has an interesting image she adapts, changing the phrasing to match her protagonist's sardonic register. She uses roughly 15% of the AI material, transformed.
+    antipattern: Accepting AI-generated dialogue or scene descriptions because they are grammatically sound and feel 'good enough,' without checking whether they match the character's established voice, advance the story's thematic arc, or reflect the emotional truth the author intended.
+  diligence:
+    description: Be transparent about AI's role in your creative work according to the norms of your publication context. Preserve your human creative intent as the primary force shaping the work. Avoid over-relying on AI to the point where your own creative voice atrophies. Keep records of your creative process for attribution purposes.
+    example: A short story writer notes in her submission cover letter that AI tools were used for brainstorming and structural exploration, per the journal's disclosure policy. The published story reflects her voice, her decisions, and her thematic vision throughout.
+    antipattern: Submitting AI-generated content to publications that prohibit AI-assisted work without disclosure, or losing track of which creative decisions were yours versus the AI's — failing to maintain the human authorship that gives the work its integrity and legal standing.
+score_hints:
+  delegation: 0.30
+  description: 0.35
+  discernment: 0.20
+  diligence: 0.15
+tags:
+  - creative-writing
+  - storytelling
+  - content-development
+  - authorship
+reference: "https://aifluencyframework.org"

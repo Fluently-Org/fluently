@@ -1,0 +1,33 @@
+id: legal-ai-research-drafting
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "AI-Assisted Legal Research and Document Drafting"
+domain: legal
+dimensions:
+  delegation:
+    description: AI can assist with initial legal research sweeps, summarizing case law, generating first-draft document structures, and flagging potentially relevant statutes. All legal judgment remains with the licensed attorney — case strategy, legal conclusions, advice to clients, and all court filings are non-delegable professional responsibilities. AI is a research and drafting accelerant, never a substitute for attorney analysis.
+    example: An attorney preparing a breach of contract motion asks AI to identify relevant California appellate cases on implied covenant of good faith and generate a draft argument outline. She uses this as a research starting point, independently verifies every citation via Westlaw, and rewrites the argument section from scratch using the verified cases.
+    antipattern: Filing AI-generated legal briefs with unverified citations, or allowing AI to make legal strategy recommendations that the attorney adopts without independent analysis — the equivalent of filing research you haven't read, which creates professional responsibility violations and potential sanctions.
+  description:
+    description: "Provide AI with precise legal context: jurisdiction, court or regulatory body, matter type, applicable legal standard, client's factual situation, and the desired document format and purpose. Legal AI output quality depends heavily on the specificity of jurisdictional and doctrinal framing. Generic legal prompts produce generic legal text that may be wrong for your jurisdiction."
+    example: "Prompt: 'Summarize the current standard for personal jurisdiction over foreign defendants in federal courts in the Ninth Circuit, focusing on cases decided after 2019 that address the specific vs. general jurisdiction distinction post-Bristol-Myers Squibb. Our client is a California-based plaintiff suing a German manufacturer. Identify the strongest and weakest points in our jurisdictional argument.'"
+    antipattern: "Prompting: 'Explain personal jurisdiction.' This produces a textbook overview applicable to no particular jurisdiction or procedural posture — unusable for actual legal work without the jurisdictional specificity, relevant time frame, and case-specific framing that makes the output actionable."
+  discernment:
+    description: Every AI-generated legal citation must be independently verified in a primary legal database before use. AI models hallucinate case citations with high confidence — inventing plausible-sounding but nonexistent cases, misquoting holdings, or attributing dicta as holdings. Verify that each case exists, says what AI claims, is still good law, and applies in your jurisdiction.
+    example: An attorney receives an AI-generated brief draft citing eight cases. She runs each citation in Westlaw before reviewing the draft's argument. Two citations are for real cases that don't say what the AI claimed. One citation is for a case that was overruled. She treats the AI draft as a structural scaffold only and rebuilds the argument on verified authority.
+    antipattern: Submitting a brief with AI-generated citations after only spot-checking one or two, then receiving a sanctions motion when opposing counsel discovers that three cited cases either don't exist or don't stand for the propositions cited — a career-threatening outcome that has already occurred to real attorneys.
+  diligence:
+    description: The licensed attorney remains fully and personally responsible for every document filed and every piece of advice given, regardless of how it was drafted. Disclose AI assistance in accordance with applicable bar rules and court standing orders (several federal courts now require this). Maintain professional standards of competence, including understanding AI's limitations in legal contexts.
+    example: An attorney follows her state bar's guidance on AI use in legal practice by disclosing in engagement letters that AI tools assist with research and drafting, maintaining a verification protocol for all AI-generated citations, and staying current with her court's local rules on AI disclosure in filings.
+    antipattern: Treating AI legal research as equivalent to Westlaw research without verification, failing to disclose AI assistance in jurisdictions where disclosure is required, or allowing junior associates to file AI-drafted documents without supervising attorney review — creating professional responsibility exposure and potential harm to clients.
+score_hints:
+  delegation: 0.20
+  description: 0.20
+  discernment: 0.30
+  diligence: 0.30
+tags:
+  - legal
+  - research
+  - document-drafting
+  - professional-responsibility
+reference: "https://aifluencyframework.org"

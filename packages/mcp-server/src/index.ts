@@ -1,15 +1,31 @@
 import {
   Server,
-  Tool,
-  TextContent,
-  ErrorCode,
-  McpError,
 } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { loadKnowledgeEntries, scoreTask } from "@fluently/scorer";
+import { loadKnowledgeEntries } from "@fluently/scorer";
 import { knowledgeEntrySchema } from "@fluently/scorer/schema";
 import fs from "fs";
 import path from "path";
+import type { z } from "zod";
+
+type KnowledgeEntry = z.infer<typeof knowledgeEntrySchema>;
+
+interface Tool {
+  name: string;
+  description: string;
+  inputSchema: {
+    type: "object";
+    properties: Record<string, unknown>;
+    required: string[];
+  };
+}
+
+interface ToolResponse {
+  content: Array<{
+    type: "text";
+    text: string;
+  }>;
+}
 
 const SERVER_VERSION = "0.1.0";
 const KNOWLEDGE_DIR = path.join(process.cwd(), "knowledge");
@@ -43,7 +59,7 @@ function cosineSimilarity(setA: Set<string>, setB: Set<string>): number {
 }
 
 // Load knowledge base
-function getKnowledgeEntries() {
+function getKnowledgeEntries(): KnowledgeEntry[] {
   if (!fs.existsSync(KNOWLEDGE_DIR)) {
     return [];
   }
@@ -54,9 +70,9 @@ function getKnowledgeEntries() {
 const compareToolDef: Tool = {
   name: "compare_problem_space",
   description:
-    "Returns top 3 similar past 4D plays from knowledge base with similarity scores",
+    "Returns top 3 similar past Fluently 4D cycles from knowledge base with similarity scores",
   inputSchema: {
-    type: "object" as const,
+    type: "object",
     properties: {
       task_description: {
         type: "string",
@@ -87,7 +103,7 @@ const scoreDelegationToolDef: Tool = {
   description:
     "Returns Delegation + Description dimension scores with improvement advice",
   inputSchema: {
-    type: "object" as const,
+    type: "object",
     properties: {
       task: {
         type: "string",
@@ -109,7 +125,7 @@ const evaluateDiscernmentToolDef: Tool = {
   description:
     "Returns a discernment rubric score: checks for hallucination risk, confidence calibration, human review need",
   inputSchema: {
-    type: "object" as const,
+    type: "object",
     properties: {
       ai_output: {
         type: "string",
@@ -130,7 +146,7 @@ const checkDiligenceToolDef: Tool = {
   description:
     "Returns a diligence checklist: transparency requirements, accountability steps, disclosure needs",
   inputSchema: {
-    type: "object" as const,
+    type: "object",
     properties: {
       task: {
         type: "string",
@@ -151,7 +167,7 @@ const get4DScoreToolDef: Tool = {
   description:
     "Master tool: returns complete 4D Score (0-100 per dimension + overall) with one-sentence improvement tip per dimension",
   inputSchema: {
-    type: "object" as const,
+    type: "object",
     properties: {
       description: {
         type: "string",
@@ -171,7 +187,7 @@ const get4DScoreToolDef: Tool = {
 };
 
 // Register tools
-server.setRequestHandler("tools/list", async () => {
+server.setRequestHandler("tools/list" as any, async () => {
   return {
     tools: [
       compareToolDef,
@@ -184,7 +200,7 @@ server.setRequestHandler("tools/list", async () => {
 });
 
 // Handler for tool calls
-server.setRequestHandler("tools/call", async (request) => {
+server.setRequestHandler("tools/call" as any, async (request: any) => {
   const { name, arguments: toolArgs } = request.params;
 
   if (name === "compare_problem_space") {
@@ -198,17 +214,17 @@ server.setRequestHandler("tools/call", async (request) => {
       return {
         content: [
           {
-            type: "text" as const,
+            type: "text",
             text: "No knowledge entries found. Please ensure the knowledge/ directory contains YAML files.",
           },
         ],
-      };
+      } as any;
     }
 
     const taskSet = keywordSet(task_description);
     const scored = entries
-      .filter((e) => !domain || e.domain === domain)
-      .map((entry) => {
+      .filter((e: KnowledgeEntry) => !domain || e.domain === domain)
+      .map((entry: KnowledgeEntry) => {
         const entrySet = keywordSet(
           entry.title +
             " " +
@@ -225,7 +241,7 @@ server.setRequestHandler("tools/call", async (request) => {
     scored.sort((a, b) => b.similarity - a.similarity);
     const top3 = scored.slice(0, 3);
 
-    const results = top3.map(({ entry, similarity }) => ({
+    const results = top3.map(({ entry, similarity }: { entry: KnowledgeEntry; similarity: number }) => ({
       id: entry.id,
       title: entry.title,
       domain: entry.domain,
@@ -237,11 +253,11 @@ server.setRequestHandler("tools/call", async (request) => {
     return {
       content: [
         {
-          type: "text" as const,
+          type: "text",
           text: JSON.stringify(results, null, 2),
         },
       ],
-    };
+    } as any;
   }
 
   if (name === "score_delegation") {
@@ -253,7 +269,7 @@ server.setRequestHandler("tools/call", async (request) => {
     const entries = getKnowledgeEntries();
     const taskSet = keywordSet(task + " " + delegation_intent);
 
-    const scored = entries.map((entry) => {
+    const scored = entries.map((entry: KnowledgeEntry) => {
       const entrySet = keywordSet(
         entry.title + " " + Object.values(entry.dimensions).map((d) => d.description).join(" ")
       );
@@ -272,7 +288,7 @@ server.setRequestHandler("tools/call", async (request) => {
     return {
       content: [
         {
-          type: "text" as const,
+          type: "text",
           text: JSON.stringify(
             {
               task,
@@ -290,7 +306,7 @@ server.setRequestHandler("tools/call", async (request) => {
           ),
         },
       ],
-    };
+    } as any;
   }
 
   if (name === "evaluate_discernment") {
@@ -302,7 +318,7 @@ server.setRequestHandler("tools/call", async (request) => {
     const entries = getKnowledgeEntries();
     const taskSet = keywordSet(original_task + " " + ai_output);
 
-    const scored = entries.map((entry) => {
+    const scored = entries.map((entry: KnowledgeEntry) => {
       const entrySet = keywordSet(
         entry.title + " " + entry.dimensions.discernment.description
       );
@@ -324,7 +340,7 @@ server.setRequestHandler("tools/call", async (request) => {
     return {
       content: [
         {
-          type: "text" as const,
+          type: "text",
           text: JSON.stringify(
             {
               discernment_score: topMatch.discernmentScore,
@@ -340,7 +356,7 @@ server.setRequestHandler("tools/call", async (request) => {
           ),
         },
       ],
-    };
+    } as any;
   }
 
   if (name === "check_diligence") {
@@ -349,13 +365,13 @@ server.setRequestHandler("tools/call", async (request) => {
       domain: string;
     };
 
-    const entries = getKnowledgeEntries().filter((e) => e.domain === domain);
+    const entries = getKnowledgeEntries().filter((e: KnowledgeEntry) => e.domain === domain);
 
     if (entries.length === 0) {
       return {
         content: [
           {
-            type: "text" as const,
+            type: "text",
             text: JSON.stringify(
               {
                 domain,
@@ -382,7 +398,7 @@ server.setRequestHandler("tools/call", async (request) => {
             ),
           },
         ],
-      };
+      } as any;
     }
 
     const topEntry = entries[0];
@@ -390,7 +406,7 @@ server.setRequestHandler("tools/call", async (request) => {
     return {
       content: [
         {
-          type: "text" as const,
+          type: "text",
           text: JSON.stringify(
             {
               domain,
@@ -423,7 +439,7 @@ server.setRequestHandler("tools/call", async (request) => {
           ),
         },
       ],
-    };
+    } as any;
   }
 
   if (name === "get_4d_score") {
@@ -436,7 +452,7 @@ server.setRequestHandler("tools/call", async (request) => {
     const entries = getKnowledgeEntries();
     const taskSet = keywordSet(description + " " + delegation + " " + (output || ""));
 
-    const scored = entries.map((entry) => {
+    const scored = entries.map((entry: KnowledgeEntry) => {
       const entrySet = keywordSet(entry.title + " " + entry.domain);
       const similarity = cosineSimilarity(taskSet, entrySet);
       return {
@@ -475,7 +491,7 @@ server.setRequestHandler("tools/call", async (request) => {
     return {
       content: [
         {
-          type: "text" as const,
+          type: "text",
           text: JSON.stringify(
             {
               overall_score: overallScore,
@@ -499,11 +515,10 @@ server.setRequestHandler("tools/call", async (request) => {
           ),
         },
       ],
-    };
+    } as any;
   }
 
-  throw new McpError(
-    ErrorCode.MethodNotFound,
+  throw new Error(
     `Unknown tool: ${name}`
   );
 });

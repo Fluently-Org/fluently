@@ -2,9 +2,20 @@
   "name": "fluently",
   "private": true,
   "version": "0.1.0",
+  "type": "module",
   "workspaces": [
     "packages/cli",
     "packages/mcp-server",
     "packages/scorer"
-  ]
+  ],
+  "scripts": {
+    "build": "npm run -ws build",
+    "dev": "npm run -ws dev",
+    "test": "npm run -ws test",
+    "start:cli": "npm run -w fluently-cli start",
+    "start:mcp": "npm run -w fluently-mcp-server start"
+  },
+  "devDependencies": {
+    "vitest": "^1.0.0"
+  }
 }

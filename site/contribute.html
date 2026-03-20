@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute - Fluently</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
+                    <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
+                    <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
+                    <a href="/contribute.html" class="text-blue-600 font-bold border-b-2 border-blue-600 font-medium">Contribute</a>
+                    <a href="https://github.com/dakan-ai/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-white border-b border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-code-branch mr-2 text-blue-600"></i>Contribute to Fluently
+            </h1>
+            <p class="text-xl text-gray-600">
+                Share your Fluently 4D cycles with the community
+            </p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Step by Step -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">How to Contribute</h2>
+
+            <div class="space-y-8">
+                <!-- Step 1 -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-600">
+                    <div class="flex items-start">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-blue-600 text-white font-bold text-lg">
+                            1
+                        </div>
+                        <div class="ml-6 flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Fork & Clone</h3>
+                            <p class="text-gray-700 mb-4">
+                                Fork the repository and clone it locally to your machine.
+                            </p>
+                            <div class="bg-gray-900 text-gray-200 rounded p-4 font-mono text-sm overflow-x-auto">
+                                <code>git clone https://github.com/YOUR-USERNAME/fluently.git<br>cd fluently</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600">
+                    <div class="flex items-start">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-green-600 text-white font-bold text-lg">
+                            2
+                        </div>
+                        <div class="ml-6 flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Create a Feature Branch</h3>
+                            <p class="text-gray-700 mb-4">
+                                Create a descriptive branch for your new Fluently 4D cycle.
+                            </p>
+                            <div class="bg-gray-900 text-gray-200 rounded p-4 font-mono text-sm overflow-x-auto">
+                                <code>git checkout -b knowledge/add-your-topic</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-600">
+                    <div class="flex items-start">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-purple-600 text-white font-bold text-lg">
+                            3
+                        </div>
+                        <div class="ml-6 flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Create Your YAML Entry</h3>
+                            <p class="text-gray-700 mb-4">
+                                Create a new <code class="bg-gray-100 px-2 py-1 rounded">.yaml</code> file in <code class="bg-gray-100 px-2 py-1 rounded">/knowledge/</code> with all four dimensions fully explained.
+                            </p>
+                            <div class="bg-gray-900 text-gray-200 rounded p-4 font-mono text-sm overflow-x-auto">
+                                <code>touch knowledge/your-topic-name.yaml</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-orange-600">
+                    <div class="flex items-start">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-orange-600 text-white font-bold text-lg">
+                            4
+                        </div>
+                        <div class="ml-6 flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Commit & Push</h3>
+                            <p class="text-gray-700 mb-4">
+                                Commit your changes with a descriptive message following the format.
+                            </p>
+                            <div class="bg-gray-900 text-gray-200 rounded p-4 font-mono text-sm overflow-x-auto">
+                                <code>git add knowledge/your-topic.yaml<br>git commit -m "docs: add Fluently 4D cycle for [topic]"<br>git push origin knowledge/add-your-topic</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-red-600">
+                    <div class="flex items-start">
+                        <div class="flex items-center justify-center h-12 w-12 rounded-md bg-red-600 text-white font-bold text-lg">
+                            5
+                        </div>
+                        <div class="ml-6 flex-1">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-2">Open a Pull Request</h3>
+                            <p class="text-gray-700 mb-4">
+                                Go to GitHub and open a PR. Include a description of what your Fluently 4D cycle covers.
+                            </p>
+                            <a href="https://github.com/dakan-ai/fluently/compare" target="_blank" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Open PR on GitHub →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schema Explanation -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Understanding the Schema</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- ID -->
+                <div class="bg-blue-50 rounded-lg p-6 border-l-4 border-blue-600">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2"><code class="text-blue-600">id</code></h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Unique identifier in kebab-case (no spaces, lowercase, hyphens only).
+                    </p>
+                    <div class="bg-white rounded p-2 font-mono text-xs">
+                        <code class="text-gray-700">id: bug-fix-prioritization</code>
+                    </div>
+                </div>
+
+                <!-- Title -->
+                <div class="bg-green-50 rounded-lg p-6 border-l-4 border-green-600">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2"><code class="text-green-600">title</code></h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Clear, actionable title (5-100 characters).
+                    </p>
+                    <div class="bg-white rounded p-2 font-mono text-xs">
+                        <code class="text-gray-700">title: "Bug Fix Prioritization"</code>
+                    </div>
+                </div>
+
+                <!-- Domain -->
+                <div class="bg-purple-50 rounded-lg p-6 border-l-4 border-purple-600">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2"><code class="text-purple-600">domain</code></h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        One of: <code class="bg-purple-100">coding</code>, <code class="bg-purple-100">writing</code>, <code class="bg-purple-100">research</code>, <code class="bg-purple-100">customer-support</code>, <code class="bg-purple-100">education</code>, <code class="bg-purple-100">legal</code>, <code class="bg-purple-100">healthcare</code>, <code class="bg-purple-100">general</code>
+                    </p>
+                    <div class="bg-white rounded p-2 font-mono text-xs">
+                        <code class="text-gray-700">domain: coding</code>
+                    </div>
+                </div>
+
+                <!-- Score Hints -->
+                <div class="bg-orange-50 rounded-lg p-6 border-l-4 border-orange-600">
+                    <h3 class="text-lg font-bold text-gray-900 mb-2"><code class="text-orange-600">score_hints</code></h3>
+                    <p class="text-gray-700 text-sm mb-3">
+                        Relative weights summing to 1.0 across 4 dimensions.
+                    </p>
+                    <div class="bg-white rounded p-2 font-mono text-xs">
+                        <code class="text-gray-700">score_hints:<br/>  delegation: 0.25<br/>  description: 0.25<br/>  discernment: 0.25<br/>  diligence: 0.25</code>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The 4 Dimensions -->
+            <div class="mt-8 grid md:grid-cols-2 gap-8">
+                <!-- Delegation -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-blue-600">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">🤝 Delegation</h3>
+                    <p class="text-gray-700 mb-3">
+                        Describe whether this task should be:
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-4">
+                        <li><strong>Fully automated</strong> — AI runs without human oversight</li>
+                        <li><strong>Augmented</strong> — AI suggests, human approves</li>
+                        <li><strong>Agentic</strong> — AI escalates to human when uncertain</li>
+                    </ul>
+                    <div class="bg-blue-50 p-3 rounded text-sm text-gray-700">
+                        <strong>Tip:</strong> Be specific about escalation triggers.
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-green-600">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">📝 Description</h3>
+                    <p class="text-gray-700 mb-3">
+                        How should users frame their request to the AI?
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-4">
+                        <li>What context is essential?</li>
+                        <li>What examples help?</li>
+                        <li>What constraints matter?</li>
+                        <li>How to reduce ambiguity?</li>
+                    </ul>
+                    <div class="bg-green-50 p-3 rounded text-sm text-gray-700">
+                        <strong>Tip:</strong> Include a concrete prompt example.
+                    </div>
+                </div>
+
+                <!-- Discernment -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-purple-600">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">👁️ Discernment</h3>
+                    <p class="text-gray-700 mb-3">
+                        How do you know if the AI's output is trustworthy?
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-4">
+                        <li>What hallucination patterns are common?</li>
+                        <li>When might the AI overconfide?</li>
+                        <li>What quality signals matter?</li>
+                        <li>What are edge cases?</li>
+                    </ul>
+                    <div class="bg-purple-50 p-3 rounded text-sm text-gray-700">
+                        <strong>Tip:</strong> List red flags and green flags.
+                    </div>
+                </div>
+
+                <!-- Diligence -->
+                <div class="bg-white rounded-lg shadow p-6 border-l-4 border-orange-600">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">✅ Diligence</h3>
+                    <p class="text-gray-700 mb-3">
+                        What human accountability measures apply?
+                    </p>
+                    <ul class="text-sm text-gray-700 space-y-2 mb-4">
+                        <li>Who reviews/approves the output?</li>
+                        <li>What audit trails are needed?</li>
+                        <li>When must humans be looped back?</li>
+                        <li>What escalation rules apply?</li>
+                    </ul>
+                    <div class="bg-orange-50 p-3 rounded text-sm text-gray-700">
+                        <strong>Tip:</strong> Be strict about approval workflows.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YAML Template -->
+        <div class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Your YAML Template</h2>
+            
+            <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                <div class="bg-gray-800 px-4 py-3 flex justify-between items-center">
+                    <span class="text-gray-300 font-mono text-sm">your-topic.yaml</span>
+                    <button onclick="copyYAML()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-sm">
+                        <i class="fas fa-copy mr-2"></i>Copy
+                    </button>
+                </div>
+                <pre id="yaml-template" class="text-gray-200 p-6 overflow-x-auto text-sm font-mono"><code>id: your-unique-id
+title: "Clear, Actionable Title"
+domain: coding  # coding, writing, research, customer-support, education, legal, healthcare, general
+
+dimensions:
+  delegation:
+    description: How should delegation/augmentation of this task work? Can it be automated?
+    example: AI suggests options, human approves before acting.
+    antipattern: Fully automating without any human checkpoint.
+  description:
+    description: What context/framing makes the AI most useful here?
+    example: Include repo context, examples of desired output, and explicit constraints.
+    antipattern: Vague or missing context leads to irrelevant suggestions.
+
+  discernment:
+    description: How do you evaluate if the AI output is trustworthy? What are the failure modes?
+    example: Cross-check AI findings against test results and peer judgment.
+    antipattern: Accepting AI output without independent verification.
+  diligence:
+    description: What human accountability is required after AI involvement?
+    example: Lead engineer signs off before the output is acted on.
+    antipattern: No approval process or audit trail.
+
+score_hints:
+  delegation: 0.25  # Sum must equal 1.0
+  description: 0.25
+  discernment: 0.25
+  diligence: 0.25
+
+tags:
+  - your-topic
+  - category
+  - application
+
+contributor: "Your Name or GitHub Handle"
+version: "1.0.0"</code></pre>
+            </div>
+
+            <p class="text-gray-600 mt-4 text-sm">
+                <i class="fas fa-lightbulb mr-2"></i> Each dimension should be 100-300 words. Be specific and practical.
+            </p>
+        </div>
+
+        <!-- Validation Checklist -->
+        <div class="bg-blue-50 rounded-lg border border-blue-200 p-8 mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                <i class="fas fa-check-circle mr-2 text-blue-600"></i>Validation Checklist
+            </h2>
+            
+            <div class="space-y-3">
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>ID is kebab-case:</strong> lowercase, hyphens only, no spaces</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>Title is 5-100 characters</strong> and descriptive</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>Domain is valid:</strong> coding, writing, research, customer-support, education, legal, healthcare, general</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>All 4 dimensions have content</strong> (min 20 characters each)</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>score_hints sum to 1.0</strong></span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>Tags array is not empty</strong></span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>Contributor name is filled in</strong></span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>Version follows semantic versioning</strong> (e.g., 1.0.0)</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>YAML syntax is valid</strong> (proper indentation, no special chars)</span>
+                </label>
+            </div>
+
+            <p class="mt-6 text-sm text-gray-600">
+                The CI will automatically validate your YAML against the schema when you open a PR. Fix any errors before submitting.
+            </p>
+        </div>
+
+        <!-- PR Description Template -->
+        <div class="bg-white rounded-lg shadow-lg p-8 mb-16">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">
+                <i class="fas fa-pencil mr-2"></i>PR Description Template
+            </h2>
+            
+            <p class="text-gray-700 mb-4">Use this template when opening your pull request:</p>
+            
+            <div class="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
+                <div class="bg-gray-800 px-4 py-3">
+                    <span class="text-gray-300 font-mono text-sm">Pull Request Description</span>
+                </div>
+                <pre class="text-gray-200 p-6 overflow-x-auto text-sm font-mono"><code>## What's the Fluently 4D Cycle About?
+
+Brief explanation of your cycle and why it matters.
+
+## When Should This Be Used?
+
+Real-world scenarios where this guidance helps.
+
+## Verification Checklist
+
+- [x] Schema validation passes locally
+- [x] All 4 dimensions are complete
+- [x] score_hints sum to 1.0
+- [x] score_hints reflect relative importance
+- [x] YAML syntax is valid (checked in editor)</code></pre>
+            </div>
+        </div>
+
+        <!-- Questions? -->
+        <div class="bg-green-50 rounded-lg border border-green-200 p-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-900 mb-4">Questions?</h2>
+            <p class="text-gray-700 mb-6">
+                Need help or have ideas? Reach out to the community on GitHub.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://github.com/dakan-ai/fluently/issues" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg">
+                    <i class="fas fa-lightbulb mr-2"></i> Open an Issue
+                </a>
+                <a href="https://github.com/dakan-ai/fluently/discussions" target="_blank" class="bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-3 px-6 rounded-lg">
+                    <i class="fas fa-comments mr-2"></i> Start a Discussion
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-white font-bold mb-4">Fluently</h4>
+                    <p class="text-sm">Operationalizing the AI Fluency 4D Framework</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/knowledge.html" class="hover:text-white">Knowledge</a></li>
+                        <li><a href="/contribute.html" class="hover:text-white">Contribute</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Community</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/dakan-ai/fluently" target="_blank" class="hover:text-white">GitHub</a></li>
+                        <li><a href="https://github.com/dakan-ai/fluently/issues" target="_blank" class="hover:text-white">Issues</a></li>
+                        <li><a href="https://github.com/dakan-ai/fluently/discussions" target="_blank" class="hover:text-white">Discussions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">License</h4>
+                    <p class="text-sm">CC BY-NC-SA 4.0</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2024 Fluently / Dakan & Feller. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function copyYAML() {
+            const yaml = document.getElementById('yaml-template').textContent;
+            navigator.clipboard.writeText(yaml).then(() => {
+                const btn = event.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check mr-2"></i>Copied!';
+                btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                btn.classList.add('bg-green-600');
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.classList.remove('bg-green-600');
+                    btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>

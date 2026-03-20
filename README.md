@@ -1,350 +1,187 @@
-# 🎯 Fluently
+# 🎯 Fluently — The Open Standard for Human-AI Collaboration Quality
 
-> **Operationalize the AI Fluency 4D Framework** — Score, evaluate, and improve human-AI collaboration using a community-driven knowledge base and integrated developer tools.
-
-[![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/) [![Node.js 20+](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen)](https://nodejs.org/) [![TypeScript](https://img.shields.io/badge/TypeScript-5.3%2B-blue)](https://www.typescriptlang.org/)
-
----
-
-## 🌟 What is Fluently?
-
-**Fluently** brings the **AI Fluency 4D Framework** — developed by Dakan & Feller at Anthropic — into practice. It provides:
-
-- 🧠 **4D Scoring**: Evaluate human-AI collaboration across four dimensions
-  - **Delegation** — Role clarity and task distribution
-  - **Description** — Context and framing quality
-  - **Discernment** — Evaluation and verification practices
-  - **Diligence** — Accountability and transparency
-
-- 📚 **Community Knowledge Base**: YAML-defined best practices, patterns, and anti-patterns across domains (coding, writing, research, healthcare, legal, customer support, education)
-
-- 🛠️ **Developer Tools**: CLI + MCP server for integration into IDEs, agents, and AI workflows
-
-- 🔄 **Composable**: Mix and match tools for custom scoring workflows
+[![npm version](https://img.shields.io/npm/v/fluently?label=fluently&style=flat-square&color=3B82F6)](https://www.npmjs.com/package/fluently-cli)
+[![CI Status](https://img.shields.io/github/actions/workflow/status/dakan-ai/fluently/ci.yml?branch=main&style=flat-square&color=10B981)](https://github.com/dakan-ai/fluently/actions)
+[![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0%20%2B%20MIT-blueviolet?style=flat-square)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/dakan-ai/fluently?style=flat-square&color=FFB800)](https://github.com/dakan-ai/fluently/stargazers)
 
 ---
 
-## 🚀 Get Started
+## Why 4D Fluency?
 
-### Quick Install
+AI is powerful—but not magic. Teams shipping with AI today face a hard truth: **output quality depends entirely on clarity**. You need to know *what to delegate*, *how to describe it*, *how to verify it works*, and *who's accountable*. That's the **4D Framework**: Delegation, Description, Discernment, Diligence.
+
+**Fluently operationalizes the 4D Framework.** It gives you a CLI, MCP server, and a growing knowledge base of best practices—built on Anthropic's AI Fluency research by Dakan & Feller. Score your team's AI workflows. Learn from the community's Fluently 4D cycles. Ship with confidence.
+
+---
+
+## See It in Action
+
+**Real-world example:** Compare your code review process against community best practices:
 
 ```bash
-git clone https://github.com/yourusername/fluently.git
-cd fluently
-npm install
-npm run build
+$ fluent compare --task "Automated code review with human sign-off"
+
+┌─────────────────────────────────────────────────────────┐
+│ TOP 3 SIMILAR FLUENTLY 4D CYCLES FROM KNOWLEDGE BASE     │
+├─────────────────────────────────────────────────────────┤
+│ 1. Code Review: Review Depth vs. Speed Tradeoffs        │
+│    Delegation: 75  Description: 82  Discernment: 78     │
+│    Diligence: 71   OVERALL: 76/100                      │
+│                                                          │
+│ 2. Bug Fix Prioritization                               │
+│    Delegation: 68  Description: 74  Discernment: 71     │
+│    Diligence: 69   OVERALL: 71/100                      │
+│                                                          │
+│ 3. Test Case Generation                                 │
+│    Delegation: 72  Description: 76  Discernment: 70     │
+│    Diligence: 68   OVERALL: 72/100                      │
+└─────────────────────────────────────────────────────────┘
 ```
 
-### Use the CLI
+Each suggestion links to the full Fluently 4D cycle—delegation guidelines, framing prompts, hallucination patterns to watch for, and approval workflows.
+
+---
+
+## Install in 30 Seconds
 
 ```bash
-# Install the 4d CLI command globally
-npm install -g ./packages/cli
-
-# Score a delegation scenario
-4d --task "Review user feedback for product roadmap" \
-   --delegation "augmented" \
-   --domain "product-management"
-
-# Get a full 4D profile
-4d score --description "Automated bug triage" \
-         --along-with "check if output is correct"
+npm install -g fluently
+fluent --help
 ```
 
-### Use the MCP Server
-
-Perfect for IDE integration and AI assistants:
+Then score your first task:
 
 ```bash
-# Start the server
-npm run -w fluently-mcp-server start
-
-# Available tools in your editor/agent:
-# - compare_problem_space(task_description, domain?)
-# - score_delegation(task, delegation_intent)
-# - evaluate_discernment(ai_output, original_task)
-# - check_diligence(task, domain)
-# - get_4d_score(description, delegation, output?)
-```
-
-Or configure in `.mcp.json`:
-
-```json
-{
-  "mcpServers": {
-    "fluently": {
-      "command": "node",
-      "args": ["./packages/mcp-server/dist/bin.js"]
-    }
-  }
-}
+fluent score --description "Automated bug triage with human review" \
+             --delegation "augmented" \
+             --domain "coding"
 ```
 
 ---
 
-## 📦 What's Included
+## What's Inside
 
-### [`/packages/cli`](./packages/cli) — Command-line Interface
-Interactive CLI using `commander.js` and the Anthropic SDK.
+**CLI** — Run `fluent` in your terminal to score 4D workflows, compare against community patterns, and contribute new Fluently 4D cycles.
 
-```bash
-4d compare --task "Build a code review assistant"
-# → Returns top 3 similar knowledge entries with scores
-```
+**MCP Server** — Embed 4D scoring directly into Claude, VS Code, or any MCP client. Expose tools like `score_delegation()`, `evaluate_discernment()`, and `check_diligence()` to your AI models.
 
-### [`/packages/mcp-server`](./packages/mcp-server) — Model Context Protocol Server
-Exposes 4D tools for use in Claude, Claude for VS Code, and other MCP clients.
-
-- **Transport**: Stdio (default) + HTTP (optional)
-- **5 Tools**: Full 4D scoring + dimension-specific evaluation
-- **Metadata**: Integrated server discovery
-
-### [`/packages/scorer`](./packages/scorer) — Scoring Engine
-Shared scoring logic used by both CLI and MCP server.
-
-- Keyword-based similarity matching
-- Dimension weighting
-- Score normalization
-- Zod schema validation
-
-### [`/knowledge`](./knowledge) — Community Knowledge Base
-YAML files defining 4D plays across domains. Each entry includes:
-
-```yaml
-id: bug-fix-prioritization
-title: Bug Fix Prioritization
-domain: coding
-dimensions:
-  delegation:
-    description: Should this be automated, augmented, or agentic?
-    example: AI suggests priorities; human PM approves final order
-    antipattern: AI fully decides without human input
-  # ... description, discernment, diligence
-score_hints:
-  delegation: 0.2
-  description: 0.3
-  discernment: 0.3
-  diligence: 0.2
-tags: [bug-fix, prioritization, coding]
-contributor: Dakan & Feller
-version: 1.0.0
-```
+**Knowledge Base** — 50+ community-contributed Fluently 4D cycles organized by domain (coding, writing, research, management, product, etc.). Each cycle is scored on the 4D dimensions and peer-reviewed before merge.
 
 ---
 
-## 🎓 The 4D Framework in Practice
+## The Knowledge Base Matters
 
-### Dimension: Delegation
-*Who decides? How should the task be split between human and AI?*
+This isn't just a framework—it's a **commons for AI fluency**. Every Fluently 4D cycle you contribute teaches thousands of teams how to collaborate smarter with AI.
 
-- **Automated**: AI makes the decision independently
-- **Augmented**: AI generates options, human decides
-- **Agentic**: AI acts with human oversight and accountability
+Built on the **AI Fluency 4D Framework** by Dakan & Feller / Anthropic, distributed under **CC BY-NC-SA 4.0**. Code (CLI, MCP, scorer) is MIT. Mix and match.
 
-### Dimension: Description  
-*What context does the AI need to be effective?*
-
-- Task requirements and constraints
-- Domain-specific knowledge
-- Success criteria
-- Historical examples
-
-### Dimension: Discernment
-*How do you verify the AI output is trustworthy?*
-
-- Hallucination detection
-- Confidence calibration
-- Cross-checking procedures
-- Human review protocols
-
-### Dimension: Diligence
-*What accountability is required?*
-
-- Transparency to stakeholders
-- Audit trails and documentation
-- Human approval sign-off
-- Escalation procedures
+[Browse the Knowledge Base →](https://dakan-ai.github.io/fluently/)
 
 ---
 
-## 📊 Tools & Capabilities
+## Get Started
 
-| Tool | Purpose | Use Case |
-|------|---------|----------|
-| **compare_problem_space** | Find similar past plays | Discover best practices for your scenario |
-| **score_delegation** | Evaluate role clarity | Improve task distribution |
-| **evaluate_discernment** | Assess trustworthiness | Determine review rigor needed |
-| **check_diligence** | Accountability checklist | Ensure transparency and auditability |
-| **get_4d_score** | Complete profile (0-100) | Holistic collaboration quality assessment |
+### For Teams Using AI
+
+1. **Install the CLI** and run `fluent compare --task "your workflow"` to see how others solve similar problems.
+2. **Check the Fluently 4D cycles** — find your use case in the knowledge base above.
+3. **Score your process** — run `fluent score` with your delegation intent to identify gaps.
+
+### For Teams Building AI Tools
+
+1. **Integrate the MCP server** into your Claude context or IDE plugin.
+2. **Expose 4D scoring** to your users — let them verify AI output quality before shipping.
+3. **Use the scorer engine** directly — `const { scoreTask } = require('@fluently/scorer')`.
+
+### For Contributors
+
+**Share your Fluently 4D cycles and help the community.** We're looking for patterns, anti-patterns, and real-world lessons from teams shipping AI features.
+
+→ [**Contributing Guide**](CONTRIBUTING.md) — Detailed walkthrough for submitting a new Fluently 4D cycle.
 
 ---
 
-## 🏗️ Architecture
+## How 4D Scoring Works
+
+Every task, workflow, or prompt gets scored across four dimensions:
+
+| Dimension | Question | What We Measure |
+|-----------|----------|-----------------|
+| **Delegation** | *Who decides?* | Clarity on AI autonomy vs. human oversight. Escalation triggers matter. |
+| **Description** | *What context?* | Quality of framing + examples + constraints. Reduces ambiguity. |
+| **Discernment** | *Is it right?* | Your ability to spot hallucinations and overconfidence. Red flags & green signals. |
+| **Diligence** | *Who's accountable?* | Governance, review workflows, audit trails. Who approves before shipping. |
+
+Each scores 0–100. The framework doesn't replace human judgment—it sharpens it.
+
+---
+
+## Roadmap
+
+**Embeddings-based similarity** — Replace keyword matching with semantic search so `find_similar_cycles()` surfaces truly relevant patterns regardless of terminology.
+
+**VS Code extension** — Inline 4D scoring in your editor. @fluently in comments to get suggestions while you write, review, or debug.
+
+**Web playground** — Try 4D scoring live without installing. Experiment with Fluently 4D cycles. Generate your own.
+
+---
+
+## Tech Stack
 
 ```
-fluently/
-├── packages/
-│   ├── cli/              → Command-line interface
-│   ├── mcp-server/       → Model Context Protocol server
-│   └── scorer/           → Shared scoring engine
-├── knowledge/            → Community 4D plays (YAML)
-├── site/                 → Documentation & explorer (TODO)
-└── .mcp.json            → MCP server configuration
+CLI          → Commander.js + Anthropic SDK
+MCP Server   → Model Context Protocol (stdio)
+Scorer       → Zod schema validation + keyword matching
+Knowledge    → YAML + JSON + GitHub API
+Tests        → Vitest
 ```
 
-**Data Flow:**
-1. **User Input** → CLI or MCP tool call
-2. **Scoring Engine** → Loads knowledge, computes similarity, returns scores
-3. **Output** → JSON with dimension scores + improvement tips
+**Language**: TypeScript • **Runtime**: Node.js 20+ • **Module**: ESM
 
 ---
 
-## 🔧 Development
+## Contribution is Free
 
-### Prerequisites
-- **Node.js 20+**
-- **npm 10+** (or yarn, pnpm)
+- **Share a Fluently 4D cycle** — Takes 15 minutes. Write YAML. Open a PR. CI validates schema.
+- **Improve the scorer** — Suggest semantic improvements, new dimensions, new domains.
+- **Build an integration** — MCP server is stable. Write a Slack app. A GitHub Action. A web service.
 
-### Workspace Setup
-```bash
-npm install
-npm run build
-npm run dev        # Watch mode for all packages
-npm test          # Run all tests
-```
-
-### Add a New Knowledge Entry
-1. Create `knowledge/your-entry.yaml`
-2. Follow the schema in [`packages/scorer/src/schema.ts`](packages/scorer/src/schema.ts)
-3. Run validation: `npm run validate:schema`
-4. Submit a PR 🎉
-
-### Extend the Scoring Engine
-Edit [`packages/scorer/src/engine.ts`](packages/scorer/src/engine.ts):
-- Add similarity metrics
-- Refine dimension weighting
-- Implement new scoring modes
+**By contributing, you help us scale the standard.** Every Fluently 4D cycle in the knowledge base teaches thousands of teams.
 
 ---
 
-## 📋 API Reference
+## Quick Links
 
-### CLI
-```bash
-4d compare --task "..." [--domain "..."]
-4d score --description "..." --delegation "..." [--output "..."]
-4d evaluate --ai-output "..." --original-task "..."
-4d diligence --task "..." --domain "..."
-```
-
-### MCP Tools
-
-All tools accept standard MCP request format. Example:
-
-```json
-{
-  "jsonrpc": "2.0",
-  "id": 1,
-  "method": "tools/call",
-  "params": {
-    "name": "get_4d_score",
-    "arguments": {
-      "description": "Automated customer support categorization",
-      "delegation": "augmented",
-      "output": "Suggested 5 categories; human reviews and adds custom ones"
-    }
-  }
-}
-```
+- 🌐 [Live Site & Knowledge Browser](https://dakan-ai.github.io/fluently/)
+- 📖 [Full Documentation](packages/cli/README.md)
+- 💬 [GitHub Discussions](https://github.com/dakan-ai/fluently/discussions)
+- 🐛 [Report Issues](https://github.com/dakan-ai/fluently/issues)
+- 🤝 [Contributing Guide](CONTRIBUTING.md)
 
 ---
 
-## 📖 Examples
+## Credits
 
-### Example 1: Code Review Triage
-```bash
-4d compare --task "Classify which reviews need priority" --domain coding
-# Returns: code-review-triage entry with dimension details
-```
+**The 4D Framework** was developed by **Dakan & Feller** at Anthropic as a collaborative model for operationalizing AI fluency.
 
-### Example 2: Test Case Generation
-Use the MCP server in Claude:
-- **Input**: "Generate test cases for this function, but I want to verify each one"
-- **Tool**: `score_delegation(task, "augmented")`
-- **Output**: Guidance on how to set up the augmented workflow
+**Fluently** brings that framework to life as an open-source tool + knowledge commons.
 
-### Example 3: Discernment Check
-```
-evaluate_discernment(
-  ai_output: "5 critical bugs in the codebase",
-  original_task: "Analyze this legacy module"
-)
-# Response: hallucination_risk_percent, confidence_calibration, human_review_needed
-```
+- Framework & research: [Anthropic AI Fluency](https://www.anthropic.com/)
+- Community standards: CC BY-NC-SA 4.0
+- Implementation: MIT
 
 ---
 
-## 🤝 Contributing
+## License
 
-We welcome contributions! Add knowledge, improve scoring, or extend tools.
+- **Knowledge base** (YAML Fluently 4D cycles): [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- **Code** (CLI, MCP, scorer): [MIT](LICENSE)
 
-### Guidelines
-- **Knowledge**: Add YAML files to `/knowledge/` following the schema
-- **Code**: TypeScript, Zod validation, tests in `__tests__` folders
-- **License**: CC BY-NC-SA (non-commercial, share-alike)
-
-### To Contribute
-1. Fork the repo
-2. Create a feature branch: `git checkout -b feat/your-feature`
-3. Add/update knowledge or code
-4. Run tests and validation: `npm test && npm run validate:schema`
-5. Submit a pull request
+Mix and match. Share freely. Build better AI collaboration.
 
 ---
 
-## 📄 License
+Happy shipping. 🚀
 
-**Fluently** is licensed under **CC BY-NC-SA 4.0** (Creative Commons Attribution-NonCommercial-ShareAlike).
 
-- ✅ **Use freely** for non-commercial purposes
-- ✅ **Share and adapt** with attribution
-- ❌ **Commercial use** requires permission
-- ℹ️ **Details**: [Full License](./LICENSE)
-
----
-
-## 🙋‍♀️ FAQ
-
-**Q: Can I use this commercially?**  
-A: Contact the maintainers for a commercial license.
-
-**Q: How do I add my own knowledge?**  
-A: Submit a YAML file to the `knowledge/` directory following the schema.
-
-**Q: Does Fluently work offline?**  
-A: Yes! After building locally, all tools work without external APIs.
-
-**Q: Can I integrate with my own AI model?**  
-A: Yes. The MCP server is transport-agnostic. Replace the Anthropic SDK usage with your own model client.
-
----
-
-## 🔗 Resources
-
-- **Framework Paper**: [AI Fluency 4D Framework](https://anthropic.com/) (Dakan & Feller, Anthropic)
-- **MCP Docs**: [Model Context Protocol](https://modelcontextprotocol.io/)
-- **Knowledge Base**: See [`/knowledge`](./knowledge) for all entries
-- **Issues & Discussions**: [GitHub Discussions](https://github.com/yourusername/fluently/discussions)
-
----
-
-## 💡 Vision
-
-Fluently aims to become the **standard reference implementation** of the AI Fluency 4D Framework—helping teams:
-
-- Operationalize human-AI collaboration best practices
-- Share learned patterns across organizations
-- Improve AI output quality through structured evaluation
-- Build accountable, transparent AI systems
-
-**Join us in making AI collaboration fluent! 🚀**

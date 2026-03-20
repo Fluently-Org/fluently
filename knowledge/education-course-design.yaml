@@ -1,0 +1,33 @@
+id: course-design
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "AI-Augmented Course Design"
+domain: education
+dimensions:
+  delegation:
+    description: "AI can accelerate the scaffolding work of course design: generating draft learning objectives from a topic brief, suggesting module sequencing options, proposing assessment formats, brainstorming reading list candidates, and drafting rubric language. The instructor must own: the pedagogical strategy, the theoretical framework underlying the course, the sequencing rationale, and all decisions about what students will actually experience. Pedagogical authority cannot be delegated."
+    example: A professor designing a new undergraduate ethics course asks AI to generate a draft list of possible weekly topics aligned with her stated course arc (from foundational theory to applied cases). She uses this list as a stimulus to compare against her own planned sequence, adopting two AI-suggested topics she had overlooked and discarding three that don't serve her theoretical framework.
+    antipattern: Asking AI to design the full course — objectives, module structure, readings, assignments, assessments — and adopting the output with cosmetic changes, without grounding the design in a coherent pedagogical theory or ensuring it reflects the instructor's scholarly expertise.
+  description:
+    description: "Provide AI with detailed instructional design context: course level and credit hours, student profile and prerequisite knowledge, program-level learning outcomes the course must serve, your pedagogical philosophy, assessment philosophy, any accreditation or institutional constraints, and the thematic arc you want the course to trace. Precision in the brief yields useful scaffolding."
+    example: "Prompt: 'Help me draft learning objectives for a 3-credit upper-division course on algorithmic bias. Students are CS seniors with strong technical backgrounds but limited social science exposure. Program outcome: graduates can evaluate the societal impact of technology systems. I want the course to move from conceptual foundations (weeks 1-4) to case analysis (weeks 5-10) to policy and design response (weeks 11-14). Use Bloom's Taxonomy verbs appropriate to the upper-division level.'"
+    antipattern: "Prompting: 'Write learning objectives for a course on AI ethics.' Without specifying student level, program context, Bloom's taxonomy tier, or the course's theoretical arc, AI produces generic objectives that could apply to any course at any level and serve no specific program outcome."
+  discernment:
+    description: Evaluate AI-generated course design elements against pedagogical soundness, alignment to Bloom's Taxonomy, internal coherence, and fit with your students' actual preparation. Check that assessment types genuinely measure the stated learning objectives, that the workload is realistic, and that reading suggestions are current, credible, and accessible to your student population.
+    example: An instructor reviews AI-generated weekly learning objectives and notices three of them are knowledge-level objectives (define, identify, list) in weeks designed for upper-division analysis. She revises them upward to analysis and evaluation verbs to match the cognitive demand appropriate for the course level.
+    antipattern: Adopting AI-generated course syllabi and assessment designs without checking internal alignment — using multiple-choice exams to assess objectives that require critical analysis, or setting a reading workload that AI estimated without accounting for the actual length and density of the suggested texts.
+  diligence:
+    description: Verify the accuracy of all factual content AI contributes to course materials. Document the AI's role in course design per your institution's academic integrity and transparency policies. Ensure the final course design meets accreditation requirements, reflects current disciplinary knowledge, and embodies your own scholarly judgment and professional responsibility as the instructor of record.
+    example: A faculty member building a new public health law course uses AI to draft a draft syllabus framework, then spends three hours reviewing it against her institution's course approval criteria, the program's accreditation standards, and current public health law scholarship — revising heavily before submission for curricular approval.
+    antipattern: Submitting an AI-generated course proposal to a curriculum committee without personally verifying that the proposed learning objectives meet accreditation standards, that the reading list contains accurate and current citations, or that the assessment strategy is pedagogically defensible under institutional review.
+score_hints:
+  delegation: 0.20
+  description: 0.30
+  discernment: 0.25
+  diligence: 0.25
+tags:
+  - course-design
+  - curriculum
+  - higher-education
+  - instructional-design
+reference: "https://aifluencyframework.org"

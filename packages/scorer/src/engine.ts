@@ -1,6 +1,6 @@
 import { knowledgeEntrySchema } from "./schema";
-import fs from "fs";
-import path from "path";
+const fs = require("fs");
+const path = require("path");
 import yaml from "js-yaml";
 
 export type TaskInput = {
@@ -37,15 +37,15 @@ function cosineSimilarity(setA: Set<string>, setB: Set<string>) {
 export function scoreTask(input: TaskInput, knowledgeDir: string) {
   const entries = loadKnowledgeEntries(knowledgeDir);
   const inputSet = keywordSet(input.description + " " + input.delegation_intent);
-  const scored = entries.map(entry => {
+  const scored = entries.map((entry: any) => {
     const entrySet = keywordSet(
-      entry.title + " " + entry.domain + " " + Object.values(entry.dimensions).map(d => d.description).join(" ")
+      entry.title + " " + entry.domain + " " + Object.values(entry.dimensions).map((d: any) => d.description).join(" ")
     );
     const similarity = cosineSimilarity(inputSet, entrySet);
     const dimensionScores = Object.fromEntries(
-      Object.entries(entry.dimensions).map(([dim, val]) => [
+      Object.entries(entry.dimensions).map(([dim, val]: [string, any]) => [
         dim,
-        Math.round(similarity * entry.score_hints[dim] * 100)
+        Math.round(similarity * (entry.score_hints[dim as keyof typeof entry.score_hints] ?? 0) * 100)
       ])
     );
     return {
@@ -60,7 +60,7 @@ export function scoreTask(input: TaskInput, knowledgeDir: string) {
     entry,
     dimensionScores,
     suggestions: Object.fromEntries(
-      Object.entries(entry.dimensions).map(([dim, val]) => [
+      Object.entries(entry.dimensions).map(([dim, val]: [string, any]) => [
         dim,
         `Improve ${dim}: ${val.antipattern}`
       ])

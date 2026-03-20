@@ -2,16 +2,11 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "strictNullChecks": false,
-    "noImplicitAny": false,
-    "paths": {
-      "@fluently/scorer": ["packages/scorer/dist/index"],
-      "@fluently/scorer/schema": ["packages/scorer/dist/schema"]
-    }
+    "noImplicitAny": false
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

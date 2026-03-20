@@ -1,0 +1,33 @@
+id: iterative-refinement-loop
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "Description-Discernment Iterative Refinement Loop"
+domain: general
+dimensions:
+  delegation:
+    description: Treat AI as a co-creator in an ongoing dialogue, not a one-shot command executor. The first AI output is a draft that begins a conversation, not an end product. Structure your workflow so that each AI output triggers a human evaluation, which generates a refined prompt, which produces a better output — repeating until the result meets your standard. This iterative posture is the fundamental AI collaboration pattern across all domains.
+    example: A product manager uses AI to draft a feature brief, evaluates it, identifies three gaps (missing user persona context, weak success metrics, no edge case consideration), feeds those gaps back into a refined prompt, gets a second draft, and repeats twice more until the brief meets her standard — treating each cycle as a productive step, not a failure.
+    antipattern: Running a single AI prompt, receiving an output that is clearly incomplete or off-target, and then either submitting that output as-is or abandoning the AI approach entirely — failing to use the iterative loop that is the actual mechanism through which AI collaboration produces quality results.
+  description:
+    description: In iterative refinement, each round of prompting is an act of description — but later rounds are more powerful because they are informed by what you learned evaluating the previous output. Describe not just what you want but what was wrong with the last version and why. Specific corrective feedback is the engine of the loop.
+    example: "Round 1: 'Draft a product requirements doc for a mobile notification system.' Round 2 (after evaluation): 'The previous draft lacked user permission flow details and assumed push always on. Revise to add: (1) permission request UX at onboarding, (2) notification preference center spec, (3) opt-out flows per notification type. Keep the same structure.'"
+    antipattern: After receiving a poor first output, re-prompting with an equally vague request ('Make it better' or 'Try again') rather than articulating specifically what was insufficient and why — failing to use what you learned from evaluating the first output to produce a meaningfully improved next prompt.
+  discernment:
+    description: "After each AI output, conduct a structured evaluation before generating the next prompt. Assess accuracy against facts you know, relevance to your actual goal, completeness against your requirements, audience fit, and quality of reasoning. The discernment step is not a final judgment — it is the input to the next description. Make your evaluation explicit so you can articulate it in your refined prompt."
+    example: "A writer receives an AI-drafted article section and explicitly scores it against four criteria: factual accuracy (3/5 — two claims need verification), tone (4/5 — mostly right, one paragraph too formal), completeness (2/5 — missing the key counterargument), audience fit (4/5 — appropriate vocabulary). This structured evaluation drives her next prompt precisely."
+    antipattern: Skimming AI output and forming a vague sense that 'it's not quite right' without identifying specifically what is wrong — then producing a corrective prompt that is equally vague, resulting in a marginally different output that still misses the target in the same ways.
+  diligence:
+    description: "Do not ship the first AI output, or even the second, without it having survived genuine evaluative scrutiny. Document your iteration path — the prompts used, the key decisions at each evaluation, and why you accepted the final output — especially for consequential work. Iteration transparency is accountability: it shows the work was human-directed, not just human-forwarded."
+    example: A communications team maintains a prompt log for all AI-assisted client reports, recording each prompt version and the reason for the refinement. When a client questions a report's methodology, the team can demonstrate the three-round refinement process and the human judgment applied at each evaluation step.
+    antipattern: Accepting and submitting the first AI output that seems 'good enough' without completing even one full evaluate-refine cycle — then, when the output contains errors or misses the mark, having no record of the process and no basis for explaining why the AI's first guess was treated as a final answer.
+score_hints:
+  delegation: 0.20
+  description: 0.35
+  discernment: 0.30
+  diligence: 0.15
+tags:
+  - iteration
+  - prompting
+  - workflow
+  - refinement
+reference: "https://aifluencyframework.org"

@@ -1,0 +1,33 @@
+id: lesson-planning
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "AI-Assisted Lesson Planning for Educators"
+domain: education
+dimensions:
+  delegation:
+    description: "Identify which lesson planning elements AI can accelerate versus which require the teacher's direct professional judgment. AI handles well: generating activity ideas, drafting discussion questions, suggesting differentiation strategies, proposing assessment rubrics, and creating example problems. Teachers must retain: selecting content aligned to standards, setting the pedagogical arc across a unit, understanding individual student needs, and making final instructional decisions."
+    example: A 7th-grade science teacher asks AI to generate five hands-on activity ideas for a lesson on cellular respiration at a middle school level, then selects the one that fits her lab budget and her students' prior knowledge, adapts it to her pacing, and writes her own formative assessment questions.
+    antipattern: Pasting an AI-generated full lesson plan directly into the school's curriculum system without reviewing it for standard alignment, age appropriateness, or fit with the specific class's learning trajectory — treating AI as a replacement for pedagogical expertise rather than a brainstorming assistant.
+  description:
+    description: "Provide AI with specific instructional context: subject and grade level, concrete learning objectives tied to standards, the students' current skill level and prior knowledge, the available time and resources, the preferred pedagogical approach, and any accessibility or differentiation needs. Generic requests produce generic plans."
+    example: "Prompt: 'Help me plan a 50-minute 8th-grade ELA lesson on identifying unreliable narrators. Students have read chapters 1-5 of The Outsiders. Objective: students can cite textual evidence to explain how Ponyboy's perspective limits the reader's understanding of events. Pedagogy: discussion-based with a short collaborative activity. Class includes 3 ELL students and 2 students with reading IEPs.'"
+    antipattern: "Prompting: 'Write a lesson plan about unreliable narrators for middle school.' This produces a generic template disconnected from the specific text students are reading, the actual learning objective, the class's composition, and the teacher's instructional context."
+  discernment:
+    description: Evaluate AI-generated lesson plans and activities critically before adopting them. Check standard alignment, age appropriateness of content and vocabulary, timing realism, whether suggested activities match your students' actual readiness, and whether the pedagogical sequence makes instructional sense. AI does not know your students; you do.
+    example: A teacher reviews an AI-generated lesson plan and notices the suggested 'exit ticket' question requires inferential reasoning two grade levels above her current class's demonstrated ability. She replaces it with a scaffolded sentence-starter version that matches where her students actually are.
+    antipattern: Implementing AI-suggested activities without mentally simulating how your specific students will respond — discovering mid-lesson that the activity assumes prior knowledge students don't have, or that the timing estimate was wildly optimistic for the class's working pace.
+  diligence:
+    description: Maintain professional responsibility for every lesson you deliver. Verify that AI-suggested content is factually accurate, that activities are safe and appropriate for your students, and that lesson plans meet the curricular standards your students are accountable for. Your professional judgment is the final quality gate, not the AI.
+    example: An educator uses AI-generated lesson scaffolding as a starting framework, then personally verifies that all factual content aligns with state science standards, removes an activity that requires materials not available in her classroom, and adds a culturally responsive example relevant to her students' community.
+    antipattern: Delivering an AI-generated lesson that contains a factual error (e.g., an incorrect historical date or a flawed science explanation) because the teacher assumed the AI's content was accurate and did not independently verify it before presenting it to students.
+score_hints:
+  delegation: 0.25
+  description: 0.30
+  discernment: 0.25
+  diligence: 0.20
+tags:
+  - education
+  - lesson-planning
+  - pedagogy
+  - curriculum
+reference: "https://aifluencyframework.org"

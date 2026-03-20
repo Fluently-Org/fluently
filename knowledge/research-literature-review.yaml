@@ -1,0 +1,33 @@
+id: literature-review
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "AI-Supported Academic Literature Review"
+domain: research
+dimensions:
+  delegation:
+    description: "AI can accelerate the literature review process by synthesizing themes across papers you have already identified, generating structured summaries of provided texts, suggesting search terms for database queries, and proposing a gap analysis framework. Researchers retain responsibility for: executing the systematic search in academic databases, verifying that all cited sources exist and are accurately represented, forming scholarly interpretations, and drawing conclusions about the field's state."
+    example: A PhD student compiles 60 papers from her PubMed and Scopus searches on microbiome-mental health connections. She feeds the abstracts to AI in batches, asking it to identify recurring themes, contradictions between studies, and underexplored angles. She then uses this thematic map as a scaffold for her own reading and synthesis, reading every paper herself before citing it.
+    antipattern: Asking AI to conduct the literature review from scratch — generating the reading list, summarizing papers AI has not actually read, and producing a synthesis the researcher then submits — creating a review full of hallucinated citations and misrepresented findings that the researcher cannot defend.
+  description:
+    description: "Specify your literature review's scope with precision: the exact research question, the academic field and subfield, the time range, inclusion and exclusion criteria, the required depth of analysis, and the review type (narrative, systematic, scoping). Imprecise framing leads to AI output that spans the wrong literature or treats your question at the wrong level of specificity."
+    example: "Prompt: 'I have provided 45 abstracts from papers on cognitive behavioral therapy outcomes for adolescent depression, published 2015-2024, RCTs only. Identify: (1) the most common outcome measures used across studies, (2) the patient subgroups most frequently underrepresented, (3) the three most-cited methodological limitations across papers, and (4) any emerging treatment modifications mentioned in multiple papers. Do not add any studies I haven't provided.'"
+    antipattern: "Prompting: 'Write a literature review on therapy and depression.' Without scope constraints, AI generates a sweeping narrative that mixes study types, time periods, populations, and therapy modalities — producing a superficial overview that satisfies no specific research question and cannot withstand peer review scrutiny."
+  discernment:
+    description: "Verify every citation in an AI-assisted literature review independently in an academic database before including it in your work. AI confidently generates plausible-sounding but fabricated citations — author names, journal titles, and publication years that look real but aren't. Additionally, verify that real papers are accurately characterized: check that AI summaries correctly represent each paper's methodology, findings, and limitations."
+    example: A researcher asks AI to synthesize themes from a set of provided papers and flag potentially relevant additional sources. She treats every additional source AI suggests as unverified until she has confirmed it in Google Scholar. Of eight AI-suggested additional references, two do not exist and one exists but reaches the opposite conclusion from what AI claimed.
+    antipattern: Submitting a literature review with AI-generated citations that were never individually verified in an academic database — discovering during peer review that three cited articles are fabrications, resulting in rejection and reputational damage that follows the researcher's professional record.
+  diligence:
+    description: The researcher is fully responsible for every claim and citation in the final review. Disclose AI assistance per your target journal's author guidelines and your institution's research integrity policy (requirements vary significantly across disciplines and publishers). Validate all sources independently regardless of AI confidence. Understand that your scholarly reputation is built on the accuracy and integrity of your literature representation.
+    example: A research team submits a systematic review that includes in the methods section a transparent account of how AI tools were used for thematic synthesis of author-identified papers, notes that all citations were independently verified in Cochrane Library and PubMed, and confirms compliance with the journal's AI transparency policy — meeting both disclosure and integrity standards.
+    antipattern: Relying on AI to identify and summarize literature without reading the papers yourself, submitting a review that misrepresents study findings because you trusted AI's characterizations over the original texts, or failing to disclose AI assistance to a journal that requires transparency — compromising academic integrity and potentially contributing false knowledge to the scholarly record.
+score_hints:
+  delegation: 0.20
+  description: 0.30
+  discernment: 0.30
+  diligence: 0.20
+tags:
+  - literature-review
+  - academic-research
+  - citation-verification
+  - research-integrity
+reference: "https://aifluencyframework.org"

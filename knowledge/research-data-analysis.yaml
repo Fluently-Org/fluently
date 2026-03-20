@@ -1,0 +1,33 @@
+id: research-data-analysis
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "Research Paper Data Analysis with AI"
+domain: research
+dimensions:
+  delegation:
+    description: Divide analytical work deliberately between human scholarly judgment and AI computation. AI handles pattern recognition in large datasets, running descriptive statistics, flagging outliers, generating visualization suggestions, and summarizing distributions. The researcher formulates hypotheses, interprets findings in disciplinary context, makes causal claims, and draws conclusions — these require domain expertise that AI cannot reliably supply.
+    example: A social scientist delegates to AI the task of computing correlation matrices across 47 variables in a survey dataset and generating a ranked list of significant correlations. She then applies her theoretical knowledge to determine which correlations are substantively meaningful versus statistically coincidental.
+    antipattern: Asking AI to not only run analysis but to formulate the research hypotheses, interpret what findings mean for the field, and draw conclusions — treating the model as a substitute for the researcher's own disciplinary expertise and scholarly judgment.
+  description:
+    description: Give AI precise methodological context — your research question, the dataset structure, units of measurement, required statistical methods, software environment, and any domain-specific constraints. Ambiguous instructions produce analysis that may be technically correct but methodologically wrong for your research design.
+    example: "Prompt: 'Analyze this CSV of longitudinal student performance data (n=312, 4 time points). Variables: test_score (0-100), SES_quartile (1-4), intervention_group (binary), school_id (cluster variable). Run a mixed-effects linear regression predicting test_score from intervention_group, controlling for SES_quartile, with school_id as a random effect. Report coefficients, standard errors, and interpret the intervention effect size.'"
+    antipattern: "Prompting: 'Analyze my research data and tell me what's significant.' Without specifying the research question, the correct statistical model, variable types, or analytical constraints, AI may apply an inappropriate method (e.g., OLS on clustered data) that produces misleading results."
+  discernment:
+    description: Rigorously verify AI-produced analysis before incorporating it into research. Check that statistical methods are appropriate for your data structure, that calculations are correct, that effect sizes are interpreted accurately, and that the AI has not made assumptions that violate your study design. AI can produce plausible-looking but methodologically flawed analysis.
+    example: A researcher notices that AI-generated regression output reports a significant p-value but has failed to account for the clustered sampling structure, inflating the precision of estimates. She reruns the analysis herself with correct standard errors and finds the effect is no longer significant at her threshold.
+    antipattern: Inserting AI-generated statistical tables and interpretive text directly into a manuscript without independently verifying the calculations, checking model assumptions, or confirming that the chosen method is appropriate for the study design — risking publication of flawed findings.
+  diligence:
+    description: Be transparent about AI's role in your analytical workflow per your institution's and journal's policies. Ensure all claims in the final paper reflect your own validated analysis. Maintain full methodological accountability — if AI analysis is used, you must understand it well enough to defend every number in peer review.
+    example: A research team documents in their methods section that AI-assisted tools were used for initial descriptive analysis and outlier detection, while all inferential statistics were conducted and verified by the authors using R. They retain full analytical scripts for reproducibility review.
+    antipattern: Publishing a paper that includes AI-generated statistical analysis without independent verification, failing to disclose AI assistance in violation of journal policy, or being unable to explain or reproduce the reported numbers during peer review.
+score_hints:
+  delegation: 0.20
+  description: 0.25
+  discernment: 0.35
+  diligence: 0.20
+tags:
+  - research
+  - data-analysis
+  - statistics
+  - academic
+reference: "https://aifluencyframework.org"

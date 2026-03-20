@@ -1,23 +1,22 @@
 {
-  "name": "fluently-mcp-server",
+  "name": "@fluently/scorer",
   "version": "0.1.0",
 
-  "description": "AI Fluency 4D Framework MCP server for scoring human-AI collaboration quality",
+  "description": "Scoring engine for AI Fluency 4D Framework",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "bin": {
-    "4d-mcp-server": "dist/bin.js"
+  "exports": {
+    ".": "./dist/index.js",
+    "./schema": "./dist/schema.js"
   },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "start": "node dist/bin.js",
     "test": "vitest"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
-    "@fluently/scorer": "*",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "zod": "^3.22.0"
   },
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",

@@ -2,8 +2,8 @@ PROJECT: fluently
 PURPOSE: An open-source CLI + MCP server + knowledge base that operationalizes the AI Fluency 4D Framework (Delegation, Description, Discernment, Diligence) by Dakan & Feller / Anthropic. Licensed CC BY-NC-SA.
 
 ARCHITECTURE:
-- /knowledge/ — YAML 4D plays, community-contributed, organized by dimension and domain
-- /packages/cli/ — Node.js CLI (`4d` command) using commander.js and Anthropic SDK
+- /knowledge/ — YAML Fluently 4D cycles, community-contributed, organized by dimension and domain
+- /packages/cli/ — Node.js CLI (`fluent` command) using commander.js and Anthropic SDK
 - /packages/mcp-server/ — MCP server exposing knowledge as AI-callable tools
 - /packages/scorer/ — Shared scoring engine used by both CLI and MCP server
 - /site/ — GitHub Pages static site (Astro or plain HTML)

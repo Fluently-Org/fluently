@@ -32,10 +32,11 @@ export const knowledgeEntrySchema = z.object({
     description: z.number().min(0).max(1),
     discernment: z.number().min(0).max(1),
     diligence: z.number().min(0).max(1)
-  }).refine(obj => Object.values(obj).reduce((a, b) => a + b, 0) === 1, {
+  }).refine(obj => Math.abs(Object.values(obj).reduce((a, b) => a + b, 0) - 1) < 1e-9, {
     message: "Dimension weights must sum to 1"
   }),
   tags: z.array(z.string()),
   contributor: z.string(),
+  reference: z.string().optional(),
   version: z.string() // semver
 });

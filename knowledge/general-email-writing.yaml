@@ -1,0 +1,33 @@
+id: email-writing
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "Professional Email Writing with AI"
+domain: general
+dimensions:
+  delegation:
+    description: Decide whether AI should produce the full draft or only assist with structure, tone, or phrasing. High-stakes emails (termination notices, executive communications, sensitive negotiations) should remain human-led with AI as an editor at most. Routine emails (meeting requests, status updates, acknowledgment replies) are strong candidates for full AI drafting.
+    example: A manager uses AI to draft a meeting invitation and a project status update, then writes a performance feedback email herself because it requires nuanced personal knowledge of the employee's growth journey.
+    antipattern: Delegating every email including sensitive HR communications, client dispute responses, or apology letters entirely to AI without assessing the relationship stakes or the potential for misrepresentation.
+  description:
+    description: Provide AI with the full context it needs to draft an effective email — recipient relationship, communication purpose, desired tone, relevant background, and any constraints on length or formality. The quality of the draft is directly proportional to the richness of the context you provide.
+    example: "Prompt: 'Draft a follow-up email to Sarah Chen, our enterprise client at Meridian Corp. We met Tuesday to discuss their Q3 data migration delay. Tone: professional but warm — we have a 3-year relationship. Acknowledge the delay empathetically, confirm next steps (kick-off call Friday 2pm), and close with confidence. Keep it under 200 words.'"
+    antipattern: "Prompting with only: 'Write an email to my client about the project delay.' This gives AI no information about tone, relationship history, specific facts, or the desired outcome, resulting in a generic template that fails to represent the actual situation."
+  discernment:
+    description: After receiving the AI draft, carefully evaluate whether the tone matches the real relationship, whether all factual claims are accurate, whether the intent is captured correctly, and whether the email could be misinterpreted. Read it as the recipient would, not as the author.
+    example: A marketing director reviews an AI-drafted client email and notices the phrase 'as we discussed' refers to a meeting that hasn't happened yet — a factual error the AI introduced. She corrects the timeline before sending.
+    antipattern: Copying the AI draft directly into the email client and hitting send without reading it through the recipient's eyes, missing tone mismatches (e.g., too formal for a casual colleague) or factual inaccuracies introduced by the model.
+  diligence:
+    description: Take responsibility for the email you send regardless of how it was drafted. In professional contexts, consider whether AI-assisted drafting should be disclosed. Verify all facts, names, dates, and commitments in the email before sending. Your name on the email means you own the content.
+    example: A consultant discloses in her firm's engagement letter that AI tools assist with drafting client communications, and she maintains a personal checklist — verify dates, names, attachments, and factual claims — that she runs on every AI-assisted email before sending.
+    antipattern: Sending an AI-drafted email containing an incorrect meeting date, a misspelled client name, or a commitment you didn't actually make, because you assumed the AI had accurate information and skipped personal review.
+score_hints:
+  delegation: 0.20
+  description: 0.35
+  discernment: 0.25
+  diligence: 0.20
+tags:
+  - email
+  - professional-communication
+  - drafting
+  - workplace
+reference: "https://aifluencyframework.org"

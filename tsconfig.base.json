@@ -5,6 +5,13 @@
     "target": "es2020",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "declaration": true,
+    "baseUrl": ".",
+    "paths": {
+      "@fluently/scorer": ["packages/scorer/src/index.ts"],
+      "@fluently/scorer/*": ["packages/scorer/src/*"]
+    }
   }
 }

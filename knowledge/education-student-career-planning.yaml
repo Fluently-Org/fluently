@@ -1,0 +1,33 @@
+id: student-career-planning
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "Student Career Planning with AI"
+domain: education
+dimensions:
+  delegation:
+    description: "Students can productively delegate to AI: resume drafting from bullet points they supply, generating practice interview questions for a target role, exploring career paths in an unfamiliar field, drafting cover letter frameworks, and researching industry norms. Students must retain: decisions about which opportunities align with their values and goals, truthful representation of their own experiences, and final responsibility for all submitted application materials."
+    example: A college junior asks AI to suggest ten career paths where her combination of biology major and data analytics minor would be valued, then researches the top three that interest her and uses that understanding to craft her own narrative about why she is pursuing biostatistics.
+    antipattern: Having AI write a cover letter that fabricates or exaggerates the student's experiences, then submitting it as an accurate representation — or using AI to answer interview questions on the student's behalf via an earpiece during a live interview.
+  description:
+    description: Share with AI your actual skills, experiences, target roles, industry context, career constraints, and personal goals. The more accurately you describe yourself and your situation, the more useful the AI's suggestions will be. Vague or inflated self-descriptions lead to advice that fits a fictional version of you, not your real situation.
+    example: "Prompt: 'I'm a 3rd-year environmental engineering student with a 3.4 GPA, one summer internship at a municipal water authority doing stormwater modeling, and a Python project analyzing local air quality data. I want to work in climate tech after graduation, preferably at a company working on water or air quality monitoring. Help me identify specific entry-level roles to target and the skills I should develop this year.'"
+    antipattern: "Prompting: 'I'm a student who wants a good job in tech. What should I do?' This produces generic career advice applicable to millions of people and useless for the student's actual situation, skills, and industry interest."
+  discernment:
+    description: Evaluate AI career advice critically. Verify that suggested roles actually exist and match what you want. Check salary ranges and job market realities against current sources like Bureau of Labor Statistics data or industry salary surveys, not just AI assertions. Assess whether AI suggestions genuinely fit your personal values, lifestyle needs, and long-term goals — not just what sounds impressive.
+    example: A student receives AI-generated advice suggesting she pursue a specific niche certification. She researches the certification independently, reads LinkedIn profiles of people who hold it, talks to two professionals in the field, and determines the certification is valued by only one employer segment — not the area she actually wants to work in.
+    antipattern: Following AI career advice without verification — enrolling in a bootcamp AI recommended, discovering it is not recognized by employers in the target field, or pursuing a role because AI said it pays well without checking current market data or speaking with anyone actually working in that field.
+  diligence:
+    description: Own every career decision you make. AI is a thinking partner, not a career counselor with knowledge of your full life context. Build your own understanding of your field. Ensure all application materials truthfully represent your actual experiences. Develop a personal policy for how you use AI in your professional development so your skills and judgment grow alongside your AI fluency.
+    example: A student uses AI to generate a list of potential resume bullet points based on her internship activities, then rewrites each one in her own voice, ensures they accurately reflect what she did, and has her university career center review the final document — treating AI as a drafting scaffold, not the author.
+    antipattern: Submitting AI-generated job applications with exaggerated credentials, relying entirely on AI career advice without informational interviews or real-world research, or using AI so heavily in application writing that the student cannot speak authentically about the experiences described in their own materials.
+score_hints:
+  delegation: 0.25
+  description: 0.30
+  discernment: 0.25
+  diligence: 0.20
+tags:
+  - career-planning
+  - student
+  - resume
+  - professional-development
+reference: "https://aifluencyframework.org"

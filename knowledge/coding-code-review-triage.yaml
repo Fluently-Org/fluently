@@ -2,7 +2,7 @@ id: code-review-triage
 version: 1.0.0
 contributor: Dakan & Feller
 title: Code Review Triage
- domain: coding
+domain: coding
 dimensions:
   delegation:
     description: Should this task be automated, augmented, or agentic?

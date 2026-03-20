@@ -1,0 +1,33 @@
+id: clinical-documentation
+version: "1.0.0"
+contributor: "Rick Dakan & Joseph Feller / Anthropic"
+title: "AI-Assisted Clinical Documentation"
+domain: healthcare
+dimensions:
+  delegation:
+    description: AI can assist clinicians with drafting clinical notes from voice transcription, generating patient education material drafts, summarizing prior visit records, and producing structured documentation templates. All clinical judgment is non-delegable — diagnosis, treatment decisions, medication orders, and assessment of patient status require a licensed clinician's direct judgment and cannot be transferred to AI under any circumstances.
+    example: An internist uses an AI ambient documentation tool to generate a draft SOAP note from a recorded patient encounter. She reviews the full draft before it enters the EHR, corrects the AI's mischaracterization of the patient's symptom onset timeline, and signs only after verifying that the assessment and plan reflect her actual clinical reasoning.
+    antipattern: Allowing an AI documentation tool to finalize clinical notes without clinician review, or using AI-generated differential diagnoses as the actual clinical assessment without independent clinical evaluation — abdicating the professional judgment that defines clinical practice.
+  description:
+    description: "Provide AI with precise clinical context: the documentation type required (SOAP note, discharge summary, referral letter, patient education handout), the patient's relevant clinical background, the format required by your institution or EHR, and any clinical standards the document must meet. Vague inputs produce vague outputs that require more revision than starting from scratch."
+    example: "Prompt: 'Draft a patient education handout for a 65-year-old patient with newly diagnosed Type 2 diabetes who speaks English as a second language. Reading level: 6th grade. Cover: what Type 2 diabetes is in plain language, the importance of blood sugar monitoring, dietary basics (Mediterranean diet pattern), and when to call the care team. Avoid medical jargon. Format: bullet points with short headers.'"
+    antipattern: "Prompting: 'Write patient instructions for diabetes.' This produces generic clinical text at an inappropriate reading level with medical terminology, requiring complete rewriting — no faster than drafting from scratch, and risking use of a generic template that doesn't match the specific patient's situation."
+  discernment:
+    description: Scrutinize every AI-generated clinical document for medical accuracy before it enters the record or reaches a patient. Check for hallucinated medication names, incorrect dosages, fabricated lab values, inappropriate diagnostic language, or clinical claims that don't match the actual encounter. Patient safety depends on the clinician catching AI errors before they propagate into care decisions.
+    example: A hospitalist reviews an AI-generated discharge summary and catches that the AI has listed a drug at twice the prescribed dose and omitted a critical allergy from the medication list. She corrects both errors before the summary is sent to the receiving primary care physician — preventing a potential adverse drug event.
+    antipattern: Co-signing AI-generated discharge summaries, referral letters, or medication reconciliation documents without reading them in full — allowing a hallucinated dosage, an omitted allergy, or an incorrect diagnosis code to enter the medical record and influence downstream care decisions.
+  diligence:
+    description: The clinician who signs a clinical document is fully accountable for its contents regardless of how it was drafted. Disclose AI use in documentation per your institution's policy and applicable regulatory requirements. Uphold patient safety as the absolute priority — when in doubt, rewrite rather than rely on AI output. Maintain the clinical judgment and interpersonal presence that AI documentation tools must never replace.
+    example: A health system requires all clinicians using AI documentation tools to complete a verified review checklist (patient identity, diagnoses, medications, allergies, follow-up instructions) before signing any AI-assisted note, and discloses the use of AI documentation assistance in its patient-facing privacy notice.
+    antipattern: Signing AI-generated clinical notes at volume without individual review because the ambient tool 'usually gets it right' — creating systematic documentation errors that accumulate in the medical record, affect quality metrics, and in serious cases contribute to patient harm through propagated incorrect information.
+score_hints:
+  delegation: 0.20
+  description: 0.20
+  discernment: 0.30
+  diligence: 0.30
+tags:
+  - healthcare
+  - clinical-documentation
+  - patient-safety
+  - EHR
+reference: "https://aifluencyframework.org"

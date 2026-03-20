@@ -1,0 +1,42 @@
+# GitHub Pages Configuration for Fluently
+
+# Build settings
+theme: null  # No theme, using plain HTML + Tailwind
+markdown: kramdown
+
+# Set the source directory (GitHub Pages will look here)
+source: site
+destination: _site
+
+# Exclude from processing
+exclude:
+  - .gitignore
+  - .git
+  - package.json
+  - package-lock.json
+  - node_modules
+  - scripts
+  - packages
+  - knowledge/*.yaml
+  - __tests__
+
+# Keep files that may be processed
+keep_files:
+  - index.html
+  - knowledge.html
+  - guide.html
+  - contribute.html
+
+# Liquid settings
+liquid:
+  error_mode: strict
+
+# URL settings
+url: "https://dakan-ai.github.io/fluently"
+baseurl: "/fluently"
+permalink: /:path/
+
+# Site metadata
+title: Fluently
+description: Operationalize the AI Fluency 4D Framework
+author: Dakan & Feller / Anthropic

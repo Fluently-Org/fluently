@@ -1,0 +1,695 @@
+{
+  "generated": "2026-03-20T18:30:48.519Z",
+  "total": 16,
+  "domains": [
+    "coding",
+    "education",
+    "general",
+    "healthcare",
+    "legal",
+    "research",
+    "writing"
+  ],
+  "entries": [
+    {
+      "id": "bug-fix-prioritization",
+      "title": "Bug Fix Prioritization",
+      "domain": "coding",
+      "file": "coding-bug-fix-prioritization.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Should this task be automated, augmented, or agentic?",
+      "tags": [
+        "bug-fix",
+        "prioritization",
+        "coding"
+      ],
+      "contributor": "Dakan & Feller",
+      "version": "1.0.0"
+    },
+    {
+      "id": "code-review-triage",
+      "title": "Code Review Triage",
+      "domain": "coding",
+      "file": "coding-code-review-triage.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Should this task be automated, augmented, or agentic?",
+      "tags": [
+        "code-review",
+        "triage",
+        "automation"
+      ],
+      "contributor": "Dakan & Feller",
+      "version": "1.0.0"
+    },
+    {
+      "id": "refactoring-suggestions",
+      "title": "Refactoring Suggestions",
+      "domain": "coding",
+      "file": "coding-refactoring-suggestions.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Should this task be automated, augmented, or agentic?",
+      "tags": [
+        "refactoring",
+        "suggestions",
+        "coding"
+      ],
+      "contributor": "Dakan & Feller",
+      "version": "1.0.0"
+    },
+    {
+      "id": "test-case-generation",
+      "title": "Test Case Generation",
+      "domain": "coding",
+      "file": "coding-test-case-generation.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Should this task be automated, augmented, or agentic?",
+      "tags": [
+        "test-case",
+        "generation",
+        "coding"
+      ],
+      "contributor": "Dakan & Feller",
+      "version": "1.0.0"
+    },
+    {
+      "id": "course-design",
+      "title": "AI-Augmented Course Design",
+      "domain": "education",
+      "file": "education-course-design.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "AI can accelerate the scaffolding work of course design: generating draft learning objectives from a topic brief, suggesting module sequencing options, proposing assessment formats, brainstorming read",
+      "tags": [
+        "course-design",
+        "curriculum",
+        "higher-education",
+        "instructional-design"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "lesson-planning",
+      "title": "AI-Assisted Lesson Planning for Educators",
+      "domain": "education",
+      "file": "education-lesson-planning.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Identify which lesson planning elements AI can accelerate versus which require the teacher's direct professional judgment. AI handles well: generating activity ideas, drafting discussion questions, su",
+      "tags": [
+        "education",
+        "lesson-planning",
+        "pedagogy",
+        "curriculum"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "student-career-planning",
+      "title": "Student Career Planning with AI",
+      "domain": "education",
+      "file": "education-student-career-planning.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Students can productively delegate to AI: resume drafting from bullet points they supply, generating practice interview questions for a target role, exploring career paths in an unfamiliar field, draf",
+      "tags": [
+        "career-planning",
+        "student",
+        "resume",
+        "professional-development"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "email-writing",
+      "title": "Professional Email Writing with AI",
+      "domain": "general",
+      "file": "general-email-writing.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Decide whether AI should produce the full draft or only assist with structure, tone, or phrasing. High-stakes emails (termination notices, executive communications, sensitive negotiations) should rema",
+      "tags": [
+        "email",
+        "professional-communication",
+        "drafting",
+        "workplace"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "iterative-refinement-loop",
+      "title": "Description-Discernment Iterative Refinement Loop",
+      "domain": "general",
+      "file": "general-iterative-refinement-loop.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Treat AI as a co-creator in an ongoing dialogue, not a one-shot command executor. The first AI output is a draft that begins a conversation, not an end product. Structure your workflow so that each AI",
+      "tags": [
+        "iteration",
+        "prompting",
+        "workflow",
+        "refinement"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "clinical-documentation",
+      "title": "AI-Assisted Clinical Documentation",
+      "domain": "healthcare",
+      "file": "healthcare-clinical-documentation.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "AI can assist clinicians with drafting clinical notes from voice transcription, generating patient education material drafts, summarizing prior visit records, and producing structured documentation te",
+      "tags": [
+        "healthcare",
+        "clinical-documentation",
+        "patient-safety",
+        "EHR"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "legal-ai-research-drafting",
+      "title": "AI-Assisted Legal Research and Document Drafting",
+      "domain": "legal",
+      "file": "legal-ai-research-drafting.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "AI can assist with initial legal research sweeps, summarizing case law, generating first-draft document structures, and flagging potentially relevant statutes. All legal judgment remains with the lice",
+      "tags": [
+        "legal",
+        "research",
+        "document-drafting",
+        "professional-responsibility"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "research-data-analysis",
+      "title": "Research Paper Data Analysis with AI",
+      "domain": "research",
+      "file": "research-data-analysis.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Divide analytical work deliberately between human scholarly judgment and AI computation. AI handles pattern recognition in large datasets, running descriptive statistics, flagging outliers, generating",
+      "tags": [
+        "research",
+        "data-analysis",
+        "statistics",
+        "academic"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "literature-review",
+      "title": "AI-Supported Academic Literature Review",
+      "domain": "research",
+      "file": "research-literature-review.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "AI can accelerate the literature review process by synthesizing themes across papers you have already identified, generating structured summaries of provided texts, suggesting search terms for databas",
+      "tags": [
+        "literature-review",
+        "academic-research",
+        "citation-verification",
+        "research-integrity"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "content-development",
+      "title": "Story and Content Development with AI",
+      "domain": "writing",
+      "file": "writing-content-development.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "Identify which creative elements benefit from AI exploration versus which must remain human-driven. AI excels at generating plot alternatives, brainstorming secondary character names, proposing scene ",
+      "tags": [
+        "creative-writing",
+        "storytelling",
+        "content-development",
+        "authorship"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "creative-ai-collaboration",
+      "title": "Creative Writing with AI as Co-Creator",
+      "domain": "writing",
+      "file": "writing-creative-ai-collaboration.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "The human writer sets and holds the creative vision, voice, and thematic intent. AI's role is to explore the possibility space: generating variations, proposing alternative phrasings, suggesting struc",
+      "tags": [
+        "creative-writing",
+        "fiction",
+        "co-creation",
+        "authorship"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    },
+    {
+      "id": "marketing-email-campaign",
+      "title": "AI-Assisted Marketing Email Campaigns",
+      "domain": "writing",
+      "file": "writing-marketing-email-campaign.yaml",
+      "dimensions": [
+        "delegation",
+        "description",
+        "discernment",
+        "diligence"
+      ],
+      "summary": "The human marketing strategist designs the campaign's core message, audience segmentation logic, and brand voice. AI then executes variation drafting — subject line alternatives, body copy variants fo",
+      "tags": [
+        "marketing",
+        "email-campaign",
+        "copywriting",
+        "brand-voice"
+      ],
+      "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+      "version": "1.0.0"
+    }
+  ],
+  "byDomain": {
+    "coding": [
+      {
+        "id": "bug-fix-prioritization",
+        "title": "Bug Fix Prioritization",
+        "domain": "coding",
+        "file": "coding-bug-fix-prioritization.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Should this task be automated, augmented, or agentic?",
+        "tags": [
+          "bug-fix",
+          "prioritization",
+          "coding"
+        ],
+        "contributor": "Dakan & Feller",
+        "version": "1.0.0"
+      },
+      {
+        "id": "code-review-triage",
+        "title": "Code Review Triage",
+        "domain": "coding",
+        "file": "coding-code-review-triage.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Should this task be automated, augmented, or agentic?",
+        "tags": [
+          "code-review",
+          "triage",
+          "automation"
+        ],
+        "contributor": "Dakan & Feller",
+        "version": "1.0.0"
+      },
+      {
+        "id": "refactoring-suggestions",
+        "title": "Refactoring Suggestions",
+        "domain": "coding",
+        "file": "coding-refactoring-suggestions.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Should this task be automated, augmented, or agentic?",
+        "tags": [
+          "refactoring",
+          "suggestions",
+          "coding"
+        ],
+        "contributor": "Dakan & Feller",
+        "version": "1.0.0"
+      },
+      {
+        "id": "test-case-generation",
+        "title": "Test Case Generation",
+        "domain": "coding",
+        "file": "coding-test-case-generation.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Should this task be automated, augmented, or agentic?",
+        "tags": [
+          "test-case",
+          "generation",
+          "coding"
+        ],
+        "contributor": "Dakan & Feller",
+        "version": "1.0.0"
+      }
+    ],
+    "education": [
+      {
+        "id": "course-design",
+        "title": "AI-Augmented Course Design",
+        "domain": "education",
+        "file": "education-course-design.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "AI can accelerate the scaffolding work of course design: generating draft learning objectives from a topic brief, suggesting module sequencing options, proposing assessment formats, brainstorming read",
+        "tags": [
+          "course-design",
+          "curriculum",
+          "higher-education",
+          "instructional-design"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      },
+      {
+        "id": "lesson-planning",
+        "title": "AI-Assisted Lesson Planning for Educators",
+        "domain": "education",
+        "file": "education-lesson-planning.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Identify which lesson planning elements AI can accelerate versus which require the teacher's direct professional judgment. AI handles well: generating activity ideas, drafting discussion questions, su",
+        "tags": [
+          "education",
+          "lesson-planning",
+          "pedagogy",
+          "curriculum"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      },
+      {
+        "id": "student-career-planning",
+        "title": "Student Career Planning with AI",
+        "domain": "education",
+        "file": "education-student-career-planning.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Students can productively delegate to AI: resume drafting from bullet points they supply, generating practice interview questions for a target role, exploring career paths in an unfamiliar field, draf",
+        "tags": [
+          "career-planning",
+          "student",
+          "resume",
+          "professional-development"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      }
+    ],
+    "general": [
+      {
+        "id": "email-writing",
+        "title": "Professional Email Writing with AI",
+        "domain": "general",
+        "file": "general-email-writing.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Decide whether AI should produce the full draft or only assist with structure, tone, or phrasing. High-stakes emails (termination notices, executive communications, sensitive negotiations) should rema",
+        "tags": [
+          "email",
+          "professional-communication",
+          "drafting",
+          "workplace"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      },
+      {
+        "id": "iterative-refinement-loop",
+        "title": "Description-Discernment Iterative Refinement Loop",
+        "domain": "general",
+        "file": "general-iterative-refinement-loop.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Treat AI as a co-creator in an ongoing dialogue, not a one-shot command executor. The first AI output is a draft that begins a conversation, not an end product. Structure your workflow so that each AI",
+        "tags": [
+          "iteration",
+          "prompting",
+          "workflow",
+          "refinement"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      }
+    ],
+    "healthcare": [
+      {
+        "id": "clinical-documentation",
+        "title": "AI-Assisted Clinical Documentation",
+        "domain": "healthcare",
+        "file": "healthcare-clinical-documentation.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "AI can assist clinicians with drafting clinical notes from voice transcription, generating patient education material drafts, summarizing prior visit records, and producing structured documentation te",
+        "tags": [
+          "healthcare",
+          "clinical-documentation",
+          "patient-safety",
+          "EHR"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      }
+    ],
+    "legal": [
+      {
+        "id": "legal-ai-research-drafting",
+        "title": "AI-Assisted Legal Research and Document Drafting",
+        "domain": "legal",
+        "file": "legal-ai-research-drafting.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "AI can assist with initial legal research sweeps, summarizing case law, generating first-draft document structures, and flagging potentially relevant statutes. All legal judgment remains with the lice",
+        "tags": [
+          "legal",
+          "research",
+          "document-drafting",
+          "professional-responsibility"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      }
+    ],
+    "research": [
+      {
+        "id": "research-data-analysis",
+        "title": "Research Paper Data Analysis with AI",
+        "domain": "research",
+        "file": "research-data-analysis.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Divide analytical work deliberately between human scholarly judgment and AI computation. AI handles pattern recognition in large datasets, running descriptive statistics, flagging outliers, generating",
+        "tags": [
+          "research",
+          "data-analysis",
+          "statistics",
+          "academic"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      },
+      {
+        "id": "literature-review",
+        "title": "AI-Supported Academic Literature Review",
+        "domain": "research",
+        "file": "research-literature-review.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "AI can accelerate the literature review process by synthesizing themes across papers you have already identified, generating structured summaries of provided texts, suggesting search terms for databas",
+        "tags": [
+          "literature-review",
+          "academic-research",
+          "citation-verification",
+          "research-integrity"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      }
+    ],
+    "writing": [
+      {
+        "id": "content-development",
+        "title": "Story and Content Development with AI",
+        "domain": "writing",
+        "file": "writing-content-development.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "Identify which creative elements benefit from AI exploration versus which must remain human-driven. AI excels at generating plot alternatives, brainstorming secondary character names, proposing scene ",
+        "tags": [
+          "creative-writing",
+          "storytelling",
+          "content-development",
+          "authorship"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      },
+      {
+        "id": "creative-ai-collaboration",
+        "title": "Creative Writing with AI as Co-Creator",
+        "domain": "writing",
+        "file": "writing-creative-ai-collaboration.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "The human writer sets and holds the creative vision, voice, and thematic intent. AI's role is to explore the possibility space: generating variations, proposing alternative phrasings, suggesting struc",
+        "tags": [
+          "creative-writing",
+          "fiction",
+          "co-creation",
+          "authorship"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      },
+      {
+        "id": "marketing-email-campaign",
+        "title": "AI-Assisted Marketing Email Campaigns",
+        "domain": "writing",
+        "file": "writing-marketing-email-campaign.yaml",
+        "dimensions": [
+          "delegation",
+          "description",
+          "discernment",
+          "diligence"
+        ],
+        "summary": "The human marketing strategist designs the campaign's core message, audience segmentation logic, and brand voice. AI then executes variation drafting — subject line alternatives, body copy variants fo",
+        "tags": [
+          "marketing",
+          "email-campaign",
+          "copywriting",
+          "brand-voice"
+        ],
+        "contributor": "Rick Dakan & Joseph Feller / Anthropic",
+        "version": "1.0.0"
+      }
+    ]
+  }
+}

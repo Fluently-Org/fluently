@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Base - Fluently</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
+                    <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="/knowledge.html" class="text-blue-600 font-bold border-b-2 border-blue-600 font-medium">Knowledge Base</a>
+                    <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
+                    <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
+                    <a href="https://github.com/dakan-ai/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <section class="bg-white border-b border-gray-200 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-book mr-2 text-blue-600"></i>Knowledge Base
+            </h1>
+            <p class="text-xl text-gray-600">
+                Community-contributed Fluently 4D cycles organized by domain and skill area
+            </p>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 4D MATCH FINDER CHAT -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section id="match" class="bg-gradient-to-br from-blue-50 to-indigo-50 border-b border-blue-200 py-10">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">
+                    <i class="fas fa-search-plus text-blue-600 mr-2"></i>Find Your 4D Cycle Match
+                </h2>
+                <p class="text-gray-600 mt-1">Share your Delegation and Description — we'll find similar cycles or help you register a new one.</p>
+            </div>
+
+            <!-- Chat Container -->
+            <div class="bg-white rounded-2xl shadow-lg border border-blue-200 overflow-hidden">
+
+                <!-- Step 1: Input -->
+                <div id="match-step-1" class="p-6">
+                    <div class="flex items-center gap-2 mb-5">
+                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
+                        <span class="font-semibold text-gray-800">Describe your AI collaboration</span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 mb-5">
+                        <div>
+                            <label class="block text-sm font-bold text-blue-700 mb-1">
+                                🤝 Delegation <span class="font-normal text-gray-500">— How are you using AI here?</span>
+                            </label>
+                            <textarea id="match-delegation" rows="3" placeholder="e.g. AI suggests options, I make the final decision. AI is reviewing code for style issues, humans approve before merge." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-green-700 mb-1">
+                                📝 Description <span class="font-normal text-gray-500">— What is the task context?</span>
+                            </label>
+                            <textarea id="match-description" rows="3" placeholder="e.g. Triaging incoming bug reports by severity using AI, in a SaaS product with 50k users. Output is a ranked list." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"></textarea>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button onclick="runMatch()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">
+                            <i class="fas fa-search mr-2"></i>Find Similar Cycles
+                        </button>
+                        <button onclick="clearMatch()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium py-2 px-4 rounded-lg text-sm transition">
+                            Clear
+                        </button>
+                    </div>
+                    <div id="match-loading" class="hidden mt-4 text-center text-sm text-gray-500">
+                        <i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i>Searching knowledge base...
+                    </div>
+                </div>
+
+                <!-- Step 2: Results (hidden initially) -->
+                <div id="match-results" class="hidden border-t border-gray-100">
+                    <div class="p-6 bg-gray-50">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-7 h-7 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
+                            <span class="font-semibold text-gray-800">Top Matching Cycles</span>
+                            <span id="match-count-badge" class="ml-auto bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full"></span>
+                        </div>
+                        <div id="match-results-list" class="space-y-3"></div>
+                    </div>
+
+                    <!-- Step 3: Register (shown when no strong match) -->
+                    <div id="match-register-section" class="hidden border-t border-orange-200 bg-orange-50 p-6">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
+                            <span class="font-semibold text-gray-800">No strong match found — register your cycle!</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">
+                            Your 4D cycle looks unique. Complete the last two dimensions and contribute it to the community knowledge base.
+                        </p>
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold text-purple-700 mb-1">
+                                    👁️ Discernment <span class="font-normal text-gray-500">— How will you evaluate the AI output?</span>
+                                </label>
+                                <textarea id="match-discernment" rows="3" placeholder="e.g. Cross-check suggestions against historical data. Flag any output lacking citations." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none bg-white"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-orange-700 mb-1">
+                                    ✅ Diligence <span class="font-normal text-gray-500">— What accountability steps are needed?</span>
+                                </label>
+                                <textarea id="match-diligence" rows="3" placeholder="e.g. Team lead reviews final list. Decision logged in JIRA. Escalate blockers to product owner." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none bg-white"></textarea>
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Title for your cycle</label>
+                                <input id="match-title" type="text" placeholder="e.g. AI-Assisted Bug Triage for SaaS Products" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Your name or GitHub handle</label>
+                                <input id="match-contributor" type="text" placeholder="e.g. @your-github-handle" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white">
+                            </div>
+                        </div>
+                        <button onclick="registerCycle()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg text-sm transition">
+                            <i class="fab fa-github mr-2"></i>Open as GitHub Issue (Pre-filled)
+                        </button>
+                        <p class="text-xs text-gray-500 mt-2">Opens a pre-filled GitHub issue with your full 4D cycle — a maintainer will help you turn it into a proper YAML PR.</p>
+                    </div>
+
+                    <!-- Strong match CTA -->
+                    <div id="match-strong-section" class="hidden border-t border-green-200 bg-green-50 p-4">
+                        <p class="text-sm text-green-800">
+                            <i class="fas fa-check-circle mr-1 text-green-600"></i>
+                            <strong>Great match found!</strong> The existing cycle above covers your use case. Use it as guidance or <a href="/contribute.html" class="text-green-700 underline font-medium">contribute an improved version</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid lg:grid-cols-4 gap-8">
+            <!-- Filters Sidebar -->
+            <div class="lg:col-span-1">
+                <div class="bg-white rounded-lg shadow p-6 sticky top-20">
+                    <h2 class="text-lg font-bold text-gray-900 mb-4">
+                        <i class="fas fa-filter mr-2"></i>Filters
+                    </h2>
+
+                    <!-- Domain Filter -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">Domain</h3>
+                        <div id="domain-filter" class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" class="domain-checkbox" value="" checked class="w-4 h-4">
+                                <span class="ml-2 text-sm text-gray-700">All Domains</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Tag Filter -->
+                    <div class="mb-6">
+                        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">Tags</h3>
+                        <div id="tag-filter" class="space-y-2">
+                            <p class="text-xs text-gray-500">Loading...</p>
+                        </div>
+                    </div>
+
+                    <!-- Clear Filters -->
+                    <button id="clear-filters" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded-lg">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
+
+            <!-- Knowledge Cards -->
+            <div class="lg:col-span-3">
+                <div id="entries-container" class="grid gap-6">
+                    <div class="col-span-full py-12 text-center">
+                        <p class="text-gray-500">Loading knowledge base...</p>
+                        <i class="fas fa-spinner fa-spin text-blue-600 text-2xl mt-4"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-white font-bold mb-4">Fluently</h4>
+                    <p class="text-sm">Operationalizing the AI Fluency 4D Framework</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white">Home</a></li>
+                        <li><a href="/knowledge.html" class="hover:text-white">Knowledge</a></li>
+                        <li><a href="/contribute.html" class="hover:text-white">Contribute</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">Community</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/dakan-ai/fluently" target="_blank" class="hover:text-white">GitHub</a></li>
+                        <li><a href="https://github.com/dakan-ai/fluently/issues" target="_blank" class="hover:text-white">Issues</a></li>
+                        <li><a href="https://github.com/dakan-ai/fluently/discussions" target="_blank" class="hover:text-white">Discussions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-4">License</h4>
+                    <p class="text-sm">CC BY-NC-SA 4.0</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2024 Fluently / Dakan & Feller. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Fetch knowledge entries from GitHub API
+        async function fetchKnowledgeBase() {
+            try {
+                // Try to get rawIndex JSON URL from GitHub
+                const response = await fetch('https://api.github.com/repos/dakan-ai/fluently/contents/knowledge/index.json');
+                const data = await response.json();
+                
+                if (data.download_url) {
+                    const indexResponse = await fetch(data.download_url);
+                    const index = await indexResponse.json();
+                    return index.entries || [];
+                }
+            } catch (error) {
+                console.log('Could not fetch index.json, fetching YAML files directly...');
+            }
+
+            // Fallback: fetch YAML files directly
+            try {
+                const repoResponse = await fetch('https://api.github.com/repos/dakan-ai/fluently/contents/knowledge');
+                const files = await repoResponse.json();
+                
+                const entries = [];
+                for (const file of files) {
+                    if (file.name.endsWith('.yaml')) {
+                        try {
+                            const rawResponse = await fetch(file.download_url);
+                            const yaml = await rawResponse.text();
+                            const entry = parseYAML(yaml);
+                            if (entry) {
+                                entry.filename = file.name;
+                                entries.push(entry);
+                            }
+                        } catch (e) {
+                            console.warn(`Could not fetch ${file.name}:`, e);
+                        }
+                    }
+                }
+                return entries;
+            } catch (error) {
+                console.error('Error fetching knowledge base:', error);
+                return [];
+            }
+        }
+
+        // Simple YAML parser for our knowledge entries
+        function parseYAML(yamlText) {
+            try {
+                const lines = yamlText.split('\n');
+                const obj = {};
+                let currentKey = null;
+                let currentValue = [];
+                
+                for (let i = 0; i < lines.length; i++) {
+                    const line = lines[i];
+                    const trimmed = line.trim();
+                    
+                    if (trimmed === '' || trimmed.startsWith('#')) continue;
+                    
+                    if (!line.startsWith(' ') && line.includes(':')) {
+                        if (currentKey) {
+                            obj[currentKey] = currentValue.join('\n').trim();
+                        }
+                        const [key, ...rest] = line.split(':');
+                        currentKey = key.trim();
+                        currentValue = [rest.join(':').trim()];
+                    } else if (currentKey && line.startsWith(' ')) {
+                        currentValue.push(line.trimLeft());
+                    }
+                }
+                
+                if (currentKey) {
+                    obj[currentKey] = currentValue.join('\n').trim();
+                }
+                
+                return obj;
+            } catch (error) {
+                console.error('Error parsing YAML:', error);
+                return null;
+            }
+        }
+
+        // Render knowledge cards
+        function renderEntries(entries) {
+            const container = document.getElementById('entries-container');
+            
+            if (entries.length === 0) {
+                container.innerHTML = '<div class="col-span-full py-12 text-center"><p class="text-gray-500">No entries found.</p></div>';
+                return;
+            }
+
+            container.innerHTML = entries.map(entry => `
+                <div class="bg-white rounded-lg shadow hover:shadow-lg transition p-6 border-l-4 border-blue-600">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="text-xl font-bold text-gray-900 flex-1">
+                            ${escapeHtml(entry.title || entry.id || 'Untitled')}
+                        </h3>
+                        <span class="ml-4 bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded">
+                            ${escapeHtml(entry.domain || 'general')}
+                        </span>
+                    </div>
+                    
+                    <p class="text-gray-700 mb-4">
+                        ${escapeHtml((entry.summary || '').substring(0, 200))}${(entry.summary || '').length > 200 ? '...' : ''}
+                    </p>
+                    
+                    <div class="mb-4 flex gap-2 flex-wrap">
+                        <span class="inline-flex items-center bg-blue-50 text-blue-700 text-xs font-bold px-2 py-1 rounded">
+                            <i class="fas fa-handshake mr-1"></i> Delegation
+                        </span>
+                        <span class="inline-flex items-center bg-green-50 text-green-700 text-xs font-bold px-2 py-1 rounded">
+                            <i class="fas fa-pen-fancy mr-1"></i> Description
+                        </span>
+                        <span class="inline-flex items-center bg-purple-50 text-purple-700 text-xs font-bold px-2 py-1 rounded">
+                            <i class="fas fa-eye mr-1"></i> Discernment
+                        </span>
+                        <span class="inline-flex items-center bg-orange-50 text-orange-700 text-xs font-bold px-2 py-1 rounded">
+                            <i class="fas fa-check-circle mr-1"></i> Diligence
+                        </span>
+                    </div>
+                    
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        ${(entry.tags || []).slice(0, 3).map(tag => 
+                            `<span class="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
+                                #${escapeHtml(tag)}
+                            </span>`
+                        ).join('')}
+                    </div>
+                    
+                    <div class="flex justify-between items-center text-sm text-gray-600">
+                        <span>
+                            <i class="fas fa-user mr-1"></i> ${escapeHtml(entry.contributor || 'Community')}
+                        </span>
+                        <a href="https://github.com/dakan-ai/fluently/blob/main/knowledge/${escapeHtml(entry.filename || '')}" 
+                           target="_blank"
+                           class="text-blue-600 hover:text-blue-700 font-medium">
+                            View YAML →
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Filter logic
+        let allEntries = [];
+        let activeDomainFilter = null;
+        let activeTagFilters = new Set();
+
+        function filterEntries() {
+            let filtered = allEntries;
+
+            if (activeDomainFilter) {
+                filtered = filtered.filter(e => e.domain === activeDomainFilter);
+            }
+
+            if (activeTagFilters.size > 0) {
+                filtered = filtered.filter(e => 
+                    (e.tags || []).some(tag => activeTagFilters.has(tag))
+                );
+            }
+
+            renderEntries(filtered);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Initialize
+        async function init() {
+            allEntries = await fetchKnowledgeBase();
+
+            // Build domain filter
+            const domains = [...new Set(allEntries.map(e => e.domain))].sort();
+            const domainFilter = document.getElementById('domain-filter');
+            domainFilter.innerHTML = `
+                <label class="flex items-center">
+                    <input type="checkbox" class="domain-checkbox" value="" checked class="w-4 h-4">
+                    <span class="ml-2 text-sm text-gray-700">All Domains</span>
+                </label>
+                ${domains.map(domain => `
+                    <label class="flex items-center">
+                        <input type="checkbox" class="domain-checkbox" value="${domain}" class="w-4 h-4">
+                        <span class="ml-2 text-sm text-gray-700 capitalize">${domain}</span>
+                    </label>
+                `).join('')}
+            `;
+
+            // Build tag filter
+            const allTags = [...new Set(allEntries.flatMap(e => e.tags || []))].sort();
+            const tagFilter = document.getElementById('tag-filter');
+            if (allTags.length > 0) {
+                tagFilter.innerHTML = allTags.map(tag => `
+                    <label class="flex items-center">
+                        <input type="checkbox" class="tag-checkbox" value="${tag}" class="w-4 h-4">
+                        <span class="ml-2 text-sm text-gray-700">${tag}</span>
+                    </label>
+                `).join('');
+            }
+
+            // Domain filter event listeners
+            document.querySelectorAll('.domain-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.value === '') {
+                        activeDomainFilter = null;
+                        document.querySelectorAll('.domain-checkbox').forEach(c => c.checked = c.value === '');
+                    } else {
+                        activeDomainFilter = e.target.value;
+                        document.querySelectorAll('.domain-checkbox').forEach(c => c.checked = c.value === activeDomainFilter);
+                    }
+                    filterEntries();
+                });
+            });
+
+            // Tag filter event listeners
+            document.querySelectorAll('.tag-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    if (e.target.checked) {
+                        activeTagFilters.add(e.target.value);
+                    } else {
+                        activeTagFilters.delete(e.target.value);
+                    }
+                    filterEntries();
+                });
+            });
+
+            // Clear filters
+            document.getElementById('clear-filters').addEventListener('click', () => {
+                activeDomainFilter = null;
+                activeTagFilters.clear();
+                document.querySelectorAll('.domain-checkbox').forEach(c => c.checked = c.value === '');
+                document.querySelectorAll('.tag-checkbox').forEach(c => c.checked = false);
+                filterEntries();
+            });
+
+            // Initial render
+            renderEntries(allEntries);
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+
+    <!-- 4D Match Finder Logic -->
+    <script>
+        // ── Similarity helpers ─────────────────────────────────
+        function tokenize(text) {
+            return new Set((text || '').toLowerCase().split(/\W+/).filter(w => w.length > 2));
+        }
+
+        function cosineSim(a, b) {
+            const all = new Set([...a, ...b]);
+            let dot = 0, ma = 0, mb = 0;
+            for (const w of all) {
+                const x = a.has(w) ? 1 : 0;
+                const y = b.has(w) ? 1 : 0;
+                dot += x * y; ma += x; mb += y;
+            }
+            return (ma && mb) ? dot / (Math.sqrt(ma) * Math.sqrt(mb)) : 0;
+        }
+
+        // ── Fetch index ────────────────────────────────────────
+        let matchEntries = null;
+
+        async function loadMatchEntries() {
+            if (matchEntries) return matchEntries;
+            // Try raw GitHub first, then API fallback
+            const urls = [
+                'https://raw.githubusercontent.com/dakan-ai/fluently/main/knowledge/index.json',
+                'https://api.github.com/repos/dakan-ai/fluently/contents/knowledge/index.json'
+            ];
+            for (const url of urls) {
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    // GitHub API returns base64, raw returns JSON directly
+                    if (data.content) {
+                        const json = JSON.parse(atob(data.content.replace(/\n/g, '')));
+                        matchEntries = json.entries || [];
+                    } else {
+                        matchEntries = data.entries || data || [];
+                    }
+                    return matchEntries;
+                } catch (e) { /* try next */ }
+            }
+            return [];
+        }
+
+        // ── Run matching ────────────────────────────────────────
+        async function runMatch() {
+            const delegation = document.getElementById('match-delegation').value.trim();
+            const description = document.getElementById('match-description').value.trim();
+            if (!delegation && !description) {
+                alert('Please enter at least one of Delegation or Description.');
+                return;
+            }
+
+            document.getElementById('match-loading').classList.remove('hidden');
+            document.getElementById('match-results').classList.add('hidden');
+
+            const entries = await loadMatchEntries();
+            const query = tokenize(delegation + ' ' + description);
+
+            const scored = entries.map(entry => {
+                const entryText = tokenize([
+                    entry.title, entry.domain,
+                    (entry.tags || []).join(' '),
+                    entry.summary || ''
+                ].join(' '));
+                const sim = Math.round(cosineSim(query, entryText) * 100);
+                return { entry, similarity: sim };
+            }).sort((a, b) => b.similarity - a.similarity).slice(0, 3);
+
+            document.getElementById('match-loading').classList.add('hidden');
+            renderMatchResults(scored);
+        }
+
+        function renderMatchResults(results) {
+            const container = document.getElementById('match-results-list');
+            const badge = document.getElementById('match-count-badge');
+            const registerSection = document.getElementById('match-register-section');
+            const strongSection = document.getElementById('match-strong-section');
+
+            const bestScore = results[0]?.similarity || 0;
+            badge.textContent = `${results.length} results • best match: ${bestScore}%`;
+
+            const domainColors = {
+                coding: 'blue', writing: 'green', research: 'purple',
+                'customer-support': 'yellow', education: 'indigo',
+                legal: 'red', healthcare: 'pink', general: 'gray'
+            };
+
+            container.innerHTML = results.map(({ entry, similarity }) => {
+                const color = domainColors[entry.domain] || 'gray';
+                const strength = similarity >= 50 ? 'bg-green-500' : similarity >= 25 ? 'bg-yellow-400' : 'bg-gray-300';
+                return `
+                <div class="bg-white rounded-xl border border-gray-200 p-4 flex gap-4 items-start">
+                    <div class="flex-shrink-0 text-center w-14">
+                        <div class="text-xl font-bold ${similarity >= 50 ? 'text-green-600' : similarity >= 25 ? 'text-yellow-600' : 'text-gray-400'}">${similarity}%</div>
+                        <div class="w-full bg-gray-100 rounded-full h-1.5 mt-1">
+                            <div class="${strength} h-1.5 rounded-full" style="width:${Math.max(4, similarity)}%"></div>
+                        </div>
+                        <div class="text-xs text-gray-400 mt-0.5">match</div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                            <span class="font-semibold text-gray-900 text-sm">${escapeHtml(entry.title)}</span>
+                            <span class="bg-${color}-100 text-${color}-700 text-xs font-bold px-2 py-0.5 rounded">${escapeHtml(entry.domain)}</span>
+                        </div>
+                        <p class="text-xs text-gray-500 line-clamp-2 mb-2">${escapeHtml((entry.summary || '').substring(0, 120))}${(entry.summary || '').length > 120 ? '…' : ''}</p>
+                        <div class="flex gap-2 flex-wrap">
+                            ${(entry.tags || []).slice(0, 3).map(t => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`).join('')}
+                            <a href="https://github.com/dakan-ai/fluently/blob/main/knowledge/${escapeHtml(entry.file || '')}" target="_blank" class="text-xs text-blue-600 hover:underline ml-auto">View YAML →</a>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
+
+            document.getElementById('match-results').classList.remove('hidden');
+
+            if (bestScore >= 40) {
+                registerSection.classList.add('hidden');
+                strongSection.classList.remove('hidden');
+            } else {
+                strongSection.classList.add('hidden');
+                registerSection.classList.remove('hidden');
+                // Pre-fill delegation & description into register form context
+            }
+        }
+
+        // ── Register cycle via GitHub issue ────────────────────
+        function registerCycle() {
+            const delegation = document.getElementById('match-delegation').value.trim();
+            const description = document.getElementById('match-description').value.trim();
+            const discernment = document.getElementById('match-discernment').value.trim();
+            const diligence = document.getElementById('match-diligence').value.trim();
+            const title = document.getElementById('match-title').value.trim() || 'New Fluently 4D Cycle';
+            const contributor = document.getElementById('match-contributor').value.trim() || 'Community';
+
+            if (!discernment || !diligence) {
+                alert('Please fill in both Discernment and Diligence before registering.');
+                return;
+            }
+
+            const issueTitle = `[Contribution] New Fluently 4D Cycle: ${title}`;
+            const issueBody = `## New Fluently 4D Cycle Submission
+
+**Title:** ${title}
+**Contributor:** ${contributor}
+
+---
+
+### 🤝 Delegation
+${delegation || '(not provided)'}
+
+### 📝 Description
+${description || '(not provided)'}
+
+### 👁️ Discernment
+${discernment}
+
+### ✅ Diligence
+${diligence}
+
+---
+
+*Submitted via the Fluently 4D Match Tool on the Knowledge Base page.*
+*A maintainer will help convert this into a YAML entry and guide the PR process.*`;
+
+            const url = `https://github.com/dakan-ai/fluently/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}&labels=contribution`;
+            window.open(url, '_blank');
+        }
+
+        // ── Clear ───────────────────────────────────────────────
+        function clearMatch() {
+            ['match-delegation', 'match-description', 'match-discernment',
+             'match-diligence', 'match-title', 'match-contributor'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = '';
+            });
+            document.getElementById('match-results').classList.add('hidden');
+            document.getElementById('match-loading').classList.add('hidden');
+        }
+
+        // Allow pressing Enter (Ctrl/Cmd+Enter) in textareas to trigger search
+        ['match-delegation', 'match-description'].forEach(id => {
+            document.getElementById(id)?.addEventListener('keydown', e => {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runMatch();
+            });
+        });
+    </script>
+</body>
+</html>
