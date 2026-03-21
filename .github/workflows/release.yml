@@ -31,7 +31,9 @@ jobs:
       - name: Build all packages
         run: npm run build
 
-      - name: Setup Node.js for npm publish
+      # ── Publish to npm ────────────────────────────────────────────────────
+
+      - name: Setup Node.js for npm
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -46,6 +48,47 @@ jobs:
         run: npm publish --workspace=packages/mcp-server
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # ── Publish to GitHub Packages ────────────────────────────────────────
+      # GitHub Packages requires scoped names (@owner/package).
+      # We temporarily rewrite package.json before publishing — CI is ephemeral.
+
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@faical-yannick-congo'
+
+      - name: Publish CLI to GitHub Packages
+        working-directory: packages/cli
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.name = '@faical-yannick-congo/fluently-cli';
+            pkg.publishConfig = { registry: 'https://npm.pkg.github.com', access: 'public' };
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish MCP Server to GitHub Packages
+        working-directory: packages/mcp-server
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.name = '@faical-yannick-congo/fluently-mcp-server';
+            pkg.publishConfig = { registry: 'https://npm.pkg.github.com', access: 'public' };
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── GitHub Release ────────────────────────────────────────────────────
 
       - name: Extract version from tag
         id: version
