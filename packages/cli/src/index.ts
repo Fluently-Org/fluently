@@ -12,12 +12,28 @@ const program = new Command();
 
 program
   .name('fluent')
-  .description('Operationalize the AI Fluency 4D Framework: Delegation, Description, Discernment, Diligence. Score, compare, and contribute Fluently 4D cycles for AI fluency.')
+  .description(
+    'Fluently helps you work better with AI by applying the 4D Framework: Delegation, Description, Discernment, Diligence.\n\n' +
+    'It scores your AI tasks against a community knowledge base of validated 4D cycles — patterns that tell you who should own the decision, how to frame the task, when to trust the output, and who stays accountable.\n\n' +
+    'Commands:\n' +
+    '  score      Find the 3 most similar 4D cycles to your task and see how each dimension holds up\n' +
+    '  compare    Match your task + delegation intent to the closest cycle and get a full 4D score\n' +
+    '  list       Browse all available 4D cycles, optionally filtered by domain\n' +
+    '  contribute Build and validate a new 4D cycle, then open a PR to share it with the community\n' +
+    '  sync       Pull the latest cycles from the GitHub knowledge base'
+  )
   .version('0.1.0');
 
 program
   .command('score')
-  .argument('<task>', 'Task description')
+  .description(
+    'Find the 3 community 4D cycles most similar to your task.\n\n' +
+    'Scores each match across Delegation, Description, Discernment, and Diligence (0–100).\n' +
+    'Use this to discover existing patterns you can extend or adapt — not to grade your own work.\n\n' +
+    'Example:\n' +
+    '  fluent score "AI generates a first draft, human edits and publishes"'
+  )
+  .argument('<task>', 'Plain-language description of the AI task you want to run')
   .action(async (task) => {
     const spinner = ora('Scoring task...').start();
     const results = scoreTask({ description: task, delegation_intent: '' }, path.resolve(__dirname, '../knowledge'));
@@ -37,8 +53,15 @@ program
 
 program
   .command('compare')
-  .requiredOption('--description <desc>', 'Task description')
-  .requiredOption('--delegation <intent>', 'Delegation intent')
+  .description(
+    'Score your task against the closest community 4D cycle using both task description and delegation intent.\n\n' +
+    'Delegation intent tells the scorer how much you plan to rely on AI: automated (AI decides), augmented (AI + human together), or supervised (human decides, AI assists).\n' +
+    'Returns a single 4D score and the closest matching cycle so you can see where your approach diverges.\n\n' +
+    'Example:\n' +
+    '  fluent compare --description "AI reviews PRs for style issues" --delegation "augmented"'
+  )
+  .requiredOption('--description <desc>', 'Plain-language description of the AI task')
+  .requiredOption('--delegation <intent>', 'How much you delegate to AI: automated | augmented | supervised')
   .action(async (opts) => {
     const spinner = ora('Comparing...').start();
     const results = scoreTask({ description: opts.description, delegation_intent: opts.delegation }, path.resolve(__dirname, '../knowledge'));
@@ -56,7 +79,11 @@ program
 
 program
   .command('contribute')
-  .description('Contribute a new Fluently 4D cycle to the knowledge base')
+  .description(
+    'Build a new 4D cycle interactively and save it as a validated YAML file.\n\n' +
+    'Walks you through each dimension — what to delegate, how to describe the task, what to watch for in the output, and how to stay accountable.\n' +
+    'The cycle is validated against the schema before saving. Open a PR to share it with the community.'
+  )
   .action(async () => {
     const basic = await inquirer.prompt([
       { type: 'input', name: 'id', message: 'Slug (unique id):' },
@@ -101,7 +128,10 @@ program
 
 program
   .command('sync')
-  .description('Sync knowledge entries from GitHub main branch')
+  .description(
+    'Pull the latest 4D cycles from the GitHub knowledge base into your local install.\n\n' +
+    'Run this after new community cycles are merged to get the most up-to-date patterns for scoring and comparison.'
+  )
   .action(async () => {
     const spinner = ora('Syncing knowledge...').start();
     // Simple implementation: git pull
@@ -113,7 +143,15 @@ program
 
 program
   .command('list')
-  .argument('[domain]', 'Domain to filter')
+  .description(
+    'Browse all community 4D cycles in the knowledge base.\n\n' +
+    'Optionally filter by domain to see cycles relevant to your field.\n' +
+    'Available domains: coding, writing, research, education, legal, healthcare, general\n\n' +
+    'Examples:\n' +
+    '  fluent list\n' +
+    '  fluent list coding'
+  )
+  .argument('[domain]', 'Filter by domain: coding | writing | research | education | legal | healthcare | general')
   .action(async (domain) => {
     const entries = loadKnowledgeEntries(path.resolve(__dirname, '../knowledge'));
     entries.filter(e => !domain || e.domain === domain).forEach(e => {
