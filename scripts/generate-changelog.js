@@ -42,12 +42,14 @@ ${commits
 
 ### CLI
 \`\`\`bash
-npm install -g fluently
+npm install -g fluently-cli
+# or zero-install:
+npx fluently-cli --help
 \`\`\`
 
 ### MCP Server
 \`\`\`bash
-npm install fluently-mcp
+npm install fluently-mcp-server
 \`\`\`
 
 ---
