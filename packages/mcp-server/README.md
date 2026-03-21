@@ -6,7 +6,7 @@ MCP server for the Fluently 4D Framework. Exposes knowledge retrieval and contri
 
 ```bash
 npm install -g fluently-mcp-server
-4d-mcp-server
+fluently-mcp-server
 ```
 
 ## Wire to Claude Desktop
@@ -16,7 +16,7 @@ npm install -g fluently-mcp-server
 ```json
 {
   "mcpServers": {
-    "fluently": { "command": "4d-mcp-server" }
+    "fluently": { "command": "fluently-mcp-server" }
   }
 }
 ```
@@ -28,7 +28,7 @@ In your `settings.json`:
 ```json
 {
   "mcpServers": {
-    "fluently": { "command": "4d-mcp-server" }
+    "fluently": { "command": "fluently-mcp-server" }
   }
 }
 ```
@@ -54,12 +54,12 @@ Fetches live from the public Fluently community repo. No auth required. Points t
 
 ```bash
 # Default — no config needed
-4d-mcp-server
+fluently-mcp-server
 
 # Point to a public fork
 FLUENTLY_CONNECTOR=github-public \
 FLUENTLY_GITHUB_REPO=your-org/your-public-fork \
-4d-mcp-server
+fluently-mcp-server
 ```
 
 Contributing requires opening a PR manually (YAML + instructions returned by `contribute_cycle`).
@@ -72,7 +72,7 @@ Fetches from a private GitHub repo via the GitHub API. Requires a personal acces
 FLUENTLY_CONNECTOR=github-private \
 FLUENTLY_GITHUB_REPO=your-org/your-private-knowledge \
 FLUENTLY_GITHUB_TOKEN=ghp_xxx \
-4d-mcp-server
+fluently-mcp-server
 ```
 
 ### local
@@ -82,7 +82,7 @@ Reads from a local directory. Ideal for development, air-gapped environments, or
 ```bash
 FLUENTLY_CONNECTOR=local \
 FLUENTLY_LOCAL_PATH=/path/to/your/knowledge \
-4d-mcp-server
+fluently-mcp-server
 ```
 
 `contribute_cycle` writes YAML files directly to the configured directory.

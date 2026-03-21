@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fluent·ly — AI Fluency 4D Framework</title>
+  <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital@1&display=swap" rel="stylesheet" />
@@ -647,9 +648,9 @@
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         View on GitHub
       </a>
-      <button class="btn btn-purple" onclick="openKeyModal()">
+      <button class="btn btn-purple" id="navConnectBtn" onclick="openKeyModal()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
-        Connect Claude
+        <span id="navConnectLabel">Connect AI</span>
       </button>
     </div>
   </div>
@@ -866,18 +867,18 @@
         </div>
         <div class="terminal-body" style="font-size:0.8rem;">
           <span class="t-line"><span class="t-comment"># Community (default — no config)</span></span>
-          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">4d-mcp-server</span></span>
+          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">fluently-mcp-server</span></span>
           <span class="t-line">&nbsp;</span>
           <span class="t-line"><span class="t-comment"># Private GitHub repo</span></span>
           <span class="t-line"><span class="t-out">FLUENTLY_CONNECTOR=</span><span class="t-amber">github-private</span></span>
           <span class="t-line"><span class="t-out">FLUENTLY_GITHUB_REPO=</span><span class="t-green">your-org/knowledge</span></span>
           <span class="t-line"><span class="t-out">FLUENTLY_GITHUB_TOKEN=</span><span class="t-green">ghp_xxx</span></span>
-          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">4d-mcp-server</span></span>
+          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">fluently-mcp-server</span></span>
           <span class="t-line">&nbsp;</span>
           <span class="t-line"><span class="t-comment"># Local / offline</span></span>
           <span class="t-line"><span class="t-out">FLUENTLY_CONNECTOR=</span><span class="t-amber">local</span></span>
           <span class="t-line"><span class="t-out">FLUENTLY_LOCAL_PATH=</span><span class="t-green">./my-knowledge</span></span>
-          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">4d-mcp-server</span></span>
+          <span class="t-line"><span class="t-prompt">$</span> <span class="t-cmd">fluently-mcp-server</span></span>
         </div>
       </div>
     </div>
@@ -948,7 +949,7 @@
           <div class="try-card-title">Claude Connection</div>
           <div class="key-status" id="keyStatus" onclick="openKeyModal()">
             <div class="key-dot disconnected" id="keyDot"></div>
-            <span class="key-label" id="keyLabel">Not connected</span>
+            <span class="key-label" id="keyLabel">No AI connected</span>
             <span class="key-action" id="keyAction">Connect →</span>
           </div>
           <p style="font-size:0.78rem;color:var(--fg-subtle);margin-top:8px;line-height:1.5;">Your API key is stored only in your browser's localStorage and never sent anywhere except the Anthropic API.</p>
@@ -1020,9 +1021,9 @@
             <div class="try-placeholder">
               <div class="try-placeholder-icon">⚡</div>
               <div class="try-placeholder-text">
-                Connect Claude with your Anthropic API key,<br>
+                Connect an AI provider (Claude, GPT, Gemini…),<br>
                 describe your AI task, and click Run.<br><br>
-                <span style="color:var(--fg-subtle);font-size:0.82rem;">The demo fetches live knowledge from GitHub<br>and streams Claude's reasoning back here.</span>
+                <span style="color:var(--fg-subtle);font-size:0.82rem;">Fetches live knowledge from GitHub<br>and streams AI reasoning back here.</span>
               </div>
             </div>
           </div>
@@ -1044,7 +1045,7 @@
       <div class="install-card">
         <span class="install-badge ib-browser">🌐 Browser</span>
         <div class="install-title">Run in this page</div>
-        <div class="install-desc">Zero install. Connect Claude above, describe your task, and the demo runs the full GitHub MCP + Claude reasoning flow right here.</div>
+        <div class="install-desc">Zero install. Connect any AI provider above, describe your task, and the demo runs the full GitHub MCP + AI reasoning flow right here.</div>
         <a href="#try-it" class="btn btn-outline" style="width:100%;justify-content:center;">Go to demo</a>
       </div>
       <div class="install-card">
@@ -1139,7 +1140,7 @@
 <span class="k">{</span>
   <span class="s">"mcpServers"</span><span class="k">:</span> <span class="k">{</span>
     <span class="s">"fluently"</span><span class="k">:</span> <span class="k">{</span>
-      <span class="s">"command"</span><span class="k">:</span> <span class="n">"4d-mcp-server"</span>
+      <span class="s">"command"</span><span class="k">:</span> <span class="n">"fluently-mcp-server"</span>
     <span class="k">}</span>
   <span class="k">}</span>
 <span class="k">}</span></div>
@@ -1151,7 +1152,7 @@
 <span class="k">{</span>
   <span class="s">"mcpServers"</span><span class="k">:</span> <span class="k">{</span>
     <span class="s">"fluently"</span><span class="k">:</span> <span class="k">{</span>
-      <span class="s">"command"</span><span class="k">:</span> <span class="n">"4d-mcp-server"</span><span class="k">,</span>
+      <span class="s">"command"</span><span class="k">:</span> <span class="n">"fluently-mcp-server"</span><span class="k">,</span>
       <span class="s">"env"</span><span class="k">:</span> <span class="k">{</span>
         <span class="s">"FLUENTLY_CONNECTOR"</span><span class="k">:</span> <span class="n">"github-private"</span><span class="k">,</span>
         <span class="s">"FLUENTLY_GITHUB_REPO"</span><span class="k">:</span> <span class="n">"your-org/knowledge"</span><span class="k">,</span>
@@ -1220,20 +1221,31 @@
   </div>
 </footer>
 
-<!-- ── Connect Claude Modal ── -->
+<!-- ── Connect AI Modal ── -->
 <div class="modal-overlay hidden" id="keyModal" onclick="handleOverlayClick(event)">
-  <div class="modal">
-    <div class="modal-title">Connect Claude</div>
-    <div class="modal-sub">Enter your Anthropic API key to enable the live demo. The key is saved in your browser's <code style="color:var(--fg);">localStorage</code> — it never leaves your device except in direct calls to the Anthropic API.</div>
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-title" id="modalTitle">Connect AI Provider</div>
+    <div class="modal-sub" id="modalSub">Choose your AI provider and enter its API key. Keys are saved only in your browser's localStorage — never sent anywhere except the provider's own API.</div>
     <div class="modal-form">
+      <!-- Provider grid -->
       <div>
-        <label for="apiKeyInput">Anthropic API key</label>
-        <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off" />
-        <div class="modal-hint">Get your key at <a href="https://console.anthropic.com/settings/api-keys" target="_blank" style="color:var(--purple);">console.anthropic.com</a></div>
+        <label>Provider</label>
+        <div id="providerGrid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:4px;"></div>
+      </div>
+      <!-- Key input -->
+      <div id="keyInputWrap">
+        <label id="keyInputLabel">API key</label>
+        <input type="password" id="apiKeyInput" placeholder="" autocomplete="off" />
+        <div class="modal-hint" id="keyHint"></div>
+      </div>
+      <!-- Model selector -->
+      <div id="modelWrap">
+        <label>Model</label>
+        <select id="modelSelect"></select>
       </div>
       <div class="privacy-note">
         <span>🔒</span>
-        <span>Stored locally in <code>localStorage</code> under <code>FLUENTLY_ANTHROPIC_KEY</code>. Never sent to any server other than api.anthropic.com. Clear anytime with the Disconnect button.</span>
+        <span>Stored in <code>localStorage</code> per provider. Never sent anywhere except the selected provider's API. Click Disconnect to remove all keys.</span>
       </div>
     </div>
     <div class="modal-actions">
@@ -1245,59 +1257,160 @@
 </div>
 
 <script>
-// ── Local storage key ──────────────────────────────────────────────────────
-const STORAGE_KEY = 'FLUENTLY_ANTHROPIC_KEY';
+// ── Provider registry ──────────────────────────────────────────────────────
+const PROVIDERS = {
+  claude:     { name:'Claude',       company:'Anthropic',  emoji:'🟠', color:'#D4602A',
+                placeholder:'sk-ant-api03-…', hint:'console.anthropic.com/settings/api-keys',
+                models:['claude-haiku-4-5-20251001','claude-sonnet-4-6'], type:'anthropic' },
+  openai:     { name:'GPT-4o',       company:'OpenAI',     emoji:'⬛', color:'#10a37f',
+                placeholder:'sk-…', hint:'platform.openai.com/api-keys',
+                models:['gpt-4o-mini','gpt-4o','gpt-4-turbo'], type:'openai',
+                base:'https://api.openai.com/v1' },
+  gemini:     { name:'Gemini',       company:'Google',     emoji:'🔵', color:'#4285f4',
+                placeholder:'AIzaSy…', hint:'aistudio.google.com/app/apikey',
+                models:['gemini-1.5-flash','gemini-2.0-flash','gemini-1.5-pro'], type:'gemini' },
+  groq:       { name:'Llama',        company:'Groq',       emoji:'🦙', color:'#f55036',
+                placeholder:'gsk_…', hint:'console.groq.com/keys',
+                models:['llama-3.1-8b-instant','llama-3.3-70b-versatile','mixtral-8x7b-32768'], type:'openai',
+                base:'https://api.groq.com/openai/v1' },
+  mistral:    { name:'Mistral',      company:'Mistral AI', emoji:'💨', color:'#ff7000',
+                placeholder:'your-mistral-key', hint:'console.mistral.ai/api-keys',
+                models:['mistral-small-latest','mistral-large-latest','open-mixtral-8x22b'], type:'openai',
+                base:'https://api.mistral.ai/v1' },
+  grok:       { name:'Grok',         company:'xAI',        emoji:'𝕏', color:'#e7e7e7',
+                placeholder:'xai-…', hint:'console.x.ai',
+                models:['grok-beta','grok-2'], type:'openai',
+                base:'https://api.x.ai/v1' },
+  deepseek:   { name:'DeepSeek',     company:'DeepSeek',   emoji:'🔍', color:'#4d9bff',
+                placeholder:'sk-…', hint:'platform.deepseek.com/api_keys',
+                models:['deepseek-chat','deepseek-reasoner'], type:'openai',
+                base:'https://api.deepseek.com' },
+  perplexity: { name:'Perplexity',   company:'Perplexity', emoji:'🔮', color:'#20b2aa',
+                placeholder:'pplx-…', hint:'www.perplexity.ai/settings/api',
+                models:['llama-3.1-sonar-small-128k-online','sonar-pro'], type:'openai',
+                base:'https://api.perplexity.ai' },
+  cohere:     { name:'Command R+',   company:'Cohere',     emoji:'🧲', color:'#39594d',
+                placeholder:'your-cohere-key', hint:'dashboard.cohere.com/api-keys',
+                models:['command-r-plus','command-r','command-light'], type:'cohere',
+                base:'https://api.cohere.ai/v2' },
+  ollama:     { name:'Ollama',       company:'Local',      emoji:'🏠', color:'#8b949e',
+                placeholder:'(no key needed)', hint:'ollama.ai — run locally',
+                models:['llama3.2','qwen2.5','mistral','phi3'], type:'ollama',
+                base:'http://localhost:11434/api', noKey:true },
+};
+
 const REPO = 'faical-yannick-congo/fluently';
-const RAW = `https://raw.githubusercontent.com/${REPO}/main`;
+const RAW  = `https://raw.githubusercontent.com/${REPO}/main`;
 
-// ── Key management ─────────────────────────────────────────────────────────
-function getKey() { return localStorage.getItem(STORAGE_KEY); }
+let activeProvider = localStorage.getItem('FLUENTLY_PROVIDER') || 'claude';
 
+// ── Key storage (per provider) ─────────────────────────────────────────────
+function storageKey(pid) { return `FLUENTLY_KEY_${pid.toUpperCase()}`; }
+function getKey(pid)     { return localStorage.getItem(storageKey(pid || activeProvider)); }
+function setKey(pid, v)  { localStorage.setItem(storageKey(pid), v); }
+function clearKey(pid)   { localStorage.removeItem(storageKey(pid)); }
+
+// Migrate legacy key
+(function() {
+  const legacy = localStorage.getItem('FLUENTLY_ANTHROPIC_KEY');
+  if (legacy && !getKey('claude')) { setKey('claude', legacy); localStorage.removeItem('FLUENTLY_ANTHROPIC_KEY'); }
+})();
+
+// ── UI helpers ─────────────────────────────────────────────────────────────
 function updateKeyStatus() {
-  const key = getKey();
-  const dot = document.getElementById('keyDot');
-  const label = document.getElementById('keyLabel');
-  const action = document.getElementById('keyAction');
-  if (key) {
+  const p    = PROVIDERS[activeProvider];
+  const key  = getKey(activeProvider);
+  const dot  = document.getElementById('keyDot');
+  const lbl  = document.getElementById('keyLabel');
+  const act  = document.getElementById('keyAction');
+  const nbtn = document.getElementById('navConnectLabel');
+  if (key || p.noKey) {
     dot.className = 'key-dot connected';
-    label.textContent = 'Claude connected';
-    action.textContent = 'Change →';
+    lbl.textContent = `${p.name} connected`;
+    act.textContent = 'Change →';
+    nbtn.textContent = `${p.emoji} ${p.name}`;
   } else {
     dot.className = 'key-dot disconnected';
-    label.textContent = 'Not connected';
-    action.textContent = 'Connect →';
+    lbl.textContent = 'No AI connected';
+    act.textContent = 'Connect →';
+    nbtn.textContent = 'Connect AI';
   }
+  // run button label
+  const rb = document.getElementById('runBtn');
+  if (rb) rb.querySelector('span') && (rb.querySelector('span').textContent = `Run with GitHub MCP + ${p.name}`);
+}
+
+// ── Modal ──────────────────────────────────────────────────────────────────
+function buildProviderGrid(selected) {
+  const grid = document.getElementById('providerGrid');
+  grid.innerHTML = '';
+  Object.entries(PROVIDERS).forEach(([pid, p]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.title = `${p.name} (${p.company})`;
+    const isActive = pid === selected;
+    btn.style.cssText = `
+      display:flex;flex-direction:column;align-items:center;gap:3px;
+      padding:8px 4px;border-radius:8px;cursor:pointer;
+      border:1px solid ${isActive ? p.color : 'var(--border)'};
+      background:${isActive ? `${p.color}18` : 'transparent'};
+      font-family:inherit;transition:all 0.15s;
+    `;
+    btn.innerHTML = `<span style="font-size:1.1rem;">${p.emoji}</span><span style="font-size:0.62rem;color:var(--fg-muted);white-space:nowrap;">${p.name}</span>`;
+    btn.onclick = () => { activeProvider = pid; localStorage.setItem('FLUENTLY_PROVIDER', pid); buildProviderGrid(pid); updateModalInputs(pid); };
+    grid.appendChild(btn);
+  });
+}
+
+function updateModalInputs(pid) {
+  const p = PROVIDERS[pid];
+  const input = document.getElementById('apiKeyInput');
+  const hint  = document.getElementById('keyHint');
+  const lbl   = document.getElementById('keyInputLabel');
+  const wrap  = document.getElementById('keyInputWrap');
+  const modelSel = document.getElementById('modelSelect');
+
+  wrap.style.display = p.noKey ? 'none' : 'block';
+  lbl.textContent = `${p.company} API key`;
+  input.placeholder = p.placeholder;
+  const saved = getKey(pid);
+  input.value = saved ? '••••••••••••••••' : '';
+  hint.innerHTML = `Get your key at <a href="https://${p.hint}" target="_blank" style="color:var(--orange);">${p.hint}</a>`;
+
+  modelSel.innerHTML = p.models.map(m => `<option value="${m}">${m}</option>`).join('');
+  const savedModel = localStorage.getItem(`FLUENTLY_MODEL_${pid.toUpperCase()}`);
+  if (savedModel) modelSel.value = savedModel;
+
+  document.getElementById('disconnectBtn').style.display = (saved || p.noKey) ? 'block' : 'none';
 }
 
 function openKeyModal() {
-  const modal = document.getElementById('keyModal');
-  const input = document.getElementById('apiKeyInput');
-  const discBtn = document.getElementById('disconnectBtn');
-  const key = getKey();
-  input.value = key ? '••••••••••••••••' : '';
-  discBtn.style.display = key ? 'block' : 'none';
-  modal.classList.remove('hidden');
-  if (!key) setTimeout(() => input.focus(), 50);
+  document.getElementById('keyModal').classList.remove('hidden');
+  buildProviderGrid(activeProvider);
+  updateModalInputs(activeProvider);
+  if (!getKey(activeProvider) && !PROVIDERS[activeProvider].noKey)
+    setTimeout(() => document.getElementById('apiKeyInput').focus(), 80);
 }
 
 function closeKeyModal() { document.getElementById('keyModal').classList.add('hidden'); }
-
 function handleOverlayClick(e) { if (e.target.id === 'keyModal') closeKeyModal(); }
 
 function saveKey() {
+  const p   = PROVIDERS[activeProvider];
   const val = document.getElementById('apiKeyInput').value.trim();
-  if (!val || val.startsWith('•')) { closeKeyModal(); return; }
-  if (!val.startsWith('sk-ant-')) {
-    alert('That doesn\'t look like an Anthropic API key (should start with sk-ant-).');
-    return;
+  const model = document.getElementById('modelSelect').value;
+  if (model) localStorage.setItem(`FLUENTLY_MODEL_${activeProvider.toUpperCase()}`, model);
+  if (!p.noKey) {
+    if (!val || val.startsWith('•')) { updateKeyStatus(); closeKeyModal(); return; }
+    setKey(activeProvider, val);
   }
-  localStorage.setItem(STORAGE_KEY, val);
   updateKeyStatus();
   closeKeyModal();
 }
 
 function disconnectKey() {
-  localStorage.removeItem(STORAGE_KEY);
+  clearKey(activeProvider);
+  localStorage.removeItem(`FLUENTLY_MODEL_${activeProvider.toUpperCase()}`);
   updateKeyStatus();
   closeKeyModal();
 }
@@ -1321,282 +1434,264 @@ function copyText(el, text) {
     setTimeout(() => icon.textContent = '⎘', 1500);
   });
 }
-
 function copyPreCode(btn) {
   const pre = btn.closest('.pre-code');
-  const text = pre.innerText.replace('Copy\n', '').replace('Copied!\n', '').trim();
+  const text = pre.innerText.replace('Copy\n','').replace('Copied!\n','').trim();
   navigator.clipboard.writeText(text).then(() => {
     btn.textContent = 'Copied!';
     setTimeout(() => btn.textContent = 'Copy', 1500);
   });
 }
 
-// ── Demo: keyword ranking ──────────────────────────────────────────────────
-function keywordSet(text) {
-  return new Set(text.toLowerCase().split(/\W+/).filter(w => w.length > 2));
-}
+// ── Keyword ranking ────────────────────────────────────────────────────────
+function keywordSet(text) { return new Set(text.toLowerCase().split(/\W+/).filter(w => w.length > 2)); }
 function cosineSim(a, b) {
-  const all = new Set([...a, ...b]);
-  let dot = 0, mA = 0, mB = 0;
-  for (const w of all) {
-    const av = a.has(w) ? 1 : 0, bv = b.has(w) ? 1 : 0;
-    dot += av * bv; mA += av * av; mB += bv * bv;
-  }
-  return mA && mB ? dot / (Math.sqrt(mA) * Math.sqrt(mB)) : 0;
+  const all = new Set([...a,...b]); let dot=0,mA=0,mB=0;
+  for (const w of all) { const av=a.has(w)?1:0,bv=b.has(w)?1:0; dot+=av*bv; mA+=av*av; mB+=bv*bv; }
+  return mA&&mB ? dot/(Math.sqrt(mA)*Math.sqrt(mB)) : 0;
 }
 
 // ── Output helpers ─────────────────────────────────────────────────────────
 let outputBody;
-function getOutput() { return outputBody || (outputBody = document.getElementById('outputBody')); }
+function getOutput() { return outputBody||(outputBody=document.getElementById('outputBody')); }
+function clearOutput() { getOutput().innerHTML=''; }
+function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-function clearOutput() {
-  getOutput().innerHTML = '';
-}
-
-function addStep(type, label, text, html) {
+function addStep(type, label, text) {
   const body = getOutput();
   const step = document.createElement('div');
   step.className = 'try-step';
-  const icons = { github: 'si-github', claude: 'si-claude', info: 'si-info' };
-  const emojis = { github: 'GH', claude: 'AI', info: 'ℹ' };
+  const icons  = { github:'si-github', ai:'si-claude', info:'si-info' };
+  const emojis = { github:'GH', ai:'AI', info:'ℹ' };
   step.innerHTML = `
-    <div class="try-step-icon ${icons[type]}">${emojis[type]}</div>
+    <div class="try-step-icon ${icons[type]||'si-info'}">${emojis[type]||'ℹ'}</div>
     <div class="try-step-content">
       <div class="try-step-label">${label}</div>
-      <div class="try-step-text" id="step-${Date.now()}">${html || escHtml(text)}</div>
+      <div class="try-step-text">${escHtml(text||'')}</div>
     </div>`;
   body.appendChild(step);
   body.scrollTop = body.scrollHeight;
   return step.querySelector('.try-step-text');
 }
 
-function escHtml(s) {
-  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
 function addCycleCard(cycle, domain) {
-  const colors = {coding:'#818cf8',writing:'#f472b6',research:'#22d3ee',education:'#fcd34d',legal:'#fca5a5',healthcare:'#6ee7b7',general:'#cbd5e1'};
-  const bg = {coding:'rgba(99,102,241,0.12)',writing:'rgba(236,72,153,0.12)',research:'rgba(6,182,212,0.12)',education:'rgba(245,158,11,0.12)',legal:'rgba(239,68,68,0.12)',healthcare:'rgba(16,185,129,0.12)',general:'rgba(148,163,184,0.12)'};
-  const d = cycle.domain || domain || 'general';
-  const dims = cycle.dimensions || {};
-  const body = getOutput();
-  const card = document.createElement('div');
-  card.className = 'cycle-card';
-  card.innerHTML = `
-    <div class="cycle-card-title">${escHtml(cycle.title || cycle.id)}</div>
+  const colors={coding:'#818cf8',writing:'#f472b6',research:'#22d3ee',education:'#fcd34d',legal:'#fca5a5',healthcare:'#6ee7b7',general:'#cbd5e1'};
+  const bg={coding:'rgba(99,102,241,0.12)',writing:'rgba(236,72,153,0.12)',research:'rgba(6,182,212,0.12)',education:'rgba(245,158,11,0.12)',legal:'rgba(239,68,68,0.12)',healthcare:'rgba(16,185,129,0.12)',general:'rgba(148,163,184,0.12)'};
+  const d=cycle.domain||domain||'general';
+  const body=getOutput();
+  const card=document.createElement('div');
+  card.className='cycle-card';
+  card.innerHTML=`
+    <div class="cycle-card-title">${escHtml(cycle.title||cycle.id)}</div>
     <span class="cycle-card-domain" style="color:${colors[d]||'#cbd5e1'};background:${bg[d]||'rgba(148,163,184,0.12)'};">${d}</span>
     <div class="cycle-card-dims">
-      ${Object.entries(dims).map(([k,v]) => `<div class="cycle-dim"><strong>${k}:</strong>${escHtml((v.description||'').substring(0,90))}${(v.description||'').length>90?'…':''}</div>`).join('')}
+      ${Object.entries(cycle.dimensions||{}).map(([k,v])=>`<div class="cycle-dim"><strong>${k}:</strong>${escHtml((v.description||'').substring(0,90))}${(v.description||'').length>90?'…':''}</div>`).join('')}
     </div>`;
   body.appendChild(card);
-  body.scrollTop = body.scrollHeight;
+  body.scrollTop=body.scrollHeight;
 }
 
-// ── YAML parser (minimal — handles flat key: value and nested) ─────────────
+// ── YAML parser ────────────────────────────────────────────────────────────
 function parseSimpleYaml(text) {
-  // Use a minimal parser for the known cycle structure
-  const obj = {};
-  const lines = text.split('\n');
-  let currentDim = null;
-  let inDimensions = false;
-  let inDim = null;
-  let inScoreHints = false;
-  let inTags = false;
-  obj.dimensions = {};
-  obj.tags = [];
-  obj.score_hints = {};
-  for (let i = 0; i < lines.length; i++) {
-    const raw = lines[i];
-    const line = raw.trimEnd();
-    if (!line.trim() || line.trim().startsWith('#')) continue;
-    const indent = raw.match(/^(\s*)/)[1].length;
-    const kv = line.trim().match(/^([^:]+):\s*(.*)/);
-    if (!kv) {
-      // list item
-      const li = line.trim().match(/^-\s*(.*)/);
-      if (li && inTags) obj.tags.push(li[1].replace(/^['"]|['"]$/g,''));
-      continue;
-    }
-    const [,k,v] = kv;
-    if (indent === 0) {
-      inDimensions = k === 'dimensions';
-      inScoreHints = k === 'score_hints';
-      inTags = k === 'tags';
-      inDim = null;
-      if (!inDimensions && !inScoreHints && !inTags) {
-        obj[k] = v.replace(/^['"]|['"]$/g,'');
-      }
-    } else if (inDimensions && indent === 2) {
-      inDim = k;
-      obj.dimensions[k] = {};
-    } else if (inDimensions && inDim && indent === 4) {
-      obj.dimensions[inDim][k] = v.replace(/^['"]|['"]$/g,'');
-    } else if (inScoreHints && indent === 2) {
-      obj.score_hints[k] = parseFloat(v);
-    }
+  const obj={dimensions:{},tags:[],score_hints:{}};
+  let inDimensions=false,inDim=null,inScoreHints=false,inTags=false;
+  for (const raw of text.split('\n')) {
+    const line=raw.trimEnd();
+    if (!line.trim()||line.trim().startsWith('#')) continue;
+    const indent=raw.match(/^(\s*)/)[1].length;
+    const kv=line.trim().match(/^([^:]+):\s*(.*)/);
+    if (!kv) { const li=line.trim().match(/^-\s*(.*)/); if(li&&inTags) obj.tags.push(li[1].replace(/^['"]|['"]$/g,'')); continue; }
+    const [,k,v]=kv;
+    if (indent===0) {
+      inDimensions=k==='dimensions'; inScoreHints=k==='score_hints'; inTags=k==='tags'; inDim=null;
+      if (!inDimensions&&!inScoreHints&&!inTags) obj[k]=v.replace(/^['"]|['"]$/g,'');
+    } else if (inDimensions&&indent===2) { inDim=k; obj.dimensions[k]={}; }
+    else if (inDimensions&&inDim&&indent===4) obj.dimensions[inDim][k]=v.replace(/^['"]|['"]$/g,'');
+    else if (inScoreHints&&indent===2) obj.score_hints[k]=parseFloat(v);
   }
   return obj;
 }
 
-// ── Stream Claude response ─────────────────────────────────────────────────
-async function streamClaude(apiKey, prompt, textEl) {
+// ── Provider-agnostic LLM streaming ───────────────────────────────────────
+async function streamLLM(pid, apiKey, prompt, textEl) {
+  const p = PROVIDERS[pid];
+  const model = localStorage.getItem(`FLUENTLY_MODEL_${pid.toUpperCase()}`) || p.models[0];
   textEl.classList.add('streaming');
   textEl.textContent = '';
 
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true',
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      stream: true,
-      messages: [{ role: 'user', content: prompt }],
-    }),
-  });
+  let resp;
 
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({ error: { message: resp.statusText } }));
-    textEl.classList.remove('streaming');
-    textEl.textContent = `Error: ${err.error?.message || resp.statusText}`;
-    return;
-  }
+  // ── Anthropic ────────────────────────────────────────────────────────────
+  if (p.type === 'anthropic') {
+    resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{ 'x-api-key':apiKey,'anthropic-version':'2023-06-01',
+                'anthropic-dangerous-direct-browser-access':'true','content-type':'application/json' },
+      body:JSON.stringify({ model, max_tokens:1024, stream:true, messages:[{role:'user',content:prompt}] }),
+    });
+    if (!resp.ok) { const e=await resp.json().catch(()=>({error:{message:resp.statusText}})); textEl.classList.remove('streaming'); textEl.textContent=`Error: ${e.error?.message||resp.statusText}`; return; }
+    const reader=resp.body.getReader(); const decoder=new TextDecoder(); let buf='';
+    while(true) {
+      const {done,value}=await reader.read(); if(done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop();
+      for (const ln of lines) {
+        if (!ln.startsWith('data: ')) continue;
+        try { const ev=JSON.parse(ln.slice(6)); if(ev.type==='content_block_delta'&&ev.delta?.text) { textEl.textContent+=ev.delta.text; textEl.closest('.try-output-body').scrollTop=9999; } } catch {}
+      }
+    }
 
-  const reader = resp.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = '';
+  // ── Gemini ───────────────────────────────────────────────────────────────
+  } else if (p.type === 'gemini') {
+    resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`, {
+      method:'POST', headers:{'content-type':'application/json'},
+      body:JSON.stringify({ contents:[{parts:[{text:prompt}]}] }),
+    });
+    if (!resp.ok) { const e=await resp.json().catch(()=>({error:{message:resp.statusText}})); textEl.classList.remove('streaming'); textEl.textContent=`Error: ${e.error?.message||resp.statusText}`; return; }
+    const reader=resp.body.getReader(); const decoder=new TextDecoder(); let buf='';
+    while(true) {
+      const {done,value}=await reader.read(); if(done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop();
+      for (const ln of lines) {
+        if (!ln.startsWith('data: ')) continue;
+        try { const ev=JSON.parse(ln.slice(6)); const t=ev.candidates?.[0]?.content?.parts?.[0]?.text; if(t) { textEl.textContent+=t; textEl.closest('.try-output-body').scrollTop=9999; } } catch {}
+      }
+    }
 
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += decoder.decode(value, { stream: true });
-    const lines = buf.split('\n');
-    buf = lines.pop();
-    for (const line of lines) {
-      if (!line.startsWith('data: ')) continue;
-      const data = line.slice(6);
-      if (data === '[DONE]') continue;
-      try {
-        const ev = JSON.parse(data);
-        if (ev.type === 'content_block_delta' && ev.delta?.text) {
-          textEl.textContent += ev.delta.text;
-          textEl.closest('.try-output-body').scrollTop = 9999;
-        }
-      } catch {}
+  // ── Cohere ───────────────────────────────────────────────────────────────
+  } else if (p.type === 'cohere') {
+    resp = await fetch(`${p.base}/chat`, {
+      method:'POST',
+      headers:{'Authorization':`Bearer ${apiKey}`,'content-type':'application/json','Accept':'text/event-stream'},
+      body:JSON.stringify({ model, messages:[{role:'user',content:prompt}], stream:true }),
+    });
+    if (!resp.ok) { textEl.classList.remove('streaming'); textEl.textContent=`Error: ${resp.statusText}`; return; }
+    const reader=resp.body.getReader(); const decoder=new TextDecoder(); let buf='';
+    while(true) {
+      const {done,value}=await reader.read(); if(done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop();
+      for (const ln of lines) {
+        if (!ln.startsWith('data: ')) continue;
+        try { const ev=JSON.parse(ln.slice(6)); if(ev.type==='content-delta') { textEl.textContent+=ev.delta?.message?.content?.text||''; textEl.closest('.try-output-body').scrollTop=9999; } } catch {}
+      }
+    }
+
+  // ── Ollama (local) ───────────────────────────────────────────────────────
+  } else if (p.type === 'ollama') {
+    resp = await fetch(`${p.base}/chat`, {
+      method:'POST', headers:{'content-type':'application/json'},
+      body:JSON.stringify({ model, messages:[{role:'user',content:prompt}], stream:true }),
+    });
+    if (!resp.ok) { textEl.classList.remove('streaming'); textEl.textContent=`Error: ${resp.statusText} — is Ollama running locally?`; return; }
+    const reader=resp.body.getReader(); const decoder=new TextDecoder(); let buf='';
+    while(true) {
+      const {done,value}=await reader.read(); if(done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop();
+      for (const ln of lines) {
+        if (!ln.trim()) continue;
+        try { const ev=JSON.parse(ln); if(ev.message?.content) { textEl.textContent+=ev.message.content; textEl.closest('.try-output-body').scrollTop=9999; } } catch {}
+      }
+    }
+
+  // ── OpenAI-compatible (OpenAI, Groq, Mistral, Grok, DeepSeek, Perplexity) ─
+  } else {
+    resp = await fetch(`${p.base}/chat/completions`, {
+      method:'POST',
+      headers:{'Authorization':`Bearer ${apiKey}`,'content-type':'application/json'},
+      body:JSON.stringify({ model, stream:true, max_tokens:1024, messages:[{role:'user',content:prompt}] }),
+    });
+    if (!resp.ok) { const e=await resp.json().catch(()=>({error:{message:resp.statusText}})); textEl.classList.remove('streaming'); textEl.textContent=`Error: ${e.error?.message||resp.statusText}`; return; }
+    const reader=resp.body.getReader(); const decoder=new TextDecoder(); let buf='';
+    while(true) {
+      const {done,value}=await reader.read(); if(done) break;
+      buf+=decoder.decode(value,{stream:true});
+      const lines=buf.split('\n'); buf=lines.pop();
+      for (const ln of lines) {
+        if (!ln.startsWith('data: ')) continue;
+        const data=ln.slice(6); if(data==='[DONE]') continue;
+        try { const ev=JSON.parse(data); const t=ev.choices?.[0]?.delta?.content; if(t) { textEl.textContent+=t; textEl.closest('.try-output-body').scrollTop=9999; } } catch {}
+      }
     }
   }
+
   textEl.classList.remove('streaming');
 }
 
 // ── Main demo runner ───────────────────────────────────────────────────────
 async function runDemo() {
-  const apiKey = getKey();
+  const p      = PROVIDERS[activeProvider];
+  const apiKey = p.noKey ? 'local' : getKey(activeProvider);
   if (!apiKey) { openKeyModal(); return; }
 
   const task = document.getElementById('taskInput').value.trim();
-  if (!task) {
-    document.getElementById('taskInput').focus();
-    return;
-  }
+  if (!task) { document.getElementById('taskInput').focus(); return; }
   const domain = document.getElementById('domainSelect').value;
 
   const btn = document.getElementById('runBtn');
   btn.disabled = true;
-  btn.innerHTML = '<div style="width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite"></div> Running…';
+  btn.innerHTML = '<div style="width:14px;height:14px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;flex-shrink:0"></div> Running…';
 
   clearOutput();
   outputBody = document.getElementById('outputBody');
 
   try {
-    // Step 1: fetch index
-    addStep('github', 'GitHub → Fetching knowledge index', 'Reading knowledge/index.json from faical-yannick-congo/fluently…');
-
+    addStep('github', 'GitHub → Fetching knowledge index', 'Reading knowledge/index.json…');
     const idxResp = await fetch(`${RAW}/knowledge/index.json`);
     if (!idxResp.ok) throw new Error(`Failed to fetch index: ${idxResp.statusText}`);
     const idx = await idxResp.json();
+    addStep('github', 'GitHub → Knowledge loaded', `${idx.total} cycles in ${Object.keys(idx.byDomain).length} domains: ${Object.keys(idx.byDomain).join(', ')}`);
 
-    addStep('github', 'GitHub → Knowledge base loaded', `Found ${idx.total} cycles across ${Object.keys(idx.byDomain).length} domains: ${Object.keys(idx.byDomain).join(', ')}`);
-
-    // Step 2: rank
     const taskSet = keywordSet(task);
     let entries = idx.entries;
     if (domain) entries = entries.filter(e => e.domain === domain);
-
     const ranked = entries
-      .map(e => ({
-        e,
-        sim: cosineSim(taskSet, keywordSet([e.title, e.domain, ...(e.tags||[])].join(' ')))
-      }))
-      .sort((a,b) => b.sim - a.sim)
-      .slice(0,3)
-      .map(r => r.e);
+      .map(e => ({ e, sim: cosineSim(taskSet, keywordSet([e.title, e.domain, ...(e.tags||[])].join(' '))) }))
+      .sort((a,b) => b.sim - a.sim).slice(0,3).map(r => r.e);
 
-    addStep('info', 'Ranking → Top matches', `Keyword-matched your task to ${ranked.length} candidate cycles:`);
+    addStep('info', 'Ranking → Top candidates', `${ranked.length} cycles matched your task:`);
     ranked.forEach((c,i) => addStep('info', `Candidate ${i+1}`, `[${c.id}] ${c.title} (${c.domain})`));
 
-    // Step 3: fetch YAMLs
-    addStep('github', 'GitHub → Fetching cycle details', `Reading full 4D YAML for each candidate…`);
-
+    addStep('github', 'GitHub → Fetching full YAML cycles', 'Loading 4D dimensions for each candidate…');
     const cycles = [];
     for (const c of ranked) {
-      const url = `${RAW}/knowledge/${c.domain}-${c.id}.yaml`;
-      const r = await fetch(url);
-      if (r.ok) {
-        const yamlText = await r.text();
-        const parsed = parseSimpleYaml(yamlText);
-        cycles.push(parsed);
-        addCycleCard(parsed, c.domain);
-      }
+      const r = await fetch(`${RAW}/knowledge/${c.domain}-${c.id}.yaml`);
+      if (r.ok) { const parsed = parseSimpleYaml(await r.text()); cycles.push(parsed); addCycleCard(parsed, c.domain); }
     }
 
-    // Step 4: Claude reasons
-    addStep('claude', 'Claude → Reasoning over cycles', '');
-    const reasonEl = addStep('claude', 'Claude → Analysis', '');
-    reasonEl.classList.add('streaming');
-    reasonEl.textContent = '';
+    const model = localStorage.getItem(`FLUENTLY_MODEL_${activeProvider.toUpperCase()}`) || p.models[0];
+    addStep('ai', `${p.emoji} ${p.name} (${model}) → Reasoning`, '');
+    const reasonEl = addStep('ai', `${p.emoji} ${p.name} → Analysis`, '');
 
     const cycleText = cycles.map(c => `
 ## ${c.title} (${c.domain})
-Delegation: ${c.dimensions?.delegation?.description || ''}
-  Example: ${c.dimensions?.delegation?.example || ''}
-  Antipattern: ${c.dimensions?.delegation?.antipattern || ''}
-Description: ${c.dimensions?.description?.description || ''}
-  Example: ${c.dimensions?.description?.example || ''}
-  Antipattern: ${c.dimensions?.description?.antipattern || ''}
-Discernment: ${c.dimensions?.discernment?.description || ''}
-  Example: ${c.dimensions?.discernment?.example || ''}
-  Antipattern: ${c.dimensions?.discernment?.antipattern || ''}
-Diligence: ${c.dimensions?.diligence?.description || ''}
-  Example: ${c.dimensions?.diligence?.example || ''}
-  Antipattern: ${c.dimensions?.diligence?.antipattern || ''}`).join('\n\n---\n');
+Delegation: ${c.dimensions?.delegation?.description||''} | Example: ${c.dimensions?.delegation?.example||''} | Antipattern: ${c.dimensions?.delegation?.antipattern||''}
+Description: ${c.dimensions?.description?.description||''} | Example: ${c.dimensions?.description?.example||''} | Antipattern: ${c.dimensions?.description?.antipattern||''}
+Discernment: ${c.dimensions?.discernment?.description||''} | Example: ${c.dimensions?.discernment?.example||''} | Antipattern: ${c.dimensions?.discernment?.antipattern||''}
+Diligence: ${c.dimensions?.diligence?.description||''} | Example: ${c.dimensions?.diligence?.example||''} | Antipattern: ${c.dimensions?.diligence?.antipattern||''}`).join('\n---\n');
 
-    const prompt = `You are a Fluently 4D Framework advisor. A user has described the following AI-assisted task:
+    const prompt = `You are a Fluently 4D Framework advisor. Task: "${task}"${domain?'\nDomain: '+domain:''}
 
-Task: "${task}"${domain ? `\nDomain: ${domain}` : ''}
-
-I've retrieved the following Fluently 4D cycles from the community knowledge base as candidate matches:
-
+Candidate cycles from the community knowledge base:
 ${cycleText}
 
-Please reason over these cycles and:
-1. Identify which cycle fits this task best and briefly explain why
-2. Highlight the most important delegation decision for this specific task
-3. Name the single biggest antipattern to avoid
-4. Give one concrete, actionable tip for discernment (how to evaluate the AI output)
+Reason over these and answer:
+1. Which cycle fits best and why?
+2. Most important delegation decision for this task?
+3. Biggest antipattern to avoid?
+4. One actionable discernment tip?
 
-Be concise and direct — 4–6 sentences total. No numeric scores.`;
+Be concise — 4–6 sentences. No numeric scores.`;
 
-    await streamClaude(apiKey, prompt, reasonEl);
+    await streamLLM(activeProvider, apiKey, prompt, reasonEl);
 
   } catch (err) {
     addStep('info', 'Error', err.message);
   } finally {
     btn.disabled = false;
-    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg> Run with GitHub MCP + Claude';
+    btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg> Run with GitHub MCP + ${p.name}`;
   }
 }
 </script>
