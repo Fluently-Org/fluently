@@ -24,9 +24,6 @@ const knowledgeDest = join(__dirname, 'knowledge');
 console.log('Copying knowledge base...');
 copyDir(knowledgeSrc, knowledgeDest);
 
-// Copy package.json so the bundle can read version at runtime
-copyFileSync(join(__dirname, 'package.json'), join(__dirname, 'dist', 'package.json'));
-
 const shared = {
   bundle: true,
   platform: 'node',
@@ -42,5 +39,8 @@ const shared = {
 await build({ ...shared, entryPoints: ['src/index.ts'], outfile: 'dist/index.js' });
 await build({ ...shared, entryPoints: ['src/bin.ts'],   outfile: 'dist/bin.js',
   banner: { js: '#!/usr/bin/env node' } });
+
+// Copy package.json after esbuild has created dist/
+copyFileSync(join(__dirname, 'package.json'), join(__dirname, 'dist', 'package.json'));
 
 console.log('Build complete!');
