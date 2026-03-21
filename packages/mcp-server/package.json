@@ -1,6 +1,6 @@
 {
   "name": "fluently-mcp-server",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "AI Fluency 4D Framework MCP server for scoring human-AI collaboration quality",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

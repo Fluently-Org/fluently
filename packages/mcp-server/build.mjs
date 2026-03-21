@@ -24,6 +24,9 @@ const knowledgeDest = join(__dirname, 'knowledge');
 console.log('Copying knowledge base...');
 copyDir(knowledgeSrc, knowledgeDest);
 
+// Copy package.json so the bundle can read version at runtime
+copyFileSync(join(__dirname, 'package.json'), join(__dirname, 'dist', 'package.json'));
+
 const shared = {
   bundle: true,
   platform: 'node',

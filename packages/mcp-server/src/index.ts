@@ -27,7 +27,9 @@ interface ToolResponse {
   }>;
 }
 
-const SERVER_VERSION = "0.1.0";
+const { version: SERVER_VERSION } = JSON.parse(
+  fs.readFileSync(path.join(__dirname, "../package.json"), "utf8")
+);
 const KNOWLEDGE_DIR = fs.existsSync(path.join(__dirname, "../knowledge"))
   ? path.join(__dirname, "../knowledge")
   : path.join(process.cwd(), "knowledge");
