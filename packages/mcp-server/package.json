@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
-    "4d-mcp-server": "dist/bin.js"
+    "fluently-mcp-server": "dist/bin.js"
   },
   "files": [
     "dist",

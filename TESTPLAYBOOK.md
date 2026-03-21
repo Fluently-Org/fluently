@@ -207,7 +207,7 @@ print(c['message'])
 ```json
 {
   "mcpServers": {
-    "fluently": { "command": "4d-mcp-server" }
+    "fluently": { "command": "fluently-mcp-server" }
   }
 }
 ```
@@ -217,7 +217,7 @@ With private knowledge:
 {
   "mcpServers": {
     "fluently": {
-      "command": "4d-mcp-server",
+      "command": "fluently-mcp-server",
       "env": {
         "FLUENTLY_CONNECTOR": "github-private",
         "FLUENTLY_GITHUB_REPO": "your-org/your-knowledge-repo",
@@ -235,7 +235,7 @@ In `.claude/settings.json` (project) or `~/.claude/settings.json` (global):
 ```json
 {
   "mcpServers": {
-    "fluently": { "command": "4d-mcp-server" }
+    "fluently": { "command": "fluently-mcp-server" }
   }
 }
 ```
