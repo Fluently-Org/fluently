@@ -16,7 +16,6 @@
   },
   "scripts": {
     "build": "tsc --noEmit && node build.mjs",
-    "prepare": "npm run build",
     "start": "node dist/bin.js",
     "test": "vitest"
   },
