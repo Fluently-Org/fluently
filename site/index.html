@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fluently — AI Fluency 4D Framework</title>
+  <title>Fluent·ly — AI Fluency 4D Framework</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital@1&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; font-size: 16px; }
@@ -21,9 +21,17 @@
       --fg:          #e6edf3;
       --fg-muted:    #8b949e;
       --fg-subtle:   #484f58;
-      --purple:      #a371f7;
-      --purple-dark: #6e40c9;
-      --blue:        #58a6ff;
+      /* Fluent·ly logo palette */
+      --orange:      #D4602A;
+      --orange-dark: #B8501E;
+      --orange-light:#E07848;
+      --indigo:      #6B6CB5;
+      --indigo-dark: #5558A0;
+      --logo-grad: linear-gradient(90deg, #D4602A 0%, #A85870 55%, #6B6CB5 100%);
+      /* alias for backward-compat within CSS */
+      --purple:      #D4602A;
+      --purple-dark: #B8501E;
+      --blue:        #6B6CB5;
       --green:       #3fb950;
       --amber:       #d29922;
       --red:         #f85149;
@@ -55,17 +63,10 @@
       gap: 24px;
     }
     .nav-logo {
-      display: flex; align-items: center; gap: 10px;
-      text-decoration: none;
-      font-weight: 700; font-size: 1.05rem; color: var(--fg);
-      flex-shrink: 0;
+      display: flex; align-items: center; gap: 0;
+      text-decoration: none; flex-shrink: 0;
     }
-    .nav-logo-mark {
-      width: 32px; height: 32px; border-radius: 8px;
-      background: linear-gradient(135deg, #a371f7, #58a6ff);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 900; font-size: 0.85rem; color: white;
-    }
+    .nav-logo-svg { height: 30px; width: auto; }
     .nav-links {
       display: flex; align-items: center; gap: 4px;
       list-style: none;
@@ -95,11 +96,11 @@
     }
     .btn-outline:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
     .btn-purple {
-      background: #a371f7;
+      background: #D4602A;
       color: #fff;
-      border: 1px solid rgba(163,113,247,0.4);
+      border: 1px solid rgba(212,96,42,0.4);
     }
-    .btn-purple:hover { background: #b387f8; box-shadow: 0 4px 20px rgba(163,113,247,0.35); }
+    .btn-purple:hover { background: #E07848; box-shadow: 0 4px 20px rgba(212,96,42,0.35); }
 
     /* ── Hero ── */
     .hero {
@@ -112,8 +113,8 @@
     .hero-bg {
       position: absolute; inset: 0; pointer-events: none;
       background:
-        radial-gradient(ellipse 80% 60% at 60% 30%, rgba(163,113,247,0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 10% 80%, rgba(88,166,255,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 80% 60% at 60% 30%, rgba(212,96,42,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 10% 80%, rgba(107,108,181,0.07) 0%, transparent 60%),
         radial-gradient(ellipse 40% 40% at 90% 70%, rgba(63,185,80,0.05) 0%, transparent 60%);
     }
     .hero-grid {
@@ -131,8 +132,8 @@
     }
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(163,113,247,0.12);
-      border: 1px solid rgba(163,113,247,0.3);
+      background: rgba(212,96,42,0.12);
+      border: 1px solid rgba(212,96,42,0.3);
       border-radius: 999px;
       padding: 5px 14px;
       font-size: 0.78rem; font-weight: 600;
@@ -150,7 +151,7 @@
     }
     .hero-title em {
       font-style: normal;
-      background: linear-gradient(135deg, #a371f7 0%, #58a6ff 50%, #3fb950 100%);
+      background: linear-gradient(135deg, #D4602A 0%, #6B6CB5 50%, #3fb950 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
     }
@@ -245,14 +246,14 @@
       padding: 32px 28px;
       transition: background 0.2s;
     }
-    .pillar:hover { background: rgba(163,113,247,0.04); }
+    .pillar:hover { background: rgba(212,96,42,0.04); }
     .pillar-icon {
       width: 44px; height: 44px; border-radius: 10px;
       display: flex; align-items: center; justify-content: center;
       font-size: 1.3rem; margin-bottom: 16px;
     }
-    .pi-delegation  { background: rgba(163,113,247,0.15); }
-    .pi-description { background: rgba(88,166,255,0.15); }
+    .pi-delegation  { background: rgba(212,96,42,0.15); }
+    .pi-description { background: rgba(107,108,181,0.15); }
     .pi-discernment { background: rgba(210,153,34,0.15); }
     .pi-diligence   { background: rgba(63,185,80,0.15); }
     .pillar-num {
@@ -317,7 +318,7 @@
       transition: border-color 0.2s, transform 0.2s;
     }
     .bento-card:hover {
-      border-color: rgba(163,113,247,0.4);
+      border-color: rgba(212,96,42,0.4);
       transform: translateY(-2px);
     }
     .bento-wide { grid-column: span 2; }
@@ -372,20 +373,20 @@
       outline: none; transition: border-color 0.15s, box-shadow 0.15s;
     }
     select:focus, input:focus, textarea:focus {
-      border-color: rgba(163,113,247,0.5);
-      box-shadow: 0 0 0 3px rgba(163,113,247,0.08);
+      border-color: rgba(212,96,42,0.5);
+      box-shadow: 0 0 0 3px rgba(212,96,42,0.08);
     }
     textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
     select option { background: var(--canvas-soft); }
     .try-run-btn {
       width: 100%; padding: 11px; border-radius: 8px;
       font-size: 0.9rem; font-weight: 600;
-      background: linear-gradient(135deg, #a371f7, #6e40c9);
+      background: linear-gradient(135deg, #D4602A, #B8501E);
       color: white; border: none; cursor: pointer;
       display: flex; align-items: center; justify-content: center; gap: 8px;
       transition: all 0.2s; font-family: inherit;
     }
-    .try-run-btn:hover { background: linear-gradient(135deg, #b387f8, #7c4de0); box-shadow: 0 6px 20px rgba(163,113,247,0.3); }
+    .try-run-btn:hover { background: linear-gradient(135deg, #E07848, #C05525); box-shadow: 0 6px 20px rgba(212,96,42,0.3); }
     .try-run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .try-main {}
     .try-output {
@@ -404,7 +405,7 @@
       border-radius: 999px; border: 1px solid;
     }
     .badge-github { color: var(--green); border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.08); }
-    .badge-claude { color: var(--purple); border-color: rgba(163,113,247,0.3); background: rgba(163,113,247,0.08); }
+    .badge-claude { color: var(--purple); border-color: rgba(212,96,42,0.3); background: rgba(212,96,42,0.08); }
     .try-output-body {
       padding: 20px; flex: 1; overflow-y: auto;
       font-size: 0.875rem; line-height: 1.7; color: var(--fg-muted);
@@ -420,8 +421,8 @@
       font-size: 0.75rem; flex-shrink: 0; margin-top: 2px;
     }
     .si-github { background: rgba(63,185,80,0.12); color: var(--green); border: 1px solid rgba(63,185,80,0.2); }
-    .si-claude { background: rgba(163,113,247,0.12); color: var(--purple); border: 1px solid rgba(163,113,247,0.2); }
-    .si-info   { background: rgba(88,166,255,0.12); color: var(--blue); border: 1px solid rgba(88,166,255,0.2); }
+    .si-claude { background: rgba(212,96,42,0.12); color: var(--purple); border: 1px solid rgba(212,96,42,0.2); }
+    .si-info   { background: rgba(107,108,181,0.12); color: var(--blue); border: 1px solid rgba(107,108,181,0.2); }
     .try-step-content { flex: 1; }
     .try-step-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-subtle); margin-bottom: 4px; }
     .try-step-text { color: var(--fg); white-space: pre-wrap; }
@@ -505,9 +506,9 @@
       text-transform: uppercase; padding: 4px 10px; border-radius: 999px;
       border: 1px solid;
     }
-    .ib-browser { color: var(--blue); border-color: rgba(88,166,255,0.3); background: rgba(88,166,255,0.07); }
+    .ib-browser { color: var(--blue); border-color: rgba(107,108,181,0.3); background: rgba(107,108,181,0.07); }
     .ib-npx    { color: var(--green); border-color: rgba(63,185,80,0.3); background: rgba(63,185,80,0.07); }
-    .ib-global { color: var(--purple); border-color: rgba(163,113,247,0.3); background: rgba(163,113,247,0.07); }
+    .ib-global { color: var(--purple); border-color: rgba(212,96,42,0.3); background: rgba(212,96,42,0.07); }
     .install-title { font-size: 1rem; font-weight: 700; color: var(--fg); }
     .install-desc { font-size: 0.85rem; color: var(--fg-muted); line-height: 1.6; }
     .code-block {
@@ -535,8 +536,8 @@
     }
     .mcp-tab:hover { background: rgba(255,255,255,0.05); color: var(--fg); }
     .mcp-tab.active {
-      background: rgba(163,113,247,0.12);
-      border-color: rgba(163,113,247,0.3);
+      background: rgba(212,96,42,0.12);
+      border-color: rgba(212,96,42,0.3);
       color: var(--purple);
     }
     .mcp-panel { display: none; }
@@ -565,8 +566,8 @@
     /* ── CTA band ── */
     .cta-band {
       position: relative; overflow: hidden;
-      background: linear-gradient(135deg, rgba(163,113,247,0.12) 0%, rgba(88,166,255,0.08) 50%, rgba(63,185,80,0.06) 100%);
-      border-top: 1px solid rgba(163,113,247,0.2);
+      background: linear-gradient(135deg, rgba(212,96,42,0.12) 0%, rgba(107,108,181,0.08) 50%, rgba(63,185,80,0.06) 100%);
+      border-top: 1px solid rgba(212,96,42,0.2);
       text-align: center; padding: 80px 24px;
     }
     .cta-band-title { font-size: clamp(1.8rem, 3vw, 2.8rem); font-weight: 800; letter-spacing: -0.025em; color: var(--fg); margin-bottom: 16px; }
@@ -624,8 +625,16 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="#" class="nav-logo">
-      <div class="nav-logo-mark">4D</div>
-      Fluently
+      <svg class="nav-logo-svg" viewBox="0 0 200 44" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="nav-g" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="#D4602A"/>
+            <stop offset="55%"  stop-color="#A85870"/>
+            <stop offset="100%" stop-color="#6B6CB5"/>
+          </linearGradient>
+        </defs>
+        <text x="4" y="34" font-family="Lora, Georgia, serif" font-style="italic" font-size="32" fill="url(#nav-g)" letter-spacing="-0.5">fluent·ly</text>
+      </svg>
     </a>
     <ul class="nav-links">
       <li><a href="#how-it-works">How it works</a></li>
@@ -655,6 +664,19 @@
       <div class="hero-eyebrow">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         AI Fluency 4D Framework
+      </div>
+      <!-- Hero logo -->
+      <div style="margin-bottom:20px;">
+        <svg viewBox="0 0 310 64" style="height:56px;width:auto;" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="hero-g" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%"   stop-color="#D4602A"/>
+              <stop offset="55%"  stop-color="#A85870"/>
+              <stop offset="100%" stop-color="#6B6CB5"/>
+            </linearGradient>
+          </defs>
+          <text x="4" y="50" font-family="Lora,Georgia,serif" font-style="italic" font-size="52" fill="url(#hero-g)" letter-spacing="-1">fluent·ly</text>
+        </svg>
       </div>
       <h1 class="hero-title">
         Work better with AI.<br>
@@ -828,9 +850,9 @@
           Six tools are exposed: discover, retrieve, deep-read, inspect dimensions, force-refresh, and contribute. No numeric scores — the agent reasons over ranked candidates contextually.
         </p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(163,113,247,0.08);border:1px solid rgba(163,113,247,0.25);color:var(--purple);">✓ Private knowledge</span>
-          <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(163,113,247,0.08);border:1px solid rgba(163,113,247,0.25);color:var(--purple);">✓ 5 connectors</span>
-          <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(163,113,247,0.08);border:1px solid rgba(163,113,247,0.25);color:var(--purple);">✓ Offline fallback</span>
+          <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(212,96,42,0.08);border:1px solid rgba(212,96,42,0.25);color:var(--purple);">✓ Private knowledge</span>
+          <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(212,96,42,0.08);border:1px solid rgba(212,96,42,0.25);color:var(--purple);">✓ 5 connectors</span>
+          <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(212,96,42,0.08);border:1px solid rgba(212,96,42,0.25);color:var(--purple);">✓ Offline fallback</span>
         </div>
       </div>
       <div class="river-visual">
@@ -877,13 +899,13 @@
         <div class="bento-body">The GitHub MCP connector fetches directly from <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">raw.githubusercontent.com</code> on every request. The custom MCP server adds a 1-hour TTL cache with bundled offline fallback. New cycles appear the moment a PR is merged — without restarting anything.</div>
       </div>
       <div class="bento-card">
-        <div class="bento-icon" style="background:rgba(163,113,247,0.12);">🤖</div>
+        <div class="bento-icon" style="background:rgba(212,96,42,0.12);">🤖</div>
         <div class="bento-label">Agent in the Loop</div>
         <div class="bento-title">No biased scoring</div>
         <div class="bento-body">Numeric scores encode assumptions about platform maturity and user skill. Instead, the server returns ranked keyword-similarity candidates and lets the agent reason contextually over fit — adapting to your specific context.</div>
       </div>
       <div class="bento-card">
-        <div class="bento-icon" style="background:rgba(88,166,255,0.12);">🏗️</div>
+        <div class="bento-icon" style="background:rgba(107,108,181,0.12);">🏗️</div>
         <div class="bento-label">Private Knowledge</div>
         <div class="bento-title">Your org's own patterns</div>
         <div class="bento-body">Fork the repo, add proprietary cycles, point the server at your private repo. Your team's hard-won AI collaboration patterns stay internal and compound over time.</div>
@@ -1161,7 +1183,7 @@
 <footer>
   <div class="footer-inner">
     <div>
-      <div class="footer-brand-name">Fluently</div>
+      <div class="footer-brand-name" style="font-family:'Lora',Georgia,serif;font-style:italic;background:linear-gradient(90deg,#D4602A,#A85870,#6B6CB5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.2rem;">fluent·ly</div>
       <div class="footer-brand-desc">An open-source CLI + MCP server + knowledge base that operationalizes the AI Fluency 4D Framework by Dakan & Feller / Anthropic.</div>
       <p style="margin-top:12px;font-size:0.78rem;color:var(--fg-subtle);">Licensed CC BY-NC-SA</p>
     </div>

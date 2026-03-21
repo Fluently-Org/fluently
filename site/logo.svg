@@ -1,0 +1,14 @@
+<svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#D4602A"/>
+      <stop offset="55%"  stop-color="#A85870"/>
+      <stop offset="100%" stop-color="#6B6CB5"/>
+    </linearGradient>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Lora:ital@1&amp;display=swap');
+      text { font-family: 'Lora', Georgia, 'Times New Roman', serif; font-style: italic; }
+    </style>
+  </defs>
+  <text x="12" y="88" font-size="72" fill="url(#g)" letter-spacing="-1">fluent·ly</text>
+</svg>
