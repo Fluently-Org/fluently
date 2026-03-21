@@ -16,6 +16,9 @@
     "start:mcp": "npm run -w fluently-mcp-server start"
   },
   "devDependencies": {
-    "vitest": "^1.0.0"
+    "vitest": "^4.1.0"
+  },
+  "dependencies": {
+    "fluently": "^0.0.3"
   }
 }
