@@ -1,11 +1,12 @@
 # 🎯 Fluently — The Open Standard for Human-AI Collaboration Quality
 
-[![npm version](https://img.shields.io/npm/v/fluently-cli?label=fluently-cli&style=flat-square&color=3B82F6)](https://www.npmjs.com/package/fluently-cli)
-[![CI Status](https://img.shields.io/github/actions/workflow/status/faical-yannick-congo/fluently/ci.yml?branch=main&style=flat-square&color=10B981)](https://github.com/faical-yannick-congo/fluently/actions)
+[![fluently-cli](https://img.shields.io/npm/v/fluently-cli?label=fluently-cli&style=flat-square&color=3B82F6)](https://www.npmjs.com/package/fluently-cli)
+[![fluently-mcp-server](https://img.shields.io/npm/v/fluently-mcp-server?label=fluently-mcp-server&style=flat-square&color=6B6CB5)](https://www.npmjs.com/package/fluently-mcp-server)
+[![CI](https://img.shields.io/github/actions/workflow/status/faical-yannick-congo/fluently/ci.yml?branch=main&label=CI&style=flat-square&color=10B981)](https://github.com/faical-yannick-congo/fluently/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0%20%2B%20MIT-blueviolet?style=flat-square)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/faical-yannick-congo/fluently?style=flat-square&color=FFB800)](https://github.com/faical-yannick-congo/fluently/stargazers)
 [![MCP Compatible](https://img.shields.io/badge/MCP-compatible-6B6CB5?style=flat-square)](https://modelcontextprotocol.io)
-[![Works with](https://img.shields.io/badge/works%20with-Claude%20%7C%20GPT%20%7C%20Gemini%20%7C%20Mistral%20%7C%20Copilot-D4602A?style=flat-square)](https://faical-yannick-congo.github.io/fluently/)
+[![Works with any AI agent](https://img.shields.io/badge/works%20with-Claude%20%7C%20GPT%20%7C%20Gemini%20%7C%20Mistral%20%7C%20Copilot-D4602A?style=flat-square)](https://faical-yannick-congo.github.io/fluently/)
 
 ---
 
@@ -68,7 +69,7 @@ Requires Node.js 20+. The CLI is self-contained — no configuration files neede
 
 **CLI** — Run `fluent` in your terminal to score 4D workflows, compare against community patterns, and contribute new Fluently 4D cycles.
 
-**MCP Server** — Embed 4D scoring into any AI agent or MCP-compatible client (Claude Desktop, Claude Code, VS Code Copilot, Cursor, Continue, and more). Expose tools like `find_relevant_cycles()`, `get_dimension_guidance()`, and `contribute_cycle()` to your agent.
+**MCP Server** — Embed 4D scoring into any AI agent or MCP-compatible client (VS Code Copilot, Cursor, Continue, Claude Desktop, Claude Code, and more). Expose tools like `find_relevant_cycles()`, `get_dimension_guidance()`, and `contribute_cycle()` to your agent.
 
 **Knowledge Base** — 50+ community-contributed Fluently 4D cycles organized by domain (coding, writing, research, management, product, etc.). Each cycle is scored on the 4D dimensions and peer-reviewed before merge.
 
@@ -78,7 +79,7 @@ Requires Node.js 20+. The CLI is self-contained — no configuration files neede
 
 This isn't just a framework—it's a **commons for AI fluency**. Every Fluently 4D cycle you contribute teaches thousands of teams how to collaborate smarter with AI.
 
-Built on the **AI Fluency 4D Framework** by Dakan & Feller / Anthropic, distributed under **CC BY-NC-SA 4.0**. Code (CLI, MCP, scorer) is MIT. Mix and match.
+Built on the **AI Fluency 4D Framework** by Dakan & Feller, distributed under **CC BY-NC-SA 4.0**. Code (CLI, MCP, scorer) is MIT. Mix and match.
 
 [Browse the Knowledge Base →](https://faical-yannick-congo.github.io/fluently/)
 

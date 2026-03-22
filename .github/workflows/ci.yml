@@ -1,6 +1,14 @@
 name: CI
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'packages/**'
+      - 'knowledge/**'
+      - '.github/workflows/ci.yml'
+      - 'package.json'
+      - 'tsconfig.base.json'
   pull_request:
     branches: [main]
     paths:

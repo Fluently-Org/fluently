@@ -128,7 +128,8 @@ echo '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{}}' \
   | python3 -c "import sys,json; print([t['name'] for t in json.load(sys.stdin)['result']['tools']])"
 
 # Expected: ['list_domains', 'find_relevant_cycles', 'get_cycle_detail',
-#            'get_dimension_guidance', 'refresh_knowledge', 'contribute_cycle']
+#            'get_collaboration_pattern', 'get_dimension_guidance',
+#            'refresh_knowledge', 'contribute_cycle']
 
 
 # 2. List domains and cycle counts

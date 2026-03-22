@@ -1,7 +1,7 @@
 {
   "name": "fluently-mcp-server",
   "version": "0.1.3",
-  "description": "AI Fluency 4D Framework MCP server for scoring human-AI collaboration quality",
+  "description": "MCP server for the Fluently 4D Framework. Exposes knowledge retrieval and contribution tools so any AI agent (GPT, Gemini, Claude, Mistral, Copilot\u2026) can find, reason over, and extend 4D collaboration cycles.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -14,6 +14,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": { "node": ">=20" },
   "scripts": {
     "build": "tsc --noEmit && node build.mjs",
     "start": "node dist/bin.js",
@@ -28,5 +29,32 @@
     "js-yaml": "^4.1.0",
     "typescript": "^5.3.0",
     "vitest": "^4.1.0"
-  }
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "ai-collaboration",
+    "4d-framework",
+    "llm",
+    "gpt",
+    "gemini",
+    "claude",
+    "mistral",
+    "copilot",
+    "delegation",
+    "discernment",
+    "knowledge-base",
+    "workflow"
+  ],
+  "homepage": "https://faical-yannick-congo.github.io/fluently/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/faical-yannick-congo/fluently"
+  },
+  "bugs": {
+    "url": "https://github.com/faical-yannick-congo/fluently/issues"
+  },
+  "license": "MIT",
+  "author": "Faical Yannick Palingwend\u00e9 Congo"
 }

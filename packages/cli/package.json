@@ -12,6 +12,7 @@
   "publishConfig": {
     "access": "public"
   },
+  "engines": { "node": ">=20" },
   "scripts": {
     "build": "tsc --noEmit && node build.mjs",
     "start": "node dist/index.js",
@@ -31,5 +32,35 @@
     "esbuild": "^0.20.0",
     "typescript": "^5.3.3",
     "vitest": "^4.1.0"
-  }
+  },
+  "description": "CLI for the Fluently 4D Framework \u2014 score, compare, and contribute human-AI collaboration cycles from your terminal. Works with any AI agent.",
+  "keywords": [
+    "ai",
+    "ai-collaboration",
+    "llm",
+    "prompt-engineering",
+    "4d-framework",
+    "delegation",
+    "description",
+    "discernment",
+    "diligence",
+    "mcp",
+    "gpt",
+    "gemini",
+    "mistral",
+    "copilot",
+    "workflow",
+    "productivity",
+    "knowledge-base"
+  ],
+  "homepage": "https://faical-yannick-congo.github.io/fluently/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/faical-yannick-congo/fluently"
+  },
+  "bugs": {
+    "url": "https://github.com/faical-yannick-congo/fluently/issues"
+  },
+  "license": "MIT",
+  "author": "Faical Yannick Palingwend\u00e9 Congo"
 }

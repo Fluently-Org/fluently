@@ -89,17 +89,74 @@ Steps:
 Install and run:
 ```bash
 npm install -g fluently-mcp-server
-4d-mcp-server
+fluently-mcp-server
 ```
 
-Configure in your MCP client:
+Configure in any MCP-compatible client (Claude Desktop, Claude Code, VS Code Copilot, Cursor, Continue, Cline…):
 ```json
 {
   "mcpServers": {
-    "fluently": { "command": "4d-mcp-server" }
+    "fluently": { "command": "fluently-mcp-server" }
   }
 }
 ```
 
 Default connector: `github-public` (fetches live from this repo, no auth needed).
 For private knowledge, see `packages/mcp-server/README.md`.
+
+## Collaboration block (optional, recommended)
+
+Each cycle can include a `collaboration` block describing how the 4Ds sequence as human↔AI conversation clusters. This is how a cycle captures its structural pattern — linear, iterative, cyclic, etc.
+
+```yaml
+collaboration:
+  pattern: linear_with_loops     # linear | linear_with_loops | cyclic | iterative | branching
+  description: "Human defines scope, AI drafts, human reviews and either approves or loops back"
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define scope and autonomy"
+      example_prompts:
+        - { speaker: human, text: "Review this PR for logic errors only, flag but don't fix style issues." }
+        - { speaker: ai,    text: "Understood. I'll focus on logic correctness and flag style separately." }
+      triggers_next: "Scope and constraints are clear to both parties"
+    - step: 2
+      d: description
+      label: "Provide full context"
+      triggers_next: "AI has enough context to begin"
+      loop_back: { to: delegation, condition: "Scope is unclear", reason: "Must clarify ownership before describing" }
+    - step: 3
+      d: discernment
+      label: "Evaluate AI output"
+      triggers_next: "Human accepts or rejects suggestions"
+    - step: 4
+      d: diligence
+      label: "Human approves and merges"
+      triggers_next: "PR is merged or escalated"
+      can_restart: true
+  transitions:
+    - { from: delegation, to: description, trigger: "Scope agreed" }
+    - { from: description, to: discernment, trigger: "Context provided" }
+    - { from: discernment, to: diligence, trigger: "Output accepted" }
+    - { from: discernment, to: description, trigger: "Output unclear — need more context", is_loop_back: true }
+    - { from: diligence, to: delegation, trigger: "Scope changed — restart needed", is_cycle_restart: true }
+```
+
+The `collaboration` block is validated by the schema. All `d` values must be one of `delegation | description | discernment | diligence`.
+
+## index.json fields
+
+The auto-generated `index.json` contains every field needed for search and rendering:
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | string | Kebab-case unique slug |
+| `title` | string | Human-readable name |
+| `domain` | string | One of the supported domains |
+| `tags` | string[] | Search/filter tags |
+| `contributor` | string | Author name |
+| `version` | string | Semver |
+| `summary` | string | One-sentence description |
+| `file` | string | Filename in knowledge/ |
+| `dimensions` | object | All 4 dimensions with description, example, antipattern |
+| `score_hints` | object | Relative weights per dimension (sum to 1.0) |

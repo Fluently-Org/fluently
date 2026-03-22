@@ -1,54 +1,115 @@
-import { knowledgeEntrySchema } from "./schema";
-const fs = require("fs");
-const path = require("path");
+/**
+ * engine.ts
+ *
+ * Core scoring engine for the Fluently 4D Framework.
+ *
+ * Responsibilities:
+ *   1. Load and validate knowledge YAML files from disk.
+ *   2. Score a user task against each entry using binary cosine similarity.
+ *   3. Score the quality of a cycle's collaboration block (sequence coverage,
+ *      trigger completeness, loop-back definitions, canonical D order).
+ *
+ * The scorer never calls an external API — it is pure local computation so it
+ * works offline and in CI without any credentials.
+ */
+
+import fs from "fs";
+import path from "path";
 import yaml from "js-yaml";
+import { knowledgeEntrySchema } from "./schema.js";
+
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 export type TaskInput = {
+  /** Plain-language description of the AI task */
   description: string;
+  /** How much autonomy is given to AI: "automated" | "augmented" | "supervised" */
   delegation_intent: string;
 };
 
-export function loadKnowledgeEntries(knowledgeDir: string) {
-  const files = fs.readdirSync(knowledgeDir).filter((f: string) => f.endsWith(".yaml"));
+/** Validated knowledge entry as produced by Zod parse */
+export type KnowledgeEntry = ReturnType<typeof knowledgeEntrySchema.parse>;
+
+// ── Knowledge loading ─────────────────────────────────────────────────────────
+
+/**
+ * Load and Zod-validate every `.yaml` file in `knowledgeDir`.
+ * Throws if any file fails schema validation — this is intentional so CI
+ * catches malformed entries before they reach users.
+ */
+export function loadKnowledgeEntries(knowledgeDir: string): KnowledgeEntry[] {
+  const files = fs
+    .readdirSync(knowledgeDir)
+    .filter((f: string) => f.endsWith(".yaml"));
+
   return files.map((file: string) => {
     const content = fs.readFileSync(path.join(knowledgeDir, file), "utf8");
-    const entry = yaml.load(content);
-    return knowledgeEntrySchema.parse(entry);
+    const raw = yaml.load(content);
+    return knowledgeEntrySchema.parse(raw);
   });
 }
 
-function keywordSet(text: string) {
-  return new Set(text.toLowerCase().split(/\W+/).filter(Boolean));
+// ── Keyword similarity ────────────────────────────────────────────────────────
+
+/**
+ * Convert text to a lowercase word-set, stripping punctuation.
+ * Short tokens (≤ 2 chars) are excluded — they carry almost no signal.
+ */
+function keywordSet(text: string): Set<string> {
+  return new Set(
+    text
+      .toLowerCase()
+      .split(/\W+/)
+      .filter((w) => w.length > 2)
+  );
 }
 
-function cosineSimilarity(setA: Set<string>, setB: Set<string>) {
-  const all = new Set([...setA, ...setB]);
+/**
+ * Binary cosine similarity between two keyword sets.
+ * Each word is treated as a 0/1 feature, so this reduces to
+ * |intersection| / (√|A| × √|B|) — equivalent to the Jaccard-like
+ * overlap normalised by set sizes rather than union size.
+ * Returns 0 when either set is empty.
+ */
+function cosineSimilarity(a: Set<string>, b: Set<string>): number {
+  const union = new Set([...a, ...b]);
   let dot = 0, magA = 0, magB = 0;
-  for (const word of all) {
-    const a = setA.has(word) ? 1 : 0;
-    const b = setB.has(word) ? 1 : 0;
-    dot += a * b;
-    magA += a * a;
-    magB += b * b;
+  for (const word of union) {
+    const av = a.has(word) ? 1 : 0;
+    const bv = b.has(word) ? 1 : 0;
+    dot  += av * bv;
+    magA += av;
+    magB += bv;
   }
   return magA && magB ? dot / (Math.sqrt(magA) * Math.sqrt(magB)) : 0;
 }
 
-// ── Collaboration sequence scoring ────────────────────────────────────────────
-// Scores the quality of a cycle's collaboration block — how well the sequence
-// of D-clusters covers all four dimensions, has clear triggers, and defines
-// loop-back conditions. Returns a 0–100 score and a short summary.
+// ── Collaboration scoring ─────────────────────────────────────────────────────
 
-export function scoreCollaboration(entry: ReturnType<typeof knowledgeEntrySchema.parse>): {
+/**
+ * Score the quality of a cycle's `collaboration` block on a 0–100 scale.
+ *
+ * Rubric (each criterion independently scored):
+ *   40 pts — All four Ds appear at least once in the sequence
+ *   20 pts — Every step has a non-empty `triggers_next` field
+ *   20 pts — Loop-back transitions are defined when the pattern requires them
+ *   20 pts — First appearance of each D follows the canonical Del→Des→Dis→Dil order
+ *
+ * Returns the numeric score, a human-readable `summary`, and an `insights`
+ * array that lists one bullet per criterion (✓ pass / ⚠ fail).
+ */
+export function scoreCollaboration(entry: KnowledgeEntry): {
   score: number;
   summary: string;
   insights: string[];
 } {
   const collab = entry.collaboration;
+
   if (!collab) {
     return {
       score: 0,
-      summary: "No collaboration sequence defined — add a collaboration block to capture the conversation flow.",
+      summary:
+        "No collaboration sequence defined — add a collaboration block to capture the conversation flow.",
       insights: ["Missing collaboration block"],
     };
   }
@@ -56,11 +117,11 @@ export function scoreCollaboration(entry: ReturnType<typeof knowledgeEntrySchema
   const insights: string[] = [];
   let score = 0;
 
-  // 1. All 4 Ds represented in the sequence? (40 pts)
-  const dsPresent = new Set(collab.sequence.map(s => s.d));
-  const allDs: Array<"delegation" | "description" | "discernment" | "diligence"> =
-    ["delegation", "description", "discernment", "diligence"];
-  const missingDs = allDs.filter(d => !dsPresent.has(d));
+  // ── 1. All 4 Ds represented? (40 pts) ─────────────────────────────────────
+  const dsPresent = new Set(collab.sequence.map((s) => s.d));
+  const ALL_DS = ["delegation", "description", "discernment", "diligence"] as const;
+  const missingDs = ALL_DS.filter((d) => !dsPresent.has(d));
+
   if (missingDs.length === 0) {
     score += 40;
     insights.push("✓ All 4 dimensions are represented in the sequence");
@@ -69,43 +130,57 @@ export function scoreCollaboration(entry: ReturnType<typeof knowledgeEntrySchema
     insights.push(`⚠ Missing D-clusters: ${missingDs.join(", ")}`);
   }
 
-  // 2. Triggers defined for each step? (20 pts)
-  const stepsWithTriggers = collab.sequence.filter(s => s.triggers_next?.trim());
-  const triggerScore = Math.round((stepsWithTriggers.length / collab.sequence.length) * 20);
+  // ── 2. Transition triggers defined for every step? (20 pts) ───────────────
+  const stepsWithTriggers = collab.sequence.filter((s) => s.triggers_next?.trim());
+  const triggerScore = Math.round(
+    (stepsWithTriggers.length / collab.sequence.length) * 20
+  );
   score += triggerScore;
   if (triggerScore === 20) {
     insights.push("✓ All steps have clear transition triggers");
   } else {
-    insights.push(`⚠ ${collab.sequence.length - stepsWithTriggers.length} step(s) missing transition triggers`);
+    insights.push(
+      `⚠ ${collab.sequence.length - stepsWithTriggers.length} step(s) missing transition triggers`
+    );
   }
 
-  // 3. Loop-back conditions defined (where pattern allows)? (20 pts)
-  const hasLoopBacks = collab.transitions.some(t => t.is_loop_back);
-  const patternNeedsLoops = ["linear_with_loops", "cyclic", "iterative", "branching"].includes(collab.pattern);
+  // ── 3. Loop-back conditions where pattern requires them? (20 pts) ──────────
+  const patternNeedsLoops = [
+    "linear_with_loops",
+    "cyclic",
+    "iterative",
+    "branching",
+  ].includes(collab.pattern);
+  const hasLoopBacks = collab.transitions.some((t) => t.is_loop_back);
+
   if (!patternNeedsLoops) {
-    score += 20; // linear pattern — no loops expected
+    score += 20; // linear — no loops expected
     insights.push("✓ Linear pattern — no loop-backs required");
   } else if (hasLoopBacks) {
     score += 20;
     insights.push("✓ Loop-back conditions are defined");
   } else {
-    insights.push(`⚠ Pattern is "${collab.pattern}" but no loop-back transitions are defined`);
+    insights.push(
+      `⚠ Pattern is "${collab.pattern}" but no loop-back transitions are defined`
+    );
   }
 
-  // 4. Sequence order follows recommended flow: Del → Des → Dis → Dil? (20 pts)
-  // The canonical first occurrence of each D should respect: Del before Des before Dis before Dil
-  const firstOccurrence: Record<string, number> = {};
-  collab.sequence.forEach(s => {
-    if (!(s.d in firstOccurrence)) firstOccurrence[s.d] = s.step;
+  // ── 4. Canonical D order: Del → Des → Dis → Dil? (20 pts) ─────────────────
+  // Checks that the *first occurrence* of each D respects the recommended order.
+  const firstStep: Record<string, number> = {};
+  collab.sequence.forEach((s) => {
+    if (!(s.d in firstStep)) firstStep[s.d] = s.step;
   });
-  const recommended = ["delegation", "description", "discernment", "diligence"];
+
   let orderCorrect = true;
-  for (let i = 0; i < recommended.length - 1; i++) {
-    const a = firstOccurrence[recommended[i]];
-    const b = firstOccurrence[recommended[i + 1]];
+  for (let i = 0; i < ALL_DS.length - 1; i++) {
+    const a = firstStep[ALL_DS[i]];
+    const b = firstStep[ALL_DS[i + 1]];
     if (a !== undefined && b !== undefined && a > b) {
       orderCorrect = false;
-      insights.push(`⚠ ${recommended[i]} (step ${a}) appears after ${recommended[i + 1]} (step ${b}) — check sequence order`);
+      insights.push(
+        `⚠ ${ALL_DS[i]} (step ${a}) appears after ${ALL_DS[i + 1]} (step ${b}) — check sequence order`
+      );
     }
   }
   if (orderCorrect) {
@@ -114,11 +189,11 @@ export function scoreCollaboration(entry: ReturnType<typeof knowledgeEntrySchema
   }
 
   const patternLabel: Record<string, string> = {
-    linear: "Linear (single pass)",
+    linear:            "Linear (single pass)",
     linear_with_loops: "Linear with loop-backs",
-    cyclic: "Cyclic (continuous)",
-    iterative: "Iterative (multiple passes)",
-    branching: "Branching (conditional paths)",
+    cyclic:            "Cyclic (continuous)",
+    iterative:         "Iterative (multiple passes)",
+    branching:         "Branching (conditional paths)",
   };
 
   return {
@@ -128,43 +203,78 @@ export function scoreCollaboration(entry: ReturnType<typeof knowledgeEntrySchema
   };
 }
 
+// ── Task scoring ──────────────────────────────────────────────────────────────
+
+/**
+ * Score a task against all entries in `knowledgeDir` and return the top 3.
+ *
+ * Each result contains:
+ *   - `entry` — the matched knowledge entry
+ *   - `dimensionScores` — 0–100 per dimension (similarity × weight × 400)
+ *   - `collaborationScore` / `collaborationSummary` / `collaborationInsights`
+ *   - `suggestions` — one actionable antipattern tip per dimension
+ *
+ * The dimension score formula deliberately keeps scores interpretable:
+ * a perfect similarity on a dimension weighted 0.25 yields a score of 100.
+ */
 export function scoreTask(input: TaskInput, knowledgeDir: string) {
   const entries = loadKnowledgeEntries(knowledgeDir);
-  const inputSet = keywordSet(input.description + " " + input.delegation_intent);
-  const scored = entries.map((entry: any) => {
-    const entrySet = keywordSet(
-      entry.title + " " + entry.domain + " " + Object.values(entry.dimensions).map((d: any) => d.description).join(" ")
+  const inputSet = keywordSet(`${input.description} ${input.delegation_intent}`);
+
+  const scored = entries.map((entry) => {
+    // Build entry text from title + domain + all dimension descriptions
+    const entryText = keywordSet(
+      [
+        entry.title,
+        entry.domain,
+        ...Object.values(entry.dimensions).map((d) => d.description),
+      ].join(" ")
     );
-    const similarity = cosineSimilarity(inputSet, entrySet);
+
+    const similarity = cosineSimilarity(inputSet, entryText);
+
+    // Each dimension score is weighted by score_hints so high-signal dimensions
+    // contribute more; capped at 100 to keep numbers readable.
     const dimensionScores = Object.fromEntries(
-      Object.entries(entry.dimensions).map(([dim, val]: [string, any]) => [
+      Object.entries(entry.dimensions).map(([dim, val]) => [
         dim,
-        Math.min(100, Math.round(similarity * (entry.score_hints[dim as keyof typeof entry.score_hints] ?? 0) * 400))
+        Math.min(
+          100,
+          Math.round(
+            similarity *
+              (entry.score_hints[dim as keyof typeof entry.score_hints] ?? 0) *
+              400
+          )
+        ),
       ])
     );
-    const collabResult = scoreCollaboration(entry);
+
+    const collab = scoreCollaboration(entry);
     return {
       entry,
       similarity,
       dimensionScores,
-      collaborationScore: collabResult.score,
-      collaborationSummary: collabResult.summary,
-      collaborationInsights: collabResult.insights,
+      collaborationScore:    collab.score,
+      collaborationSummary:  collab.summary,
+      collaborationInsights: collab.insights,
     };
   });
+
+  // Return the 3 closest matches
   scored.sort((a, b) => b.similarity - a.similarity);
-  const top3 = scored.slice(0, 3);
-  return top3.map(({ entry, dimensionScores, collaborationScore, collaborationSummary, collaborationInsights }) => ({
-    entry,
-    dimensionScores,
-    collaborationScore,
-    collaborationSummary,
-    collaborationInsights,
-    suggestions: Object.fromEntries(
-      Object.entries(entry.dimensions).map(([dim, val]: [string, any]) => [
-        dim,
-        `Improve ${dim}: ${val.antipattern}`
-      ])
-    )
-  }));
+  return scored.slice(0, 3).map(
+    ({ entry, dimensionScores, collaborationScore, collaborationSummary, collaborationInsights }) => ({
+      entry,
+      dimensionScores,
+      collaborationScore,
+      collaborationSummary,
+      collaborationInsights,
+      suggestions: Object.fromEntries(
+        Object.entries(entry.dimensions).map(([dim, val]) => [
+          dim,
+          `Improve ${dim}: ${val.antipattern}`,
+        ])
+      ),
+    })
+  );
 }

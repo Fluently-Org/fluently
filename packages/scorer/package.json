@@ -1,13 +1,14 @@
 {
   "name": "@fluently/scorer",
   "version": "0.1.0",
-  "description": "Scoring engine for AI Fluency 4D Framework",
+  "description": "Shared scoring engine for the Fluently 4D Framework. Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
     ".": "./dist/index.js",
     "./schema": "./dist/schema.js"
   },
+  "engines": { "node": ">=20" },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
@@ -22,5 +23,26 @@
     "@types/node": "^20.0.0",
     "typescript": "^5.3.0",
     "vitest": "^4.1.0"
-  }
+  },
+  "keywords": [
+    "ai",
+    "4d-framework",
+    "scoring",
+    "knowledge-base",
+    "zod",
+    "llm",
+    "delegation",
+    "discernment",
+    "workflow"
+  ],
+  "homepage": "https://faical-yannick-congo.github.io/fluently/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/faical-yannick-congo/fluently"
+  },
+  "bugs": {
+    "url": "https://github.com/faical-yannick-congo/fluently/issues"
+  },
+  "license": "MIT",
+  "author": "Faical Yannick Palingwend\u00e9 Congo"
 }
