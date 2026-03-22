@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Base — Fluently</title>
+    <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
+    <script src="config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -159,7 +161,7 @@
                     <a href="/knowledge.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Knowledge Base</a>
                     <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
-                    <a href="https://github.com/Fluently-Org/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
                         <i class="fab fa-github"></i> GitHub
                     </a>
                 </div>
@@ -176,7 +178,7 @@
                 <a href="/knowledge.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Knowledge Base</a>
                 <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
                 <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
-                <a href="https://github.com/Fluently-Org/fluently" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
+                <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
                     <i class="fab fa-github mr-1"></i> GitHub
                 </a>
             </div>
@@ -415,9 +417,9 @@
                 <div>
                     <h4 class="text-white font-bold mb-3">Community</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://github.com/Fluently-Org/fluently" target="_blank" class="hover:text-white transition">GitHub</a></li>
-                        <li><a href="https://github.com/Fluently-Org/fluently/issues" target="_blank" class="hover:text-white transition">Issues</a></li>
-                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="hover:text-white transition">GitHub</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/issues" data-fluently="issues" target="_blank" class="hover:text-white transition">Issues</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" data-fluently="discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
                     </ul>
                 </div>
                 <div>
@@ -450,9 +452,21 @@
 
     // ── 1. Constants & colour maps ─────────────────────────────────────────────
 
-    /** Index URL served from the public repo — no auth required. */
-    const INDEX_URL =
-        'https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json';
+    /**
+     * All repo-specific URLs are derived from window.FLUENTLY (set by config.js).
+     * Fork owners edit config.js only — these constants update automatically.
+     * String fallbacks keep the page functional if config.js fails to load.
+     */
+    const INDEX_URL = (window.FLUENTLY && window.FLUENTLY.indexJsonUrl)
+        || 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json';
+
+    /** Base URL for linking to YAML files on GitHub (blob view). */
+    const BLOB_BASE = (window.FLUENTLY && window.FLUENTLY.blobBase)
+        || 'https://github.com/Fluently-Org/fluently/blob/main';
+
+    /** Base URL for opening GitHub issues. */
+    const GITHUB_BASE = (window.FLUENTLY && window.FLUENTLY.githubBase)
+        || 'https://github.com/Fluently-Org/fluently';
 
     /**
      * Domain → CSS accent colours (border, badge bg, badge text).
@@ -615,7 +629,7 @@
                 <!-- ── Footer: contributor + YAML link ───────────────────── -->
                 <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-100 pt-2 mb-2">
                   <span><i class="fas fa-user mr-1"></i>${escapeHtml(entry.contributor || 'Community')}</span>
-                  <a href="https://github.com/Fluently-Org/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
+                  <a href="${BLOB_BASE}/knowledge/${escapeHtml(yamlFile)}"
                      target="_blank"
                      class="text-blue-500 hover:text-blue-700 font-medium transition">
                       View YAML →
@@ -942,7 +956,7 @@
                       ${(entry.tags || []).slice(0, 3).map(t =>
                           `<span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
                       ).join('')}
-                      <a href="https://github.com/Fluently-Org/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
+                      <a href="${BLOB_BASE}/knowledge/${escapeHtml(yamlFile)}"
                          target="_blank" class="text-xs text-blue-500 hover:underline ml-auto">View YAML →</a>
                   </div>
               </div>
@@ -1018,7 +1032,7 @@
             '*A maintainer will help convert this into a YAML entry and guide the PR process.*',
         ].join('\n');
 
-        const url = 'https://github.com/Fluently-Org/fluently/issues/new'
+        const url = GITHUB_BASE + '/issues/new'
             + '?title=' + encodeURIComponent(issueTitle)
             + '&body='  + encodeURIComponent(issueBody)
             + '&labels=contribution';

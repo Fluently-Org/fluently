@@ -32,8 +32,10 @@ liquid:
   error_mode: strict
 
 # URL settings
-url: "https://fluently-org.github.io/fluently"
-baseurl: "/fluently"
+# Fork owners: update url to match your GitHub Pages domain or custom domain.
+# If using a custom domain, set baseurl to "" (empty string).
+url: "https://fluently.ctrl6.com"
+baseurl: ""
 permalink: /:path/
 
 # Site metadata

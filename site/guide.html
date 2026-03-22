@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>How to Use Fluently - User Guide</title>
+    <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
+    <script src="config.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -26,7 +28,7 @@
                     <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
                     <a href="/guide.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
-                    <a href="https://github.com/Fluently-Org/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
                         <i class="fab fa-github"></i> GitHub
                     </a>
                 </div>
@@ -596,9 +598,9 @@
                 <div>
                     <h4 class="text-white font-bold mb-4">Community</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://github.com/Fluently-Org/fluently" target="_blank" class="hover:text-white">GitHub</a></li>
-                        <li><a href="https://github.com/Fluently-Org/fluently/issues" target="_blank" class="hover:text-white">Issues</a></li>
-                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" target="_blank" class="hover:text-white">Discussions</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="hover:text-white">GitHub</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/issues" data-fluently="issues" target="_blank" class="hover:text-white">Issues</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" data-fluently="discussions" target="_blank" class="hover:text-white">Discussions</a></li>
                     </ul>
                 </div>
                 <div>
