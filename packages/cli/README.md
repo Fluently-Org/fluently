@@ -1,0 +1,121 @@
+# fluently-cli
+
+**CLI for the [Fluently 4D Framework](https://faical-yannick-congo.github.io/fluently/) — score, compare, and contribute human-AI collaboration cycles from your terminal.**
+
+Works with any AI agent: Claude, GPT-4o, Gemini, Mistral, GitHub Copilot, and more.
+
+[![npm version](https://img.shields.io/npm/v/fluently-cli.svg)](https://www.npmjs.com/package/fluently-cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](../../LICENSE)
+[![Node ≥ 20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
+
+---
+
+## Install
+
+```bash
+npm install -g fluently-cli
+```
+
+Requires Node.js 20+.
+
+---
+
+## Commands
+
+| Command | What it does |
+|---------|-------------|
+| `fluent score <task>` | Find the 3 most similar 4D cycles to a task description |
+| `fluent compare --description <desc> --delegation <intent>` | Match a task + delegation intent to the closest cycle |
+| `fluent list [domain]` | Browse all cycles, optionally filtered by domain |
+| `fluent contribute` | Interactive wizard to build and validate a new cycle as YAML |
+| `fluent sync` | Pull the latest cycles from the upstream GitHub repo |
+
+---
+
+## Examples
+
+### Score — find similar cycles
+
+```bash
+fluent score "AI generates a first draft, human edits and publishes"
+```
+
+```
+#1  AI-Assisted Technical Writing  [writing]  ██████████  82%
+    delegation ████████░░  80%
+    description ██████████  95%
+    discernment ████████░░  80%
+    diligence ██████░░░░  60%
+    → knowledge/writing-ai-assisted-technical-writing.yaml
+```
+
+### Compare — match with delegation intent
+
+```bash
+fluent compare \
+  --description "AI reviews PRs for style issues, humans approve" \
+  --delegation "augmented"
+```
+
+Delegation intent narrows the result to how much autonomy you're giving the agent:
+- `automated` — AI decides without human review
+- `augmented` — human and AI collaborate
+- `supervised` — human decides, AI assists
+
+### List — browse by domain
+
+```bash
+fluent list              # all cycles
+fluent list coding       # coding domain only
+fluent list healthcare   # healthcare domain only
+```
+
+Available domains: `coding` · `writing` · `research` · `education` · `legal` · `healthcare` · `customer-support` · `general`
+
+### Contribute — add a new cycle
+
+```bash
+fluent contribute
+```
+
+The interactive wizard walks through each of the 4 dimensions, validates the result against the Zod schema, and writes a `.yaml` file ready to commit and PR to the community repo.
+
+### Sync — stay up to date
+
+```bash
+fluent sync
+```
+
+Pulls the latest cycles from upstream. For a global npm install, use `npm update -g fluently-cli` instead.
+
+---
+
+## The 4D Framework
+
+Every Fluently cycle covers four dimensions of human-AI collaboration:
+
+| Dimension | Question |
+|-----------|----------|
+| 🤝 **Delegation** | What is delegated to AI vs. kept by humans? |
+| 📝 **Description** | What context makes the AI most effective? |
+| 👁️ **Discernment** | How do you evaluate and trust the AI output? |
+| ✅ **Diligence** | What accountability steps follow AI involvement? |
+
+Browse the full community knowledge base at **[faical-yannick-congo.github.io/fluently/knowledge.html](https://faical-yannick-congo.github.io/fluently/knowledge.html)**.
+
+---
+
+## Links
+
+- **Knowledge Base** — [faical-yannick-congo.github.io/fluently/knowledge.html](https://faical-yannick-congo.github.io/fluently/knowledge.html)
+- **Contribute a cycle** — [faical-yannick-congo.github.io/fluently/contribute.html](https://faical-yannick-congo.github.io/fluently/contribute.html)
+- **GitHub repo** — [github.com/faical-yannick-congo/fluently](https://github.com/faical-yannick-congo/fluently)
+- **Issues / discussions** — [github.com/faical-yannick-congo/fluently/issues](https://github.com/faical-yannick-congo/fluently/issues)
+- **MCP server** — [npmjs.com/package/fluently-mcp-server](https://www.npmjs.com/package/fluently-mcp-server)
+- **Scorer library** — [npmjs.com/package/@fluently/scorer](https://www.npmjs.com/package/@fluently/scorer)
+
+---
+
+## License
+
+[MIT](../../LICENSE) — code and bundled knowledge cycles.
