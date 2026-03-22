@@ -3,12 +3,149 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Base - Fluently</title>
+    <title>Knowledge Base — Fluently</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /*
+         * Static styles that Tailwind CDN cannot generate from dynamic JS values.
+         * Card accent colours are applied via JS-set CSS custom properties so the
+         * Tailwind scanner never needs to see the dynamic class names.
+         */
+
+        /* ── Card accent ──────────────────────────────────────────────────── */
+        .card-accent {
+            border-left: 4px solid var(--accent, #6b7280);
+        }
+        .domain-badge {
+            background: var(--badge-bg, #f3f4f6);
+            color: var(--badge-text, #374151);
+        }
+
+        /* ── Equal-height card grid ───────────────────────────────────────── */
+        #entries-container {
+            display: grid;
+            gap: 1.25rem;           /* gap-5 */
+            grid-template-columns: 1fr;
+            align-items: stretch;
+        }
+        @media (min-width: 640px) {
+            #entries-container { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1280px) {
+            #entries-container { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* ── Knowledge card ───────────────────────────────────────────────── */
+        .k-card {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,.08);
+            transition: box-shadow 0.15s;
+        }
+        .k-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,.12); }
+
+        .k-card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 1.25rem;
+        }
+
+        /* Summary is capped at 3 lines for consistency */
+        .k-summary {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 0.875rem;
+            color: #4b5563;
+            line-height: 1.5;
+            min-height: 4rem;   /* always reserve ~3 lines */
+        }
+
+        /* Spacer pushes tags/footer to bottom of card */
+        .k-spacer { flex: 1; }
+
+        /* ── Collaboration flow (DEL → DES → DIS → DIL) ──────────────────── */
+        .flow-wrap {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            min-height: 1.75rem;   /* always reserve height even when empty */
+            margin-bottom: 0.5rem;
+        }
+        .flow-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+        .flow-pill.del { background: #dbeafe; color: #1d4ed8; }
+        .flow-pill.des { background: #dcfce7; color: #15803d; }
+        .flow-pill.dis { background: #f3e8ff; color: #7e22ce; }
+        .flow-pill.dil { background: #ffedd5; color: #c2410c; }
+
+        .flow-arrow {
+            color: #9ca3af;
+            font-size: 0.65rem;
+            line-height: 1;
+            padding: 0 1px;
+        }
+        .flow-loop {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #d97706;
+            background: #fef3c7;
+            border-radius: 4px;
+            padding: 2px 5px;
+            margin-left: 2px;
+        }
+        .flow-pattern-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #4338ca;
+            background: #eef2ff;
+            border: 1px solid #c7d2fe;
+            border-radius: 4px;
+            padding: 2px 6px;
+            white-space: nowrap;
+        }
+
+        /* ── 4D accordion ─────────────────────────────────────────────────── */
+        .accordion-icon {
+            transition: transform 0.2s;
+            font-size: 10px;
+            color: #9ca3af;
+        }
+        .accordion-icon.open { transform: rotate(90deg); color: #4b5563; }
+
+        /* ── Sidebar filter (desktop sticky) ─────────────────────────────── */
+        @media (min-width: 1024px) {
+            .filter-sidebar { position: sticky; top: 5rem; }
+        }
+    </style>
 </head>
 <body class="bg-gray-50">
-    <!-- Navigation -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NAVIGATION
+         Responsive: full links on md+, hamburger + slide-down panel on mobile.
+    ════════════════════════════════════════════════════════════════════════ -->
     <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
@@ -16,83 +153,93 @@
                     <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
                     <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
                 </div>
+                <!-- Desktop links -->
                 <div class="hidden md:flex space-x-8">
                     <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="/knowledge.html" class="text-blue-600 font-bold border-b-2 border-blue-600 font-medium">Knowledge Base</a>
+                    <a href="/knowledge.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Knowledge Base</a>
                     <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
                     <a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
                         <i class="fab fa-github"></i> GitHub
                     </a>
                 </div>
-                <!-- Hamburger (mobile) -->
-                <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Open menu">
-                    <i class="fas fa-bars text-xl"></i>
+                <!-- Hamburger (mobile only) -->
+                <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+                    <i id="menu-icon" class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white">
-            <div class="px-4 py-3 space-y-2">
-                <a href="/" class="block py-2 text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                <a href="/knowledge.html" class="block py-2 text-blue-600 font-bold">Knowledge Base</a>
-                <a href="/guide.html" class="block py-2 text-gray-700 hover:text-blue-600 font-medium">Guide</a>
-                <a href="/contribute.html" class="block py-2 text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
-                <a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="block py-2 text-gray-700 hover:text-blue-600 font-medium">
+        <!-- Mobile slide-down panel -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white shadow-md">
+            <div class="px-4 py-3 space-y-1">
+                <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
+                <a href="/knowledge.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Knowledge Base</a>
+                <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
+                <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
+                <a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
                     <i class="fab fa-github mr-1"></i> GitHub
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Header -->
-    <section class="bg-white border-b border-gray-200 py-12">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PAGE HEADER
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="bg-white border-b border-gray-200 py-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-4">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
                 <i class="fas fa-book mr-2 text-blue-600"></i>Knowledge Base
             </h1>
-            <p class="text-xl text-gray-600">
-                Community-contributed Fluently 4D cycles organized by domain and skill area
+            <p class="text-lg text-gray-600">
+                Community-contributed Fluently 4D cycles organized by domain and skill area.
             </p>
         </div>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 4D MATCH FINDER CHAT -->
-    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         4D MATCH FINDER
+         Lets users describe their task and find the closest existing cycle,
+         or open a pre-filled GitHub issue to contribute a new one.
+    ════════════════════════════════════════════════════════════════════════ -->
     <section id="match" class="bg-gradient-to-br from-blue-50 to-indigo-50 border-b border-blue-200 py-10">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-6">
                 <h2 class="text-2xl font-bold text-gray-900">
                     <i class="fas fa-search-plus text-blue-600 mr-2"></i>Find Your 4D Cycle Match
                 </h2>
-                <p class="text-gray-600 mt-1">Share your Delegation and Description — we'll find similar cycles or help you register a new one.</p>
+                <p class="text-gray-600 mt-1 text-sm sm:text-base">
+                    Share your Delegation and Description — we'll find similar cycles or help you register a new one.
+                </p>
             </div>
 
-            <!-- Chat Container -->
             <div class="bg-white rounded-2xl shadow-lg border border-blue-200 overflow-hidden">
 
-                <!-- Step 1: Input -->
-                <div id="match-step-1" class="p-6">
+                <!-- Step 1: Input ──────────────────────────────────────────── -->
+                <div id="match-step-1" class="p-5 sm:p-6">
                     <div class="flex items-center gap-2 mb-5">
-                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold">1</div>
+                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">1</div>
                         <span class="font-semibold text-gray-800">Describe your AI collaboration</span>
                     </div>
-                    <div class="grid md:grid-cols-2 gap-4 mb-5">
+                    <div class="grid sm:grid-cols-2 gap-4 mb-4">
                         <div>
                             <label class="block text-sm font-bold text-blue-700 mb-1">
-                                🤝 Delegation <span class="font-normal text-gray-500">— How are you using AI here?</span>
+                                🤝 Delegation <span class="font-normal text-gray-500">— How are you using AI?</span>
                             </label>
-                            <textarea id="match-delegation" rows="3" placeholder="e.g. AI suggests options, I make the final decision. AI is reviewing code for style issues, humans approve before merge." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"></textarea>
+                            <textarea id="match-delegation" rows="3"
+                                placeholder="e.g. AI suggests options, I make the final decision."
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none"></textarea>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-green-700 mb-1">
-                                📝 Description <span class="font-normal text-gray-500">— What is the task context?</span>
+                                📝 Description <span class="font-normal text-gray-500">— What is the task?</span>
                             </label>
-                            <textarea id="match-description" rows="3" placeholder="e.g. Triaging incoming bug reports by severity using AI, in a SaaS product with 50k users. Output is a ranked list." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"></textarea>
+                            <textarea id="match-description" rows="3"
+                                placeholder="e.g. Triaging incoming bug reports by severity using AI."
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-400 resize-none"></textarea>
                         </div>
                     </div>
-                    <div class="flex gap-3">
+                    <div class="flex gap-3 flex-wrap">
                         <button onclick="runMatch()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg text-sm transition">
                             <i class="fas fa-search mr-2"></i>Find Similar Cycles
                         </button>
@@ -101,65 +248,74 @@
                         </button>
                     </div>
                     <div id="match-loading" class="hidden mt-4 text-center text-sm text-gray-500">
-                        <i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i>Searching knowledge base...
+                        <i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i>Searching knowledge base…
                     </div>
                 </div>
 
-                <!-- Step 2: Results (hidden initially) -->
+                <!-- Step 2: Results ────────────────────────────────────────── -->
                 <div id="match-results" class="hidden border-t border-gray-100">
-                    <div class="p-6 bg-gray-50">
+                    <div class="p-5 sm:p-6 bg-gray-50">
                         <div class="flex items-center gap-2 mb-4">
-                            <div class="w-7 h-7 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold">2</div>
+                            <div class="w-7 h-7 bg-green-600 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">2</div>
                             <span class="font-semibold text-gray-800">Top Matching Cycles</span>
                             <span id="match-count-badge" class="ml-auto bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded-full"></span>
                         </div>
                         <div id="match-results-list" class="space-y-3"></div>
                     </div>
 
-                    <!-- Step 3: Register (shown when no strong match) -->
-                    <div id="match-register-section" class="hidden border-t border-orange-200 bg-orange-50 p-6">
+                    <!-- Step 3: Register (when no strong match) ───────────── -->
+                    <div id="match-register-section" class="hidden border-t border-orange-200 bg-orange-50 p-5 sm:p-6">
                         <div class="flex items-center gap-2 mb-4">
-                            <div class="w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold">3</div>
-                            <span class="font-semibold text-gray-800">No strong match found — register your cycle!</span>
+                            <div class="w-7 h-7 bg-orange-500 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0">3</div>
+                            <span class="font-semibold text-gray-800">No strong match — register your cycle!</span>
                         </div>
                         <p class="text-sm text-gray-600 mb-4">
-                            Your 4D cycle looks unique. Complete the last two dimensions and contribute it to the community knowledge base.
+                            Your 4D cycle looks unique. Complete the last two dimensions and contribute it to the community.
                         </p>
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="grid sm:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label class="block text-sm font-bold text-purple-700 mb-1">
-                                    👁️ Discernment <span class="font-normal text-gray-500">— How will you evaluate the AI output?</span>
+                                    👁️ Discernment <span class="font-normal text-gray-500">— How will you evaluate?</span>
                                 </label>
-                                <textarea id="match-discernment" rows="3" placeholder="e.g. Cross-check suggestions against historical data. Flag any output lacking citations." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none bg-white"></textarea>
+                                <textarea id="match-discernment" rows="3"
+                                    placeholder="e.g. Cross-check suggestions against historical data."
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none bg-white"></textarea>
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-orange-700 mb-1">
-                                    ✅ Diligence <span class="font-normal text-gray-500">— What accountability steps are needed?</span>
+                                    ✅ Diligence <span class="font-normal text-gray-500">— What accountability steps?</span>
                                 </label>
-                                <textarea id="match-diligence" rows="3" placeholder="e.g. Team lead reviews final list. Decision logged in JIRA. Escalate blockers to product owner." class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none bg-white"></textarea>
+                                <textarea id="match-diligence" rows="3"
+                                    placeholder="e.g. Team lead reviews final list. Log decisions in JIRA."
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400 resize-none bg-white"></textarea>
                             </div>
                         </div>
-                        <div class="grid md:grid-cols-2 gap-4 mb-4">
+                        <div class="grid sm:grid-cols-2 gap-4 mb-4">
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Title for your cycle</label>
-                                <input id="match-title" type="text" placeholder="e.g. AI-Assisted Bug Triage for SaaS Products" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white">
+                                <input id="match-title" type="text"
+                                    placeholder="e.g. AI-Assisted Bug Triage for SaaS Products"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white">
                             </div>
                             <div>
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Your name or GitHub handle</label>
-                                <input id="match-contributor" type="text" placeholder="e.g. @your-github-handle" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white">
+                                <input id="match-contributor" type="text"
+                                    placeholder="e.g. @your-github-handle"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400 bg-white">
                             </div>
                         </div>
                         <button onclick="registerCycle()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg text-sm transition">
                             <i class="fab fa-github mr-2"></i>Open as GitHub Issue (Pre-filled)
                         </button>
-                        <p class="text-xs text-gray-500 mt-2">Opens a pre-filled GitHub issue with your full 4D cycle — a maintainer will help you turn it into a proper YAML PR.</p>
+                        <p class="text-xs text-gray-500 mt-2">A maintainer will help turn this into a proper YAML PR.</p>
                     </div>
 
-                    <!-- Strong match CTA -->
+                    <!-- Strong match CTA ───────────────────────────────────── -->
                     <div id="match-strong-section" class="hidden border-t border-green-200 bg-green-50 p-4">
                         <p class="text-sm text-green-800">
                             <i class="fas fa-check-circle mr-1 text-green-600"></i>
-                            <strong>Great match found!</strong> The existing cycle above covers your use case. Use it as guidance or <a href="/contribute.html" class="text-green-700 underline font-medium">contribute an improved version</a>.
+                            <strong>Great match found!</strong> The cycle above covers your use case.
+                            Use it as guidance or <a href="/contribute.html" class="text-green-700 underline font-medium">contribute an improved version</a>.
                         </p>
                     </div>
                 </div>
@@ -167,686 +323,786 @@
         </div>
     </section>
 
-    <!-- Main Content -->
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MAIN CONTENT — sidebar filters + knowledge card grid
+    ════════════════════════════════════════════════════════════════════════ -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
 
-        <!-- Mobile filter toggle -->
+        <!-- Mobile: collapsible filter panel above the grid ──────────────── -->
         <div class="lg:hidden mb-4">
-            <button id="filter-toggle" class="flex items-center gap-2 bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 w-full justify-between">
+            <button id="filter-toggle" aria-expanded="false"
+                class="w-full flex items-center justify-between bg-white border border-gray-200 shadow-sm rounded-lg px-4 py-3 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition">
                 <span><i class="fas fa-filter mr-2 text-blue-600"></i>Filters</span>
-                <i id="filter-toggle-icon" class="fas fa-chevron-down text-gray-400"></i>
+                <i id="filter-toggle-icon" class="fas fa-chevron-down text-gray-400 transition-transform"></i>
             </button>
-            <div id="mobile-filters" class="hidden mt-2 bg-white rounded-lg shadow border border-gray-200 p-4">
+            <div id="mobile-filters" class="hidden mt-2 bg-white rounded-lg shadow-md border border-gray-200 p-4">
                 <div class="mb-4">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase mb-2">Domain</h3>
+                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Domain</h3>
                     <div id="domain-filter-mobile" class="space-y-2"></div>
                 </div>
                 <div class="mb-4">
-                    <h3 class="text-xs font-bold text-gray-500 uppercase mb-2">Tags</h3>
-                    <div id="tag-filter-mobile" class="space-y-1 max-h-48 overflow-y-auto"></div>
+                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Tags</h3>
+                    <div id="tag-filter-mobile" class="space-y-1 max-h-48 overflow-y-auto pr-1"></div>
                 </div>
-                <button id="clear-filters-mobile" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded-lg text-sm">
+                <button id="clear-filters-mobile"
+                    class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded-lg text-sm transition">
                     Clear Filters
                 </button>
             </div>
         </div>
 
         <div class="flex gap-8 items-start">
-            <!-- Filters Sidebar (desktop) -->
-            <aside class="hidden lg:block w-64 shrink-0">
-                <div class="bg-white rounded-lg shadow p-6 sticky top-20">
-                    <h2 class="text-lg font-bold text-gray-900 mb-4">
-                        <i class="fas fa-filter mr-2"></i>Filters
+
+            <!-- Desktop: sticky sidebar ────────────────────────────────────── -->
+            <aside class="hidden lg:block w-60 xl:w-64 shrink-0">
+                <div class="bg-white rounded-lg shadow p-5 filter-sidebar">
+                    <h2 class="text-base font-bold text-gray-900 mb-4">
+                        <i class="fas fa-filter mr-2 text-blue-600"></i>Filters
                     </h2>
 
-                    <!-- Domain Filter -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">Domain</h3>
+                    <div class="mb-5">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Domain</h3>
                         <div id="domain-filter" class="space-y-2">
-                            <label class="flex items-center">
-                                <input type="checkbox" class="domain-checkbox w-4 h-4" value="" checked>
-                                <span class="ml-2 text-sm text-gray-700">All Domains</span>
-                            </label>
+                            <!-- populated by buildDomainFilter() -->
                         </div>
                     </div>
 
-                    <!-- Tag Filter -->
-                    <div class="mb-6">
-                        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">Tags</h3>
-                        <div id="tag-filter" class="space-y-2 max-h-64 overflow-y-auto">
-                            <p class="text-xs text-gray-500">Loading...</p>
+                    <div class="mb-5">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide mb-2">Tags</h3>
+                        <div id="tag-filter" class="space-y-1.5 max-h-60 overflow-y-auto pr-1">
+                            <p class="text-xs text-gray-400">Loading…</p>
                         </div>
                     </div>
 
-                    <!-- Clear Filters -->
-                    <button id="clear-filters" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded-lg">
+                    <button id="clear-filters"
+                        class="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg text-sm transition">
                         Clear Filters
                     </button>
                 </div>
             </aside>
 
-            <!-- Knowledge Cards -->
+            <!-- Knowledge card grid ─────────────────────────────────────────── -->
             <div class="flex-1 min-w-0">
-                <div id="entries-container" class="grid gap-5 sm:grid-cols-2 xl:grid-cols-3" style="align-items:stretch">
-                    <div class="col-span-full py-12 text-center">
-                        <p class="text-gray-500">Loading knowledge base...</p>
-                        <i class="fas fa-spinner fa-spin text-blue-600 text-2xl mt-4"></i>
+                <div id="entries-container">
+                    <!-- Loading state -->
+                    <div class="col-span-full py-16 text-center">
+                        <i class="fas fa-spinner fa-spin text-blue-500 text-3xl mb-3"></i>
+                        <p class="text-gray-500 mt-3">Loading knowledge base…</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-12 mt-20">
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         FOOTER
+    ════════════════════════════════════════════════════════════════════════ -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-16">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8 mb-8">
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
                 <div>
-                    <h4 class="text-white font-bold mb-4">Fluently</h4>
+                    <h4 class="text-white font-bold mb-3">Fluently</h4>
                     <p class="text-sm">Operationalizing the AI Fluency 4D Framework</p>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-4">Links</h4>
+                    <h4 class="text-white font-bold mb-3">Links</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="/" class="hover:text-white">Home</a></li>
-                        <li><a href="/knowledge.html" class="hover:text-white">Knowledge</a></li>
-                        <li><a href="/contribute.html" class="hover:text-white">Contribute</a></li>
+                        <li><a href="/" class="hover:text-white transition">Home</a></li>
+                        <li><a href="/knowledge.html" class="hover:text-white transition">Knowledge</a></li>
+                        <li><a href="/contribute.html" class="hover:text-white transition">Contribute</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-4">Community</h4>
+                    <h4 class="text-white font-bold mb-3">Community</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="hover:text-white">GitHub</a></li>
-                        <li><a href="https://github.com/faical-yannick-congo/fluently/issues" target="_blank" class="hover:text-white">Issues</a></li>
-                        <li><a href="https://github.com/faical-yannick-congo/fluently/discussions" target="_blank" class="hover:text-white">Discussions</a></li>
+                        <li><a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="hover:text-white transition">GitHub</a></li>
+                        <li><a href="https://github.com/faical-yannick-congo/fluently/issues" target="_blank" class="hover:text-white transition">Issues</a></li>
+                        <li><a href="https://github.com/faical-yannick-congo/fluently/discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4 class="text-white font-bold mb-4">License</h4>
+                    <h4 class="text-white font-bold mb-3">License</h4>
                     <p class="text-sm">MIT</p>
                 </div>
             </div>
             <div class="border-t border-gray-700 pt-8 text-center text-sm">
-                <p>&copy; 2024 Fluently / Dakan & Feller. All rights reserved.</p>
+                <p>&copy; 2026 Fluently / Dakan &amp; Feller. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         JAVASCRIPT
+         Sections:
+           1. Constants & colour maps
+           2. Data loading
+           3. Card rendering
+           4. Collaboration flow badge
+           5. 4D accordion
+           6. Filtering (domain + tag)
+           7. Match finder
+           8. Contribution opener
+           9. Mobile UI (hamburger, filter toggle)
+          10. Initialization
+    ════════════════════════════════════════════════════════════════════════ -->
     <script>
-        /**
-         * knowledge.html — runtime logic
-         *
-         * All data comes from the pre-built knowledge/index.json served via
-         * raw.githubusercontent.com.  No YAML parsing in the browser — the index
-         * already contains every field needed for display and search.
-         *
-         * Sections:
-         *   1. Data loading  — single shared cache, fetched once per page load
-         *   2. Rendering     — knowledge cards with collaboration badge + dimension accordion
-         *   3. Filtering     — domain / tag sidebar filters
-         *   4. Match finder  — keyword cosine-similarity search against index entries
-         *   5. Contribution  — pre-filled GitHub issue opener
-         *   6. Init          — wires everything together on DOMContentLoaded
-         */
+    'use strict';
 
-        // ── 1. Data loading ────────────────────────────────────────────────────
+    // ── 1. Constants & colour maps ─────────────────────────────────────────────
 
-        /** Shared entry cache — loaded once, reused by both browser and match finder. */
-        let cachedEntries = null;
+    /** Index URL served from the public repo — no auth required. */
+    const INDEX_URL =
+        'https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/index.json';
 
-        /**
-         * Fetch knowledge/index.json from the public GitHub repo.
-         * Returns the entries array (never throws — returns [] on error).
-         */
-        async function loadEntries() {
-            if (cachedEntries) return cachedEntries;
-            try {
-                const res = await fetch(
-                    'https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/index.json'
-                );
-                if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                const data = await res.json();
-                cachedEntries = data.entries || [];
-            } catch (err) {
-                console.error('[fluently] Could not load index.json:', err);
-                cachedEntries = [];
-            }
-            return cachedEntries;
+    /**
+     * Domain → CSS accent colours (border, badge bg, badge text).
+     * Using inline CSS rather than dynamic Tailwind class names to guarantee
+     * correct rendering regardless of Tailwind CDN scan timing.
+     */
+    const DOMAIN_STYLES = {
+        coding:            { border: '#3b82f6', bg: '#dbeafe', text: '#1e40af' },
+        writing:           { border: '#22c55e', bg: '#dcfce7', text: '#166534' },
+        research:          { border: '#a855f7', bg: '#f3e8ff', text: '#6b21a8' },
+        'customer-support':{ border: '#eab308', bg: '#fef9c3', text: '#713f12' },
+        education:         { border: '#6366f1', bg: '#e0e7ff', text: '#3730a3' },
+        legal:             { border: '#ef4444', bg: '#fee2e2', text: '#991b1b' },
+        healthcare:        { border: '#ec4899', bg: '#fce7f3', text: '#9d174d' },
+        general:           { border: '#6b7280', bg: '#f3f4f6', text: '#374151' },
+    };
+
+    /** Default style for unknown domains. */
+    const DEFAULT_STYLE = { border: '#6b7280', bg: '#f3f4f6', text: '#374151' };
+
+    /**
+     * Collaboration pattern → human label + FontAwesome icon class.
+     * Extend here when new patterns are added to the YAML schema.
+     */
+    const PATTERN_META = {
+        linear:            { label: 'Linear',         icon: 'fa-arrow-right' },
+        linear_with_loops: { label: 'Linear + loops', icon: 'fa-redo-alt'   },
+        cyclic:            { label: 'Cyclic',          icon: 'fa-sync'       },
+        iterative:         { label: 'Iterative',       icon: 'fa-layer-group'},
+        branching:         { label: 'Branching',       icon: 'fa-code-branch'},
+    };
+
+    /**
+     * 4D dimension short-codes for the flow visualization.
+     * Ordered so that the canonical DEL → DES → DIS → DIL sequence is always
+     * rendered left-to-right.
+     */
+    const DIM_ORDER   = ['delegation', 'description', 'discernment', 'diligence'];
+    const DIM_SHORT   = { delegation: 'DEL', description: 'DES', discernment: 'DIS', diligence: 'DIL' };
+    const DIM_CSS     = { delegation: 'del', description: 'des', discernment: 'dis', diligence: 'dil' };
+    const DIM_ICONS   = { delegation: '🤝', description: '📝', discernment: '👁️', diligence: '✅' };
+
+
+    // ── 2. Data loading ────────────────────────────────────────────────────────
+
+    /** Shared cache — loaded once per page session. */
+    let _cachedEntries = null;
+
+    /**
+     * Fetch knowledge/index.json.
+     * Never throws — returns [] on any network or parse error so the page
+     * degrades gracefully without a broken UI.
+     *
+     * @returns {Promise<Array>} Validated entry objects.
+     */
+    async function loadEntries() {
+        if (_cachedEntries !== null) return _cachedEntries;
+        try {
+            const res = await fetch(INDEX_URL);
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const data = await res.json();
+            _cachedEntries = data.entries || [];
+        } catch (err) {
+            console.error('[fluently] Failed to load index.json:', err);
+            _cachedEntries = [];
         }
+        return _cachedEntries;
+    }
 
-        // ── 2. Rendering ───────────────────────────────────────────────────────
 
-        /** Map domain names to Tailwind colour prefixes for badges. */
-        const DOMAIN_COLORS = {
-            coding:            'blue',
-            writing:           'green',
-            research:          'purple',
-            'customer-support':'yellow',
-            education:         'indigo',
-            legal:             'red',
-            healthcare:        'pink',
-            general:           'gray',
-        };
+    // ── 3. Card rendering ──────────────────────────────────────────────────────
 
-        /** Map collaboration pattern keys to human-readable labels and icon classes. */
-        const PATTERN_LABELS = {
-            linear:             { label: 'Linear',           icon: 'fa-arrow-right' },
-            linear_with_loops:  { label: 'Linear + loops',   icon: 'fa-redo-alt' },
-            cyclic:             { label: 'Cyclic',            icon: 'fa-sync' },
-            iterative:          { label: 'Iterative',         icon: 'fa-layer-group' },
-            branching:          { label: 'Branching',         icon: 'fa-code-branch' },
-        };
+    /** Safely escape a value for HTML insertion. */
+    function escapeHtml(value) {
+        const el = document.createElement('span');
+        el.textContent = String(value ?? '');
+        return el.innerHTML;
+    }
 
-        /** Safely escape a string for insertion into HTML. */
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = String(text || '');
-            return div.innerHTML;
-        }
-
-        /**
-         * Build the HTML for a single dimension row inside the accordion.
-         * Shows description, example (green), and antipattern (red).
-         */
-        function renderDimensionRow(key, dim) {
-            const icons = { delegation: '🤝', description: '📝', discernment: '👁️', diligence: '✅' };
-            return `
-              <div class="border-t border-gray-100 pt-3 mt-3">
-                <div class="text-xs font-bold text-gray-500 uppercase mb-1">${icons[key] || ''} ${key}</div>
+    /**
+     * Render the expandable 4D guidance rows inside a card accordion.
+     *
+     * @param {string} key   - Dimension key (e.g. "delegation").
+     * @param {Object} dim   - Dimension object with description/example/antipattern.
+     * @returns {string} HTML string.
+     */
+    function renderDimensionRow(key, dim) {
+        return `
+            <div class="border-t border-gray-100 pt-3 mt-3">
+                <div class="text-xs font-bold text-gray-500 uppercase mb-1">${DIM_ICONS[key] || ''} ${key}</div>
                 <p class="text-xs text-gray-700 mb-1">${escapeHtml(dim.description)}</p>
                 <p class="text-xs text-green-700"><span class="font-semibold">✓ </span>${escapeHtml(dim.example)}</p>
                 <p class="text-xs text-red-600 mt-0.5"><span class="font-semibold">✗ </span>${escapeHtml(dim.antipattern)}</p>
-              </div>`;
-        }
-
-        /**
-         * Render a collaboration flow visualization showing D-cluster sequence with arrows.
-         * Falls back to a simple pill badge when no cluster count is available.
-         */
-        function renderPatternBadge(entry) {
-            const collab   = entry.collaboration || {};
-            const pattern  = collab.pattern || entry.collaboration_pattern;
-            if (!pattern) return '';
-
-            const { label, icon } = PATTERN_LABELS[pattern] || {
-                label: pattern.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-                icon: 'fa-project-diagram'
-            };
-            const clusters = Math.min(collab.d_clusters || 4, 4);
-            const loops    = collab.conditional_loops ?? collab.loops ?? 0;
-
-            const dimKeys   = ['D1', 'D2', 'D3', 'D4'].slice(0, clusters);
-            const flowParts = dimKeys.map((d, i) => {
-                const isLast = i === dimKeys.length - 1;
-                return `<span class="inline-flex items-center gap-0.5">
-                    <span class="bg-indigo-100 text-indigo-700 text-xs font-bold px-1.5 py-0.5 rounded">${d}</span>
-                    ${!isLast ? '<i class="fas fa-arrow-right text-gray-400" style="font-size:8px"></i>' : ''}
-                </span>`;
-            }).join('');
-
-            const loopBadge = loops > 0
-                ? `<span class="inline-flex items-center gap-0.5 text-orange-600 text-xs font-semibold ml-1"
-                          title="${loops} conditional loop-back${loops > 1 ? 's' : ''}">
-                      <i class="fas fa-redo-alt" style="font-size:9px"></i>${loops}
-                   </span>`
-                : '';
-
-            return `<div class="flex items-center flex-wrap gap-2 mb-2">
-                <span class="inline-flex items-center gap-1 bg-indigo-50 text-indigo-700 text-xs font-bold px-2 py-0.5 rounded border border-indigo-200 shrink-0">
-                    <i class="fas ${icon} text-indigo-500" style="font-size:10px"></i>${label}
-                </span>
-                <span class="inline-flex items-center gap-0.5 flex-wrap">${flowParts}${loopBadge}</span>
             </div>`;
-        }
+    }
 
-        /**
-         * Render the full grid of knowledge cards.
-         * Each card has: title, domain badge, pattern badge, summary, tags,
-         * contributor, "View YAML" link, and a collapsible 4D details accordion.
-         */
-        function renderEntries(entries) {
-            const container = document.getElementById('entries-container');
-            if (entries.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full py-12 text-center">
-                        <p class="text-gray-500">No entries match the selected filters.</p>
-                    </div>`;
-                return;
-            }
+    /**
+     * Render the full grid of knowledge cards into #entries-container.
+     * Each card uses flex-col layout so all cards in a grid row align to the
+     * same height — the .k-spacer div between summary and tags is what grows.
+     *
+     * @param {Array} entries - Array of knowledge entry objects.
+     */
+    function renderEntries(entries) {
+        const container = document.getElementById('entries-container');
 
-            container.innerHTML = entries.map((entry, i) => {
-                const color      = DOMAIN_COLORS[entry.domain] || 'gray';
-                const dims       = entry.dimensions || {};
-                const accordionId = `dims-${entry.id || i}`;
-                const yamlFile   = entry.file || `${entry.domain}-${entry.id}.yaml`;
-
-                const dimRows = ['delegation', 'description', 'discernment', 'diligence']
-                    .map(k => dims[k] ? renderDimensionRow(k, dims[k]) : '')
-                    .join('');
-
-                return `
-                <div class="bg-white rounded-lg shadow hover:shadow-md transition border-l-4 border-${color}-500 flex flex-col">
-                  <div class="p-5 flex flex-col flex-1">
-
-                    <!-- Header -->
-                    <div class="flex justify-between items-start mb-2 gap-2">
-                      <h3 class="text-base font-bold text-gray-900 leading-tight flex-1">
-                          ${escapeHtml(entry.title || entry.id || 'Untitled')}
-                      </h3>
-                      <span class="shrink-0 bg-${color}-100 text-${color}-800 text-xs font-bold px-2 py-0.5 rounded capitalize">
-                          ${escapeHtml(entry.domain || 'general')}
-                      </span>
-                    </div>
-
-                    <!-- Collaboration pattern flow -->
-                    ${renderPatternBadge(entry)}
-
-                    <!-- Summary — grows to fill available space -->
-                    <p class="text-sm text-gray-600 mb-3 flex-1">
-                        ${escapeHtml((entry.summary || '').substring(0, 200))}${(entry.summary || '').length > 200 ? '…' : ''}
-                    </p>
-
-                    <!-- Tags -->
-                    <div class="flex gap-1.5 flex-wrap mb-3">
-                        ${(entry.tags || []).slice(0, 4).map(t =>
-                            `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
-                        ).join('')}
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
-                      <span><i class="fas fa-user mr-1"></i>${escapeHtml(entry.contributor || 'Community')}</span>
-                      <a href="https://github.com/faical-yannick-congo/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
-                         target="_blank" class="text-blue-600 hover:text-blue-700 font-medium">
-                          View YAML →
-                      </a>
-                    </div>
-
-                    <!-- Collapsible 4D details -->
-                    <button onclick="toggleDims('${accordionId}')"
-                            class="w-full text-left text-xs font-semibold text-gray-400 hover:text-gray-700 flex items-center gap-1 pt-2 border-t border-gray-100">
-                        <i id="${accordionId}-icon" class="fas fa-chevron-right" style="font-size:10px;transition:transform 0.2s"></i>
-                        4D Guidance
-                    </button>
-                    <div id="${accordionId}" class="hidden mt-1">${dimRows}</div>
-                  </div>
+        if (entries.length === 0) {
+            container.innerHTML = `
+                <div style="grid-column:1/-1" class="py-16 text-center">
+                    <i class="fas fa-search text-gray-300 text-4xl mb-4"></i>
+                    <p class="text-gray-500">No entries match the selected filters.</p>
                 </div>`;
-            }).join('');
+            return;
         }
 
-        /** Toggle the 4D dimension accordion panel. */
-        function toggleDims(id) {
-            const panel = document.getElementById(id);
-            const icon  = document.getElementById(id + '-icon');
-            const open  = panel.classList.toggle('hidden');
-            icon.style.transform = open ? '' : 'rotate(90deg)';
+        container.innerHTML = entries.map((entry, i) => {
+            const style       = DOMAIN_STYLES[entry.domain] || DEFAULT_STYLE;
+            const dims        = entry.dimensions || {};
+            const accordionId = `dims-${entry.id || i}`;
+            const yamlFile    = entry.file || `${entry.domain}-${entry.id}.yaml`;
+            const summary     = (entry.summary || '').substring(0, 200);
+
+            const dimRows = DIM_ORDER
+                .filter(k => dims[k])
+                .map(k => renderDimensionRow(k, dims[k]))
+                .join('');
+
+            return `
+            <div class="k-card card-accent"
+                 style="--accent:${style.border}">
+              <div class="k-card-body">
+
+                <!-- ── Header: title + domain badge ──────────────────────── -->
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <h3 class="text-sm font-bold text-gray-900 leading-snug flex-1">
+                      ${escapeHtml(entry.title || entry.id || 'Untitled')}
+                  </h3>
+                  <span class="shrink-0 domain-badge text-xs font-bold px-2 py-0.5 rounded capitalize"
+                        style="background:${style.bg};color:${style.text}">
+                      ${escapeHtml(entry.domain || 'general')}
+                  </span>
+                </div>
+
+                <!-- ── Collaboration flow badge ───────────────────────────── -->
+                ${renderCollaborationFlow(entry)}
+
+                <!-- ── Summary (line-clamped to 3 lines for consistency) ─── -->
+                <p class="k-summary mb-2">${escapeHtml(summary)}${entry.summary && entry.summary.length > 200 ? '…' : ''}</p>
+
+                <!-- ── Spacer — pushes tags/footer to card bottom ─────────── -->
+                <div class="k-spacer"></div>
+
+                <!-- ── Tags ──────────────────────────────────────────────── -->
+                <div class="flex gap-1 flex-wrap mb-3 min-h-[1.25rem]">
+                    ${(entry.tags || []).slice(0, 4).map(t =>
+                        `<span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
+                    ).join('')}
+                </div>
+
+                <!-- ── Footer: contributor + YAML link ───────────────────── -->
+                <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-100 pt-2 mb-2">
+                  <span><i class="fas fa-user mr-1"></i>${escapeHtml(entry.contributor || 'Community')}</span>
+                  <a href="https://github.com/faical-yannick-congo/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
+                     target="_blank"
+                     class="text-blue-500 hover:text-blue-700 font-medium transition">
+                      View YAML →
+                  </a>
+                </div>
+
+                <!-- ── 4D accordion toggle ───────────────────────────────── -->
+                <button onclick="toggleAccordion('${accordionId}')"
+                        class="w-full text-left text-xs font-semibold text-gray-400 hover:text-gray-600 flex items-center gap-1.5 transition">
+                    <i id="${accordionId}-icon" class="fas fa-chevron-right accordion-icon"></i>
+                    4D Guidance
+                </button>
+                <div id="${accordionId}" class="hidden">${dimRows}</div>
+
+              </div>
+            </div>`;
+        }).join('');
+    }
+
+
+    // ── 4. Collaboration flow badge ────────────────────────────────────────────
+
+    /**
+     * Build the DEL → DES → DIS → DIL flow visualization for a card.
+     *
+     * The flow shows:
+     *   • A pattern-type label pill (e.g. "Linear + loops")
+     *   • Coloured dimension pills connected by → arrows
+     *   • An orange loop-back badge when conditional_loops > 0
+     *
+     * Always renders a fixed-height container (.flow-wrap) so all cards
+     * reserve the same vertical space regardless of whether they have a
+     * collaboration block.
+     *
+     * @param {Object} entry - Knowledge entry object.
+     * @returns {string} HTML string.
+     */
+    function renderCollaborationFlow(entry) {
+        const collab  = entry.collaboration || {};
+        const pattern = collab.pattern || entry.collaboration_pattern;
+
+        // Always render the wrapper to preserve consistent card height
+        if (!pattern) {
+            return `<div class="flow-wrap"></div>`;
         }
 
-        // ── 3. Filtering ───────────────────────────────────────────────────────
+        const meta    = PATTERN_META[pattern] || {
+            label: pattern.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            icon:  'fa-project-diagram',
+        };
+        const clusters = Math.min(collab.d_clusters || 4, 4);
+        const loops    = collab.conditional_loops ?? collab.loops ?? 0;
 
-        let allEntries        = [];
-        let activeDomainFilter = null;
-        let activeTagFilters   = new Set();
+        // Build the dimension pills using the canonical 4D order, sliced to cluster count
+        const pillsHtml = DIM_ORDER.slice(0, clusters).map((dim, idx) => {
+            const isLast = idx === clusters - 1;
+            return `<span class="flow-pill ${DIM_CSS[dim]}" title="${dim}">${DIM_SHORT[dim]}</span>`
+                + (isLast ? '' : `<span class="flow-arrow">→</span>`);
+        }).join('');
 
-        function filterEntries() {
-            let filtered = allEntries;
-            if (activeDomainFilter)
-                filtered = filtered.filter(e => e.domain === activeDomainFilter);
-            if (activeTagFilters.size > 0)
-                filtered = filtered.filter(e => (e.tags || []).some(t => activeTagFilters.has(t)));
-            renderEntries(filtered);
-        }
+        const loopHtml = loops > 0
+            ? `<span class="flow-loop" title="${loops} conditional loop-back${loops !== 1 ? 's' : ''}">
+                   <i class="fas fa-redo-alt" style="font-size:9px"></i>${loops}
+               </span>`
+            : '';
 
-        /** Build the sidebar domain filter from the loaded entry set. */
-        function buildDomainFilter(entries) {
-            const counts = {};
-            entries.forEach(e => { counts[e.domain] = (counts[e.domain] || 0) + 1; });
-            const domains = Object.keys(counts).sort();
+        return `
+        <div class="flow-wrap">
+            <span class="flow-pattern-label">
+                <i class="fas ${meta.icon}" style="font-size:9px"></i>${meta.label}
+            </span>
+            ${pillsHtml}
+            ${loopHtml}
+        </div>`;
+    }
 
-            document.getElementById('domain-filter').innerHTML = `
-                <label class="flex items-center justify-between cursor-pointer">
-                    <span class="flex items-center">
-                        <input type="checkbox" class="domain-checkbox w-4 h-4" value="" checked>
-                        <span class="ml-2 text-sm text-gray-700">All Domains</span>
-                    </span>
-                    <span class="text-xs text-gray-400">${entries.length}</span>
-                </label>
-                ${domains.map(d => `
-                <label class="flex items-center justify-between cursor-pointer">
-                    <span class="flex items-center">
-                        <input type="checkbox" class="domain-checkbox w-4 h-4" value="${d}">
-                        <span class="ml-2 text-sm text-gray-700 capitalize">${d}</span>
-                    </span>
-                    <span class="text-xs text-gray-400">${counts[d]}</span>
-                </label>`).join('')}`;
 
-            document.querySelectorAll('.domain-checkbox').forEach(cb => {
-                cb.addEventListener('change', e => {
-                    activeDomainFilter = e.target.value || null;
-                    document.querySelectorAll('.domain-checkbox').forEach(c => {
-                        c.checked = c.value === (activeDomainFilter || '');
-                    });
-                    filterEntries();
+    // ── 5. 4D accordion ────────────────────────────────────────────────────────
+
+    /**
+     * Toggle the 4D guidance accordion panel inside a card.
+     * @param {string} id - The accordion element's ID.
+     */
+    function toggleAccordion(id) {
+        const panel = document.getElementById(id);
+        const icon  = document.getElementById(id + '-icon');
+        const isHidden = panel.classList.toggle('hidden');
+        if (icon) icon.classList.toggle('open', !isHidden);
+    }
+
+
+    // ── 6. Filtering ───────────────────────────────────────────────────────────
+
+    let allEntries         = [];
+    let activeDomainFilter = null;
+    let activeTagFilters   = new Set();
+
+    /**
+     * Apply current active filters and re-render the card grid.
+     * Called whenever the user changes a filter checkbox.
+     */
+    function applyFilters() {
+        let filtered = allEntries;
+        if (activeDomainFilter)
+            filtered = filtered.filter(e => e.domain === activeDomainFilter);
+        if (activeTagFilters.size > 0)
+            filtered = filtered.filter(e => (e.tags || []).some(t => activeTagFilters.has(t)));
+        renderEntries(filtered);
+    }
+
+    /**
+     * Clear all active filters and re-render.
+     * Syncs both desktop and mobile filter checkboxes.
+     */
+    function clearAllFilters() {
+        activeDomainFilter = null;
+        activeTagFilters.clear();
+        document.querySelectorAll('.domain-cb').forEach(c => { c.checked = c.value === ''; });
+        document.querySelectorAll('.tag-cb').forEach(c => { c.checked = false; });
+        applyFilters();
+    }
+
+    /**
+     * Build domain checkboxes in a target container element.
+     *
+     * @param {HTMLElement} container - The DOM node to populate.
+     * @param {Array}       entries   - All loaded entries.
+     * @param {string}      cbClass   - CSS class to add to each checkbox (for scoped querySelectorAll).
+     */
+    function buildDomainCheckboxes(container, entries, cbClass) {
+        const counts = {};
+        entries.forEach(e => { counts[e.domain] = (counts[e.domain] || 0) + 1; });
+        const domains = Object.keys(counts).sort();
+
+        container.innerHTML = [
+            { value: '', label: 'All Domains', count: entries.length },
+            ...domains.map(d => ({ value: d, label: d, count: counts[d] })),
+        ].map(({ value, label, count }) => `
+            <label class="flex items-center justify-between cursor-pointer group">
+                <span class="flex items-center">
+                    <input type="checkbox" class="${cbClass} domain-cb w-4 h-4 accent-blue-600"
+                           value="${escapeHtml(value)}" ${value === '' ? 'checked' : ''}>
+                    <span class="ml-2 text-sm text-gray-700 capitalize group-hover:text-blue-600 transition">${escapeHtml(label)}</span>
+                </span>
+                <span class="text-xs text-gray-400">${count}</span>
+            </label>`
+        ).join('');
+
+        container.querySelectorAll(`.${cbClass}`).forEach(cb => {
+            cb.addEventListener('change', () => {
+                activeDomainFilter = cb.value || null;
+                // Sync all domain checkboxes (both panels)
+                document.querySelectorAll('.domain-cb').forEach(c => {
+                    c.checked = c.value === (activeDomainFilter || '');
                 });
+                applyFilters();
             });
+        });
+    }
+
+    /**
+     * Build tag checkboxes in a target container element.
+     *
+     * @param {HTMLElement} container - The DOM node to populate.
+     * @param {Array}       entries   - All loaded entries.
+     * @param {string}      cbClass   - CSS class to add to each checkbox.
+     */
+    function buildTagCheckboxes(container, entries, cbClass) {
+        const allTags = [...new Set(entries.flatMap(e => e.tags || []))].sort();
+        if (allTags.length === 0) {
+            container.innerHTML = '<p class="text-xs text-gray-400">No tags available.</p>';
+            return;
         }
+        container.innerHTML = allTags.map(t => `
+            <label class="flex items-center cursor-pointer group">
+                <input type="checkbox" class="${cbClass} tag-cb w-4 h-4 accent-blue-600" value="${escapeHtml(t)}">
+                <span class="ml-2 text-sm text-gray-600 group-hover:text-blue-600 transition">${escapeHtml(t)}</span>
+            </label>`
+        ).join('');
 
-        /** Build the sidebar tag filter from the loaded entry set. */
-        function buildTagFilter(entries) {
-            const allTags = [...new Set(entries.flatMap(e => e.tags || []))].sort();
-            const tagFilter = document.getElementById('tag-filter');
-            if (allTags.length === 0) {
-                tagFilter.innerHTML = '<p class="text-xs text-gray-400">No tags available.</p>';
-                return;
-            }
-            tagFilter.innerHTML = allTags.map(t => `
-                <label class="flex items-center cursor-pointer">
-                    <input type="checkbox" class="tag-checkbox w-4 h-4" value="${escapeHtml(t)}">
-                    <span class="ml-2 text-sm text-gray-700">${escapeHtml(t)}</span>
-                </label>`).join('');
-
-            document.querySelectorAll('.tag-checkbox').forEach(cb => {
-                cb.addEventListener('change', e => {
-                    e.target.checked ? activeTagFilters.add(e.target.value)
-                                     : activeTagFilters.delete(e.target.value);
-                    filterEntries();
+        container.querySelectorAll(`.${cbClass}`).forEach(cb => {
+            cb.addEventListener('change', () => {
+                cb.checked ? activeTagFilters.add(cb.value) : activeTagFilters.delete(cb.value);
+                // Sync matching checkbox in the other panel
+                document.querySelectorAll(`.tag-cb[value="${CSS.escape(cb.value)}"]`).forEach(c => {
+                    c.checked = cb.checked;
                 });
+                applyFilters();
             });
+        });
+    }
+
+    /**
+     * Wire the desktop sidebar filter panel.
+     * Uses 'desk-domain-cb' and 'desk-tag-cb' classes to scope event listeners.
+     *
+     * @param {Array} entries - All loaded entries.
+     */
+    function buildDesktopFilters(entries) {
+        buildDomainCheckboxes(document.getElementById('domain-filter'), entries, 'desk-domain-cb');
+        buildTagCheckboxes(document.getElementById('tag-filter'),    entries, 'desk-tag-cb');
+        document.getElementById('clear-filters').addEventListener('click', clearAllFilters);
+    }
+
+    /**
+     * Wire the mobile filter panel.
+     * Uses 'mob-domain-cb' and 'mob-tag-cb' classes to scope event listeners.
+     *
+     * @param {Array} entries - All loaded entries.
+     */
+    function buildMobileFilters(entries) {
+        buildDomainCheckboxes(document.getElementById('domain-filter-mobile'), entries, 'mob-domain-cb');
+        buildTagCheckboxes(document.getElementById('tag-filter-mobile'),    entries, 'mob-tag-cb');
+        document.getElementById('clear-filters-mobile').addEventListener('click', clearAllFilters);
+    }
+
+
+    // ── 7. Match finder ────────────────────────────────────────────────────────
+
+    /** Convert text to a lowercase word Set, excluding short tokens. */
+    function tokenize(text) {
+        return new Set((text || '').toLowerCase().split(/\W+/).filter(w => w.length > 2));
+    }
+
+    /**
+     * Binary cosine similarity between two word-sets.
+     * Returns a value in [0, 1].
+     *
+     * @param {Set} a
+     * @param {Set} b
+     * @returns {number}
+     */
+    function cosineSim(a, b) {
+        const all = new Set([...a, ...b]);
+        let dot = 0, ma = 0, mb = 0;
+        for (const w of all) {
+            const x = a.has(w) ? 1 : 0, y = b.has(w) ? 1 : 0;
+            dot += x * y; ma += x; mb += y;
+        }
+        return (ma && mb) ? dot / (Math.sqrt(ma) * Math.sqrt(mb)) : 0;
+    }
+
+    /**
+     * Rank all entries against a query string, return top N.
+     *
+     * @param {string} query
+     * @param {Array}  entries
+     * @param {number} limit
+     * @returns {Array<{entry, similarity}>}
+     */
+    function rankEntries(query, entries, limit = 3) {
+        const q = tokenize(query);
+        return entries
+            .map(entry => {
+                const text = tokenize([
+                    entry.title, entry.domain,
+                    (entry.tags || []).join(' '),
+                    entry.summary || '',
+                ].join(' '));
+                return { entry, similarity: Math.round(cosineSim(q, text) * 100) };
+            })
+            .sort((a, b) => b.similarity - a.similarity)
+            .slice(0, limit);
+    }
+
+    /** Trigger the match search — called by button and Ctrl+Enter shortcut. */
+    async function runMatch() {
+        const delegation  = document.getElementById('match-delegation').value.trim();
+        const description = document.getElementById('match-description').value.trim();
+        if (!delegation && !description) {
+            alert('Please enter at least a Delegation or Description.');
+            return;
         }
 
-        // ── 4. Match finder ────────────────────────────────────────────────────
+        document.getElementById('match-loading').classList.remove('hidden');
+        document.getElementById('match-results').classList.add('hidden');
 
-        /** Convert text to a lowercase word Set, ignoring short tokens. */
-        function tokenize(text) {
-            return new Set((text || '').toLowerCase().split(/\W+/).filter(w => w.length > 2));
-        }
+        const entries = await loadEntries();
+        const scored  = rankEntries(delegation + ' ' + description, entries, 3);
 
-        /** Binary cosine similarity between two word sets. */
-        function cosineSim(a, b) {
-            const all = new Set([...a, ...b]);
-            let dot = 0, ma = 0, mb = 0;
-            for (const w of all) {
-                const x = a.has(w) ? 1 : 0, y = b.has(w) ? 1 : 0;
-                dot += x * y; ma += x; mb += y;
-            }
-            return (ma && mb) ? dot / (Math.sqrt(ma) * Math.sqrt(mb)) : 0;
-        }
+        document.getElementById('match-loading').classList.add('hidden');
+        renderMatchResults(scored);
+    }
 
-        /** Rank entries by similarity to query and return the top N. */
-        function rankEntries(query, entries, limit = 3) {
-            const qSet = tokenize(query);
-            return entries
-                .map(entry => {
-                    const text = tokenize([
-                        entry.title, entry.domain,
-                        (entry.tags || []).join(' '),
-                        entry.summary || '',
-                    ].join(' '));
-                    return { entry, similarity: Math.round(cosineSim(qSet, text) * 100) };
-                })
-                .sort((a, b) => b.similarity - a.similarity)
-                .slice(0, limit);
-        }
+    /**
+     * Render match-finder results and show/hide the register / strong-match CTAs.
+     *
+     * @param {Array<{entry, similarity}>} results
+     */
+    function renderMatchResults(results) {
+        const listEl          = document.getElementById('match-results-list');
+        const badge           = document.getElementById('match-count-badge');
+        const registerSection = document.getElementById('match-register-section');
+        const strongSection   = document.getElementById('match-strong-section');
 
-        async function runMatch() {
-            const delegation  = document.getElementById('match-delegation').value.trim();
-            const description = document.getElementById('match-description').value.trim();
-            if (!delegation && !description) {
-                alert('Please enter at least a Delegation or Description.');
-                return;
-            }
-            document.getElementById('match-loading').classList.remove('hidden');
-            document.getElementById('match-results').classList.add('hidden');
+        const bestScore = results[0]?.similarity ?? 0;
+        badge.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} • best: ${bestScore}%`;
 
-            const entries = await loadEntries();
-            const scored  = rankEntries(delegation + ' ' + description, entries, 3);
+        listEl.innerHTML = results.map(({ entry, similarity }) => {
+            const style    = DOMAIN_STYLES[entry.domain] || DEFAULT_STYLE;
+            const barColor = similarity >= 50 ? '#22c55e' : similarity >= 25 ? '#eab308' : '#d1d5db';
+            const numColor = similarity >= 50 ? '#16a34a' : similarity >= 25 ? '#ca8a04' : '#9ca3af';
+            const yamlFile = entry.file || `${entry.domain}-${entry.id}.yaml`;
 
-            document.getElementById('match-loading').classList.add('hidden');
-            renderMatchResults(scored);
-        }
-
-        function renderMatchResults(results) {
-            const container       = document.getElementById('match-results-list');
-            const badge           = document.getElementById('match-count-badge');
-            const registerSection = document.getElementById('match-register-section');
-            const strongSection   = document.getElementById('match-strong-section');
-
-            const bestScore = results[0]?.similarity || 0;
-            badge.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} • best match: ${bestScore}%`;
-
-            container.innerHTML = results.map(({ entry, similarity }) => {
-                const color    = DOMAIN_COLORS[entry.domain] || 'gray';
-                const barColor = similarity >= 50 ? 'bg-green-500' : similarity >= 25 ? 'bg-yellow-400' : 'bg-gray-300';
-                const numColor = similarity >= 50 ? 'text-green-600' : similarity >= 25 ? 'text-yellow-600' : 'text-gray-400';
-                const yamlFile = entry.file || `${entry.domain}-${entry.id}.yaml`;
-                return `
-                <div class="bg-white rounded-xl border border-gray-200 p-4 flex gap-4 items-start">
-                  <div class="shrink-0 text-center w-14">
-                    <div class="text-xl font-bold ${numColor}">${similarity}%</div>
-                    <div class="w-full bg-gray-100 rounded-full h-1.5 mt-1">
-                      <div class="${barColor} h-1.5 rounded-full" style="width:${Math.max(4, similarity)}%"></div>
-                    </div>
-                    <div class="text-xs text-gray-400 mt-0.5">match</div>
+            return `
+            <div class="bg-white rounded-xl border border-gray-200 p-4 flex gap-4 items-start">
+              <div class="shrink-0 text-center w-14">
+                  <div class="text-xl font-bold" style="color:${numColor}">${similarity}%</div>
+                  <div class="w-full bg-gray-100 rounded-full h-1.5 mt-1">
+                      <div class="h-1.5 rounded-full" style="width:${Math.max(4, similarity)}%;background:${barColor}"></div>
                   </div>
-                  <div class="flex-1 min-w-0">
-                    <div class="flex items-center gap-2 flex-wrap mb-1">
+                  <div class="text-xs text-gray-400 mt-0.5">match</div>
+              </div>
+              <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap mb-1">
                       <span class="font-semibold text-gray-900 text-sm">${escapeHtml(entry.title)}</span>
-                      <span class="bg-${color}-100 text-${color}-700 text-xs font-bold px-2 py-0.5 rounded">${escapeHtml(entry.domain)}</span>
-                      ${renderPatternBadge(entry)}
-                    </div>
-                    <p class="text-xs text-gray-500 mb-2 line-clamp-2">
-                      ${escapeHtml((entry.summary || '').substring(0, 140))}${(entry.summary || '').length > 140 ? '…' : ''}
-                    </p>
-                    <div class="flex gap-2 flex-wrap items-center">
+                      <span class="text-xs font-bold px-2 py-0.5 rounded capitalize"
+                            style="background:${style.bg};color:${style.text}">${escapeHtml(entry.domain)}</span>
+                  </div>
+                  <p class="text-xs text-gray-500 mb-2 line-clamp-2">
+                      ${escapeHtml((entry.summary || '').substring(0, 140))}…
+                  </p>
+                  <div class="flex gap-2 flex-wrap items-center">
                       ${(entry.tags || []).slice(0, 3).map(t =>
-                          `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
+                          `<span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
                       ).join('')}
                       <a href="https://github.com/faical-yannick-congo/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
-                         target="_blank" class="text-xs text-blue-600 hover:underline ml-auto">View YAML →</a>
-                    </div>
+                         target="_blank" class="text-xs text-blue-500 hover:underline ml-auto">View YAML →</a>
                   </div>
-                </div>`;
-            }).join('');
+              </div>
+            </div>`;
+        }).join('');
 
-            document.getElementById('match-results').classList.remove('hidden');
+        document.getElementById('match-results').classList.remove('hidden');
 
-            if (bestScore >= 40) {
-                registerSection.classList.add('hidden');
-                strongSection.classList.remove('hidden');
-            } else {
-                strongSection.classList.add('hidden');
-                registerSection.classList.remove('hidden');
-                // Pre-fill delegation & description into register form context
-            }
+        if (bestScore >= 40) {
+            registerSection.classList.add('hidden');
+            strongSection.classList.remove('hidden');
+        } else {
+            strongSection.classList.add('hidden');
+            registerSection.classList.remove('hidden');
+        }
+    }
+
+    /** Reset the match-finder UI to its initial state. */
+    function clearMatch() {
+        ['match-delegation', 'match-description', 'match-discernment',
+         'match-diligence', 'match-title', 'match-contributor'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+        });
+        document.getElementById('match-results').classList.add('hidden');
+        document.getElementById('match-loading').classList.add('hidden');
+    }
+
+
+    // ── 8. Contribution opener ─────────────────────────────────────────────────
+
+    /**
+     * Open a pre-filled GitHub issue with the user's 4D cycle data.
+     * Called by the "Open as GitHub Issue" button in the register section.
+     */
+    function registerCycle() {
+        const delegation  = document.getElementById('match-delegation').value.trim();
+        const description = document.getElementById('match-description').value.trim();
+        const discernment = document.getElementById('match-discernment').value.trim();
+        const diligence   = document.getElementById('match-diligence').value.trim();
+        const title       = document.getElementById('match-title').value.trim() || 'New Fluently 4D Cycle';
+        const contributor = document.getElementById('match-contributor').value.trim() || 'Community';
+
+        if (!discernment || !diligence) {
+            alert('Please fill in both Discernment and Diligence before registering.');
+            return;
         }
 
-        // ── 5. Contribution ────────────────────────────────────────────────────
+        const issueTitle = `[Contribution] New Fluently 4D Cycle: ${title}`;
+        const issueBody  = [
+            '## New Fluently 4D Cycle Submission',
+            '',
+            `**Title:** ${title}`,
+            `**Contributor:** ${contributor}`,
+            '',
+            '---',
+            '',
+            '### 🤝 Delegation',
+            delegation || '(not provided)',
+            '',
+            '### 📝 Description',
+            description || '(not provided)',
+            '',
+            '### 👁️ Discernment',
+            discernment,
+            '',
+            '### ✅ Diligence',
+            diligence,
+            '',
+            '---',
+            '',
+            '*Submitted via the Fluently 4D Match Tool.*',
+            '*A maintainer will help convert this into a YAML entry and guide the PR process.*',
+        ].join('\n');
 
-        function registerCycle() {
-            const delegation = document.getElementById('match-delegation').value.trim();
-            const description = document.getElementById('match-description').value.trim();
-            const discernment = document.getElementById('match-discernment').value.trim();
-            const diligence = document.getElementById('match-diligence').value.trim();
-            const title = document.getElementById('match-title').value.trim() || 'New Fluently 4D Cycle';
-            const contributor = document.getElementById('match-contributor').value.trim() || 'Community';
+        const url = 'https://github.com/faical-yannick-congo/fluently/issues/new'
+            + '?title=' + encodeURIComponent(issueTitle)
+            + '&body='  + encodeURIComponent(issueBody)
+            + '&labels=contribution';
+        window.open(url, '_blank');
+    }
 
-            if (!discernment || !diligence) {
-                alert('Please fill in both Discernment and Diligence before registering.');
-                return;
-            }
 
-            const issueTitle = `[Contribution] New Fluently 4D Cycle: ${title}`;
-            const issueBody = `## New Fluently 4D Cycle Submission
+    // ── 9. Mobile UI ───────────────────────────────────────────────────────────
 
-**Title:** ${title}
-**Contributor:** ${contributor}
+    /**
+     * Wire the hamburger button to toggle the mobile nav panel.
+     * Updates aria-expanded for accessibility.
+     */
+    function initHamburger() {
+        const btn  = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('menu-icon');
+        if (!btn || !menu) return;
 
----
+        btn.addEventListener('click', () => {
+            const open = menu.classList.toggle('hidden');  // toggle returns NEW state
+            const isOpen = !open;   // if class was added → hidden → closed
+            btn.setAttribute('aria-expanded', isOpen);
+            icon.className = isOpen ? 'fas fa-times text-xl' : 'fas fa-bars text-xl';
+        });
+    }
 
-### 🤝 Delegation
-${delegation || '(not provided)'}
+    /**
+     * Wire the mobile filter toggle button.
+     * Updates aria-expanded and rotates the chevron icon.
+     */
+    function initFilterToggle() {
+        const btn     = document.getElementById('filter-toggle');
+        const panel   = document.getElementById('mobile-filters');
+        const chevron = document.getElementById('filter-toggle-icon');
+        if (!btn || !panel) return;
 
-### 📝 Description
-${description || '(not provided)'}
-
-### 👁️ Discernment
-${discernment}
-
-### ✅ Diligence
-${diligence}
-
----
-
-*Submitted via the Fluently 4D Match Tool on the Knowledge Base page.*
-*A maintainer will help convert this into a YAML entry and guide the PR process.*`;
-
-            const url = `https://github.com/faical-yannick-congo/fluently/issues/new?title=${encodeURIComponent(issueTitle)}&body=${encodeURIComponent(issueBody)}&labels=contribution`;
-            window.open(url, '_blank');
-        }
-
-        // ── 6. Init ────────────────────────────────────────────────────────────
-
-        function clearMatch() {
-            ['match-delegation', 'match-description', 'match-discernment',
-             'match-diligence', 'match-title', 'match-contributor'].forEach(id => {
-                const el = document.getElementById(id);
-                if (el) el.value = '';
-            });
-            document.getElementById('match-results').classList.add('hidden');
-            document.getElementById('match-loading').classList.add('hidden');
-        }
-
-        // ── 7. Mobile UI ───────────────────────────────────────────────────────
-
-        /** Hamburger — toggle mobile nav menu. */
-        document.addEventListener('DOMContentLoaded', () => {
-            const menuBtn    = document.getElementById('menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
-            if (menuBtn && mobileMenu) {
-                menuBtn.addEventListener('click', () => {
-                    mobileMenu.classList.toggle('hidden');
-                });
-            }
-
-            /** Filter panel toggle on mobile. */
-            const filterToggle     = document.getElementById('filter-toggle');
-            const mobileFilters    = document.getElementById('mobile-filters');
-            const filterToggleIcon = document.getElementById('filter-toggle-icon');
-            if (filterToggle && mobileFilters) {
-                filterToggle.addEventListener('click', () => {
-                    const hidden = mobileFilters.classList.toggle('hidden');
-                    if (filterToggleIcon) {
-                        filterToggleIcon.className = hidden
-                            ? 'fas fa-chevron-down text-gray-400'
-                            : 'fas fa-chevron-up text-gray-400';
-                    }
-                });
+        btn.addEventListener('click', () => {
+            const open = panel.classList.toggle('hidden');
+            const isOpen = !open;
+            btn.setAttribute('aria-expanded', isOpen);
+            if (chevron) {
+                chevron.style.transform = isOpen ? 'rotate(180deg)' : '';
             }
         });
+    }
 
-        /**
-         * Mirror desktop filter DOM into mobile filter panels after build.
-         * Mobile panels share the same filter state via the same event handlers
-         * but need their own DOM nodes.
-         */
-        function mirrorFiltersToMobile(entries) {
-            const counts = {};
-            entries.forEach(e => { counts[e.domain] = (counts[e.domain] || 0) + 1; });
-            const domains = Object.keys(counts).sort();
 
-            const mDomain = document.getElementById('domain-filter-mobile');
-            if (mDomain) {
-                mDomain.innerHTML = `
-                    <label class="flex items-center justify-between cursor-pointer">
-                        <span class="flex items-center">
-                            <input type="checkbox" class="domain-checkbox-m w-4 h-4" value="" checked>
-                            <span class="ml-2 text-sm text-gray-700">All Domains</span>
-                        </span>
-                        <span class="text-xs text-gray-400">${entries.length}</span>
-                    </label>
-                    ${domains.map(d => `
-                    <label class="flex items-center justify-between cursor-pointer">
-                        <span class="flex items-center">
-                            <input type="checkbox" class="domain-checkbox-m w-4 h-4" value="${d}">
-                            <span class="ml-2 text-sm text-gray-700 capitalize">${d}</span>
-                        </span>
-                        <span class="text-xs text-gray-400">${counts[d]}</span>
-                    </label>`).join('')}`;
+    // ── 10. Initialization ─────────────────────────────────────────────────────
 
-                mDomain.querySelectorAll('.domain-checkbox-m').forEach(cb => {
-                    cb.addEventListener('change', e => {
-                        activeDomainFilter = e.target.value || null;
-                        document.querySelectorAll('.domain-checkbox, .domain-checkbox-m').forEach(c => {
-                            c.checked = c.value === (activeDomainFilter || '');
-                        });
-                        filterEntries();
-                    });
-                });
-            }
+    /**
+     * Bootstrap the page:
+     *   1. Wire mobile UI (hamburger, filter toggle)
+     *   2. Load entries from GitHub
+     *   3. Build both filter panels (desktop + mobile)
+     *   4. Render the card grid
+     *   5. Register keyboard shortcut for match finder
+     */
+    async function init() {
+        // Mobile UI can be wired immediately — no data dependency
+        initHamburger();
+        initFilterToggle();
 
-            const allTags = [...new Set(entries.flatMap(e => e.tags || []))].sort();
-            const mTag = document.getElementById('tag-filter-mobile');
-            if (mTag && allTags.length > 0) {
-                mTag.innerHTML = allTags.map(t => `
-                    <label class="flex items-center cursor-pointer">
-                        <input type="checkbox" class="tag-checkbox-m w-4 h-4" value="${escapeHtml(t)}">
-                        <span class="ml-2 text-sm text-gray-700">${escapeHtml(t)}</span>
-                    </label>`).join('');
-
-                mTag.querySelectorAll('.tag-checkbox-m').forEach(cb => {
-                    cb.addEventListener('change', e => {
-                        e.target.checked ? activeTagFilters.add(e.target.value)
-                                         : activeTagFilters.delete(e.target.value);
-                        // Sync desktop checkboxes
-                        document.querySelectorAll('.tag-checkbox').forEach(c => {
-                            if (c.value === e.target.value) c.checked = e.target.checked;
-                        });
-                        filterEntries();
-                    });
-                });
-            }
-
-            const clearM = document.getElementById('clear-filters-mobile');
-            if (clearM) {
-                clearM.addEventListener('click', () => {
-                    activeDomainFilter = null;
-                    activeTagFilters.clear();
-                    document.querySelectorAll('.domain-checkbox, .domain-checkbox-m').forEach(c => c.checked = c.value === '');
-                    document.querySelectorAll('.tag-checkbox, .tag-checkbox-m').forEach(c => c.checked = false);
-                    filterEntries();
-                });
-            }
-        }
-
-        // Ctrl/Cmd+Enter in match-finder textareas submits the search
+        // Register Ctrl/Cmd+Enter shortcut on match-finder textareas
         ['match-delegation', 'match-description'].forEach(id => {
             document.getElementById(id)?.addEventListener('keydown', e => {
                 if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') runMatch();
             });
         });
 
-        async function init() {
-            allEntries = await loadEntries();
-            buildDomainFilter(allEntries);
-            buildTagFilter(allEntries);
-            mirrorFiltersToMobile(allEntries);
+        // Load data then build UI
+        allEntries = await loadEntries();
+        buildDesktopFilters(allEntries);
+        buildMobileFilters(allEntries);
+        renderEntries(allEntries);
+    }
 
-            document.getElementById('clear-filters').addEventListener('click', () => {
-                activeDomainFilter = null;
-                activeTagFilters.clear();
-                document.querySelectorAll('.domain-checkbox, .domain-checkbox-m').forEach(c => c.checked = c.value === '');
-                document.querySelectorAll('.tag-checkbox, .tag-checkbox-m').forEach(c => c.checked = false);
-                filterEntries();
-            });
+    // Start when the DOM is ready (handles both inline and deferred execution)
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
 
-            renderEntries(allEntries);
-        }
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
-        } else {
-            init();
-        }
     </script>
 </body>
 </html>
