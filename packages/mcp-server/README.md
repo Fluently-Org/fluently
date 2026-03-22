@@ -1,6 +1,6 @@
 # fluently-mcp-server
 
-**MCP server for the [Fluently 4D Framework](https://faical-yannick-congo.github.io/fluently/).** Exposes knowledge retrieval and contribution tools so any AI agent can find, reason over, and extend Fluently 4D cycles — without hardcoded scores.
+**MCP server for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/).** Exposes knowledge retrieval and contribution tools so any AI agent can find, reason over, and extend Fluently 4D cycles — without hardcoded scores.
 
 Works with Claude, GPT-4o, Gemini, Mistral, Llama, GitHub Copilot, Cursor, Cline, and any other MCP-compatible agent.
 
@@ -120,7 +120,7 @@ MongoDB. Coming in a future release.
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `FLUENTLY_CONNECTOR` | `github-public` | Connector to use |
-| `FLUENTLY_GITHUB_REPO` | `faical-yannick-congo/fluently` | GitHub repo (`owner/repo`) |
+| `FLUENTLY_GITHUB_REPO` | `Fluently-Org/fluently` | GitHub repo (`owner/repo`) |
 | `FLUENTLY_GITHUB_BRANCH` | `main` | Branch to read from |
 | `FLUENTLY_GITHUB_TOKEN` | _(none)_ | Required for private repos and automated PRs |
 | `FLUENTLY_LOCAL_PATH` | `./knowledge` | Local knowledge directory (local connector only) |
@@ -137,7 +137,7 @@ The server does **retrieval**: it surfaces the most relevant cycles using keywor
 
 ## When to use this vs. GitHub MCP
 
-If you only need occasional lookups from the public knowledge base, the raw [`index.json`](https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/index.json) is fetchable without auth via any HTTP tool.
+If you only need occasional lookups from the public knowledge base, the raw [`index.json`](https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json) is fetchable without auth via any HTTP tool.
 
 Use this server when you need:
 - Private knowledge that stays in your org
@@ -149,9 +149,9 @@ Use this server when you need:
 
 ## Links
 
-- **Knowledge Base** — [faical-yannick-congo.github.io/fluently/knowledge.html](https://faical-yannick-congo.github.io/fluently/knowledge.html)
-- **Contribute a cycle** — [faical-yannick-congo.github.io/fluently/contribute.html](https://faical-yannick-congo.github.io/fluently/contribute.html)
-- **GitHub repo** — [github.com/faical-yannick-congo/fluently](https://github.com/faical-yannick-congo/fluently)
+- **Knowledge Base** — [fluently-org.github.io/fluently/knowledge.html](https://fluently-org.github.io/fluently/knowledge.html)
+- **Contribute a cycle** — [fluently-org.github.io/fluently/contribute.html](https://fluently-org.github.io/fluently/contribute.html)
+- **GitHub repo** — [github.com/Fluently-Org/fluently](https://github.com/Fluently-Org/fluently)
 - **CLI** — [npmjs.com/package/fluently-cli](https://www.npmjs.com/package/fluently-cli)
 - **Scorer library** — [npmjs.com/package/@fluently/scorer](https://www.npmjs.com/package/@fluently/scorer)
 

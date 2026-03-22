@@ -25,7 +25,7 @@ export function registerContribute(program: Command): void {
       "Build a new 4D cycle interactively and save it as validated YAML.\n\n" +
       "Walks you through each dimension — delegation, description, discernment,\n" +
       "and diligence — then validates schema before writing the file.\n" +
-      "Open a PR against faical-yannick-congo/fluently to share with the community."
+      "Open a PR against Fluently-Org/fluently to share with the community."
     )
     .action(async () => {
       // ── Step 1: Basic metadata ─────────────────────────────────────────────
@@ -123,6 +123,6 @@ export function registerContribute(program: Command): void {
         console.log(chalk.yellow("⚠️  You acknowledged privacy warnings — double-check the YAML before opening a PR."));
       }
       console.log(chalk.yellow("Next: git add . && git commit -m 'feat(knowledge): add <your-id>'"));
-      console.log(chalk.yellow("Then open a PR to faical-yannick-congo/fluently"));
+      console.log(chalk.yellow("Then open a PR to Fluently-Org/fluently"));
     });
 }

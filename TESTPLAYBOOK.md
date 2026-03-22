@@ -37,17 +37,17 @@ In your agent's MCP config — `~/.claude/settings.json` (Claude Code), `claude_
 
 ```
 # Step 1 — Orient (read the guide)
-Read the file KNOWLEDGE.md in repo faical-yannick-congo/fluently (main branch).
+Read the file KNOWLEDGE.md in repo Fluently-Org/fluently (main branch).
 Tell me what domains are available and how cycles are structured.
 
 
 # Step 2 — Discover all cycles
-Read knowledge/index.json in faical-yannick-congo/fluently.
+Read knowledge/index.json in Fluently-Org/fluently.
 List all cycles grouped by domain with IDs and tags.
 
 
 # Step 3 — Deep-read a specific cycle
-Read knowledge/coding-code-review-triage.yaml in faical-yannick-congo/fluently.
+Read knowledge/coding-code-review-triage.yaml in Fluently-Org/fluently.
 Summarize the 4D guidance and the most important antipattern.
 
 
@@ -61,14 +61,14 @@ Reason over them and tell me which fits best and why — no numeric scores, just
 I want to contribute a new cycle. Read KNOWLEDGE.md for the schema.
 Help me fill in all 4D dimensions for:
   "AI drafts customer support responses, human reviews and sends."
-Then open a PR to faical-yannick-congo/fluently adding the YAML file under knowledge/.
+Then open a PR to Fluently-Org/fluently adding the YAML file under knowledge/.
 ```
 
 ### Manual spot-checks
 
 ```bash
 # Verify index.json is live and valid
-curl -s "https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/index.json" \
+curl -s "https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json" \
   | python3 -c "
 import sys, json
 d = json.load(sys.stdin)
@@ -77,10 +77,10 @@ print('domains:', list(d['byDomain'].keys()))
 "
 
 # Read a specific cycle
-curl -s "https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/coding-code-review-triage.yaml"
+curl -s "https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/coding-code-review-triage.yaml"
 
 # Read the agent orientation guide
-curl -s "https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/KNOWLEDGE.md" | head -50
+curl -s "https://raw.githubusercontent.com/Fluently-Org/fluently/main/KNOWLEDGE.md" | head -50
 ```
 
 ---

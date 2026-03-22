@@ -8,7 +8,7 @@ export class GitHubPublicConnector implements KnowledgeConnector {
   private rawBase: string;
 
   constructor() {
-    this.repo   = process.env.FLUENTLY_GITHUB_REPO   ?? 'faical-yannick-congo/fluently';
+    this.repo   = process.env.FLUENTLY_GITHUB_REPO   ?? 'Fluently-Org/fluently';
     this.branch = process.env.FLUENTLY_GITHUB_BRANCH ?? 'main';
     this.rawBase = `https://raw.githubusercontent.com/${this.repo}/${this.branch}`;
   }

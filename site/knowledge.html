@@ -159,7 +159,7 @@
                     <a href="/knowledge.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Knowledge Base</a>
                     <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
-                    <a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                    <a href="https://github.com/Fluently-Org/fluently" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
                         <i class="fab fa-github"></i> GitHub
                     </a>
                 </div>
@@ -176,7 +176,7 @@
                 <a href="/knowledge.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Knowledge Base</a>
                 <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
                 <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
-                <a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
+                <a href="https://github.com/Fluently-Org/fluently" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
                     <i class="fab fa-github mr-1"></i> GitHub
                 </a>
             </div>
@@ -415,9 +415,9 @@
                 <div>
                     <h4 class="text-white font-bold mb-3">Community</h4>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://github.com/faical-yannick-congo/fluently" target="_blank" class="hover:text-white transition">GitHub</a></li>
-                        <li><a href="https://github.com/faical-yannick-congo/fluently/issues" target="_blank" class="hover:text-white transition">Issues</a></li>
-                        <li><a href="https://github.com/faical-yannick-congo/fluently/discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently" target="_blank" class="hover:text-white transition">GitHub</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/issues" target="_blank" class="hover:text-white transition">Issues</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
                     </ul>
                 </div>
                 <div>
@@ -452,7 +452,7 @@
 
     /** Index URL served from the public repo — no auth required. */
     const INDEX_URL =
-        'https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/index.json';
+        'https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json';
 
     /**
      * Domain → CSS accent colours (border, badge bg, badge text).
@@ -615,7 +615,7 @@
                 <!-- ── Footer: contributor + YAML link ───────────────────── -->
                 <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-100 pt-2 mb-2">
                   <span><i class="fas fa-user mr-1"></i>${escapeHtml(entry.contributor || 'Community')}</span>
-                  <a href="https://github.com/faical-yannick-congo/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
+                  <a href="https://github.com/Fluently-Org/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
                      target="_blank"
                      class="text-blue-500 hover:text-blue-700 font-medium transition">
                       View YAML →
@@ -942,7 +942,7 @@
                       ${(entry.tags || []).slice(0, 3).map(t =>
                           `<span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
                       ).join('')}
-                      <a href="https://github.com/faical-yannick-congo/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
+                      <a href="https://github.com/Fluently-Org/fluently/blob/main/knowledge/${escapeHtml(yamlFile)}"
                          target="_blank" class="text-xs text-blue-500 hover:underline ml-auto">View YAML →</a>
                   </div>
               </div>
@@ -1018,7 +1018,7 @@
             '*A maintainer will help convert this into a YAML entry and guide the PR process.*',
         ].join('\n');
 
-        const url = 'https://github.com/faical-yannick-congo/fluently/issues/new'
+        const url = 'https://github.com/Fluently-Org/fluently/issues/new'
             + '?title=' + encodeURIComponent(issueTitle)
             + '&body='  + encodeURIComponent(issueBody)
             + '&labels=contribution';

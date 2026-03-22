@@ -182,7 +182,7 @@ git push origin knowledge/add-your-topic
 
 ### 5. Open a Pull Request
 
-Go to [GitHub](https://github.com/faical-yannick-congo/fluently) and open a PR with:
+Go to [GitHub](https://github.com/Fluently-Org/fluently) and open a PR with:
 
 **Title:**
 ```
