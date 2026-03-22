@@ -9,21 +9,15 @@ npm install -g fluently-mcp-server
 fluently-mcp-server
 ```
 
-## Wire to Claude Desktop
+## Wire to your AI agent
 
-`~/Library/Application Support/Claude/claude_desktop_config.json` (Mac) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows):
+The same MCP config block works for any MCP-compatible client. The server exposes tools via stdio — drop it into your agent's `mcpServers` config.
 
-```json
-{
-  "mcpServers": {
-    "fluently": { "command": "fluently-mcp-server" }
-  }
-}
-```
+**Claude Desktop** — `~/Library/Application Support/Claude/claude_desktop_config.json` (Mac) or `%APPDATA%\Claude\claude_desktop_config.json` (Windows)
 
-## Wire to Claude Code
+**Claude Code** — `~/.claude/settings.json`
 
-In your `settings.json`:
+**VS Code Copilot / Continue / Cursor / Cline** — check your extension's MCP settings
 
 ```json
 {
@@ -32,6 +26,8 @@ In your `settings.json`:
   }
 }
 ```
+
+> Works with GPT-4o, Gemini, Mistral, Llama, and any other model reachable through an MCP-compatible client. The server is model-agnostic — it does retrieval and lets your agent reason.
 
 ## Tools
 

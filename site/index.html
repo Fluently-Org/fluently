@@ -184,6 +184,18 @@
       overflow: hidden;
       box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04);
     }
+    /* ── Agent tabs ── */
+    .agent-tab {
+      background: transparent; border: none; color: var(--fg-muted);
+      font-size: 0.72rem; font-weight: 500; padding: 8px 4px;
+      cursor: pointer; font-family: inherit; transition: all 0.2s;
+      border-bottom: 2px solid transparent;
+    }
+    .agent-tab:hover { color: var(--fg); }
+    .agent-tab.active { color: var(--fg); border-bottom-color: var(--orange); }
+    .agent-panel { display: none; }
+    .agent-panel.active-panel { display: block; }
+
     .terminal-bar {
       background: rgba(255,255,255,0.04);
       border-bottom: 1px solid var(--border);
@@ -712,35 +724,102 @@
         </div>
       </div>
     </div>
-    <div class="hero-terminal">
-      <div class="terminal-bar">
+    <div class="hero-terminal" style="display:flex;flex-direction:column;gap:0;">
+      <!-- Agent selector tabs -->
+      <div style="display:flex;gap:0;border-bottom:1px solid var(--border);background:rgba(255,255,255,0.03);border-radius:12px 12px 0 0;overflow:hidden;">
+        <button class="agent-tab active" data-agent="claude"    onclick="switchAgent('claude')"    style="flex:1;">🟠 Claude</button>
+        <button class="agent-tab"        data-agent="gpt"       onclick="switchAgent('gpt')"       style="flex:1;">⬛ GPT-4o</button>
+        <button class="agent-tab"        data-agent="copilot"   onclick="switchAgent('copilot')"   style="flex:1;">🔵 Copilot</button>
+        <button class="agent-tab"        data-agent="mistral"   onclick="switchAgent('mistral')"   style="flex:1;">💨 Mistral</button>
+        <button class="agent-tab"        data-agent="gemini"    onclick="switchAgent('gemini')"    style="flex:1;">🔷 Gemini</button>
+      </div>
+      <div class="terminal-bar" style="border-radius:0;">
         <div class="terminal-dots">
           <div class="terminal-dot dot-red"></div>
           <div class="terminal-dot dot-yellow"></div>
           <div class="terminal-dot dot-green"></div>
         </div>
-        <span class="terminal-title">Claude + GitHub MCP — live knowledge</span>
+        <span class="terminal-title" id="agentTerminalTitle">Claude + GitHub MCP — live knowledge</span>
       </div>
-      <div class="terminal-body">
-        <span class="t-line"><span class="t-comment"># 1. Orient the agent</span></span>
-        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Read KNOWLEDGE.md in</span></span>
-        <span class="t-line t-dim">         <span class="t-cmd">faical-yannick-congo/fluently</span></span>
+      <!-- Terminal body: one panel per agent -->
+      <div id="agent-panel-claude" class="terminal-body agent-panel active-panel" style="min-height:320px;">
+        <span class="t-line"><span class="t-comment"># Claude reads KNOWLEDGE.md via GitHub MCP</span></span>
+        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Read KNOWLEDGE.md in faical-yannick-congo/fluently</span></span>
+        <span class="t-line"><span class="t-out">→ 16 cycles · 7 domains · always live from main branch</span></span>
         <span class="t-line">&nbsp;</span>
-        <span class="t-line"><span class="t-comment"># 2. Discover cycles</span></span>
-        <span class="t-line"><span class="t-out">→ 16 cycles across 7 domains</span></span>
-        <span class="t-line"><span class="t-out">→ coding: 4 · writing: 3 · education: 3</span></span>
-        <span class="t-line">&nbsp;</span>
-        <span class="t-line"><span class="t-comment"># 3. Agent reasons over candidates</span></span>
-        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Which cycle fits</span></span>
+        <span class="t-line"><span class="t-comment"># Find cycles that match the task</span></span>
+        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Read knowledge/index.json — which cycles fit</span></span>
         <span class="t-line t-dim">         <span class="t-cmd">"AI reviews PRs for style"?</span></span>
         <span class="t-line">&nbsp;</span>
         <span class="t-line"><span class="t-purple">Best fit: </span><span class="t-blue">Code Review Triage</span></span>
-        <span class="t-line"><span class="t-out">  Delegation → augmented</span></span>
-        <span class="t-line"><span class="t-out">  Discernment → compare vs senior review</span></span>
-        <span class="t-line"><span class="t-amber">  ⚠ Antipattern: merging without human sign-off</span></span>
+        <span class="t-line"><span class="t-out">  Delegation → augmented (human approves before merge)</span></span>
+        <span class="t-line"><span class="t-out">  Discernment → compare output vs senior review standard</span></span>
+        <span class="t-line"><span class="t-amber">  ⚠ Antipattern: auto-merge without human sign-off</span></span>
         <span class="t-line">&nbsp;</span>
-        <span class="t-line"><span class="t-comment"># Knowledge is always live — no rebuild</span></span>
-        <span class="t-line"><span class="t-green">✓ Fetched from main branch 2s ago</span></span>
+        <span class="t-line"><span class="t-comment"># Read full YAML for detailed guidance</span></span>
+        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Read knowledge/coding-code-review-triage.yaml</span></span>
+        <span class="t-line"><span class="t-green">✓ Full 4D cycle loaded — delegation, description, discernment, diligence</span></span>
+      </div>
+      <div id="agent-panel-gpt" class="terminal-body agent-panel" style="min-height:320px;display:none;">
+        <span class="t-line"><span class="t-comment"># GPT-4o with GitHub MCP — same knowledge base</span></span>
+        <span class="t-line"><span class="t-prompt">GPT ›</span> <span class="t-cmd">Fetch knowledge/index.json from faical-yannick-congo/fluently</span></span>
+        <span class="t-line"><span class="t-out">→ 16 community cycles available</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-comment"># Task: AI drafts customer reply, human reviews</span></span>
+        <span class="t-line"><span class="t-prompt">GPT ›</span> <span class="t-cmd">Read YAML for customer-support cycles</span></span>
+        <span class="t-line"><span class="t-out">→ knowledge/customer-support-response-drafting.yaml</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-purple">Delegation: </span><span class="t-out">augmented — AI drafts, human reviews tone &amp; policy</span></span>
+        <span class="t-line"><span class="t-purple">Diligence:  </span><span class="t-out">support lead approves before send, log kept</span></span>
+        <span class="t-line"><span class="t-amber">  ⚠ Antipattern: sending AI reply without empathy check</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-green">✓ Knowledge is live — no rebuild needed, no install</span></span>
+      </div>
+      <div id="agent-panel-copilot" class="terminal-body agent-panel" style="min-height:320px;display:none;">
+        <span class="t-line"><span class="t-comment"># GitHub Copilot + Fluently MCP — in VS Code</span></span>
+        <span class="t-line"><span class="t-prompt">Copilot ›</span> <span class="t-cmd">@fluently list_domains</span></span>
+        <span class="t-line"><span class="t-out">→ coding, writing, research, education, legal, healthcare, general</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-comment"># Inline guidance while writing tests</span></span>
+        <span class="t-line"><span class="t-prompt">Copilot ›</span> <span class="t-cmd">@fluently find_relevant_cycles</span></span>
+        <span class="t-line t-dim">         <span class="t-cmd">task:"AI generates unit tests from spec"</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-blue">Cycle: Test Case Generation</span></span>
+        <span class="t-line"><span class="t-out">  Description → include edge cases &amp; expected failures in prompt</span></span>
+        <span class="t-line"><span class="t-out">  Discernment → run tests + review for false positives</span></span>
+        <span class="t-line"><span class="t-amber">  ⚠ Antipattern: merging AI tests without executing them</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-green">✓ Fluently MCP tools available inline — no context switching</span></span>
+      </div>
+      <div id="agent-panel-mistral" class="terminal-body agent-panel" style="min-height:320px;display:none;">
+        <span class="t-line"><span class="t-comment"># Mistral via OpenAI-compatible MCP client</span></span>
+        <span class="t-line"><span class="t-prompt">Mistral ›</span> <span class="t-cmd">GET knowledge/index.json (GitHub MCP)</span></span>
+        <span class="t-line"><span class="t-out">→ 16 cycles indexed, ready for retrieval</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-comment"># Task: legal contract review with AI</span></span>
+        <span class="t-line"><span class="t-prompt">Mistral ›</span> <span class="t-cmd">Read knowledge/legal-contract-review.yaml</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-purple">Delegation: </span><span class="t-out">supervised — AI flags clauses, lawyer decides</span></span>
+        <span class="t-line"><span class="t-purple">Discernment: </span><span class="t-out">verify jurisdiction, check recency of precedents</span></span>
+        <span class="t-line"><span class="t-amber">  ⚠ Antipattern: acting on AI legal summary without attorney review</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-green">✓ Same YAML, any agent — model-agnostic by design</span></span>
+      </div>
+      <div id="agent-panel-gemini" class="terminal-body agent-panel" style="min-height:320px;display:none;">
+        <span class="t-line"><span class="t-comment"># Gemini reads the knowledge base via GitHub MCP</span></span>
+        <span class="t-line"><span class="t-prompt">Gemini ›</span> <span class="t-cmd">Read KNOWLEDGE.md in faical-yannick-congo/fluently</span></span>
+        <span class="t-line"><span class="t-out">→ Community knowledge base loaded — 16 cycles</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-comment"># Education use-case: AI tutors a student</span></span>
+        <span class="t-line"><span class="t-prompt">Gemini ›</span> <span class="t-cmd">Read education cycles in knowledge/index.json</span></span>
+        <span class="t-line"><span class="t-out">→ 3 education cycles: tutoring, quiz generation, feedback</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-blue">Cycle: AI-Assisted Tutoring</span></span>
+        <span class="t-line"><span class="t-out">  Delegation → augmented — AI explains, teacher validates understanding</span></span>
+        <span class="t-line"><span class="t-out">  Diligence  → instructor reviews AI feedback before grading</span></span>
+        <span class="t-line"><span class="t-amber">  ⚠ Antipattern: AI scores student work without human oversight</span></span>
+        <span class="t-line">&nbsp;</span>
+        <span class="t-line"><span class="t-green">✓ Fluently — same standard, any model, any team</span></span>
       </div>
     </div>
   </div>
@@ -802,7 +881,7 @@
         <div class="river-eyebrow" style="color: var(--green);">Path A — Community (default)</div>
         <h3 class="river-title">GitHub MCP reads the knowledge base directly</h3>
         <p class="river-body">
-          The Fluently knowledge base lives in a public GitHub repo. Any Claude agent with the GitHub MCP server wired can read <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">KNOWLEDGE.md</code>, fetch <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">knowledge/index.json</code>, and deep-read individual YAML cycles — no custom server, no rebuild, no auth required for reads.
+          The Fluently knowledge base lives in a public GitHub repo. Any AI agent with the GitHub MCP server wired can read <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">KNOWLEDGE.md</code>, fetch <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">knowledge/index.json</code>, and deep-read individual YAML cycles — no custom server, no rebuild, no auth required for reads.
           <br><br>
           Knowledge updates the moment a community cycle is merged. Contributions open a PR automatically via the same GitHub MCP.
         </p>
@@ -819,7 +898,7 @@
             <div class="terminal-dot dot-yellow"></div>
             <div class="terminal-dot dot-green"></div>
           </div>
-          <span class="terminal-title">Claude Desktop / Claude Code — settings.json</span>
+          <span class="terminal-title">AI Agent — settings.json</span>
         </div>
         <div class="terminal-body" style="font-size:0.8rem;">
           <span class="t-line"><span class="t-comment">// Wire GitHub MCP — no auth needed for reads</span></span>
@@ -833,7 +912,7 @@
           <span class="t-line"><span class="t-out">  }</span></span>
           <span class="t-line"><span class="t-out">}</span></span>
           <span class="t-line">&nbsp;</span>
-          <span class="t-line"><span class="t-comment">// Then ask Claude:</span></span>
+          <span class="t-line"><span class="t-comment">// Then prompt your agent:</span></span>
           <span class="t-line"><span class="t-green">Read KNOWLEDGE.md in faical-yannick-congo/fluently</span></span>
           <span class="t-line"><span class="t-green">Find cycles for "AI draft + human review" workflow</span></span>
         </div>
@@ -939,20 +1018,20 @@
     <div class="section-header">
       <div class="section-eyebrow">Live Demo</div>
       <h2 class="section-title">Try it in your browser</h2>
-      <p class="section-sub">Enter your Anthropic API key, describe a task, and watch Fluently fetch live knowledge from GitHub and reason over cycles — exactly what the GitHub MCP path does, running right here.</p>
+      <p class="section-sub">Choose your AI provider, describe a task, and watch Fluently fetch live knowledge from GitHub and reason over cycles — exactly what the GitHub MCP path does, running right here.</p>
     </div>
     <div class="try-layout">
       <div class="try-sidebar">
 
         <!-- API key card -->
         <div class="try-card">
-          <div class="try-card-title">Claude Connection</div>
+          <div class="try-card-title">AI Connection</div>
           <div class="key-status" id="keyStatus" onclick="openKeyModal()">
             <div class="key-dot disconnected" id="keyDot"></div>
             <span class="key-label" id="keyLabel">No AI connected</span>
             <span class="key-action" id="keyAction">Connect →</span>
           </div>
-          <p style="font-size:0.78rem;color:var(--fg-subtle);margin-top:8px;line-height:1.5;">Your API key is stored only in your browser's localStorage and never sent anywhere except the Anthropic API.</p>
+          <p style="font-size:0.78rem;color:var(--fg-subtle);margin-top:8px;line-height:1.5;">Your API key is stored only in your browser's localStorage and never sent anywhere except your chosen provider's API.</p>
         </div>
 
         <!-- Task input -->
@@ -978,7 +1057,7 @@
             </div>
             <button class="try-run-btn" id="runBtn" onclick="runDemo()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
-              Run with GitHub MCP + Claude
+              Run with GitHub MCP + AI
             </button>
           </div>
         </div>
@@ -1001,7 +1080,7 @@
             </div>
             <div style="display:flex;align-items:flex-start;gap:8px;font-size:0.8rem;color:var(--fg-muted);">
               <span style="color:var(--purple);margin-top:1px;flex-shrink:0;">④</span>
-              <span>Claude reasons over the cycles and tells you which fits best — and why</span>
+              <span>Your AI agent reasons over the cycles and tells you which fits best — and why</span>
             </div>
           </div>
         </div>
@@ -1014,14 +1093,14 @@
             <span class="try-output-title">Agent output</span>
             <div style="display:flex;gap:6px;">
               <span class="try-output-badge badge-github">GitHub MCP</span>
-              <span class="try-output-badge badge-claude">Claude</span>
+              <span class="try-output-badge badge-claude" id="aiBadge">AI</span>
             </div>
           </div>
           <div class="try-output-body" id="outputBody">
             <div class="try-placeholder">
               <div class="try-placeholder-icon">⚡</div>
               <div class="try-placeholder-text">
-                Connect an AI provider (Claude, GPT, Gemini…),<br>
+                Connect an AI provider (GPT, Gemini, Mistral…),<br>
                 describe your AI task, and click Run.<br><br>
                 <span style="color:var(--fg-subtle);font-size:0.82rem;">Fetches live knowledge from GitHub<br>and streams AI reasoning back here.</span>
               </div>
@@ -1084,7 +1163,7 @@
     <div class="section-header">
       <div class="section-eyebrow">MCP Setup</div>
       <h2 class="section-title">Wire it to your AI assistant</h2>
-      <p class="section-sub">Works with Claude Desktop, Claude Code, and any MCP-compatible client.</p>
+      <p class="section-sub">Works with any MCP-compatible client.</p>
     </div>
     <div class="mcp-tabs">
       <button class="mcp-tab active" onclick="switchMcpTab('github')">GitHub MCP (community)</button>
@@ -1093,7 +1172,7 @@
     <div id="mcp-github" class="mcp-panel active">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
         <div>
-          <p style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:12px;">Claude Desktop — <code style="color:var(--fg);">claude_desktop_config.json</code></p>
+          <p style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:12px;"><code style="color:var(--fg);">claude_desktop_config.json</code> (Claude Desktop)</p>
           <div class="pre-code">
             <button class="copy-btn" onclick="copyPreCode(this)">Copy</button>
 <span class="k">{</span>
@@ -1109,7 +1188,7 @@
 <span class="k">}</span></div>
         </div>
         <div>
-          <p style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:12px;">Claude Code — <code style="color:var(--fg);">~/.claude/settings.json</code></p>
+          <p style="font-size:0.82rem;color:var(--fg-muted);margin-bottom:12px;"><code style="color:var(--fg);">~/.claude/settings.json</code> (Claude Code)</p>
           <div class="pre-code">
             <button class="copy-btn" onclick="copyPreCode(this)">Copy</button>
 <span class="k">{</span>
@@ -1125,7 +1204,7 @@
 <span class="k">}</span></div>
         </div>
       </div>
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--fg-muted);">Then prompt Claude: <em style="color:var(--fg);">"Read KNOWLEDGE.md in faical-yannick-congo/fluently and find the best cycle for my task."</em></p>
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--fg-muted);">Then prompt your agent: <em style="color:var(--fg);">"Read KNOWLEDGE.md in faical-yannick-congo/fluently and find the best cycle for my task."</em></p>
     </div>
     <div id="mcp-custom" class="mcp-panel">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
@@ -1136,7 +1215,7 @@
 <span class="c"># Install globally</span>
 <span class="n">npm install -g fluently-mcp-server</span>
 
-<span class="c"># Claude Desktop / Claude Code config</span>
+<span class="c"># MCP agent config</span>
 <span class="k">{</span>
   <span class="s">"mcpServers"</span><span class="k">:</span> <span class="k">{</span>
     <span class="s">"fluently"</span><span class="k">:</span> <span class="k">{</span>
@@ -1243,6 +1322,25 @@
         <label>Model</label>
         <select id="modelSelect"></select>
       </div>
+      <!-- GitHub token for PR contributions -->
+      <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px;">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;" onclick="toggleGithubSection()">
+          <svg id="ghChevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.2s;flex-shrink:0;"><path d="M9 18l6-6-6-6"/></svg>
+          <span style="font-size:0.8rem;color:var(--fg-muted);">GitHub token <span style="color:var(--fg-subtle);font-weight:400;">(optional — for automated PR contributions)</span></span>
+        </label>
+        <div id="githubSection" style="display:none;margin-top:10px;flex-direction:column;gap:8px;">
+          <div>
+            <label style="font-size:0.78rem;">GitHub Personal Access Token</label>
+            <input type="password" id="githubTokenInput" placeholder="ghp_…" autocomplete="off" style="margin-top:4px;" />
+            <div class="modal-hint">Create at <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--orange);">github.com/settings/tokens</a> — needs <code>repo</code> scope to open PRs</div>
+          </div>
+          <div>
+            <label style="font-size:0.78rem;">Your name / GitHub handle</label>
+            <input type="text" id="contributorNameInput" placeholder="e.g. jane-doe or Jane Doe" autocomplete="off" style="margin-top:4px;" />
+          </div>
+          <div id="githubStatus" style="font-size:0.78rem;color:var(--fg-muted);display:none;"></div>
+        </div>
+      </div>
       <div class="privacy-note">
         <span>🔒</span>
         <span>Stored in <code>localStorage</code> per provider. Never sent anywhere except the selected provider's API. Click Disconnect to remove all keys.</span>
@@ -1251,7 +1349,7 @@
     <div class="modal-actions">
       <button class="btn-ghost" id="disconnectBtn" onclick="disconnectKey()" style="display:none;">Disconnect</button>
       <button class="btn-ghost" onclick="closeKeyModal()">Cancel</button>
-      <button class="modal-save-btn" onclick="saveKey()">Save & Connect</button>
+      <button class="modal-save-btn" id="modalSaveBtn" onclick="saveKey()">Save & Connect</button>
     </div>
   </div>
 </div>
@@ -1317,27 +1415,37 @@ function clearKey(pid)   { localStorage.removeItem(storageKey(pid)); }
 })();
 
 // ── UI helpers ─────────────────────────────────────────────────────────────
-function updateKeyStatus() {
+function updateKeyStatus(verified) {
   const p    = PROVIDERS[activeProvider];
   const key  = getKey(activeProvider);
   const dot  = document.getElementById('keyDot');
   const lbl  = document.getElementById('keyLabel');
   const act  = document.getElementById('keyAction');
   const nbtn = document.getElementById('navConnectLabel');
-  if (key || p.noKey) {
+  const badge = document.getElementById('aiBadge');
+  const isConnected = key || p.noKey;
+  if (isConnected) {
     dot.className = 'key-dot connected';
-    lbl.textContent = `${p.name} connected`;
+    lbl.textContent = `${p.name} connected${verified ? ' ✓' : ''}`;
     act.textContent = 'Change →';
-    nbtn.textContent = `${p.emoji} ${p.name}`;
+    nbtn.textContent = verified ? `✓ ${p.emoji} ${p.name}` : `${p.emoji} ${p.name}`;
+    nbtn.closest('button').style.background = verified ? '#2ea043' : '#D4602A';
+    if (badge) badge.textContent = p.name;
   } else {
     dot.className = 'key-dot disconnected';
     lbl.textContent = 'No AI connected';
     act.textContent = 'Connect →';
     nbtn.textContent = 'Connect AI';
+    nbtn.closest('button').style.background = '';
+    if (badge) badge.textContent = 'AI';
   }
   // run button label
   const rb = document.getElementById('runBtn');
-  if (rb) rb.querySelector('span') && (rb.querySelector('span').textContent = `Run with GitHub MCP + ${p.name}`);
+  if (rb) {
+    const svgPart = rb.innerHTML.match(/<svg[^>]*>.*?<\/svg>/s)?.[0] || '';
+    const txt = isConnected ? `Run with GitHub MCP + ${p.name}` : 'Run with GitHub MCP + AI';
+    rb.innerHTML = svgPart ? `${svgPart} ${txt}` : txt;
+  }
 }
 
 // ── Modal ──────────────────────────────────────────────────────────────────
@@ -1388,24 +1496,112 @@ function openKeyModal() {
   document.getElementById('keyModal').classList.remove('hidden');
   buildProviderGrid(activeProvider);
   updateModalInputs(activeProvider);
+  // Load GitHub token and contributor name
+  const ghToken = localStorage.getItem('FLUENTLY_GITHUB_TOKEN') || '';
+  const ghName  = localStorage.getItem('FLUENTLY_CONTRIBUTOR_NAME') || '';
+  if (ghToken) document.getElementById('githubTokenInput').value = '•'.repeat(16);
+  if (ghName)  document.getElementById('contributorNameInput').value = ghName;
   if (!getKey(activeProvider) && !PROVIDERS[activeProvider].noKey)
     setTimeout(() => document.getElementById('apiKeyInput').focus(), 80);
+}
+
+function toggleGithubSection() {
+  const sec = document.getElementById('githubSection');
+  const chev = document.getElementById('ghChevron');
+  const visible = sec.style.display !== 'none';
+  sec.style.display = visible ? 'none' : 'flex';
+  chev.style.transform = visible ? '' : 'rotate(90deg)';
 }
 
 function closeKeyModal() { document.getElementById('keyModal').classList.add('hidden'); }
 function handleOverlayClick(e) { if (e.target.id === 'keyModal') closeKeyModal(); }
 
-function saveKey() {
+async function testConnectivity(pid, apiKey) {
+  const p = PROVIDERS[pid];
+  const model = localStorage.getItem(`FLUENTLY_MODEL_${pid.toUpperCase()}`) || p.models[0];
+  const msg = [{ role: 'user', content: 'Reply with just "ok".' }];
+  let resp;
+  if (p.type === 'anthropic') {
+    resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'x-api-key': apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true', 'content-type': 'application/json' },
+      body: JSON.stringify({ model, max_tokens: 10, messages: msg }),
+    });
+  } else if (p.type === 'gemini') {
+    resp = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: 'Reply with just "ok".' }] }], generationConfig: { maxOutputTokens: 10 } }),
+    });
+  } else if (p.type === 'cohere') {
+    resp = await fetch(`${p.base}/chat`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ model, messages: msg }),
+    });
+  } else if (p.type === 'ollama') {
+    resp = await fetch(`${p.base}/chat`, {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ model, messages: msg, stream: false }),
+    });
+  } else {
+    resp = await fetch(`${p.base}/chat/completions`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${apiKey}`, 'content-type': 'application/json' },
+      body: JSON.stringify({ model, max_tokens: 10, messages: msg }),
+    });
+  }
+  if (!resp.ok) {
+    const e = await resp.json().catch(() => ({}));
+    throw new Error(e.error?.message || `HTTP ${resp.status}`);
+  }
+  return true;
+}
+
+async function saveKey() {
   const p   = PROVIDERS[activeProvider];
   const val = document.getElementById('apiKeyInput').value.trim();
   const model = document.getElementById('modelSelect').value;
   if (model) localStorage.setItem(`FLUENTLY_MODEL_${activeProvider.toUpperCase()}`, model);
+
+  // Save GitHub token + contributor name if entered
+  const ghVal  = document.getElementById('githubTokenInput').value.trim();
+  const ghName = document.getElementById('contributorNameInput').value.trim();
+  if (ghVal && !ghVal.startsWith('•')) localStorage.setItem('FLUENTLY_GITHUB_TOKEN', ghVal);
+  if (ghName) localStorage.setItem('FLUENTLY_CONTRIBUTOR_NAME', ghName);
+
   if (!p.noKey) {
     if (!val || val.startsWith('•')) { updateKeyStatus(); closeKeyModal(); return; }
     setKey(activeProvider, val);
   }
-  updateKeyStatus();
-  closeKeyModal();
+
+  // Test connectivity
+  const apiKey = p.noKey ? 'local' : val;
+  const saveBtn = document.getElementById('modalSaveBtn');
+  const origText = saveBtn.textContent;
+  saveBtn.disabled = true;
+  saveBtn.textContent = 'Testing…';
+
+  try {
+    await testConnectivity(activeProvider, apiKey);
+    localStorage.setItem('FLUENTLY_VERIFIED_' + activeProvider.toUpperCase(), '1');
+    updateKeyStatus(true);
+    closeKeyModal();
+    // Revert button to orange after 4s
+    setTimeout(() => {
+      const nbtn = document.getElementById('navConnectLabel');
+      const btn = nbtn && nbtn.closest('button');
+      if (btn) btn.style.background = '';
+      updateKeyStatus(false);
+    }, 4000);
+  } catch (err) {
+    const hint = document.getElementById('keyHint');
+    hint.innerHTML = `<span style="color:var(--red);">⚠ Connection failed: ${err.message}</span>`;
+    // Still save the key even if test fails, but mark unverified
+    updateKeyStatus(false);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = origText;
+  }
 }
 
 function disconnectKey() {
@@ -1417,6 +1613,46 @@ function disconnectKey() {
 
 document.getElementById('apiKeyInput').addEventListener('keydown', e => { if (e.key === 'Enter') saveKey(); });
 updateKeyStatus();
+
+// ── Agent terminal tabs ────────────────────────────────────────────────────
+const AGENT_TITLES = {
+  claude:  'Claude + GitHub MCP — live knowledge',
+  gpt:     'GPT-4o + GitHub MCP — live knowledge',
+  copilot: 'GitHub Copilot + Fluently MCP — VS Code',
+  mistral: 'Mistral + GitHub MCP — live knowledge',
+  gemini:  'Gemini + GitHub MCP — live knowledge',
+};
+let agentRotateTimer = null;
+const AGENT_ORDER = ['claude','gpt','copilot','mistral','gemini'];
+let agentIdx = 0;
+
+function switchAgent(name) {
+  document.querySelectorAll('.agent-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.agent === name);
+  });
+  document.querySelectorAll('.agent-panel').forEach(p => {
+    const show = p.id === `agent-panel-${name}`;
+    p.style.display = show ? 'block' : 'none';
+    p.classList.toggle('active-panel', show);
+  });
+  const titleEl = document.getElementById('agentTerminalTitle');
+  if (titleEl) titleEl.textContent = AGENT_TITLES[name] || name;
+}
+
+// Auto-rotate every 5s unless user has interacted
+function startAgentRotation() {
+  agentRotateTimer = setInterval(() => {
+    agentIdx = (agentIdx + 1) % AGENT_ORDER.length;
+    switchAgent(AGENT_ORDER[agentIdx]);
+  }, 5000);
+}
+function stopAgentRotation() { clearInterval(agentRotateTimer); }
+
+document.querySelectorAll('.agent-tab').forEach(t => {
+  t.addEventListener('click', () => { stopAgentRotation(); });
+});
+
+startAgentRotation();
 
 // ── MCP tabs ───────────────────────────────────────────────────────────────
 function switchMcpTab(name) {

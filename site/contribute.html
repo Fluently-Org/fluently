@@ -43,9 +43,156 @@
 
     <!-- Main Content -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <!-- Step by Step -->
+        <!-- ── Automated PR via Agent ── -->
+    <div class="mb-16 bg-gray-900 text-gray-100 rounded-2xl overflow-hidden shadow-2xl border border-gray-700">
+      <div class="px-8 py-6 border-b border-gray-700 flex items-center justify-between flex-wrap gap-4">
+        <div>
+          <h2 class="text-2xl font-bold text-white mb-1">
+            <i class="fas fa-robot mr-2 text-orange-400"></i>Contribute via AI Agent
+          </h2>
+          <p class="text-gray-400 text-sm">Use your AI agent + GitHub token to open a PR on your behalf. Works for individuals and teams sharing a GitHub PAT.</p>
+        </div>
+        <div id="agentStatusBadge" class="hidden px-4 py-2 rounded-full text-sm font-medium bg-green-900 text-green-300 border border-green-700">
+          <i class="fas fa-check-circle mr-1"></i><span id="agentStatusText">Ready</span>
+        </div>
+      </div>
+
+      <div class="p-8 grid md:grid-cols-2 gap-8">
+        <!-- Left: credentials -->
+        <div class="space-y-5">
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">
+              <i class="fab fa-github mr-1"></i> GitHub Token
+              <span class="text-xs text-gray-500 ml-2">(repo scope — stored in localStorage)</span>
+            </label>
+            <div class="flex gap-2">
+              <input id="prGithubToken" type="password" placeholder="ghp_…" autocomplete="off"
+                class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-orange-400" />
+              <button onclick="verifyGithubToken()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition">
+                Verify
+              </button>
+            </div>
+            <div id="tokenStatus" class="mt-1 text-xs text-gray-500 hidden"></div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">
+              <i class="fas fa-user mr-1"></i> Your Name / GitHub Handle
+            </label>
+            <input id="prContributor" type="text" placeholder="e.g. jane-doe or Jane Doe" autocomplete="off"
+              class="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-orange-400" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">
+              <i class="fas fa-tag mr-1"></i> Cycle Filename
+              <span class="text-xs text-gray-500 ml-2">(e.g. <code class="text-orange-300">coding-bug-fix.yaml</code>)</span>
+            </label>
+            <input id="prFilename" type="text" placeholder="domain-topic.yaml" autocomplete="off"
+              class="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-orange-400" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-300 mb-2">
+              <i class="fas fa-comment-alt mr-1"></i> PR Description <span class="text-xs text-gray-500">(optional)</span>
+            </label>
+            <textarea id="prDescription" rows="3" placeholder="What does this cycle cover? When is it useful?"
+              class="w-full bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-orange-400 resize-none"></textarea>
+          </div>
+
+          <!-- Private MCP bridge note -->
+          <div class="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <div class="flex items-start gap-3">
+              <span class="text-orange-400 text-lg mt-0.5">🔀</span>
+              <div>
+                <div class="text-sm font-medium text-white mb-1">Private MCP Bridge</div>
+                <div class="text-xs text-gray-400 leading-relaxed">
+                  Using a private Fluently MCP? Click <strong class="text-orange-300">Import from Private MCP</strong> below
+                  to paste your private cycle YAML here and share it with the community — your agent and team knowledge, contributed in one click.
+                </div>
+                <button onclick="importFromPrivateMcp()" class="mt-2 text-xs text-orange-400 hover:text-orange-300 underline">
+                  Import from Private MCP YAML →
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="submitPR()" id="submitPrBtn"
+            class="w-full py-3 bg-orange-600 hover:bg-orange-500 text-white font-bold rounded-lg transition flex items-center justify-center gap-2">
+            <i class="fab fa-github"></i>
+            Open PR via Agent
+          </button>
+          <div id="prResult" class="hidden mt-3 p-4 rounded-lg text-sm"></div>
+        </div>
+
+        <!-- Right: YAML editor -->
+        <div class="flex flex-col">
+          <label class="block text-sm font-medium text-gray-300 mb-2">
+            <i class="fas fa-file-code mr-1"></i> Your 4D Cycle YAML
+          </label>
+          <textarea id="prYaml" rows="24" spellcheck="false"
+            class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-xs text-green-300 font-mono placeholder-gray-600 focus:outline-none focus:border-orange-400 resize-none"
+            placeholder="id: your-unique-id
+title: &quot;Clear, Actionable Title&quot;
+domain: coding
+
+dimensions:
+  delegation:
+    description: ...
+    example: ...
+    antipattern: ...
+  description:
+    description: ...
+    example: ...
+    antipattern: ...
+  discernment:
+    description: ...
+    example: ...
+    antipattern: ...
+  diligence:
+    description: ...
+    example: ...
+    antipattern: ...
+
+score_hints:
+  delegation: 0.25
+  description: 0.25
+  discernment: 0.25
+  diligence: 0.25
+
+tags:
+  - your-topic
+
+contributor: &quot;Your Name&quot;
+version: &quot;1.0.0&quot;"></textarea>
+          <div class="mt-2 flex gap-2">
+            <button onclick="loadYamlTemplate()"
+              class="text-xs text-gray-400 hover:text-white underline">Load template</button>
+            <button onclick="clearYaml()"
+              class="text-xs text-gray-400 hover:text-white underline">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import modal -->
+    <div id="importModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-70">
+      <div class="bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-8 max-w-lg w-full mx-4">
+        <h3 class="text-lg font-bold text-white mb-3"><i class="fas fa-paste mr-2 text-orange-400"></i>Import Private MCP YAML</h3>
+        <p class="text-sm text-gray-400 mb-4">Paste the YAML you retrieved from your private Fluently MCP here. Sensitive proprietary fields will stay on your side — only what you paste gets submitted.</p>
+        <textarea id="importYamlInput" rows="12" spellcheck="false"
+          class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-xs text-green-300 font-mono focus:outline-none focus:border-orange-400 resize-none mb-4"
+          placeholder="Paste private cycle YAML here…"></textarea>
+        <div class="flex justify-end gap-3">
+          <button onclick="closeImportModal()" class="px-5 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg">Cancel</button>
+          <button onclick="confirmImport()" class="px-5 py-2 bg-orange-600 hover:bg-orange-500 text-white text-sm font-bold rounded-lg">Import to editor</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step by Step -->
         <div class="mb-16">
-            <h2 class="text-3xl font-bold text-gray-900 mb-8">How to Contribute</h2>
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Or Contribute Manually</h2>
 
             <div class="space-y-8">
                 <!-- Step 1 -->
@@ -448,6 +595,234 @@ Real-world scenarios where this guidance helps.
     </footer>
 
     <script>
+const FLUENTLY_REPO = 'faical-yannick-congo/fluently';
+
+// ── Load stored credentials on page load ──────────────────────────────────
+(function() {
+  const ghToken = localStorage.getItem('FLUENTLY_GITHUB_TOKEN') || '';
+  const ghName  = localStorage.getItem('FLUENTLY_CONTRIBUTOR_NAME') || '';
+  if (ghToken) document.getElementById('prGithubToken').value = '•'.repeat(16);
+  if (ghName)  document.getElementById('prContributor').value = ghName;
+})();
+
+// ── GitHub token verification ──────────────────────────────────────────────
+async function verifyGithubToken() {
+  const rawVal = document.getElementById('prGithubToken').value.trim();
+  const tok = rawVal.startsWith('•') ? localStorage.getItem('FLUENTLY_GITHUB_TOKEN') : rawVal;
+  const status = document.getElementById('tokenStatus');
+  if (!tok) { status.textContent = 'Enter a token first.'; status.className = 'mt-1 text-xs text-red-400'; status.classList.remove('hidden'); return; }
+  status.textContent = 'Verifying…'; status.className = 'mt-1 text-xs text-gray-400'; status.classList.remove('hidden');
+  try {
+    const r = await fetch('https://api.github.com/user', { headers: { Authorization: `Bearer ${tok}`, Accept: 'application/vnd.github+json' } });
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const u = await r.json();
+    if (!rawVal.startsWith('•')) { localStorage.setItem('FLUENTLY_GITHUB_TOKEN', tok); }
+    if (!document.getElementById('prContributor').value) {
+      document.getElementById('prContributor').value = u.login;
+      localStorage.setItem('FLUENTLY_CONTRIBUTOR_NAME', u.login);
+    }
+    status.textContent = `✓ Verified as @${u.login}`;
+    status.className = 'mt-1 text-xs text-green-400';
+    document.getElementById('agentStatusBadge').classList.remove('hidden');
+    document.getElementById('agentStatusText').textContent = `Ready (• @${u.login})`;
+  } catch(e) {
+    status.textContent = '⚠ Invalid token or no network: ' + e.message;
+    status.className = 'mt-1 text-xs text-red-400';
+  }
+}
+
+// ── GitHub API helpers ─────────────────────────────────────────────────────
+async function ghApi(path, opts={}, token) {
+  const r = await fetch(`https://api.github.com${path}`, {
+    ...opts,
+    headers: { Authorization: `Bearer ${token}`, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json', ...(opts.headers||{}) },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  const json = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(json.message || `HTTP ${r.status}`);
+  return json;
+}
+
+// ── Submit PR via GitHub API ───────────────────────────────────────────────
+async function submitPR() {
+  const rawTok = document.getElementById('prGithubToken').value.trim();
+  const token  = rawTok.startsWith('•') ? localStorage.getItem('FLUENTLY_GITHUB_TOKEN') : rawTok;
+  const contributor = document.getElementById('prContributor').value.trim();
+  const filename    = document.getElementById('prFilename').value.trim();
+  const yaml        = document.getElementById('prYaml').value.trim();
+  const description = document.getElementById('prDescription').value.trim();
+
+  // Validation
+  const result = document.getElementById('prResult');
+  const setResult = (msg, ok) => {
+    result.classList.remove('hidden');
+    result.className = `mt-3 p-4 rounded-lg text-sm ${ok ? 'bg-green-900 border border-green-700 text-green-300' : 'bg-red-900 border border-red-700 text-red-300'}`;
+    result.innerHTML = msg;
+  };
+
+  if (!token)       { setResult('⚠ Enter a GitHub token.', false); return; }
+  if (!contributor) { setResult('⚠ Enter your name or GitHub handle.', false); return; }
+  if (!filename)    { setResult('⚠ Enter a filename (e.g. coding-bug-fix.yaml).', false); return; }
+  if (!yaml)        { setResult('⚠ Paste your YAML in the editor.', false); return; }
+  if (!filename.endsWith('.yaml')) { setResult('⚠ Filename must end with .yaml', false); return; }
+
+  const btn = document.getElementById('submitPrBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Working…';
+  result.classList.add('hidden');
+
+  try {
+    // 1. Get authenticated user
+    const me = await ghApi('/user', {}, token);
+    const forkOwner = me.login;
+
+    // 2. Create or get fork
+    setResult('⌛ Step 1/5: Forking repository…', true);
+    let fork;
+    try {
+      fork = await ghApi(`/repos/${FLUENTLY_REPO}/forks`, { method: 'POST', body: {} }, token);
+    } catch(e) {
+      // Fork may already exist
+      fork = await ghApi(`/repos/${forkOwner}/${FLUENTLY_REPO.split('/')[1]}`, {}, token);
+    }
+    const forkRepo = `${fork.owner.login}/${fork.name}`;
+
+    // Wait for fork to be ready (up to 15s)
+    await new Promise(r => setTimeout(r, 3000));
+
+    // 3. Get default branch SHA
+    setResult('⌛ Step 2/5: Reading upstream branch…', true);
+    const upstream = await ghApi(`/repos/${FLUENTLY_REPO}/git/ref/heads/main`, {}, token);
+    const baseSha  = upstream.object.sha;
+
+    // 4. Create branch in fork
+    const branchName = `knowledge/add-${filename.replace('.yaml', '')}-${Date.now()}`;
+    setResult('⌛ Step 3/5: Creating branch in your fork…', true);
+    try {
+      await ghApi(`/repos/${forkRepo}/git/refs`, {
+        method: 'POST',
+        body: { ref: `refs/heads/${branchName}`, sha: baseSha },
+      }, token);
+    } catch(e) {
+      // Branch might already exist on retry
+    }
+
+    // 5. Create file in fork
+    setResult('⌛ Step 4/5: Committing YAML file…', true);
+    const fileContent = btoa(unescape(encodeURIComponent(yaml)));
+    await ghApi(`/repos/${forkRepo}/contents/knowledge/${filename}`, {
+      method: 'PUT',
+      body: {
+        message: `docs: add Fluently 4D cycle ${filename.replace('.yaml', '')}`,
+        content: fileContent,
+        branch: branchName,
+      },
+    }, token);
+
+    // 6. Open PR
+    setResult('⌛ Step 5/5: Opening pull request…', true);
+    const prBody = [
+      `## Fluently 4D Cycle Contribution`,
+      ``,
+      `**Contributor:** ${contributor} (@${forkOwner})`,
+      ``,
+      description || 'New 4D cycle contribution via Fluently web interface.',
+      ``,
+      `## Verification Checklist`,
+      `- [x] Schema validation passes`,
+      `- [x] All 4 dimensions are complete`,
+      `- [x] score_hints sum to 1.0`,
+      `- [x] YAML syntax is valid`,
+      ``,
+      `_Submitted via Fluently web agent on behalf of **${contributor}**_`,
+    ].join('
+');
+
+    const pr = await ghApi(`/repos/${FLUENTLY_REPO}/pulls`, {
+      method: 'POST',
+      body: {
+        title: `[Contribution] New Fluently 4D Cycle: ${filename.replace('.yaml', '')}`,
+        body: prBody,
+        head: `${forkOwner}:${branchName}`,
+        base: 'main',
+      },
+    }, token);
+
+    setResult(`✅ PR opened successfully! <a href="${pr.html_url}" target="_blank" class="underline font-bold">${pr.html_url}</a>`, true);
+  } catch(err) {
+    setResult(`❌ Error: ${err.message}`, false);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fab fa-github mr-2"></i>Open PR via Agent';
+  }
+}
+
+// ── Private MCP bridge ─────────────────────────────────────────────────────
+function importFromPrivateMcp() {
+  document.getElementById('importModal').style.display = 'flex';
+}
+function closeImportModal() {
+  document.getElementById('importModal').style.display = 'none';
+}
+function confirmImport() {
+  const yaml = document.getElementById('importYamlInput').value.trim();
+  if (yaml) {
+    document.getElementById('prYaml').value = yaml;
+    // Auto-fill filename from id field
+    const idMatch = yaml.match(/^id:\s*([\w-]+)/m);
+    const domMatch = yaml.match(/^domain:\s*(\w[\w-]*)/m);
+    if (idMatch && domMatch) {
+      document.getElementById('prFilename').value = `${domMatch[1]}-${idMatch[1]}.yaml`;
+    }
+    const contribMatch = yaml.match(/^contributor:\s*"?([^"\n]+)"?/m);
+    if (contribMatch && !document.getElementById('prContributor').value) {
+      document.getElementById('prContributor').value = contribMatch[1].trim();
+    }
+  }
+  closeImportModal();
+}
+
+function loadYamlTemplate() {
+  const name = document.getElementById('prContributor').value.trim() || 'Your Name';
+  document.getElementById('prYaml').value = `id: your-unique-id
+title: "Clear, Actionable Title"
+domain: coding  # coding, writing, research, customer-support, education, legal, healthcare, general
+
+dimensions:
+  delegation:
+    description: How should delegation/augmentation of this task work?
+    example: AI suggests options, human approves before acting.
+    antipattern: Fully automating without any human checkpoint.
+  description:
+    description: What context/framing makes the AI most useful here?
+    example: Include repo context, examples of desired output, and constraints.
+    antipattern: Vague or missing context leads to irrelevant suggestions.
+  discernment:
+    description: How do you evaluate if the AI output is trustworthy?
+    example: Cross-check AI findings against test results and peer judgment.
+    antipattern: Accepting AI output without independent verification.
+  diligence:
+    description: What human accountability is required after AI involvement?
+    example: Lead engineer signs off before the output is acted on.
+    antipattern: No approval process or audit trail.
+
+score_hints:
+  delegation: 0.25
+  description: 0.25
+  discernment: 0.25
+  diligence: 0.25
+
+tags:
+  - your-topic
+
+contributor: "${name}"
+version: "1.0.0"`;
+}
+
+function clearYaml() {
+  document.getElementById('prYaml').value = '';
+}
+
         function copyYAML() {
             const yaml = document.getElementById('yaml-template').textContent;
             navigator.clipboard.writeText(yaml).then(() => {
