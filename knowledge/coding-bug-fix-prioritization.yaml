@@ -29,3 +29,73 @@ tags:
   - bug-fix
   - prioritization
   - coding
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Human delegates triage scope, AI prioritizes bugs with context provided, human discerns the ranked list, diligence locks in the fix order — looping back to description if root cause is unclear."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Agree on AI triage autonomy"
+      example_prompts:
+        - speaker: human
+          text: "I have 20 open bugs. Can you rank them by user impact and estimated fix time without me reviewing each one?"
+        - speaker: ai
+          text: "I can rank by impact category and complexity estimate. I'd recommend you confirm the top 5 before engineering schedules — want me to auto-assign the bottom 10 to backlog?"
+        - speaker: human
+          text: "Auto-assign backlog tier, surface the top 10 for my review."
+      triggers_next: "Triage scope and backlog rule agreed."
+    - step: 2
+      d: description
+      label: "Provide bug list and product context"
+      example_prompts:
+        - speaker: human
+          text: "Here are the 20 bug reports with user complaint frequency and affected feature areas."
+        - speaker: ai
+          text: "Should I weight payment-flow bugs higher than UI bugs?"
+        - speaker: human
+          text: "Yes — payment and data-loss bugs are P0 regardless of frequency."
+      triggers_next: "AI has priority rules and full bug context."
+    - step: 3
+      d: discernment
+      label: "Evaluate prioritized list"
+      example_prompts:
+        - speaker: human
+          text: "Bug #7 is ranked P1 but I know it's a duplicate of #12 — remove it."
+        - speaker: ai
+          text: "Understood. Do you want me to merge the user complaint counts or keep them separate?"
+        - speaker: human
+          text: "Merge them — #12 now carries the combined weight."
+      triggers_next: "Prioritized list is validated and de-duplicated."
+      loop_back:
+        to: description
+        condition: "Root cause of a high-priority bug is unclear or disputed."
+        reason: "More engineering context is needed before ranking is meaningful."
+    - step: 4
+      d: diligence
+      label: "Commit to fix schedule and document"
+      example_prompts:
+        - speaker: human
+          text: "Engineering lead, confirm sprint assignment for P0 and P1 items."
+        - speaker: human
+          text: "Log the AI-generated ranking and the manual overrides in Jira for audit."
+      triggers_next: "Sprint is committed. Cycle restarts at next triage session."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Triage scope agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers ranked list."
+    - from: discernment
+      to: diligence
+      trigger: "List validated and overrides applied."
+    - from: discernment
+      to: description
+      trigger: "Root cause unclear — needs more context."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Next triage session — restart."
+      is_cycle_restart: true

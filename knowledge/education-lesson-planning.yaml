@@ -31,3 +31,64 @@ tags:
   - pedagogy
   - curriculum
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear
+  description: "Teacher delegates lesson scaffolding, provides class context and learning objective, evaluates the AI plan, then uses it in class — single pass per lesson."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI's lesson design role"
+      example_prompts:
+        - speaker: human
+          text: "Draft a 45-minute lesson plan on photosynthesis for 8th graders. You propose the activities."
+        - speaker: ai
+          text: "Should I include a hands-on activity or keep it lecture and discussion?"
+        - speaker: human
+          text: "Include one hands-on activity — the class has lab access."
+      triggers_next: "AI's design role and activity type agreed."
+    - step: 2
+      d: description
+      label: "Provide class context and objectives"
+      example_prompts:
+        - speaker: human
+          text: "Class of 28 students, mixed ability. Objective: understand the light-dependent reactions. Prior knowledge: cell structure."
+        - speaker: ai
+          text: "Any students with specific accessibility needs I should account for?"
+        - speaker: human
+          text: "One student uses screen-reader-compatible materials — flag anything visual-only."
+      triggers_next: "AI has class profile, objective, and accessibility constraints."
+    - step: 3
+      d: discernment
+      label: "Evaluate lesson plan quality"
+      example_prompts:
+        - speaker: human
+          text: "The lab activity takes 20 minutes but the setup alone is 10 — tighten it."
+        - speaker: ai
+          text: "I can use a pre-setup version with materials already in place. Reduces activity time to 12 minutes."
+        - speaker: human
+          text: "Good — and flag the visual diagram for accessibility adaptation."
+      triggers_next: "Lesson plan validated for timing and inclusivity."
+    - step: 4
+      d: diligence
+      label: "Approve and deliver"
+      example_prompts:
+        - speaker: human
+          text: "Head of department reviews lesson plan — approved."
+        - speaker: human
+          text: "Noting AI-drafted plan in the lesson record for reflection."
+      triggers_next: "Lesson delivered. New lesson requires a fresh cycle."
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Design role and activity type agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers lesson plan."
+    - from: discernment
+      to: diligence
+      trigger: "Plan validated."
+    - from: diligence
+      to: delegation
+      trigger: "New lesson — fresh cycle."
+      is_cycle_restart: true

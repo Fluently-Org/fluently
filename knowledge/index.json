@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-20T23:54:24.783Z",
+  "generated": "2026-03-22T17:13:53.720Z",
   "total": 16,
   "domains": [
     "coding",
@@ -51,7 +51,124 @@
         "coding"
       ],
       "contributor": "Dakan & Feller",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Human delegates triage scope, AI prioritizes bugs with context provided, human discerns the ranked list, diligence locks in the fix order — looping back to description if root cause is unclear.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Agree on AI triage autonomy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "I have 20 open bugs. Can you rank them by user impact and estimated fix time without me reviewing each one?"
+              },
+              {
+                "speaker": "ai",
+                "text": "I can rank by impact category and complexity estimate. I'd recommend you confirm the top 5 before engineering schedules — want me to auto-assign the bottom 10 to backlog?"
+              },
+              {
+                "speaker": "human",
+                "text": "Auto-assign backlog tier, surface the top 10 for my review."
+              }
+            ],
+            "triggers_next": "Triage scope and backlog rule agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide bug list and product context",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Here are the 20 bug reports with user complaint frequency and affected feature areas."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I weight payment-flow bugs higher than UI bugs?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — payment and data-loss bugs are P0 regardless of frequency."
+              }
+            ],
+            "triggers_next": "AI has priority rules and full bug context."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate prioritized list",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Bug #7 is ranked P1 but I know it's a duplicate of #12 — remove it."
+              },
+              {
+                "speaker": "ai",
+                "text": "Understood. Do you want me to merge the user complaint counts or keep them separate?"
+              },
+              {
+                "speaker": "human",
+                "text": "Merge them — #12 now carries the combined weight."
+              }
+            ],
+            "triggers_next": "Prioritized list is validated and de-duplicated.",
+            "loop_back": {
+              "to": "description",
+              "condition": "Root cause of a high-priority bug is unclear or disputed.",
+              "reason": "More engineering context is needed before ranking is meaningful."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Commit to fix schedule and document",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Engineering lead, confirm sprint assignment for P0 and P1 items."
+              },
+              {
+                "speaker": "human",
+                "text": "Log the AI-generated ranking and the manual overrides in Jira for audit."
+              }
+            ],
+            "triggers_next": "Sprint is committed. Cycle restarts at next triage session.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Triage scope agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers ranked list."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "List validated and overrides applied."
+          },
+          {
+            "from": "discernment",
+            "to": "description",
+            "trigger": "Root cause unclear — needs more context.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next triage session — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "code-review-triage",
@@ -93,7 +210,124 @@
         "automation"
       ],
       "contributor": "Dakan & Feller",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Human negotiates AI review scope, provides code context, evaluates findings, then approves — looping back to scope if false-positive rate is high.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Negotiate AI review scope and autonomy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Can you automatically approve style-only comments and flag logic and security issues for me?"
+              },
+              {
+                "speaker": "ai",
+                "text": "I can flag logic and security issues with confidence levels. I'd recommend human approval for all security findings — want me to auto-close only style nits?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — auto-close style nits, surface everything else with a severity label."
+              }
+            ],
+            "triggers_next": "Autonomy boundaries and severity thresholds are agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide repository and PR context",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Here is the PR diff, our style guide link, and the three open issues this PR addresses."
+              },
+              {
+                "speaker": "ai",
+                "text": "Got it. Should I cross-reference the open issues when flagging findings?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — link any finding to the relevant issue if there's a match."
+              }
+            ],
+            "triggers_next": "AI has enough context to begin analysis."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate AI triage findings",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Walk me through your findings. Item 4 — is that a real security issue or a false positive?"
+              },
+              {
+                "speaker": "ai",
+                "text": "Item 4 is likely a false positive given the existing sanitization in line 42. I flagged it because the pattern matches a known injection vector — but the guard is already in place."
+              },
+              {
+                "speaker": "human",
+                "text": "Agreed, dismiss item 4. The rest look valid."
+              }
+            ],
+            "triggers_next": "Human has validated which findings are actionable.",
+            "loop_back": {
+              "to": "delegation",
+              "condition": "More than 30% of findings are false positives.",
+              "reason": "Scope or severity thresholds need renegotiation."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Approve findings and document decisions",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Senior engineer, please sign off on items 1, 2, 3, and 5 before we merge."
+              },
+              {
+                "speaker": "human",
+                "text": "I'll add a comment to the PR logging which items were AI-flagged and which were human-dismissed."
+              }
+            ],
+            "triggers_next": "PR is approved and decisions are documented. Cycle restarts for the next PR.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Autonomy level and severity thresholds agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI completes triage analysis."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Human validates findings as actionable."
+          },
+          {
+            "from": "discernment",
+            "to": "delegation",
+            "trigger": "False-positive rate too high — re-scope.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "New PR arrives — restart cycle.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "refactoring-suggestions",
@@ -135,7 +369,113 @@
         "coding"
       ],
       "contributor": "Dakan & Feller",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "iterative",
+        "description": "Human and AI iterate through multiple refactoring passes — each pass re-negotiates scope, provides updated code context, evaluates suggestions, and commits accepted changes.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Scope the refactoring pass",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "I want to reduce coupling in this module. Can you suggest where to start?"
+              },
+              {
+                "speaker": "ai",
+                "text": "I see three high-coupling hotspots. Should I suggest refactors for all three in this pass or focus on the most impactful one?"
+              },
+              {
+                "speaker": "human",
+                "text": "Focus on the most impactful hotspot first — we'll iterate."
+              }
+            ],
+            "triggers_next": "Refactoring focus for this pass is agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide current code and constraints",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Here is the current module, the interface contracts it must preserve, and our no-breaking-changes constraint."
+              },
+              {
+                "speaker": "ai",
+                "text": "Are there performance benchmarks I should keep in mind?"
+              },
+              {
+                "speaker": "human",
+                "text": "Latency must stay under 50ms for the main path — flag anything that might affect it."
+              }
+            ],
+            "triggers_next": "AI has code, contracts, and performance constraints."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate refactoring suggestions",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Suggestion 2 breaks the existing interface — reject that one."
+              },
+              {
+                "speaker": "ai",
+                "text": "Understood. Suggestion 3 is an alternative that preserves the interface — want me to elaborate?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes, and check if it affects the 50ms path."
+              }
+            ],
+            "triggers_next": "Accepted suggestions are identified and validated."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Commit accepted changes and verify",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Running benchmark — 43ms, within budget. Committing suggestion 3."
+              },
+              {
+                "speaker": "human",
+                "text": "Adding a commit note: AI-suggested refactor, human-validated against interface and perf budget."
+              }
+            ],
+            "triggers_next": "Changes committed. Begin next iteration with remaining hotspots.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Refactoring scope for this pass agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers suggestions for this pass."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Accepted suggestions validated."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Remaining hotspots — begin next iteration.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "test-case-generation",
@@ -177,7 +517,124 @@
         "coding"
       ],
       "contributor": "Dakan & Feller",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Human delegates test scope, provides spec and edge cases, evaluates AI-generated tests, then merges after CI passes — looping back to description if coverage gaps appear.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define test generation scope",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Generate unit tests for this module. Can you also decide which edge cases to include?"
+              },
+              {
+                "speaker": "ai",
+                "text": "I can generate tests and propose edge cases, but I'd recommend you confirm the coverage targets — what's the minimum acceptable coverage percentage?"
+              },
+              {
+                "speaker": "human",
+                "text": "90% line coverage minimum. Flag anything you're uncertain about."
+              }
+            ],
+            "triggers_next": "Coverage targets and uncertainty-flagging rule agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide spec, examples, and constraints",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Here's the function spec, three existing test examples, and the list of known edge cases from the bug history."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I test for concurrency issues or only sequential inputs?"
+              },
+              {
+                "speaker": "human",
+                "text": "Sequential only for now — concurrency tests are a separate workstream."
+              }
+            ],
+            "triggers_next": "AI has spec, examples, and constraint boundaries."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Review generated tests for correctness",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Test #8 asserts the wrong return type — it should be a string, not null."
+              },
+              {
+                "speaker": "ai",
+                "text": "Corrected. Also, I flagged test #12 as potentially flaky due to time-dependent assertion — want me to mock the clock?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes, mock the clock for #12."
+              }
+            ],
+            "triggers_next": "Tests pass review and CI runs green.",
+            "loop_back": {
+              "to": "description",
+              "condition": "Coverage is below target or significant edge cases are missing.",
+              "reason": "More spec detail or explicit edge case guidance is needed."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Approve tests and add to codebase",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Tests pass CI at 93% coverage. Merging to main."
+              },
+              {
+                "speaker": "human",
+                "text": "Added a comment noting which tests were AI-generated for future reference."
+              }
+            ],
+            "triggers_next": "Tests merged. Cycle restarts for next module.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Coverage targets agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers test suite."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Tests validated and CI passes."
+          },
+          {
+            "from": "discernment",
+            "to": "description",
+            "trigger": "Coverage gaps require more spec detail.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next module — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "course-design",
@@ -221,7 +678,124 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Instructor delegates curriculum scaffolding, provides learning goals and constraints, evaluates AI-drafted structure, then approves — looping back to description if pedagogical alignment is off.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Agree on AI's curriculum design role",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Help me design a 10-week course on data literacy. You propose the weekly themes — I'll adjust."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I sequence from concepts to tools, or mix both throughout?"
+              },
+              {
+                "speaker": "human",
+                "text": "Concepts first, tools introduced in week 4 after foundations are set."
+              }
+            ],
+            "triggers_next": "AI's design role and pedagogical sequencing approach agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide learning outcomes and constraints",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Students are undergraduates with no statistics background. By week 10 they should be able to read and critique a published data study."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I include assessment design or only the content structure?"
+              },
+              {
+                "speaker": "human",
+                "text": "Include weekly assessments — short, formative, no exams."
+              }
+            ],
+            "triggers_next": "AI has learner profile, outcomes, and assessment approach."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate curriculum structure",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Week 6 introduces regression too early — students won't have the algebra foundation yet."
+              },
+              {
+                "speaker": "ai",
+                "text": "I can move regression to week 8 and use week 6 for data visualization instead."
+              },
+              {
+                "speaker": "human",
+                "text": "Do that. Also add a prerequisite check activity in week 1."
+              }
+            ],
+            "triggers_next": "Curriculum validated for pedagogical soundness.",
+            "loop_back": {
+              "to": "description",
+              "condition": "Curriculum consistently misaligns with stated learning outcomes or student level.",
+              "reason": "Learning goals or student profile constraints need to be re-specified."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Approve and document",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Department curriculum committee reviews and approves the final structure."
+              },
+              {
+                "speaker": "human",
+                "text": "Filing AI-assisted design notes in the course development record."
+              }
+            ],
+            "triggers_next": "Curriculum approved. Cycle restarts when course is revised.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Design role and sequencing approach agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers curriculum draft."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Structure validated."
+          },
+          {
+            "from": "discernment",
+            "to": "description",
+            "trigger": "Persistent misalignment — re-specify goals.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Course revision cycle — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "lesson-planning",
@@ -265,7 +839,112 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear",
+        "description": "Teacher delegates lesson scaffolding, provides class context and learning objective, evaluates the AI plan, then uses it in class — single pass per lesson.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI's lesson design role",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Draft a 45-minute lesson plan on photosynthesis for 8th graders. You propose the activities."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I include a hands-on activity or keep it lecture and discussion?"
+              },
+              {
+                "speaker": "human",
+                "text": "Include one hands-on activity — the class has lab access."
+              }
+            ],
+            "triggers_next": "AI's design role and activity type agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide class context and objectives",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Class of 28 students, mixed ability. Objective: understand the light-dependent reactions. Prior knowledge: cell structure."
+              },
+              {
+                "speaker": "ai",
+                "text": "Any students with specific accessibility needs I should account for?"
+              },
+              {
+                "speaker": "human",
+                "text": "One student uses screen-reader-compatible materials — flag anything visual-only."
+              }
+            ],
+            "triggers_next": "AI has class profile, objective, and accessibility constraints."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate lesson plan quality",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The lab activity takes 20 minutes but the setup alone is 10 — tighten it."
+              },
+              {
+                "speaker": "ai",
+                "text": "I can use a pre-setup version with materials already in place. Reduces activity time to 12 minutes."
+              },
+              {
+                "speaker": "human",
+                "text": "Good — and flag the visual diagram for accessibility adaptation."
+              }
+            ],
+            "triggers_next": "Lesson plan validated for timing and inclusivity."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Approve and deliver",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Head of department reviews lesson plan — approved."
+              },
+              {
+                "speaker": "human",
+                "text": "Noting AI-drafted plan in the lesson record for reflection."
+              }
+            ],
+            "triggers_next": "Lesson delivered. New lesson requires a fresh cycle."
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Design role and activity type agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers lesson plan."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Plan validated."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "New lesson — fresh cycle.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "student-career-planning",
@@ -309,7 +988,124 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Advisor delegates initial career path research, provides student profile, evaluates AI recommendations for fit, then presents to student — looping back if recommendations miss the student's actual goals.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI's research role",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Research career options for a student interested in environmental science with a data analytics minor."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I focus on entry-level roles or also include graduate pathways?"
+              },
+              {
+                "speaker": "human",
+                "text": "Both — the student hasn't decided on grad school yet."
+              }
+            ],
+            "triggers_next": "Research scope and career path types agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide student profile and goals",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "GPA 3.4, strong in statistics, weaker in field work. Interested in policy impact, not just research."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I weight roles that offer remote work options?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — student is geographically constrained for the next 2 years."
+              }
+            ],
+            "triggers_next": "AI has full student profile and constraint set."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate career path recommendations",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Option 3 (field monitoring) doesn't fit — student has limited mobility."
+              },
+              {
+                "speaker": "ai",
+                "text": "Replacing with environmental data analyst roles at NGOs — policy-adjacent and remote-friendly."
+              },
+              {
+                "speaker": "human",
+                "text": "Good. Option 5 seems too senior for entry-level — adjust expectations."
+              }
+            ],
+            "triggers_next": "Recommendations validated for fit and realistic expectations.",
+            "loop_back": {
+              "to": "description",
+              "condition": "Recommendations consistently miss student's stated values or constraints.",
+              "reason": "Student profile needs richer goal or constraint detail."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Present to student and document",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Presenting AI-curated options to the student — student picks two to explore."
+              },
+              {
+                "speaker": "human",
+                "text": "Documenting the advisory session and noting which options were AI-generated."
+              }
+            ],
+            "triggers_next": "Session complete. Next advising session begins new cycle.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Research scope agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers career options."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Options validated for fit."
+          },
+          {
+            "from": "discernment",
+            "to": "description",
+            "trigger": "Recommendations miss goals — re-profile student.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next advising session — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "email-writing",
@@ -353,7 +1149,112 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear",
+        "description": "Human delegates email drafting, provides recipient context and goal, evaluates AI draft for tone and accuracy, then sends — single-pass for routine communication.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI's drafting role",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Draft a follow-up email to a prospect after a demo call. You write the body — I'll adjust the opening and sign-off."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I include next steps or leave that for you to add?"
+              },
+              {
+                "speaker": "human",
+                "text": "Propose next steps — I'll confirm or modify them."
+              }
+            ],
+            "triggers_next": "AI's drafting scope and human adjustment responsibility agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide recipient and goal context",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Recipient is the VP of Engineering at a mid-size SaaS company. They seemed interested in the security features. Goal: schedule a technical deep-dive."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I reference the specific feature they asked about?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — mention the SSO integration they asked about."
+              }
+            ],
+            "triggers_next": "AI has recipient profile, goal, and specific talking point."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate draft for tone and accuracy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The opening is too casual — this is a VP, not a peer. Adjust tone."
+              },
+              {
+                "speaker": "ai",
+                "text": "Revised to a more formal but still warm register. Does this work?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes. Also change 'our best feature' to 'the SSO integration' — more specific."
+              }
+            ],
+            "triggers_next": "Draft validated for tone, accuracy, and specificity."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Final review and send",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Re-reading in full — looks good. Sending."
+              },
+              {
+                "speaker": "human",
+                "text": "Logging in CRM with AI-draft tag for tracking."
+              }
+            ],
+            "triggers_next": "Email sent. Next communication requires a fresh cycle."
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Drafting scope agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers draft."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Draft validated."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next email — fresh cycle.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "iterative-refinement-loop",
@@ -397,7 +1298,113 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "iterative",
+        "description": "Human and AI iterate through multiple refinement passes — each pass establishes scope, provides richer context from prior output, evaluates quality, and commits the improvement before the next round.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define refinement goal for this pass",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "This draft is too verbose. In this pass, focus on cutting word count by 30% without losing key ideas."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I prioritize cutting filler phrases or condensing full paragraphs?"
+              },
+              {
+                "speaker": "human",
+                "text": "Both — flag any paragraph I should consider cutting entirely."
+              }
+            ],
+            "triggers_next": "Refinement goal and cut strategy agreed for this pass."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide current artifact and refinement constraints",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Here is the current draft. The core argument in section 2 must not be weakened — everything else is fair game."
+              },
+              {
+                "speaker": "ai",
+                "text": "Is the technical terminology in section 3 intended for a specialist audience?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — keep the technical terms, simplify the surrounding prose."
+              }
+            ],
+            "triggers_next": "AI has current artifact, non-negotiables, and simplification targets."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate refinement quality",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The cut version of paragraph 4 loses the nuance — restore the second sentence."
+              },
+              {
+                "speaker": "ai",
+                "text": "Restored. Overall word count is now down 28% — one more light pass would reach 30%."
+              },
+              {
+                "speaker": "human",
+                "text": "Let's do a final light pass in the next iteration."
+              }
+            ],
+            "triggers_next": "Refinement quality validated for this pass."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Commit refined version",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Saving this version as v3. The prior version is archived."
+              },
+              {
+                "speaker": "human",
+                "text": "Noting what was changed and why in the revision log."
+              }
+            ],
+            "triggers_next": "Version committed. Next iteration targets remaining improvements.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Refinement goal for this pass agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers refined version."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Quality validated for this pass."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next refinement pass — new goal.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "clinical-documentation",
@@ -441,7 +1448,112 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear",
+        "description": "Clinician delegates note drafting, provides encounter details, reviews AI draft for clinical accuracy, then signs — strictly linear with no shortcuts due to patient safety requirements.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI's documentation role",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Draft the SOAP note for this encounter. You structure the note — I'll verify all clinical content."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I include medication reconciliation in the plan section or keep that separate?"
+              },
+              {
+                "speaker": "human",
+                "text": "Include it in the plan — I'll verify it against the pharmacy record."
+              }
+            ],
+            "triggers_next": "AI's documentation scope and human verification commitment agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide encounter details and patient context",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Chief complaint: chest pain, 2-day duration. Vitals and exam findings attached. History of hypertension."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I flag any discrepancies I notice between the stated history and the exam findings?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — flag anything that seems inconsistent for my review."
+              }
+            ],
+            "triggers_next": "AI has full encounter context and flag-on-inconsistency rule."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Review AI draft for clinical accuracy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The assessment lists 'rule out MI' — change to 'elevated troponin, workup in progress'."
+              },
+              {
+                "speaker": "ai",
+                "text": "Corrected. The plan section uses 'may consider' — do you want more definitive language?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — change to 'initiate' for the aspirin order, pending cardiology consult."
+              }
+            ],
+            "triggers_next": "Every clinical claim verified by the clinician — no AI-only assertions remain."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Sign and lock the note",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Note reviewed in full. Signing and locking in the EHR."
+              },
+              {
+                "speaker": "human",
+                "text": "AI-assisted draft flagged in the note metadata per compliance policy."
+              }
+            ],
+            "triggers_next": "Note locked. Next encounter requires a fresh cycle."
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Documentation scope and verification commitment agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers draft note."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Every clinical claim verified."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next encounter — fresh cycle.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "legal-ai-research-drafting",
@@ -485,7 +1597,112 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear",
+        "description": "Attorney delegates legal research, provides matter context and jurisdiction, verifies AI findings against authoritative sources, then uses the work product — strictly linear due to professional liability.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI's research role and limits",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Research current case law on non-compete enforceability in California. Surface the key cases — I'll do final legal analysis."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I include federal circuit decisions or only California state courts?"
+              },
+              {
+                "speaker": "human",
+                "text": "Both — but flag circuit splits if they exist."
+              }
+            ],
+            "triggers_next": "Research scope, jurisdiction, and attorney analysis responsibility agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide matter context and legal question",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Client is a software company seeking to enforce a 2-year non-compete against a departed engineer. Employment ended 6 months ago."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I focus on enforceability standards or also include remedy options?"
+              },
+              {
+                "speaker": "human",
+                "text": "Enforceability first — remedies are a separate memo."
+              }
+            ],
+            "triggers_next": "AI has matter facts and specific legal question."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Verify AI research against authoritative sources",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Citation 3 — I need to verify that holding directly. Pull the full opinion."
+              },
+              {
+                "speaker": "ai",
+                "text": "Here is the full text of Edwards v. Arthur Andersen. The holding is on page 12."
+              },
+              {
+                "speaker": "human",
+                "text": "Confirmed. Citation 4 has been superseded — remove it and note why."
+              }
+            ],
+            "triggers_next": "Every citation verified against primary sources. No unverified AI assertions remain."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Review, sign off, and document",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Partner reviews research memo before it goes to client."
+              },
+              {
+                "speaker": "human",
+                "text": "Noting AI-assisted research in the matter file per firm policy."
+              }
+            ],
+            "triggers_next": "Memo approved and filed. Next matter question requires a fresh cycle."
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Research scope and liability boundaries agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers research findings."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Every citation independently verified."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next legal question — fresh cycle.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "research-data-analysis",
@@ -529,7 +1746,124 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Researcher delegates analysis scope, provides dataset and hypotheses, evaluates AI findings for statistical validity, then reports — looping back to description if data quality issues emerge.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Agree on analysis scope and AI autonomy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Analyze this survey dataset for correlations between feature usage and retention. Can you decide which statistical tests to run?"
+              },
+              {
+                "speaker": "ai",
+                "text": "I can select appropriate tests given the distribution. Should I flag non-significant results or only report significant ones?"
+              },
+              {
+                "speaker": "human",
+                "text": "Flag all results — I want the full picture, not just the highlights."
+              }
+            ],
+            "triggers_next": "Analysis scope and reporting rule agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide dataset and hypotheses",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Here's the dataset. Hypothesis: users who use feature X in the first week have higher 90-day retention."
+              },
+              {
+                "speaker": "ai",
+                "text": "The dataset has 12% missing values in the retention column — how should I handle them?"
+              },
+              {
+                "speaker": "human",
+                "text": "Exclude records with missing retention data and note the exclusion count."
+              }
+            ],
+            "triggers_next": "AI has clean dataset, hypotheses, and data handling rules."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate analysis findings",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The correlation coefficient looks high — is this sample size large enough for that claim?"
+              },
+              {
+                "speaker": "ai",
+                "text": "N=340 gives 80% power for this effect size. The result is statistically robust."
+              },
+              {
+                "speaker": "human",
+                "text": "Good. Flag finding 3 as exploratory — the sample for that subgroup is only N=28."
+              }
+            ],
+            "triggers_next": "Findings validated for statistical robustness and appropriate caveats added.",
+            "loop_back": {
+              "to": "description",
+              "condition": "Data quality issues (e.g., sampling bias, large missing data) undermine the analysis.",
+              "reason": "Dataset needs cleaning or re-scoping before analysis is meaningful."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Review, document, and report",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Senior analyst peer-reviews the methodology section before publication."
+              },
+              {
+                "speaker": "human",
+                "text": "Documenting which tests were AI-selected and which were human-specified in the methods section."
+              }
+            ],
+            "triggers_next": "Report approved and methodology documented. Cycle restarts for next analysis.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Analysis scope and reporting rules agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers analysis results."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Findings validated."
+          },
+          {
+            "from": "discernment",
+            "to": "description",
+            "trigger": "Data quality issues require dataset revision.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next research question — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "literature-review",
@@ -573,7 +1907,113 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "iterative",
+        "description": "Researcher and AI iterate through literature in passes — each pass scopes the search, provides query context, evaluates source quality, and commits the accepted sources before the next domain.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define search scope and AI autonomy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Search for papers on transformer attention mechanisms published 2020–2024. Can you decide which databases to query?"
+              },
+              {
+                "speaker": "ai",
+                "text": "I'd suggest Semantic Scholar, arXiv, and ACL Anthology. Should I include pre-prints or only peer-reviewed?"
+              },
+              {
+                "speaker": "human",
+                "text": "Include pre-prints but flag them separately."
+              }
+            ],
+            "triggers_next": "Search scope, databases, and pre-print policy agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide query terms and exclusion criteria",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Focus on efficiency improvements to attention. Exclude papers that are purely theoretical with no empirical results."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I prioritize highly-cited papers or recent ones?"
+              },
+              {
+                "speaker": "human",
+                "text": "Recent first — this is a fast-moving area."
+              }
+            ],
+            "triggers_next": "AI has query terms, relevance criteria, and recency bias."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate source quality and relevance",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Paper 7 seems tangentially related — is the methodology actually relevant to our work?"
+              },
+              {
+                "speaker": "ai",
+                "text": "The dataset they use is different but the attention variant they propose directly addresses your efficiency problem. I'd include it."
+              },
+              {
+                "speaker": "human",
+                "text": "Agreed — include it with a note on the dataset difference."
+              }
+            ],
+            "triggers_next": "Source list validated for relevance and quality."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Curate and document the source list",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "PI reviews the final list before it goes into the literature section."
+              },
+              {
+                "speaker": "human",
+                "text": "Adding search query log and exclusion decisions to the methodology appendix."
+              }
+            ],
+            "triggers_next": "Sources committed. Begin next thematic area.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Search scope and databases agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI returns candidate sources."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Sources validated."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next thematic area — new search pass.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "content-development",
@@ -617,7 +2057,113 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "iterative",
+        "description": "Writer and AI iterate through content passes — each round refines scope, provides richer context, evaluates quality, and commits the accepted draft before the next iteration.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI writing role for this pass",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Draft the introduction section. You decide the hook — I'll revise tone and factual claims."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I aim for a provocative hook or an informative one given the audience?"
+              },
+              {
+                "speaker": "human",
+                "text": "Informative — this is a technical audience, not a general one."
+              }
+            ],
+            "triggers_next": "AI's role and creative latitude for this pass agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide audience, tone, and source material",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The audience is senior engineers. Tone: direct, no fluff. Here are the three source papers to draw from."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I cite sources inline or use footnotes?"
+              },
+              {
+                "speaker": "human",
+                "text": "Inline citations, short form — author + year."
+              }
+            ],
+            "triggers_next": "AI has audience, tone, and sources."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate draft quality",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The second paragraph overstates the claim — the paper says 'suggests', not 'proves'."
+              },
+              {
+                "speaker": "ai",
+                "text": "Corrected to 'suggests evidence for'. Should I flag other hedging opportunities?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — flag anything that sounds more certain than the sources warrant."
+              }
+            ],
+            "triggers_next": "Draft quality and factual accuracy validated."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Finalize and publish",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Editor sign-off received. Marking AI-drafted sections in the revision history."
+              },
+              {
+                "speaker": "human",
+                "text": "Posting to the engineering blog."
+              }
+            ],
+            "triggers_next": "Section published. Next section begins new iteration.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Writing role and creative latitude agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers draft."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Draft validated."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next content section — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "creative-ai-collaboration",
@@ -661,7 +2207,119 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "cyclic",
+        "description": "Human and AI sustain a continuous creative loop — each creative exchange re-evaluates the direction and can cycle back to re-establish creative constraints at any point.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Establish creative autonomy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Write a short story opening. You pick the genre and voice — I'll redirect if it doesn't feel right."
+              },
+              {
+                "speaker": "ai",
+                "text": "I'll try a quiet, literary voice set in a near-future city. Should I commit to a POV character?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — first person, present tense."
+              }
+            ],
+            "triggers_next": "Creative latitude, genre, and POV agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide creative constraints and inspiration",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The theme is isolation despite connectivity. Draw from Ballard's style — sparse, clinical."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I include a specific visual motif or let one emerge?"
+              },
+              {
+                "speaker": "human",
+                "text": "Let one emerge — I'll tell you if it works."
+              }
+            ],
+            "triggers_next": "AI has thematic and stylistic anchors."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate creative output",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "The opening paragraph is strong but the metaphor in line 3 is too on-the-nose."
+              },
+              {
+                "speaker": "ai",
+                "text": "I can replace it with something more oblique — do you want me to suggest three options?"
+              },
+              {
+                "speaker": "human",
+                "text": "Just one — go with your best instinct."
+              }
+            ],
+            "triggers_next": "Creative direction validated or refined."
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Accept and continue or reshape",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "This version works. Saving as draft v2. Let's continue from here — next section?"
+              },
+              {
+                "speaker": "human",
+                "text": "Actually — the voice has drifted. Let's reset the creative constraints before continuing."
+              }
+            ],
+            "triggers_next": "Continues to next creative passage or cycles back to establish new constraints.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Creative autonomy and POV agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers creative output."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Output evaluated."
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Voice drift or new creative direction needed — reset constraints.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "description",
+            "trigger": "Continue from accepted draft — provide next constraints.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     },
     {
       "id": "marketing-email-campaign",
@@ -705,7 +2363,124 @@
       ],
       "contributor": "Rick Dakan & Joseph Feller / Anthropic",
       "reference": "https://aifluencyframework.org",
-      "version": "1.0.0"
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Marketer delegates copy generation, provides audience and goal context, evaluates AI copy for brand fit, then approves send — looping back to description if messaging misses the mark.",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Define AI copy role",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Draft 3 subject line variants and the body for a re-engagement campaign. You choose the CTA."
+              },
+              {
+                "speaker": "ai",
+                "text": "Should I optimize the CTA for clicks or for replies?"
+              },
+              {
+                "speaker": "human",
+                "text": "Clicks — we want traffic to the new pricing page."
+              }
+            ],
+            "triggers_next": "AI's copy role and optimization goal agreed."
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Provide audience segment and brand context",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Audience: lapsed users, last active 90+ days ago. Brand voice: friendly, direct, no urgency language. Goal: bring them back to see the new plan."
+              },
+              {
+                "speaker": "ai",
+                "text": "Is there a specific pain point from exit surveys I should address?"
+              },
+              {
+                "speaker": "human",
+                "text": "Yes — 60% cited pricing confusion. Lead with clarity on the new plan."
+              }
+            ],
+            "triggers_next": "AI has audience, brand voice, and specific messaging anchor."
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Evaluate copy for brand fit and accuracy",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Subject line 2 has urgency language — 'Don't miss out' — remove it."
+              },
+              {
+                "speaker": "ai",
+                "text": "Replaced with 'See what's new.' Does the body CTA feel too salesy?"
+              },
+              {
+                "speaker": "human",
+                "text": "Slightly — soften to 'Take a look' from 'Upgrade now'."
+              }
+            ],
+            "triggers_next": "Copy aligns with brand voice and factual accuracy confirmed.",
+            "loop_back": {
+              "to": "description",
+              "condition": "Copy consistently misses tone or misrepresents product features.",
+              "reason": "Messaging anchor or brand constraints need to be re-provided with examples."
+            }
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "Approve and send",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Legal sign-off on claims — approved. Scheduling send for Tuesday 10am."
+              },
+              {
+                "speaker": "human",
+                "text": "Logging AI-generated copy version and override history for compliance."
+              }
+            ],
+            "triggers_next": "Campaign sent. Cycle restarts for next campaign.",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Copy role and optimization goal agreed."
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI delivers copy variants."
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Copy validated for brand and accuracy."
+          },
+          {
+            "from": "discernment",
+            "to": "description",
+            "trigger": "Messaging consistently off — re-provide anchor.",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Next campaign — restart.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
     }
   ],
   "byDomain": {
@@ -750,7 +2525,124 @@
           "coding"
         ],
         "contributor": "Dakan & Feller",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Human delegates triage scope, AI prioritizes bugs with context provided, human discerns the ranked list, diligence locks in the fix order — looping back to description if root cause is unclear.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Agree on AI triage autonomy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "I have 20 open bugs. Can you rank them by user impact and estimated fix time without me reviewing each one?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can rank by impact category and complexity estimate. I'd recommend you confirm the top 5 before engineering schedules — want me to auto-assign the bottom 10 to backlog?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Auto-assign backlog tier, surface the top 10 for my review."
+                }
+              ],
+              "triggers_next": "Triage scope and backlog rule agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide bug list and product context",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Here are the 20 bug reports with user complaint frequency and affected feature areas."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I weight payment-flow bugs higher than UI bugs?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — payment and data-loss bugs are P0 regardless of frequency."
+                }
+              ],
+              "triggers_next": "AI has priority rules and full bug context."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate prioritized list",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Bug #7 is ranked P1 but I know it's a duplicate of #12 — remove it."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Understood. Do you want me to merge the user complaint counts or keep them separate?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Merge them — #12 now carries the combined weight."
+                }
+              ],
+              "triggers_next": "Prioritized list is validated and de-duplicated.",
+              "loop_back": {
+                "to": "description",
+                "condition": "Root cause of a high-priority bug is unclear or disputed.",
+                "reason": "More engineering context is needed before ranking is meaningful."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Commit to fix schedule and document",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Engineering lead, confirm sprint assignment for P0 and P1 items."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Log the AI-generated ranking and the manual overrides in Jira for audit."
+                }
+              ],
+              "triggers_next": "Sprint is committed. Cycle restarts at next triage session.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Triage scope agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers ranked list."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "List validated and overrides applied."
+            },
+            {
+              "from": "discernment",
+              "to": "description",
+              "trigger": "Root cause unclear — needs more context.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next triage session — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "code-review-triage",
@@ -792,7 +2684,124 @@
           "automation"
         ],
         "contributor": "Dakan & Feller",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Human negotiates AI review scope, provides code context, evaluates findings, then approves — looping back to scope if false-positive rate is high.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Negotiate AI review scope and autonomy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Can you automatically approve style-only comments and flag logic and security issues for me?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can flag logic and security issues with confidence levels. I'd recommend human approval for all security findings — want me to auto-close only style nits?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — auto-close style nits, surface everything else with a severity label."
+                }
+              ],
+              "triggers_next": "Autonomy boundaries and severity thresholds are agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide repository and PR context",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Here is the PR diff, our style guide link, and the three open issues this PR addresses."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Got it. Should I cross-reference the open issues when flagging findings?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — link any finding to the relevant issue if there's a match."
+                }
+              ],
+              "triggers_next": "AI has enough context to begin analysis."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate AI triage findings",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Walk me through your findings. Item 4 — is that a real security issue or a false positive?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Item 4 is likely a false positive given the existing sanitization in line 42. I flagged it because the pattern matches a known injection vector — but the guard is already in place."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Agreed, dismiss item 4. The rest look valid."
+                }
+              ],
+              "triggers_next": "Human has validated which findings are actionable.",
+              "loop_back": {
+                "to": "delegation",
+                "condition": "More than 30% of findings are false positives.",
+                "reason": "Scope or severity thresholds need renegotiation."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Approve findings and document decisions",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Senior engineer, please sign off on items 1, 2, 3, and 5 before we merge."
+                },
+                {
+                  "speaker": "human",
+                  "text": "I'll add a comment to the PR logging which items were AI-flagged and which were human-dismissed."
+                }
+              ],
+              "triggers_next": "PR is approved and decisions are documented. Cycle restarts for the next PR.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Autonomy level and severity thresholds agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI completes triage analysis."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Human validates findings as actionable."
+            },
+            {
+              "from": "discernment",
+              "to": "delegation",
+              "trigger": "False-positive rate too high — re-scope.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "New PR arrives — restart cycle.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "refactoring-suggestions",
@@ -834,7 +2843,113 @@
           "coding"
         ],
         "contributor": "Dakan & Feller",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "iterative",
+          "description": "Human and AI iterate through multiple refactoring passes — each pass re-negotiates scope, provides updated code context, evaluates suggestions, and commits accepted changes.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Scope the refactoring pass",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "I want to reduce coupling in this module. Can you suggest where to start?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I see three high-coupling hotspots. Should I suggest refactors for all three in this pass or focus on the most impactful one?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Focus on the most impactful hotspot first — we'll iterate."
+                }
+              ],
+              "triggers_next": "Refactoring focus for this pass is agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide current code and constraints",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Here is the current module, the interface contracts it must preserve, and our no-breaking-changes constraint."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Are there performance benchmarks I should keep in mind?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Latency must stay under 50ms for the main path — flag anything that might affect it."
+                }
+              ],
+              "triggers_next": "AI has code, contracts, and performance constraints."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate refactoring suggestions",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Suggestion 2 breaks the existing interface — reject that one."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Understood. Suggestion 3 is an alternative that preserves the interface — want me to elaborate?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes, and check if it affects the 50ms path."
+                }
+              ],
+              "triggers_next": "Accepted suggestions are identified and validated."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Commit accepted changes and verify",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Running benchmark — 43ms, within budget. Committing suggestion 3."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Adding a commit note: AI-suggested refactor, human-validated against interface and perf budget."
+                }
+              ],
+              "triggers_next": "Changes committed. Begin next iteration with remaining hotspots.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Refactoring scope for this pass agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers suggestions for this pass."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Accepted suggestions validated."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Remaining hotspots — begin next iteration.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "test-case-generation",
@@ -876,7 +2991,124 @@
           "coding"
         ],
         "contributor": "Dakan & Feller",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Human delegates test scope, provides spec and edge cases, evaluates AI-generated tests, then merges after CI passes — looping back to description if coverage gaps appear.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define test generation scope",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Generate unit tests for this module. Can you also decide which edge cases to include?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can generate tests and propose edge cases, but I'd recommend you confirm the coverage targets — what's the minimum acceptable coverage percentage?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "90% line coverage minimum. Flag anything you're uncertain about."
+                }
+              ],
+              "triggers_next": "Coverage targets and uncertainty-flagging rule agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide spec, examples, and constraints",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Here's the function spec, three existing test examples, and the list of known edge cases from the bug history."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I test for concurrency issues or only sequential inputs?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Sequential only for now — concurrency tests are a separate workstream."
+                }
+              ],
+              "triggers_next": "AI has spec, examples, and constraint boundaries."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Review generated tests for correctness",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Test #8 asserts the wrong return type — it should be a string, not null."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Corrected. Also, I flagged test #12 as potentially flaky due to time-dependent assertion — want me to mock the clock?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes, mock the clock for #12."
+                }
+              ],
+              "triggers_next": "Tests pass review and CI runs green.",
+              "loop_back": {
+                "to": "description",
+                "condition": "Coverage is below target or significant edge cases are missing.",
+                "reason": "More spec detail or explicit edge case guidance is needed."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Approve tests and add to codebase",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Tests pass CI at 93% coverage. Merging to main."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Added a comment noting which tests were AI-generated for future reference."
+                }
+              ],
+              "triggers_next": "Tests merged. Cycle restarts for next module.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Coverage targets agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers test suite."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Tests validated and CI passes."
+            },
+            {
+              "from": "discernment",
+              "to": "description",
+              "trigger": "Coverage gaps require more spec detail.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next module — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ],
     "education": [
@@ -922,7 +3154,124 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Instructor delegates curriculum scaffolding, provides learning goals and constraints, evaluates AI-drafted structure, then approves — looping back to description if pedagogical alignment is off.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Agree on AI's curriculum design role",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Help me design a 10-week course on data literacy. You propose the weekly themes — I'll adjust."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I sequence from concepts to tools, or mix both throughout?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Concepts first, tools introduced in week 4 after foundations are set."
+                }
+              ],
+              "triggers_next": "AI's design role and pedagogical sequencing approach agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide learning outcomes and constraints",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Students are undergraduates with no statistics background. By week 10 they should be able to read and critique a published data study."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I include assessment design or only the content structure?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Include weekly assessments — short, formative, no exams."
+                }
+              ],
+              "triggers_next": "AI has learner profile, outcomes, and assessment approach."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate curriculum structure",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Week 6 introduces regression too early — students won't have the algebra foundation yet."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can move regression to week 8 and use week 6 for data visualization instead."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Do that. Also add a prerequisite check activity in week 1."
+                }
+              ],
+              "triggers_next": "Curriculum validated for pedagogical soundness.",
+              "loop_back": {
+                "to": "description",
+                "condition": "Curriculum consistently misaligns with stated learning outcomes or student level.",
+                "reason": "Learning goals or student profile constraints need to be re-specified."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Approve and document",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Department curriculum committee reviews and approves the final structure."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Filing AI-assisted design notes in the course development record."
+                }
+              ],
+              "triggers_next": "Curriculum approved. Cycle restarts when course is revised.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Design role and sequencing approach agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers curriculum draft."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Structure validated."
+            },
+            {
+              "from": "discernment",
+              "to": "description",
+              "trigger": "Persistent misalignment — re-specify goals.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Course revision cycle — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "lesson-planning",
@@ -966,7 +3315,112 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear",
+          "description": "Teacher delegates lesson scaffolding, provides class context and learning objective, evaluates the AI plan, then uses it in class — single pass per lesson.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI's lesson design role",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Draft a 45-minute lesson plan on photosynthesis for 8th graders. You propose the activities."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I include a hands-on activity or keep it lecture and discussion?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Include one hands-on activity — the class has lab access."
+                }
+              ],
+              "triggers_next": "AI's design role and activity type agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide class context and objectives",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Class of 28 students, mixed ability. Objective: understand the light-dependent reactions. Prior knowledge: cell structure."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Any students with specific accessibility needs I should account for?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "One student uses screen-reader-compatible materials — flag anything visual-only."
+                }
+              ],
+              "triggers_next": "AI has class profile, objective, and accessibility constraints."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate lesson plan quality",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The lab activity takes 20 minutes but the setup alone is 10 — tighten it."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can use a pre-setup version with materials already in place. Reduces activity time to 12 minutes."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Good — and flag the visual diagram for accessibility adaptation."
+                }
+              ],
+              "triggers_next": "Lesson plan validated for timing and inclusivity."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Approve and deliver",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Head of department reviews lesson plan — approved."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Noting AI-drafted plan in the lesson record for reflection."
+                }
+              ],
+              "triggers_next": "Lesson delivered. New lesson requires a fresh cycle."
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Design role and activity type agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers lesson plan."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Plan validated."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "New lesson — fresh cycle.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "student-career-planning",
@@ -1010,7 +3464,124 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Advisor delegates initial career path research, provides student profile, evaluates AI recommendations for fit, then presents to student — looping back if recommendations miss the student's actual goals.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI's research role",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Research career options for a student interested in environmental science with a data analytics minor."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I focus on entry-level roles or also include graduate pathways?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Both — the student hasn't decided on grad school yet."
+                }
+              ],
+              "triggers_next": "Research scope and career path types agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide student profile and goals",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "GPA 3.4, strong in statistics, weaker in field work. Interested in policy impact, not just research."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I weight roles that offer remote work options?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — student is geographically constrained for the next 2 years."
+                }
+              ],
+              "triggers_next": "AI has full student profile and constraint set."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate career path recommendations",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Option 3 (field monitoring) doesn't fit — student has limited mobility."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Replacing with environmental data analyst roles at NGOs — policy-adjacent and remote-friendly."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Good. Option 5 seems too senior for entry-level — adjust expectations."
+                }
+              ],
+              "triggers_next": "Recommendations validated for fit and realistic expectations.",
+              "loop_back": {
+                "to": "description",
+                "condition": "Recommendations consistently miss student's stated values or constraints.",
+                "reason": "Student profile needs richer goal or constraint detail."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Present to student and document",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Presenting AI-curated options to the student — student picks two to explore."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Documenting the advisory session and noting which options were AI-generated."
+                }
+              ],
+              "triggers_next": "Session complete. Next advising session begins new cycle.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Research scope agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers career options."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Options validated for fit."
+            },
+            {
+              "from": "discernment",
+              "to": "description",
+              "trigger": "Recommendations miss goals — re-profile student.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next advising session — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ],
     "general": [
@@ -1056,7 +3627,112 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear",
+          "description": "Human delegates email drafting, provides recipient context and goal, evaluates AI draft for tone and accuracy, then sends — single-pass for routine communication.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI's drafting role",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Draft a follow-up email to a prospect after a demo call. You write the body — I'll adjust the opening and sign-off."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I include next steps or leave that for you to add?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Propose next steps — I'll confirm or modify them."
+                }
+              ],
+              "triggers_next": "AI's drafting scope and human adjustment responsibility agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide recipient and goal context",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Recipient is the VP of Engineering at a mid-size SaaS company. They seemed interested in the security features. Goal: schedule a technical deep-dive."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I reference the specific feature they asked about?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — mention the SSO integration they asked about."
+                }
+              ],
+              "triggers_next": "AI has recipient profile, goal, and specific talking point."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate draft for tone and accuracy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The opening is too casual — this is a VP, not a peer. Adjust tone."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Revised to a more formal but still warm register. Does this work?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes. Also change 'our best feature' to 'the SSO integration' — more specific."
+                }
+              ],
+              "triggers_next": "Draft validated for tone, accuracy, and specificity."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Final review and send",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Re-reading in full — looks good. Sending."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Logging in CRM with AI-draft tag for tracking."
+                }
+              ],
+              "triggers_next": "Email sent. Next communication requires a fresh cycle."
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Drafting scope agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers draft."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Draft validated."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next email — fresh cycle.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "iterative-refinement-loop",
@@ -1100,7 +3776,113 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "iterative",
+          "description": "Human and AI iterate through multiple refinement passes — each pass establishes scope, provides richer context from prior output, evaluates quality, and commits the improvement before the next round.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define refinement goal for this pass",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "This draft is too verbose. In this pass, focus on cutting word count by 30% without losing key ideas."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I prioritize cutting filler phrases or condensing full paragraphs?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Both — flag any paragraph I should consider cutting entirely."
+                }
+              ],
+              "triggers_next": "Refinement goal and cut strategy agreed for this pass."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide current artifact and refinement constraints",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Here is the current draft. The core argument in section 2 must not be weakened — everything else is fair game."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Is the technical terminology in section 3 intended for a specialist audience?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — keep the technical terms, simplify the surrounding prose."
+                }
+              ],
+              "triggers_next": "AI has current artifact, non-negotiables, and simplification targets."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate refinement quality",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The cut version of paragraph 4 loses the nuance — restore the second sentence."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Restored. Overall word count is now down 28% — one more light pass would reach 30%."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Let's do a final light pass in the next iteration."
+                }
+              ],
+              "triggers_next": "Refinement quality validated for this pass."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Commit refined version",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Saving this version as v3. The prior version is archived."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Noting what was changed and why in the revision log."
+                }
+              ],
+              "triggers_next": "Version committed. Next iteration targets remaining improvements.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Refinement goal for this pass agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers refined version."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Quality validated for this pass."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next refinement pass — new goal.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ],
     "healthcare": [
@@ -1146,7 +3928,112 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear",
+          "description": "Clinician delegates note drafting, provides encounter details, reviews AI draft for clinical accuracy, then signs — strictly linear with no shortcuts due to patient safety requirements.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI's documentation role",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Draft the SOAP note for this encounter. You structure the note — I'll verify all clinical content."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I include medication reconciliation in the plan section or keep that separate?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Include it in the plan — I'll verify it against the pharmacy record."
+                }
+              ],
+              "triggers_next": "AI's documentation scope and human verification commitment agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide encounter details and patient context",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Chief complaint: chest pain, 2-day duration. Vitals and exam findings attached. History of hypertension."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I flag any discrepancies I notice between the stated history and the exam findings?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — flag anything that seems inconsistent for my review."
+                }
+              ],
+              "triggers_next": "AI has full encounter context and flag-on-inconsistency rule."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Review AI draft for clinical accuracy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The assessment lists 'rule out MI' — change to 'elevated troponin, workup in progress'."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Corrected. The plan section uses 'may consider' — do you want more definitive language?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — change to 'initiate' for the aspirin order, pending cardiology consult."
+                }
+              ],
+              "triggers_next": "Every clinical claim verified by the clinician — no AI-only assertions remain."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Sign and lock the note",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Note reviewed in full. Signing and locking in the EHR."
+                },
+                {
+                  "speaker": "human",
+                  "text": "AI-assisted draft flagged in the note metadata per compliance policy."
+                }
+              ],
+              "triggers_next": "Note locked. Next encounter requires a fresh cycle."
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Documentation scope and verification commitment agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers draft note."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Every clinical claim verified."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next encounter — fresh cycle.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ],
     "legal": [
@@ -1192,7 +4079,112 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear",
+          "description": "Attorney delegates legal research, provides matter context and jurisdiction, verifies AI findings against authoritative sources, then uses the work product — strictly linear due to professional liability.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI's research role and limits",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Research current case law on non-compete enforceability in California. Surface the key cases — I'll do final legal analysis."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I include federal circuit decisions or only California state courts?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Both — but flag circuit splits if they exist."
+                }
+              ],
+              "triggers_next": "Research scope, jurisdiction, and attorney analysis responsibility agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide matter context and legal question",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Client is a software company seeking to enforce a 2-year non-compete against a departed engineer. Employment ended 6 months ago."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I focus on enforceability standards or also include remedy options?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Enforceability first — remedies are a separate memo."
+                }
+              ],
+              "triggers_next": "AI has matter facts and specific legal question."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Verify AI research against authoritative sources",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Citation 3 — I need to verify that holding directly. Pull the full opinion."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Here is the full text of Edwards v. Arthur Andersen. The holding is on page 12."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Confirmed. Citation 4 has been superseded — remove it and note why."
+                }
+              ],
+              "triggers_next": "Every citation verified against primary sources. No unverified AI assertions remain."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Review, sign off, and document",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Partner reviews research memo before it goes to client."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Noting AI-assisted research in the matter file per firm policy."
+                }
+              ],
+              "triggers_next": "Memo approved and filed. Next matter question requires a fresh cycle."
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Research scope and liability boundaries agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers research findings."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Every citation independently verified."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next legal question — fresh cycle.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ],
     "research": [
@@ -1238,7 +4230,124 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Researcher delegates analysis scope, provides dataset and hypotheses, evaluates AI findings for statistical validity, then reports — looping back to description if data quality issues emerge.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Agree on analysis scope and AI autonomy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Analyze this survey dataset for correlations between feature usage and retention. Can you decide which statistical tests to run?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can select appropriate tests given the distribution. Should I flag non-significant results or only report significant ones?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Flag all results — I want the full picture, not just the highlights."
+                }
+              ],
+              "triggers_next": "Analysis scope and reporting rule agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide dataset and hypotheses",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Here's the dataset. Hypothesis: users who use feature X in the first week have higher 90-day retention."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "The dataset has 12% missing values in the retention column — how should I handle them?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Exclude records with missing retention data and note the exclusion count."
+                }
+              ],
+              "triggers_next": "AI has clean dataset, hypotheses, and data handling rules."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate analysis findings",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The correlation coefficient looks high — is this sample size large enough for that claim?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "N=340 gives 80% power for this effect size. The result is statistically robust."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Good. Flag finding 3 as exploratory — the sample for that subgroup is only N=28."
+                }
+              ],
+              "triggers_next": "Findings validated for statistical robustness and appropriate caveats added.",
+              "loop_back": {
+                "to": "description",
+                "condition": "Data quality issues (e.g., sampling bias, large missing data) undermine the analysis.",
+                "reason": "Dataset needs cleaning or re-scoping before analysis is meaningful."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Review, document, and report",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Senior analyst peer-reviews the methodology section before publication."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Documenting which tests were AI-selected and which were human-specified in the methods section."
+                }
+              ],
+              "triggers_next": "Report approved and methodology documented. Cycle restarts for next analysis.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Analysis scope and reporting rules agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers analysis results."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Findings validated."
+            },
+            {
+              "from": "discernment",
+              "to": "description",
+              "trigger": "Data quality issues require dataset revision.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next research question — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "literature-review",
@@ -1282,7 +4391,113 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "iterative",
+          "description": "Researcher and AI iterate through literature in passes — each pass scopes the search, provides query context, evaluates source quality, and commits the accepted sources before the next domain.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define search scope and AI autonomy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Search for papers on transformer attention mechanisms published 2020–2024. Can you decide which databases to query?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I'd suggest Semantic Scholar, arXiv, and ACL Anthology. Should I include pre-prints or only peer-reviewed?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Include pre-prints but flag them separately."
+                }
+              ],
+              "triggers_next": "Search scope, databases, and pre-print policy agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide query terms and exclusion criteria",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Focus on efficiency improvements to attention. Exclude papers that are purely theoretical with no empirical results."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I prioritize highly-cited papers or recent ones?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Recent first — this is a fast-moving area."
+                }
+              ],
+              "triggers_next": "AI has query terms, relevance criteria, and recency bias."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate source quality and relevance",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Paper 7 seems tangentially related — is the methodology actually relevant to our work?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "The dataset they use is different but the attention variant they propose directly addresses your efficiency problem. I'd include it."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Agreed — include it with a note on the dataset difference."
+                }
+              ],
+              "triggers_next": "Source list validated for relevance and quality."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Curate and document the source list",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "PI reviews the final list before it goes into the literature section."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Adding search query log and exclusion decisions to the methodology appendix."
+                }
+              ],
+              "triggers_next": "Sources committed. Begin next thematic area.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Search scope and databases agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI returns candidate sources."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Sources validated."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next thematic area — new search pass.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ],
     "writing": [
@@ -1328,7 +4543,113 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "iterative",
+          "description": "Writer and AI iterate through content passes — each round refines scope, provides richer context, evaluates quality, and commits the accepted draft before the next iteration.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI writing role for this pass",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Draft the introduction section. You decide the hook — I'll revise tone and factual claims."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I aim for a provocative hook or an informative one given the audience?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Informative — this is a technical audience, not a general one."
+                }
+              ],
+              "triggers_next": "AI's role and creative latitude for this pass agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide audience, tone, and source material",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The audience is senior engineers. Tone: direct, no fluff. Here are the three source papers to draw from."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I cite sources inline or use footnotes?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Inline citations, short form — author + year."
+                }
+              ],
+              "triggers_next": "AI has audience, tone, and sources."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate draft quality",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The second paragraph overstates the claim — the paper says 'suggests', not 'proves'."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Corrected to 'suggests evidence for'. Should I flag other hedging opportunities?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — flag anything that sounds more certain than the sources warrant."
+                }
+              ],
+              "triggers_next": "Draft quality and factual accuracy validated."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Finalize and publish",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Editor sign-off received. Marking AI-drafted sections in the revision history."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Posting to the engineering blog."
+                }
+              ],
+              "triggers_next": "Section published. Next section begins new iteration.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Writing role and creative latitude agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers draft."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Draft validated."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next content section — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "creative-ai-collaboration",
@@ -1372,7 +4693,119 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "cyclic",
+          "description": "Human and AI sustain a continuous creative loop — each creative exchange re-evaluates the direction and can cycle back to re-establish creative constraints at any point.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Establish creative autonomy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Write a short story opening. You pick the genre and voice — I'll redirect if it doesn't feel right."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I'll try a quiet, literary voice set in a near-future city. Should I commit to a POV character?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — first person, present tense."
+                }
+              ],
+              "triggers_next": "Creative latitude, genre, and POV agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide creative constraints and inspiration",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The theme is isolation despite connectivity. Draw from Ballard's style — sparse, clinical."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I include a specific visual motif or let one emerge?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Let one emerge — I'll tell you if it works."
+                }
+              ],
+              "triggers_next": "AI has thematic and stylistic anchors."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate creative output",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "The opening paragraph is strong but the metaphor in line 3 is too on-the-nose."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "I can replace it with something more oblique — do you want me to suggest three options?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Just one — go with your best instinct."
+                }
+              ],
+              "triggers_next": "Creative direction validated or refined."
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Accept and continue or reshape",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "This version works. Saving as draft v2. Let's continue from here — next section?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Actually — the voice has drifted. Let's reset the creative constraints before continuing."
+                }
+              ],
+              "triggers_next": "Continues to next creative passage or cycles back to establish new constraints.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Creative autonomy and POV agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers creative output."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Output evaluated."
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Voice drift or new creative direction needed — reset constraints.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "description",
+              "trigger": "Continue from accepted draft — provide next constraints.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       },
       {
         "id": "marketing-email-campaign",
@@ -1416,7 +4849,124 @@
         ],
         "contributor": "Rick Dakan & Joseph Feller / Anthropic",
         "reference": "https://aifluencyframework.org",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Marketer delegates copy generation, provides audience and goal context, evaluates AI copy for brand fit, then approves send — looping back to description if messaging misses the mark.",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Define AI copy role",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Draft 3 subject line variants and the body for a re-engagement campaign. You choose the CTA."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Should I optimize the CTA for clicks or for replies?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Clicks — we want traffic to the new pricing page."
+                }
+              ],
+              "triggers_next": "AI's copy role and optimization goal agreed."
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Provide audience segment and brand context",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Audience: lapsed users, last active 90+ days ago. Brand voice: friendly, direct, no urgency language. Goal: bring them back to see the new plan."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Is there a specific pain point from exit surveys I should address?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Yes — 60% cited pricing confusion. Lead with clarity on the new plan."
+                }
+              ],
+              "triggers_next": "AI has audience, brand voice, and specific messaging anchor."
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Evaluate copy for brand fit and accuracy",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Subject line 2 has urgency language — 'Don't miss out' — remove it."
+                },
+                {
+                  "speaker": "ai",
+                  "text": "Replaced with 'See what's new.' Does the body CTA feel too salesy?"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Slightly — soften to 'Take a look' from 'Upgrade now'."
+                }
+              ],
+              "triggers_next": "Copy aligns with brand voice and factual accuracy confirmed.",
+              "loop_back": {
+                "to": "description",
+                "condition": "Copy consistently misses tone or misrepresents product features.",
+                "reason": "Messaging anchor or brand constraints need to be re-provided with examples."
+              }
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "Approve and send",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Legal sign-off on claims — approved. Scheduling send for Tuesday 10am."
+                },
+                {
+                  "speaker": "human",
+                  "text": "Logging AI-generated copy version and override history for compliance."
+                }
+              ],
+              "triggers_next": "Campaign sent. Cycle restarts for next campaign.",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Copy role and optimization goal agreed."
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI delivers copy variants."
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Copy validated for brand and accuracy."
+            },
+            {
+              "from": "discernment",
+              "to": "description",
+              "trigger": "Messaging consistently off — re-provide anchor.",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Next campaign — restart.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
       }
     ]
   }

@@ -31,3 +31,64 @@ tags:
   - document-drafting
   - professional-responsibility
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear
+  description: "Attorney delegates legal research, provides matter context and jurisdiction, verifies AI findings against authoritative sources, then uses the work product — strictly linear due to professional liability."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI's research role and limits"
+      example_prompts:
+        - speaker: human
+          text: "Research current case law on non-compete enforceability in California. Surface the key cases — I'll do final legal analysis."
+        - speaker: ai
+          text: "Should I include federal circuit decisions or only California state courts?"
+        - speaker: human
+          text: "Both — but flag circuit splits if they exist."
+      triggers_next: "Research scope, jurisdiction, and attorney analysis responsibility agreed."
+    - step: 2
+      d: description
+      label: "Provide matter context and legal question"
+      example_prompts:
+        - speaker: human
+          text: "Client is a software company seeking to enforce a 2-year non-compete against a departed engineer. Employment ended 6 months ago."
+        - speaker: ai
+          text: "Should I focus on enforceability standards or also include remedy options?"
+        - speaker: human
+          text: "Enforceability first — remedies are a separate memo."
+      triggers_next: "AI has matter facts and specific legal question."
+    - step: 3
+      d: discernment
+      label: "Verify AI research against authoritative sources"
+      example_prompts:
+        - speaker: human
+          text: "Citation 3 — I need to verify that holding directly. Pull the full opinion."
+        - speaker: ai
+          text: "Here is the full text of Edwards v. Arthur Andersen. The holding is on page 12."
+        - speaker: human
+          text: "Confirmed. Citation 4 has been superseded — remove it and note why."
+      triggers_next: "Every citation verified against primary sources. No unverified AI assertions remain."
+    - step: 4
+      d: diligence
+      label: "Review, sign off, and document"
+      example_prompts:
+        - speaker: human
+          text: "Partner reviews research memo before it goes to client."
+        - speaker: human
+          text: "Noting AI-assisted research in the matter file per firm policy."
+      triggers_next: "Memo approved and filed. Next matter question requires a fresh cycle."
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Research scope and liability boundaries agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers research findings."
+    - from: discernment
+      to: diligence
+      trigger: "Every citation independently verified."
+    - from: diligence
+      to: delegation
+      trigger: "Next legal question — fresh cycle."
+      is_cycle_restart: true

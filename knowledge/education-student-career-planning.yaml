@@ -31,3 +31,73 @@ tags:
   - resume
   - professional-development
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Advisor delegates initial career path research, provides student profile, evaluates AI recommendations for fit, then presents to student — looping back if recommendations miss the student's actual goals."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI's research role"
+      example_prompts:
+        - speaker: human
+          text: "Research career options for a student interested in environmental science with a data analytics minor."
+        - speaker: ai
+          text: "Should I focus on entry-level roles or also include graduate pathways?"
+        - speaker: human
+          text: "Both — the student hasn't decided on grad school yet."
+      triggers_next: "Research scope and career path types agreed."
+    - step: 2
+      d: description
+      label: "Provide student profile and goals"
+      example_prompts:
+        - speaker: human
+          text: "GPA 3.4, strong in statistics, weaker in field work. Interested in policy impact, not just research."
+        - speaker: ai
+          text: "Should I weight roles that offer remote work options?"
+        - speaker: human
+          text: "Yes — student is geographically constrained for the next 2 years."
+      triggers_next: "AI has full student profile and constraint set."
+    - step: 3
+      d: discernment
+      label: "Evaluate career path recommendations"
+      example_prompts:
+        - speaker: human
+          text: "Option 3 (field monitoring) doesn't fit — student has limited mobility."
+        - speaker: ai
+          text: "Replacing with environmental data analyst roles at NGOs — policy-adjacent and remote-friendly."
+        - speaker: human
+          text: "Good. Option 5 seems too senior for entry-level — adjust expectations."
+      triggers_next: "Recommendations validated for fit and realistic expectations."
+      loop_back:
+        to: description
+        condition: "Recommendations consistently miss student's stated values or constraints."
+        reason: "Student profile needs richer goal or constraint detail."
+    - step: 4
+      d: diligence
+      label: "Present to student and document"
+      example_prompts:
+        - speaker: human
+          text: "Presenting AI-curated options to the student — student picks two to explore."
+        - speaker: human
+          text: "Documenting the advisory session and noting which options were AI-generated."
+      triggers_next: "Session complete. Next advising session begins new cycle."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Research scope agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers career options."
+    - from: discernment
+      to: diligence
+      trigger: "Options validated for fit."
+    - from: discernment
+      to: description
+      trigger: "Recommendations miss goals — re-profile student."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Next advising session — restart."
+      is_cycle_restart: true

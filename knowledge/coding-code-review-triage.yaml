@@ -29,3 +29,73 @@ tags:
   - code-review
   - triage
   - automation
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Human negotiates AI review scope, provides code context, evaluates findings, then approves — looping back to scope if false-positive rate is high."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Negotiate AI review scope and autonomy"
+      example_prompts:
+        - speaker: human
+          text: "Can you automatically approve style-only comments and flag logic and security issues for me?"
+        - speaker: ai
+          text: "I can flag logic and security issues with confidence levels. I'd recommend human approval for all security findings — want me to auto-close only style nits?"
+        - speaker: human
+          text: "Yes — auto-close style nits, surface everything else with a severity label."
+      triggers_next: "Autonomy boundaries and severity thresholds are agreed."
+    - step: 2
+      d: description
+      label: "Provide repository and PR context"
+      example_prompts:
+        - speaker: human
+          text: "Here is the PR diff, our style guide link, and the three open issues this PR addresses."
+        - speaker: ai
+          text: "Got it. Should I cross-reference the open issues when flagging findings?"
+        - speaker: human
+          text: "Yes — link any finding to the relevant issue if there's a match."
+      triggers_next: "AI has enough context to begin analysis."
+    - step: 3
+      d: discernment
+      label: "Evaluate AI triage findings"
+      example_prompts:
+        - speaker: human
+          text: "Walk me through your findings. Item 4 — is that a real security issue or a false positive?"
+        - speaker: ai
+          text: "Item 4 is likely a false positive given the existing sanitization in line 42. I flagged it because the pattern matches a known injection vector — but the guard is already in place."
+        - speaker: human
+          text: "Agreed, dismiss item 4. The rest look valid."
+      triggers_next: "Human has validated which findings are actionable."
+      loop_back:
+        to: delegation
+        condition: "More than 30% of findings are false positives."
+        reason: "Scope or severity thresholds need renegotiation."
+    - step: 4
+      d: diligence
+      label: "Approve findings and document decisions"
+      example_prompts:
+        - speaker: human
+          text: "Senior engineer, please sign off on items 1, 2, 3, and 5 before we merge."
+        - speaker: human
+          text: "I'll add a comment to the PR logging which items were AI-flagged and which were human-dismissed."
+      triggers_next: "PR is approved and decisions are documented. Cycle restarts for the next PR."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Autonomy level and severity thresholds agreed."
+    - from: description
+      to: discernment
+      trigger: "AI completes triage analysis."
+    - from: discernment
+      to: diligence
+      trigger: "Human validates findings as actionable."
+    - from: discernment
+      to: delegation
+      trigger: "False-positive rate too high — re-scope."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "New PR arrives — restart cycle."
+      is_cycle_restart: true

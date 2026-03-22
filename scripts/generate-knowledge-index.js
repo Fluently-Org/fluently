@@ -33,7 +33,9 @@ function generateKnowledgeIndex() {
         tags: data.tags || [],
         contributor: data.contributor,
         reference: data.reference,
-        version: data.version || '1.0.0'
+        version: data.version || '1.0.0',
+        // Collaboration block: conversation sequence, pattern type, and transitions
+        collaboration: data.collaboration || null,
       });
     } catch (err) {
       console.warn(`⚠️  Could not index ${file}: ${err.message}`);

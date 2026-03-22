@@ -31,3 +31,64 @@ tags:
   - patient-safety
   - EHR
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear
+  description: "Clinician delegates note drafting, provides encounter details, reviews AI draft for clinical accuracy, then signs — strictly linear with no shortcuts due to patient safety requirements."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI's documentation role"
+      example_prompts:
+        - speaker: human
+          text: "Draft the SOAP note for this encounter. You structure the note — I'll verify all clinical content."
+        - speaker: ai
+          text: "Should I include medication reconciliation in the plan section or keep that separate?"
+        - speaker: human
+          text: "Include it in the plan — I'll verify it against the pharmacy record."
+      triggers_next: "AI's documentation scope and human verification commitment agreed."
+    - step: 2
+      d: description
+      label: "Provide encounter details and patient context"
+      example_prompts:
+        - speaker: human
+          text: "Chief complaint: chest pain, 2-day duration. Vitals and exam findings attached. History of hypertension."
+        - speaker: ai
+          text: "Should I flag any discrepancies I notice between the stated history and the exam findings?"
+        - speaker: human
+          text: "Yes — flag anything that seems inconsistent for my review."
+      triggers_next: "AI has full encounter context and flag-on-inconsistency rule."
+    - step: 3
+      d: discernment
+      label: "Review AI draft for clinical accuracy"
+      example_prompts:
+        - speaker: human
+          text: "The assessment lists 'rule out MI' — change to 'elevated troponin, workup in progress'."
+        - speaker: ai
+          text: "Corrected. The plan section uses 'may consider' — do you want more definitive language?"
+        - speaker: human
+          text: "Yes — change to 'initiate' for the aspirin order, pending cardiology consult."
+      triggers_next: "Every clinical claim verified by the clinician — no AI-only assertions remain."
+    - step: 4
+      d: diligence
+      label: "Sign and lock the note"
+      example_prompts:
+        - speaker: human
+          text: "Note reviewed in full. Signing and locking in the EHR."
+        - speaker: human
+          text: "AI-assisted draft flagged in the note metadata per compliance policy."
+      triggers_next: "Note locked. Next encounter requires a fresh cycle."
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Documentation scope and verification commitment agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers draft note."
+    - from: discernment
+      to: diligence
+      trigger: "Every clinical claim verified."
+    - from: diligence
+      to: delegation
+      trigger: "Next encounter — fresh cycle."
+      is_cycle_restart: true

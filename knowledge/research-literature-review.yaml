@@ -31,3 +31,65 @@ tags:
   - citation-verification
   - research-integrity
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: iterative
+  description: "Researcher and AI iterate through literature in passes — each pass scopes the search, provides query context, evaluates source quality, and commits the accepted sources before the next domain."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define search scope and AI autonomy"
+      example_prompts:
+        - speaker: human
+          text: "Search for papers on transformer attention mechanisms published 2020–2024. Can you decide which databases to query?"
+        - speaker: ai
+          text: "I'd suggest Semantic Scholar, arXiv, and ACL Anthology. Should I include pre-prints or only peer-reviewed?"
+        - speaker: human
+          text: "Include pre-prints but flag them separately."
+      triggers_next: "Search scope, databases, and pre-print policy agreed."
+    - step: 2
+      d: description
+      label: "Provide query terms and exclusion criteria"
+      example_prompts:
+        - speaker: human
+          text: "Focus on efficiency improvements to attention. Exclude papers that are purely theoretical with no empirical results."
+        - speaker: ai
+          text: "Should I prioritize highly-cited papers or recent ones?"
+        - speaker: human
+          text: "Recent first — this is a fast-moving area."
+      triggers_next: "AI has query terms, relevance criteria, and recency bias."
+    - step: 3
+      d: discernment
+      label: "Evaluate source quality and relevance"
+      example_prompts:
+        - speaker: human
+          text: "Paper 7 seems tangentially related — is the methodology actually relevant to our work?"
+        - speaker: ai
+          text: "The dataset they use is different but the attention variant they propose directly addresses your efficiency problem. I'd include it."
+        - speaker: human
+          text: "Agreed — include it with a note on the dataset difference."
+      triggers_next: "Source list validated for relevance and quality."
+    - step: 4
+      d: diligence
+      label: "Curate and document the source list"
+      example_prompts:
+        - speaker: human
+          text: "PI reviews the final list before it goes into the literature section."
+        - speaker: human
+          text: "Adding search query log and exclusion decisions to the methodology appendix."
+      triggers_next: "Sources committed. Begin next thematic area."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Search scope and databases agreed."
+    - from: description
+      to: discernment
+      trigger: "AI returns candidate sources."
+    - from: discernment
+      to: diligence
+      trigger: "Sources validated."
+    - from: diligence
+      to: delegation
+      trigger: "Next thematic area — new search pass."
+      is_cycle_restart: true

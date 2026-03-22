@@ -31,3 +31,65 @@ tags:
   - content-development
   - authorship
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: iterative
+  description: "Writer and AI iterate through content passes — each round refines scope, provides richer context, evaluates quality, and commits the accepted draft before the next iteration."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI writing role for this pass"
+      example_prompts:
+        - speaker: human
+          text: "Draft the introduction section. You decide the hook — I'll revise tone and factual claims."
+        - speaker: ai
+          text: "Should I aim for a provocative hook or an informative one given the audience?"
+        - speaker: human
+          text: "Informative — this is a technical audience, not a general one."
+      triggers_next: "AI's role and creative latitude for this pass agreed."
+    - step: 2
+      d: description
+      label: "Provide audience, tone, and source material"
+      example_prompts:
+        - speaker: human
+          text: "The audience is senior engineers. Tone: direct, no fluff. Here are the three source papers to draw from."
+        - speaker: ai
+          text: "Should I cite sources inline or use footnotes?"
+        - speaker: human
+          text: "Inline citations, short form — author + year."
+      triggers_next: "AI has audience, tone, and sources."
+    - step: 3
+      d: discernment
+      label: "Evaluate draft quality"
+      example_prompts:
+        - speaker: human
+          text: "The second paragraph overstates the claim — the paper says 'suggests', not 'proves'."
+        - speaker: ai
+          text: "Corrected to 'suggests evidence for'. Should I flag other hedging opportunities?"
+        - speaker: human
+          text: "Yes — flag anything that sounds more certain than the sources warrant."
+      triggers_next: "Draft quality and factual accuracy validated."
+    - step: 4
+      d: diligence
+      label: "Finalize and publish"
+      example_prompts:
+        - speaker: human
+          text: "Editor sign-off received. Marking AI-drafted sections in the revision history."
+        - speaker: human
+          text: "Posting to the engineering blog."
+      triggers_next: "Section published. Next section begins new iteration."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Writing role and creative latitude agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers draft."
+    - from: discernment
+      to: diligence
+      trigger: "Draft validated."
+    - from: diligence
+      to: delegation
+      trigger: "Next content section — restart."
+      is_cycle_restart: true

@@ -31,3 +31,65 @@ tags:
   - workflow
   - refinement
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: iterative
+  description: "Human and AI iterate through multiple refinement passes — each pass establishes scope, provides richer context from prior output, evaluates quality, and commits the improvement before the next round."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define refinement goal for this pass"
+      example_prompts:
+        - speaker: human
+          text: "This draft is too verbose. In this pass, focus on cutting word count by 30% without losing key ideas."
+        - speaker: ai
+          text: "Should I prioritize cutting filler phrases or condensing full paragraphs?"
+        - speaker: human
+          text: "Both — flag any paragraph I should consider cutting entirely."
+      triggers_next: "Refinement goal and cut strategy agreed for this pass."
+    - step: 2
+      d: description
+      label: "Provide current artifact and refinement constraints"
+      example_prompts:
+        - speaker: human
+          text: "Here is the current draft. The core argument in section 2 must not be weakened — everything else is fair game."
+        - speaker: ai
+          text: "Is the technical terminology in section 3 intended for a specialist audience?"
+        - speaker: human
+          text: "Yes — keep the technical terms, simplify the surrounding prose."
+      triggers_next: "AI has current artifact, non-negotiables, and simplification targets."
+    - step: 3
+      d: discernment
+      label: "Evaluate refinement quality"
+      example_prompts:
+        - speaker: human
+          text: "The cut version of paragraph 4 loses the nuance — restore the second sentence."
+        - speaker: ai
+          text: "Restored. Overall word count is now down 28% — one more light pass would reach 30%."
+        - speaker: human
+          text: "Let's do a final light pass in the next iteration."
+      triggers_next: "Refinement quality validated for this pass."
+    - step: 4
+      d: diligence
+      label: "Commit refined version"
+      example_prompts:
+        - speaker: human
+          text: "Saving this version as v3. The prior version is archived."
+        - speaker: human
+          text: "Noting what was changed and why in the revision log."
+      triggers_next: "Version committed. Next iteration targets remaining improvements."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Refinement goal for this pass agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers refined version."
+    - from: discernment
+      to: diligence
+      trigger: "Quality validated for this pass."
+    - from: diligence
+      to: delegation
+      trigger: "Next refinement pass — new goal."
+      is_cycle_restart: true

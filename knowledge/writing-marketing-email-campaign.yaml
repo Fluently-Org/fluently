@@ -31,3 +31,73 @@ tags:
   - copywriting
   - brand-voice
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Marketer delegates copy generation, provides audience and goal context, evaluates AI copy for brand fit, then approves send — looping back to description if messaging misses the mark."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI copy role"
+      example_prompts:
+        - speaker: human
+          text: "Draft 3 subject line variants and the body for a re-engagement campaign. You choose the CTA."
+        - speaker: ai
+          text: "Should I optimize the CTA for clicks or for replies?"
+        - speaker: human
+          text: "Clicks — we want traffic to the new pricing page."
+      triggers_next: "AI's copy role and optimization goal agreed."
+    - step: 2
+      d: description
+      label: "Provide audience segment and brand context"
+      example_prompts:
+        - speaker: human
+          text: "Audience: lapsed users, last active 90+ days ago. Brand voice: friendly, direct, no urgency language. Goal: bring them back to see the new plan."
+        - speaker: ai
+          text: "Is there a specific pain point from exit surveys I should address?"
+        - speaker: human
+          text: "Yes — 60% cited pricing confusion. Lead with clarity on the new plan."
+      triggers_next: "AI has audience, brand voice, and specific messaging anchor."
+    - step: 3
+      d: discernment
+      label: "Evaluate copy for brand fit and accuracy"
+      example_prompts:
+        - speaker: human
+          text: "Subject line 2 has urgency language — 'Don't miss out' — remove it."
+        - speaker: ai
+          text: "Replaced with 'See what's new.' Does the body CTA feel too salesy?"
+        - speaker: human
+          text: "Slightly — soften to 'Take a look' from 'Upgrade now'."
+      triggers_next: "Copy aligns with brand voice and factual accuracy confirmed."
+      loop_back:
+        to: description
+        condition: "Copy consistently misses tone or misrepresents product features."
+        reason: "Messaging anchor or brand constraints need to be re-provided with examples."
+    - step: 4
+      d: diligence
+      label: "Approve and send"
+      example_prompts:
+        - speaker: human
+          text: "Legal sign-off on claims — approved. Scheduling send for Tuesday 10am."
+        - speaker: human
+          text: "Logging AI-generated copy version and override history for compliance."
+      triggers_next: "Campaign sent. Cycle restarts for next campaign."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Copy role and optimization goal agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers copy variants."
+    - from: discernment
+      to: diligence
+      trigger: "Copy validated for brand and accuracy."
+    - from: discernment
+      to: description
+      trigger: "Messaging consistently off — re-provide anchor."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Next campaign — restart."
+      is_cycle_restart: true

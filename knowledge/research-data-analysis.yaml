@@ -31,3 +31,73 @@ tags:
   - statistics
   - academic
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Researcher delegates analysis scope, provides dataset and hypotheses, evaluates AI findings for statistical validity, then reports — looping back to description if data quality issues emerge."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Agree on analysis scope and AI autonomy"
+      example_prompts:
+        - speaker: human
+          text: "Analyze this survey dataset for correlations between feature usage and retention. Can you decide which statistical tests to run?"
+        - speaker: ai
+          text: "I can select appropriate tests given the distribution. Should I flag non-significant results or only report significant ones?"
+        - speaker: human
+          text: "Flag all results — I want the full picture, not just the highlights."
+      triggers_next: "Analysis scope and reporting rule agreed."
+    - step: 2
+      d: description
+      label: "Provide dataset and hypotheses"
+      example_prompts:
+        - speaker: human
+          text: "Here's the dataset. Hypothesis: users who use feature X in the first week have higher 90-day retention."
+        - speaker: ai
+          text: "The dataset has 12% missing values in the retention column — how should I handle them?"
+        - speaker: human
+          text: "Exclude records with missing retention data and note the exclusion count."
+      triggers_next: "AI has clean dataset, hypotheses, and data handling rules."
+    - step: 3
+      d: discernment
+      label: "Evaluate analysis findings"
+      example_prompts:
+        - speaker: human
+          text: "The correlation coefficient looks high — is this sample size large enough for that claim?"
+        - speaker: ai
+          text: "N=340 gives 80% power for this effect size. The result is statistically robust."
+        - speaker: human
+          text: "Good. Flag finding 3 as exploratory — the sample for that subgroup is only N=28."
+      triggers_next: "Findings validated for statistical robustness and appropriate caveats added."
+      loop_back:
+        to: description
+        condition: "Data quality issues (e.g., sampling bias, large missing data) undermine the analysis."
+        reason: "Dataset needs cleaning or re-scoping before analysis is meaningful."
+    - step: 4
+      d: diligence
+      label: "Review, document, and report"
+      example_prompts:
+        - speaker: human
+          text: "Senior analyst peer-reviews the methodology section before publication."
+        - speaker: human
+          text: "Documenting which tests were AI-selected and which were human-specified in the methods section."
+      triggers_next: "Report approved and methodology documented. Cycle restarts for next analysis."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Analysis scope and reporting rules agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers analysis results."
+    - from: discernment
+      to: diligence
+      trigger: "Findings validated."
+    - from: discernment
+      to: description
+      trigger: "Data quality issues require dataset revision."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Next research question — restart."
+      is_cycle_restart: true

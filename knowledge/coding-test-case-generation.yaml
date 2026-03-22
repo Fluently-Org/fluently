@@ -29,3 +29,73 @@ tags:
   - test-case
   - generation
   - coding
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Human delegates test scope, provides spec and edge cases, evaluates AI-generated tests, then merges after CI passes — looping back to description if coverage gaps appear."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define test generation scope"
+      example_prompts:
+        - speaker: human
+          text: "Generate unit tests for this module. Can you also decide which edge cases to include?"
+        - speaker: ai
+          text: "I can generate tests and propose edge cases, but I'd recommend you confirm the coverage targets — what's the minimum acceptable coverage percentage?"
+        - speaker: human
+          text: "90% line coverage minimum. Flag anything you're uncertain about."
+      triggers_next: "Coverage targets and uncertainty-flagging rule agreed."
+    - step: 2
+      d: description
+      label: "Provide spec, examples, and constraints"
+      example_prompts:
+        - speaker: human
+          text: "Here's the function spec, three existing test examples, and the list of known edge cases from the bug history."
+        - speaker: ai
+          text: "Should I test for concurrency issues or only sequential inputs?"
+        - speaker: human
+          text: "Sequential only for now — concurrency tests are a separate workstream."
+      triggers_next: "AI has spec, examples, and constraint boundaries."
+    - step: 3
+      d: discernment
+      label: "Review generated tests for correctness"
+      example_prompts:
+        - speaker: human
+          text: "Test #8 asserts the wrong return type — it should be a string, not null."
+        - speaker: ai
+          text: "Corrected. Also, I flagged test #12 as potentially flaky due to time-dependent assertion — want me to mock the clock?"
+        - speaker: human
+          text: "Yes, mock the clock for #12."
+      triggers_next: "Tests pass review and CI runs green."
+      loop_back:
+        to: description
+        condition: "Coverage is below target or significant edge cases are missing."
+        reason: "More spec detail or explicit edge case guidance is needed."
+    - step: 4
+      d: diligence
+      label: "Approve tests and add to codebase"
+      example_prompts:
+        - speaker: human
+          text: "Tests pass CI at 93% coverage. Merging to main."
+        - speaker: human
+          text: "Added a comment noting which tests were AI-generated for future reference."
+      triggers_next: "Tests merged. Cycle restarts for next module."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Coverage targets agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers test suite."
+    - from: discernment
+      to: diligence
+      trigger: "Tests validated and CI passes."
+    - from: discernment
+      to: description
+      trigger: "Coverage gaps require more spec detail."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Next module — restart."
+      is_cycle_restart: true

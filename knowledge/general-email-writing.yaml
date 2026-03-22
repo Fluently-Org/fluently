@@ -31,3 +31,64 @@ tags:
   - drafting
   - workplace
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear
+  description: "Human delegates email drafting, provides recipient context and goal, evaluates AI draft for tone and accuracy, then sends — single-pass for routine communication."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Define AI's drafting role"
+      example_prompts:
+        - speaker: human
+          text: "Draft a follow-up email to a prospect after a demo call. You write the body — I'll adjust the opening and sign-off."
+        - speaker: ai
+          text: "Should I include next steps or leave that for you to add?"
+        - speaker: human
+          text: "Propose next steps — I'll confirm or modify them."
+      triggers_next: "AI's drafting scope and human adjustment responsibility agreed."
+    - step: 2
+      d: description
+      label: "Provide recipient and goal context"
+      example_prompts:
+        - speaker: human
+          text: "Recipient is the VP of Engineering at a mid-size SaaS company. They seemed interested in the security features. Goal: schedule a technical deep-dive."
+        - speaker: ai
+          text: "Should I reference the specific feature they asked about?"
+        - speaker: human
+          text: "Yes — mention the SSO integration they asked about."
+      triggers_next: "AI has recipient profile, goal, and specific talking point."
+    - step: 3
+      d: discernment
+      label: "Evaluate draft for tone and accuracy"
+      example_prompts:
+        - speaker: human
+          text: "The opening is too casual — this is a VP, not a peer. Adjust tone."
+        - speaker: ai
+          text: "Revised to a more formal but still warm register. Does this work?"
+        - speaker: human
+          text: "Yes. Also change 'our best feature' to 'the SSO integration' — more specific."
+      triggers_next: "Draft validated for tone, accuracy, and specificity."
+    - step: 4
+      d: diligence
+      label: "Final review and send"
+      example_prompts:
+        - speaker: human
+          text: "Re-reading in full — looks good. Sending."
+        - speaker: human
+          text: "Logging in CRM with AI-draft tag for tracking."
+      triggers_next: "Email sent. Next communication requires a fresh cycle."
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Drafting scope agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers draft."
+    - from: discernment
+      to: diligence
+      trigger: "Draft validated."
+    - from: diligence
+      to: delegation
+      trigger: "Next email — fresh cycle."
+      is_cycle_restart: true

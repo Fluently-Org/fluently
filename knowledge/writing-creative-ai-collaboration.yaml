@@ -31,3 +31,69 @@ tags:
   - co-creation
   - authorship
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: cyclic
+  description: "Human and AI sustain a continuous creative loop — each creative exchange re-evaluates the direction and can cycle back to re-establish creative constraints at any point."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Establish creative autonomy"
+      example_prompts:
+        - speaker: human
+          text: "Write a short story opening. You pick the genre and voice — I'll redirect if it doesn't feel right."
+        - speaker: ai
+          text: "I'll try a quiet, literary voice set in a near-future city. Should I commit to a POV character?"
+        - speaker: human
+          text: "Yes — first person, present tense."
+      triggers_next: "Creative latitude, genre, and POV agreed."
+    - step: 2
+      d: description
+      label: "Provide creative constraints and inspiration"
+      example_prompts:
+        - speaker: human
+          text: "The theme is isolation despite connectivity. Draw from Ballard's style — sparse, clinical."
+        - speaker: ai
+          text: "Should I include a specific visual motif or let one emerge?"
+        - speaker: human
+          text: "Let one emerge — I'll tell you if it works."
+      triggers_next: "AI has thematic and stylistic anchors."
+    - step: 3
+      d: discernment
+      label: "Evaluate creative output"
+      example_prompts:
+        - speaker: human
+          text: "The opening paragraph is strong but the metaphor in line 3 is too on-the-nose."
+        - speaker: ai
+          text: "I can replace it with something more oblique — do you want me to suggest three options?"
+        - speaker: human
+          text: "Just one — go with your best instinct."
+      triggers_next: "Creative direction validated or refined."
+    - step: 4
+      d: diligence
+      label: "Accept and continue or reshape"
+      example_prompts:
+        - speaker: human
+          text: "This version works. Saving as draft v2. Let's continue from here — next section?"
+        - speaker: human
+          text: "Actually — the voice has drifted. Let's reset the creative constraints before continuing."
+      triggers_next: "Continues to next creative passage or cycles back to establish new constraints."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Creative autonomy and POV agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers creative output."
+    - from: discernment
+      to: diligence
+      trigger: "Output evaluated."
+    - from: diligence
+      to: delegation
+      trigger: "Voice drift or new creative direction needed — reset constraints."
+      is_loop_back: true
+    - from: diligence
+      to: description
+      trigger: "Continue from accepted draft — provide next constraints."
+      is_cycle_restart: true

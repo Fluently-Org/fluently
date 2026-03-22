@@ -31,3 +31,73 @@ tags:
   - higher-education
   - instructional-design
 reference: "https://aifluencyframework.org"
+
+collaboration:
+  pattern: linear_with_loops
+  description: "Instructor delegates curriculum scaffolding, provides learning goals and constraints, evaluates AI-drafted structure, then approves — looping back to description if pedagogical alignment is off."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Agree on AI's curriculum design role"
+      example_prompts:
+        - speaker: human
+          text: "Help me design a 10-week course on data literacy. You propose the weekly themes — I'll adjust."
+        - speaker: ai
+          text: "Should I sequence from concepts to tools, or mix both throughout?"
+        - speaker: human
+          text: "Concepts first, tools introduced in week 4 after foundations are set."
+      triggers_next: "AI's design role and pedagogical sequencing approach agreed."
+    - step: 2
+      d: description
+      label: "Provide learning outcomes and constraints"
+      example_prompts:
+        - speaker: human
+          text: "Students are undergraduates with no statistics background. By week 10 they should be able to read and critique a published data study."
+        - speaker: ai
+          text: "Should I include assessment design or only the content structure?"
+        - speaker: human
+          text: "Include weekly assessments — short, formative, no exams."
+      triggers_next: "AI has learner profile, outcomes, and assessment approach."
+    - step: 3
+      d: discernment
+      label: "Evaluate curriculum structure"
+      example_prompts:
+        - speaker: human
+          text: "Week 6 introduces regression too early — students won't have the algebra foundation yet."
+        - speaker: ai
+          text: "I can move regression to week 8 and use week 6 for data visualization instead."
+        - speaker: human
+          text: "Do that. Also add a prerequisite check activity in week 1."
+      triggers_next: "Curriculum validated for pedagogical soundness."
+      loop_back:
+        to: description
+        condition: "Curriculum consistently misaligns with stated learning outcomes or student level."
+        reason: "Learning goals or student profile constraints need to be re-specified."
+    - step: 4
+      d: diligence
+      label: "Approve and document"
+      example_prompts:
+        - speaker: human
+          text: "Department curriculum committee reviews and approves the final structure."
+        - speaker: human
+          text: "Filing AI-assisted design notes in the course development record."
+      triggers_next: "Curriculum approved. Cycle restarts when course is revised."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Design role and sequencing approach agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers curriculum draft."
+    - from: discernment
+      to: diligence
+      trigger: "Structure validated."
+    - from: discernment
+      to: description
+      trigger: "Persistent misalignment — re-specify goals."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Course revision cycle — restart."
+      is_cycle_restart: true

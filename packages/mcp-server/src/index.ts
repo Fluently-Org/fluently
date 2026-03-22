@@ -180,6 +180,21 @@ const TOOLS = [
     inputSchema: { type: "object", properties: {}, required: [] },
   },
   {
+    name: "get_collaboration_pattern",
+    description:
+      "Explain the collaboration pattern of a cycle — how the 4 dimensions sequence as " +
+      "conversation clusters between human and AI. Returns the ordered D-clusters, " +
+      "example prompts for each cluster, transition triggers, and any loop-back conditions. " +
+      "Use this to understand the recommended conversation shape for a workflow.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        id: { type: "string", description: "Cycle ID (from find_relevant_cycles)" },
+      },
+      required: ["id"],
+    },
+  },
+  {
     name: "contribute_cycle",
     description:
       "Validate and submit a new 4D cycle to the configured knowledge source. " +
@@ -239,6 +254,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       tags: e.tags,
       contributor: e.contributor,
       summary: e.summary,
+      // Collaboration pattern — how the 4Ds flow as conversation clusters
+      collaboration_pattern: e.collaboration?.pattern ?? null,
+      collaboration_description: e.collaboration?.description ?? null,
+      // Sequence summary: ordered list of D-cluster labels
+      sequence_summary: e.collaboration?.sequence.map(s => `${s.step}. [${s.d.toUpperCase()}] ${s.label}`) ?? null,
       dimensions: {
         delegation:  { description: e.dimensions.delegation.description },
         description: { description: e.dimensions.description.description },
@@ -255,7 +275,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           task: task_description,
           domain: domain ?? "all",
           cycles: results,
-          guidance: "Reason over these cycles to assess fit for the task. Use get_cycle_detail to read full antipatterns and examples for the best match.",
+          guidance: "Reason over these cycles to assess fit. Each cycle includes its collaboration_pattern (how the 4Ds sequence as conversation clusters) and sequence_summary. Use get_cycle_detail for full antipatterns, example prompts, and transitions.",
         }, null, 2),
       }],
     } as any;
@@ -312,6 +332,52 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           cycles_loaded: refreshed.entries.length,
           loaded_at: new Date(refreshed.loadedAt).toISOString(),
           message: `Knowledge base refreshed from ${refreshed.source}. ${refreshed.entries.length} cycles now available.`,
+        }, null, 2),
+      }],
+    } as any;
+  }
+
+  // ── get_collaboration_pattern ───────────────────────────────────────────────
+  if (name === "get_collaboration_pattern") {
+    const { id } = args as { id: string };
+    const { entries, source } = await getKnowledge();
+    const entry = entries.find(e => e.id === id);
+    if (!entry) {
+      return {
+        content: [{ type: "text", text: JSON.stringify({ error: `Cycle "${id}" not found.` }) }],
+      } as any;
+    }
+    if (!entry.collaboration) {
+      return {
+        content: [{
+          type: "text",
+          text: JSON.stringify({
+            id: entry.id,
+            title: entry.title,
+            note: "This cycle does not yet have a collaboration block. The 4D dimensions still apply, but the conversation sequence has not been defined.",
+            dimensions_only: Object.fromEntries(
+              Object.entries(entry.dimensions).map(([d, v]) => [d, (v as any).description])
+            ),
+          }, null, 2),
+        }],
+      } as any;
+    }
+    const c = entry.collaboration;
+    return {
+      content: [{
+        type: "text",
+        text: JSON.stringify({
+          source,
+          id: entry.id,
+          title: entry.title,
+          pattern: c.pattern,
+          description: c.description,
+          sequence: c.sequence,
+          transitions: c.transitions,
+          guidance:
+            "The sequence shows how human↔AI conversation clusters are ordered and when they transition. " +
+            "Loop-backs indicate when the conversation must revisit an earlier D. " +
+            "Use this to structure your interaction with the AI — not as rigid steps but as checkpoints.",
         }, null, 2),
       }],
     } as any;

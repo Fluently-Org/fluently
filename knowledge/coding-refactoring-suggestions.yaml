@@ -29,3 +29,65 @@ tags:
   - refactoring
   - suggestions
   - coding
+
+collaboration:
+  pattern: iterative
+  description: "Human and AI iterate through multiple refactoring passes — each pass re-negotiates scope, provides updated code context, evaluates suggestions, and commits accepted changes."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Scope the refactoring pass"
+      example_prompts:
+        - speaker: human
+          text: "I want to reduce coupling in this module. Can you suggest where to start?"
+        - speaker: ai
+          text: "I see three high-coupling hotspots. Should I suggest refactors for all three in this pass or focus on the most impactful one?"
+        - speaker: human
+          text: "Focus on the most impactful hotspot first — we'll iterate."
+      triggers_next: "Refactoring focus for this pass is agreed."
+    - step: 2
+      d: description
+      label: "Provide current code and constraints"
+      example_prompts:
+        - speaker: human
+          text: "Here is the current module, the interface contracts it must preserve, and our no-breaking-changes constraint."
+        - speaker: ai
+          text: "Are there performance benchmarks I should keep in mind?"
+        - speaker: human
+          text: "Latency must stay under 50ms for the main path — flag anything that might affect it."
+      triggers_next: "AI has code, contracts, and performance constraints."
+    - step: 3
+      d: discernment
+      label: "Evaluate refactoring suggestions"
+      example_prompts:
+        - speaker: human
+          text: "Suggestion 2 breaks the existing interface — reject that one."
+        - speaker: ai
+          text: "Understood. Suggestion 3 is an alternative that preserves the interface — want me to elaborate?"
+        - speaker: human
+          text: "Yes, and check if it affects the 50ms path."
+      triggers_next: "Accepted suggestions are identified and validated."
+    - step: 4
+      d: diligence
+      label: "Commit accepted changes and verify"
+      example_prompts:
+        - speaker: human
+          text: "Running benchmark — 43ms, within budget. Committing suggestion 3."
+        - speaker: human
+          text: "Adding a commit note: AI-suggested refactor, human-validated against interface and perf budget."
+      triggers_next: "Changes committed. Begin next iteration with remaining hotspots."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Refactoring scope for this pass agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers suggestions for this pass."
+    - from: discernment
+      to: diligence
+      trigger: "Accepted suggestions validated."
+    - from: diligence
+      to: delegation
+      trigger: "Remaining hotspots — begin next iteration."
+      is_cycle_restart: true

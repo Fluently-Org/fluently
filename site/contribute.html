@@ -425,16 +425,15 @@ domain: coding  # coding, writing, research, customer-support, education, legal,
 
 dimensions:
   delegation:
-    description: How should delegation/augmentation of this task work? Can it be automated?
+    description: How should delegation/augmentation of this task work?
     example: AI suggests options, human approves before acting.
     antipattern: Fully automating without any human checkpoint.
   description:
     description: What context/framing makes the AI most useful here?
-    example: Include repo context, examples of desired output, and explicit constraints.
+    example: Include repo context, examples of desired output, and constraints.
     antipattern: Vague or missing context leads to irrelevant suggestions.
-
   discernment:
-    description: How do you evaluate if the AI output is trustworthy? What are the failure modes?
+    description: How do you evaluate if the AI output is trustworthy?
     example: Cross-check AI findings against test results and peer judgment.
     antipattern: Accepting AI output without independent verification.
   diligence:
@@ -447,6 +446,77 @@ score_hints:
   description: 0.25
   discernment: 0.25
   diligence: 0.25
+
+# The collaboration block captures how the 4Ds sequence as human-AI conversation clusters.
+# Each D is not a single prompt — it is a chain of related prompts.
+# pattern: linear | linear_with_loops | cyclic | iterative | branching
+collaboration:
+  pattern: linear_with_loops
+  description: "One-line description of how Ds flow for this task."
+  sequence:
+    - step: 1
+      d: delegation
+      label: "Negotiate AI scope and autonomy"
+      example_prompts:
+        - speaker: human
+          text: "Can you handle X automatically and flag Y for me?"
+        - speaker: ai
+          text: "I can flag Y with confidence levels — want me to auto-handle only Z?"
+        - speaker: human
+          text: "Yes — auto-handle Z, surface everything else."
+      triggers_next: "Autonomy boundaries agreed."
+    - step: 2
+      d: description
+      label: "Provide context and constraints"
+      example_prompts:
+        - speaker: human
+          text: "Here is the context, constraints, and examples."
+        - speaker: ai
+          text: "Should I prioritize A or B?"
+        - speaker: human
+          text: "A first, then B."
+      triggers_next: "AI has sufficient context."
+    - step: 3
+      d: discernment
+      label: "Evaluate AI output"
+      example_prompts:
+        - speaker: human
+          text: "Item 3 looks like a false positive — is it?"
+        - speaker: ai
+          text: "Possibly — given X, this could be dismissed."
+        - speaker: human
+          text: "Agreed, dismiss it."
+      triggers_next: "Output validated."
+      loop_back:
+        to: delegation
+        condition: "If quality is consistently poor."
+        reason: "Scope or autonomy level needs renegotiation."
+    - step: 4
+      d: diligence
+      label: "Approve and document"
+      example_prompts:
+        - speaker: human
+          text: "Approving and logging the decisions."
+      triggers_next: "Cycle complete. Restarts for next instance."
+      can_restart: true
+  transitions:
+    - from: delegation
+      to: description
+      trigger: "Scope agreed."
+    - from: description
+      to: discernment
+      trigger: "AI delivers output."
+    - from: discernment
+      to: diligence
+      trigger: "Output validated."
+    - from: discernment
+      to: delegation
+      trigger: "Quality too low — re-scope."
+      is_loop_back: true
+    - from: diligence
+      to: delegation
+      trigger: "Next instance — restart."
+      is_cycle_restart: true
 
 tags:
   - your-topic
