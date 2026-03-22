@@ -91,10 +91,13 @@ describe("refreshKnowledge", () => {
     expect(result.entries[0].id).toBe("a");
   });
 
-  it("throws when connector fails and cache is cold", async () => {
-    await expect(
-      refreshKnowledge(makeFailingConnector())
-    ).rejects.toThrow();
+  it("falls back to bundled knowledge when connector fails and cache is cold", async () => {
+    // When connector fails and cache is empty, knowledge.ts falls back to the
+    // bundled YAML files shipped with the package (dist/knowledge/).
+    // The promise must resolve (not throw) as long as bundled knowledge exists.
+    const result = await refreshKnowledge(makeFailingConnector());
+    expect(result.entries.length).toBeGreaterThan(0);
+    expect(result.source).toBe("bundled-fallback");
   });
 });
 
