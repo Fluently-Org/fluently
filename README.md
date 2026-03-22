@@ -168,13 +168,13 @@ Tests        → Vitest
 
 ## Credits
 
-**The 4D Framework** was developed by **Dakan & Feller** at Anthropic as a collaborative model for operationalizing AI fluency.
+**The AI Fluency 4D Framework** was developed by **Dakan & Feller** as a collaborative model for operationalizing AI fluency.
 
 **Fluently** brings that framework to life as an open-source tool + knowledge commons.
 
-- Framework & research: [Anthropic AI Fluency](https://www.anthropic.com/)
-- Community standards: CC BY-NC-SA 4.0
-- Implementation: MIT
+- Framework & research: Dakan & Feller — AI Fluency 4D Framework
+- Community knowledge: CC BY-NC-SA 4.0
+- Code (CLI, MCP, scorer): MIT
 
 ---
 

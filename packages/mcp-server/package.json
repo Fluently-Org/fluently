@@ -9,7 +9,8 @@
   },
   "files": [
     "dist",
-    "knowledge"
+    "knowledge",
+    "NOTICE"
   ],
   "publishConfig": {
     "access": "public"

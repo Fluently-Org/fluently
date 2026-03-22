@@ -1,0 +1,24 @@
+fluently-cli
+Copyright (c) 2026 Dr. Faical Y.P. Congo
+
+This package contains two separately licensed components:
+
+1. SOURCE CODE (dist/)
+   Licensed under the MIT License. See LICENSE at the repository root.
+   https://github.com/faical-yannick-congo/fluently/blob/main/LICENSE
+
+2. KNOWLEDGE CONTENT (knowledge/)
+   The YAML cycle files in the knowledge/ directory are licensed under
+   Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+   (CC BY-NC-SA 4.0).
+   https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+   This means:
+   - You may use, share, and adapt the knowledge content with attribution.
+   - Commercial redistribution of the knowledge content is NOT permitted.
+   - Derivative knowledge works must carry the same CC BY-NC-SA license.
+
+The CC BY-NC-SA restriction applies to the knowledge content only.
+Commercial use of the CLI software itself is permitted under MIT.
+
+AI Fluency 4D Framework by Dakan & Feller.
