@@ -31,6 +31,9 @@ jobs:
       - name: Build all packages
         run: npm run build
 
+      - name: Run tests
+        run: npm test -- --run
+
       # ── Publish to npm ────────────────────────────────────────────────────
 
       - name: Setup Node.js for npm
@@ -38,6 +41,11 @@ jobs:
         with:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Publish scorer to npm
+        run: npm publish --workspace=packages/scorer
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish CLI to npm
         run: npm publish --workspace=packages/cli
@@ -59,6 +67,20 @@ jobs:
           node-version: 22
           registry-url: 'https://npm.pkg.github.com'
           scope: '@faical-yannick-congo'
+
+      - name: Publish scorer to GitHub Packages
+        working-directory: packages/scorer
+        run: |
+          node -e "
+            const fs = require('fs');
+            const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+            pkg.name = '@faical-yannick-congo/fluently-scorer';
+            pkg.publishConfig = { registry: 'https://npm.pkg.github.com', access: 'public' };
+            fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+          "
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish CLI to GitHub Packages
         working-directory: packages/cli
