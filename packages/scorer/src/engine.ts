@@ -18,7 +18,7 @@ import path from "path";
 import yaml from "js-yaml";
 import { knowledgeEntrySchema } from "./schema.js";
 import { BUNDLED_4D_FRAMEWORK } from "./framework-schema.js";
-import type { FrameworkDimension, DimensionValue } from "./framework-schema.js";
+import type { FrameworkDimension, FrameworkDefinition, DimensionValue } from "./framework-schema.js";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -209,6 +209,76 @@ export function scoreCollaboration(
     score,
     summary: `${patternLabel[collab.pattern] ?? collab.pattern} — ${collab.description}`,
     insights,
+  };
+}
+
+// ── Compliance evaluation ─────────────────────────────────────────────────────
+
+/**
+ * Evaluate how well a free-text collaboration description follows a framework's
+ * `evaluation_criteria`.  Each criterion declares signal keywords and a
+ * pass_threshold; the function checks presence in the lowercased text.
+ *
+ * Returns:
+ *   - `score`   — 0–100 weighted compliance score
+ *   - `passed`  — labels of criteria that passed
+ *   - `failed`  — labels of criteria that did not pass
+ *   - `details` — per-criterion result with matched keywords (useful for steering)
+ *
+ * When the framework has no evaluation_criteria the score is 0 and all arrays
+ * are empty — callers should treat this as "not yet assessable".
+ */
+export function evaluateCompliance(
+  text: string,
+  framework: FrameworkDefinition
+): {
+  score: number;
+  passed: string[];
+  failed: string[];
+  details: Array<{
+    id: string;
+    dimension?: string;
+    label: string;
+    passed: boolean;
+    matched_signals: string[];
+    weight: number;
+  }>;
+} {
+  const criteria = framework.evaluation_criteria ?? [];
+  if (criteria.length === 0) {
+    return { score: 0, passed: [], failed: [], details: [] };
+  }
+
+  const lower = text.toLowerCase();
+
+  const details = criteria.map((criterion) => {
+    const presentSignals = criterion.signals?.present ?? [];
+    const threshold      = criterion.pass_threshold ?? 1;
+    const matched        = presentSignals.filter((s) => lower.includes(s.toLowerCase()));
+    const passed         = matched.length >= threshold;
+    return {
+      id:              criterion.id,
+      dimension:       criterion.dimension,
+      label:           criterion.label,
+      passed,
+      matched_signals: matched,
+      weight:          criterion.weight,
+    };
+  });
+
+  // Weighted score: sum of weights for passing criteria / total weight × 100
+  const totalWeight  = criteria.reduce((sum, c) => sum + c.weight, 0);
+  const passedWeight = details
+    .filter((d) => d.passed)
+    .reduce((sum, d) => sum + d.weight, 0);
+
+  const score = totalWeight > 0 ? Math.round((passedWeight / totalWeight) * 100) : 0;
+
+  return {
+    score,
+    passed: details.filter((d) =>  d.passed).map((d) => d.label),
+    failed: details.filter((d) => !d.passed).map((d) => d.label),
+    details,
   };
 }
 

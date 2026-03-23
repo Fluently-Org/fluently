@@ -1,5 +1,62 @@
 import { z } from "zod";
 
+// ── Sub-schemas for framework standards ───────────────────────────────────────
+
+/**
+ * A named relationship between two or more dimensions.
+ * type: "synergy"     — dimensions amplify each other; weak one limits the other
+ *       "prerequisite"— left dimension must be done before right dimension is meaningful
+ *       "tension"     — increasing one dimension naturally reduces the other
+ */
+export const dimensionCombinationSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/, "Combination id must be kebab-case"),
+  dimensions: z.array(z.string()).min(2),
+  type: z.enum(["synergy", "prerequisite", "tension"]),
+  label: z.string(),
+  description: z.string(),
+  guidance: z.string(),
+});
+
+/** An actionable recommendation for applying the framework well. */
+export const bestPracticeSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/, "Best practice id must be kebab-case"),
+  title: z.string(),
+  /** Dimension this practice primarily addresses; omit for framework-level practices. */
+  dimension: z.string().optional(),
+  description: z.string(),
+  antipattern: z.string().optional(),
+  /** Observable signal that this practice is being followed (natural language). */
+  signal: z.string().optional(),
+});
+
+/**
+ * A machine-checkable criterion for evaluating whether a dimension was followed.
+ * The scorer looks for `signals.present` keywords in the collaboration text.
+ */
+export const evaluationCriterionSchema = z.object({
+  id: z.string().regex(/^[a-z0-9-]+$/, "Criterion id must be kebab-case"),
+  /** Dimension this criterion evaluates; omit for framework-level criteria. */
+  dimension: z.string().optional(),
+  label: z.string(),
+  description: z.string(),
+  /** Contribution to the overall compliance score (all weights should sum to 1). */
+  weight: z.number().min(0).max(1),
+  signals: z.object({
+    /** Keywords whose presence indicates compliance. */
+    present: z.array(z.string()),
+    /** Keywords whose presence indicates a violation (optional). */
+    absent: z.array(z.string()).optional(),
+  }).optional(),
+  /** Minimum number of `signals.present` keywords required to pass (default 1). */
+  pass_threshold: z.number().int().nonnegative().optional(),
+});
+
+export type DimensionCombination = z.infer<typeof dimensionCombinationSchema>;
+export type BestPractice         = z.infer<typeof bestPracticeSchema>;
+export type EvaluationCriterion  = z.infer<typeof evaluationCriterionSchema>;
+
+// ── Core framework schemas ─────────────────────────────────────────────────────
+
 export const frameworkDimensionSchema = z.object({
   key: z.string().regex(/^[a-z0-9-]+$/, "Dimension key must be kebab-case"),
   label: z.string(),
@@ -19,6 +76,15 @@ export const frameworkDefinitionSchema = z.object({
   ),
   tags: z.array(z.string()).optional(),
   reference: z.string().optional(),
+  /** How dimensions interact — synergies, prerequisites, and tensions. */
+  dimension_combinations: z.array(dimensionCombinationSchema).optional(),
+  /** Actionable recommendations for applying this framework well. */
+  best_practices: z.array(bestPracticeSchema).optional(),
+  /**
+   * Machine-checkable criteria for evaluating compliance.
+   * Weights should sum to 1 across all criteria for meaningful percentage scores.
+   */
+  evaluation_criteria: z.array(evaluationCriterionSchema).optional(),
 });
 
 export type FrameworkDimension = z.infer<typeof frameworkDimensionSchema>;

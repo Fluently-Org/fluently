@@ -128,8 +128,10 @@ export const TOOLS = [
   {
     name: "get_framework_detail",
     description:
-      "Get the full definition of a specific framework by id, including all dimensions, " +
-      "their descriptions, and canonical order. " +
+      "Get the full definition of a specific framework by id, including dimensions, " +
+      "canonical order, dimension_combinations (synergies/prerequisites/tensions), " +
+      "best_practices (actionable guidance per dimension), and evaluation_criteria " +
+      "(keyword-signal checks for compliance assessment). " +
       "Call list_frameworks first to discover available framework ids.",
     inputSchema: {
       type: "object",
@@ -163,6 +165,35 @@ export const TOOLS = [
         },
       },
       required: ["task_description"],
+    },
+  },
+
+  {
+    name: "evaluate_compliance",
+    description:
+      "Evaluate a collaboration description against a framework's evaluation_criteria. " +
+      "Each criterion has keyword signals and a pass threshold; the function checks " +
+      "the text for those signals and returns a 0-100 weighted compliance score, " +
+      "the list of passed and failed criteria, and per-criterion details including " +
+      "which keywords were matched. " +
+      "Use this during or after a collaboration session to check framework adherence " +
+      "and identify which dimensions need more attention. " +
+      "Returns score: 0 when the framework has no evaluation_criteria defined.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        text: {
+          type: "string",
+          description:
+            "The collaboration text to evaluate — may include the task description, " +
+            "conversation transcript, or any prose describing the collaboration session.",
+        },
+        framework_id: {
+          type: "string",
+          description: "Framework id to evaluate against (default: '4d-framework')",
+        },
+      },
+      required: ["text"],
     },
   },
 

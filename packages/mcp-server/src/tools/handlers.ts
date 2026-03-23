@@ -14,7 +14,7 @@
  */
 
 import { buildKnowledgeSchemas } from "@fluently/scorer/schema";
-import { checkPrivacy } from "@fluently/scorer";
+import { checkPrivacy, evaluateCompliance } from "@fluently/scorer";
 import type { KnowledgeConnector, KnowledgeEntry, FrameworkDefinition } from "../connectors/types.js";
 import { GitHubPublicConnector } from "../connectors/github-public.js";
 import { getKnowledge, refreshKnowledge, getFrameworks, invalidateCache } from "../knowledge.js";
@@ -273,6 +273,48 @@ export async function handleCompareFrameworks(
       "Each framework is shown with its best-matching cycle for this task. " +
       "Use get_framework_detail to understand a framework's dimensions in depth, " +
       "or get_cycle_detail to read the full cycle for any best_match id.",
+  });
+}
+
+// ── evaluate_compliance ───────────────────────────────────────────────────────
+
+export async function handleEvaluateCompliance(
+  args: { text: string; framework_id?: string },
+  connector: KnowledgeConnector
+) {
+  const { text, framework_id = "4d-framework" } = args;
+  const { frameworks } = await getFrameworks(connector);
+
+  const framework = frameworks.find(f => f.id === framework_id) ?? null;
+
+  if (!framework) {
+    return json({
+      error: `Framework "${framework_id}" not found. Use list_frameworks to discover available frameworks.`,
+    });
+  }
+
+  const result = evaluateCompliance(text, framework);
+
+  if (result.details.length === 0) {
+    return json({
+      framework_id,
+      score: 0,
+      note: `Framework "${framework_id}" has no evaluation_criteria defined. Add evaluation_criteria to the framework YAML to enable compliance checks.`,
+    });
+  }
+
+  const guidance = result.failed.length === 0
+    ? "All criteria passed. The collaboration text shows strong framework alignment."
+    : `${result.failed.length} criterion(a) not met. Consider addressing: ${result.failed.join(", ")}.`;
+
+  return json({
+    framework_id,
+    framework_name: framework.name,
+    score: result.score,
+    passed: result.passed,
+    failed: result.failed,
+    details: result.details,
+    guidance,
   });
 }
 

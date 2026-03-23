@@ -21,6 +21,7 @@ import {
   handleListFrameworks,
   handleGetFrameworkDetail,
   handleCompareFrameworks,
+  handleEvaluateCompliance,
 } from "./tools/handlers.js";
 
 const { version: SERVER_VERSION } = JSON.parse(
@@ -71,6 +72,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "list_frameworks":        return handleListFrameworks(connector);
       case "get_framework_detail":   return handleGetFrameworkDetail(args, connector);
       case "compare_frameworks":     return handleCompareFrameworks(args, connector);
+      case "evaluate_compliance":    return handleEvaluateCompliance(args, connector);
       default: throw new Error(`Unknown tool: ${name}`);
     }
   })();

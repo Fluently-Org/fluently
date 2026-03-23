@@ -1,21 +1,255 @@
 {
-  "generated": "2026-03-23T00:00:00.000Z",
+  "generated": "2026-03-23T22:35:09.301Z",
   "total": 1,
   "frameworks": [
     {
       "id": "4d-framework",
       "name": "AI Fluency 4D Framework",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "contributor": "Dakan & Feller",
-      "description": "Four dimensions of good human-AI collaboration. Originally described in the AI Fluency book by Dakan and Feller, this framework structures every AI-assisted task across Delegation, Description, Discernment, and Diligence.",
+      "description": "Four dimensions of good human-AI collaboration. Originally described in the AI Fluency book by Dakan and Feller, this framework structures every AI-assisted task across Delegation, Description, Discernment, and Diligence.\n",
       "dimensions": [
-        { "key": "delegation", "label": "Delegation", "description": "Who owns the decision — human, AI, or both? What level of autonomy is appropriate?", "canonical_order": 1 },
-        { "key": "description", "label": "Description", "description": "How should the task be framed so AI understands context fully?", "canonical_order": 2 },
-        { "key": "discernment", "label": "Discernment", "description": "How do you evaluate whether the AI output is trustworthy? When do you push back?", "canonical_order": 3 },
-        { "key": "diligence", "label": "Diligence", "description": "What human accountability is required after AI is involved? Who signs off?", "canonical_order": 4 }
+        {
+          "key": "delegation",
+          "label": "Delegation",
+          "description": "Who owns the decision — human, AI, or both? What level of autonomy is appropriate?",
+          "canonical_order": 1
+        },
+        {
+          "key": "description",
+          "label": "Description",
+          "description": "How should the task be framed so AI understands context fully?",
+          "canonical_order": 2
+        },
+        {
+          "key": "discernment",
+          "label": "Discernment",
+          "description": "How do you evaluate whether the AI output is trustworthy? When do you push back?",
+          "canonical_order": 3
+        },
+        {
+          "key": "diligence",
+          "label": "Diligence",
+          "description": "What human accountability is required after AI is involved? Who signs off?",
+          "canonical_order": 4
+        }
       ],
-      "tags": ["human-ai-collaboration", "ai-fluency", "4d"],
-      "reference": "https://fluently.ctrl6.com"
+      "tags": [
+        "human-ai-collaboration",
+        "ai-fluency",
+        "4d"
+      ],
+      "reference": "https://fluently.ctrl6.com",
+      "dimension_combinations": [
+        {
+          "id": "del-des-synergy",
+          "dimensions": [
+            "delegation",
+            "description"
+          ],
+          "type": "synergy",
+          "label": "Autonomy drives context depth",
+          "description": "The more autonomy delegated to AI, the richer the description must be to constrain the solution space. Low-delegation tasks tolerate loose framing; high-delegation tasks require explicit constraints and success criteria to prevent the AI from filling gaps with unsafe assumptions.\n",
+          "guidance": "When delegation is set to \"automated\", verify that the description covers scope boundaries, constraints, edge cases, and success criteria before handing off. If the description is thin, reduce delegation to \"augmented\" until the context is complete.\n"
+        },
+        {
+          "id": "des-dis-prerequisite",
+          "dimensions": [
+            "description",
+            "discernment"
+          ],
+          "type": "prerequisite",
+          "label": "Context enables evaluation",
+          "description": "A well-formed description makes discernment possible: output can only be evaluated against criteria that were stated upfront. Without a clear description, discernment becomes arbitrary and inconsistent.\n",
+          "guidance": "Embed explicit acceptance criteria or evaluation questions directly in the description. If you cannot articulate what good output looks like before the AI responds, the description is not complete enough to proceed.\n"
+        },
+        {
+          "id": "dis-dil-synergy",
+          "dimensions": [
+            "discernment",
+            "diligence"
+          ],
+          "type": "synergy",
+          "label": "Evaluation quality anchors accountability",
+          "description": "Discernment feeds diligence directly: shallow evaluation criteria make accountability meaningless because sign-off happens without genuine review, creating the appearance of oversight without its substance.\n",
+          "guidance": "Define your discernment checklist before committing to a diligence workflow. Accountability assignments without evaluation criteria are ceremonial, not real.\n"
+        },
+        {
+          "id": "del-dil-tension",
+          "dimensions": [
+            "delegation",
+            "diligence"
+          ],
+          "type": "tension",
+          "label": "Autonomy vs. accountability",
+          "description": "High AI autonomy reduces the human review surface, which naturally erodes diligence unless explicit checkpoints are maintained. The more the AI acts independently, the more deliberate the accountability structure must be.\n",
+          "guidance": "When delegation is \"automated\", introduce mandatory diligence gates such as output spot-checks, audit logs, or periodic human-in-the-loop reviews. A purely automated pipeline with no diligence gate is a liability, not an efficiency gain.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-del-first",
+          "title": "Establish autonomy level before framing the task",
+          "dimension": "delegation",
+          "description": "Decide whether the AI acts autonomously, augments human work, or operates under close supervision before writing the task prompt. This choice shapes every downstream decision about context depth, review rigor, and accountability.\n",
+          "antipattern": "Jumping directly to task framing without agreeing on who makes the final decision, leading to implicit and often misaligned autonomy expectations that only surface when the output is already wrong.\n",
+          "signal": "Opening prompt contains an explicit autonomy level or role assignment for the AI."
+        },
+        {
+          "id": "bp-del-risk-match",
+          "title": "Match delegation level to task risk",
+          "dimension": "delegation",
+          "description": "Reserve \"automated\" delegation for tasks where mistakes are cheap to catch and correct. Use \"augmented\" when errors have downstream consequences, and \"supervised\" when the domain is high-stakes or the AI's reliability is unknown.\n",
+          "antipattern": "Treating all tasks as equally safe to automate because a previous task went well. Risk calibration must be per-task, not per-tool.\n",
+          "signal": "Delegation level is justified by a stated risk assessment or consequence estimate."
+        },
+        {
+          "id": "bp-des-constraints",
+          "title": "Front-load constraints and success criteria",
+          "dimension": "description",
+          "description": "State non-negotiable constraints, scope limits, and what \"done\" looks like at the start of the description rather than correcting the AI after the fact. Constraints discovered late cost more to fix than constraints stated early.\n",
+          "antipattern": "Iterating through multiple AI responses to discover implicit constraints that should have been stated upfront, wasting cycles and eroding confidence in the AI's reliability.\n",
+          "signal": "Task description includes at least one explicit constraint or acceptance criterion."
+        },
+        {
+          "id": "bp-des-context",
+          "title": "Include why, not just what",
+          "dimension": "description",
+          "description": "Provide the motivation and broader context behind the task, not just the immediate ask. AI models use context to make better judgment calls at the edges; without it they default to generic behavior.\n",
+          "antipattern": "Writing task descriptions as bare commands without context, leading to technically correct but practically useless outputs that ignore real intent.\n",
+          "signal": "Description includes a stated purpose, audience, or motivating context."
+        },
+        {
+          "id": "bp-dis-criteria",
+          "title": "Define evaluation criteria before reviewing output",
+          "dimension": "discernment",
+          "description": "Agree on what good output looks like — and what would disqualify it — before asking the AI to generate it. This prevents post-hoc rationalisation of mediocre outputs and keeps evaluation consistent across reviewers.\n",
+          "antipattern": "Adjusting the criteria to match what the AI produced rather than what was actually needed, or accepting the first plausible response without any check.\n",
+          "signal": "Collaboration sequence includes an explicit review or validation step with stated criteria."
+        },
+        {
+          "id": "bp-dis-pushback",
+          "title": "Define when to push back or iterate",
+          "dimension": "discernment",
+          "description": "Agree upfront on the conditions under which you will reject an AI response and re-prompt rather than accept a partial result. Without a pushback policy, reviewers default to accepting whatever the AI produces.\n",
+          "antipattern": "Treating AI output as a starting point for human editing rather than as a proposal to be evaluated, blurring the line between AI work and human work.\n",
+          "signal": "Collaboration includes a defined condition for rejection or re-prompting."
+        },
+        {
+          "id": "bp-dil-sign-off",
+          "title": "Assign a named human accountable for the final output",
+          "dimension": "diligence",
+          "description": "Every AI-assisted task should end with a named human who takes explicit responsibility for the output before it is used, shared, or deployed.\n",
+          "antipattern": "Deploying or sharing AI output without a clear sign-off process, making accountability diffuse across the team and errors harder to trace.\n",
+          "signal": "Collaboration includes an explicit approval step with a named role or person."
+        },
+        {
+          "id": "bp-cycle-close",
+          "title": "Close every cycle with a brief reflection",
+          "description": "After completing a collaboration cycle, briefly review whether all four dimensions were genuinely addressed. Imbalances indicate where the next cycle should invest effort.\n",
+          "antipattern": "Treating each AI session as independent without reviewing overall collaboration quality, leading to systematic blind spots that compound across projects.\n",
+          "signal": "Cycle ends with a retrospective, quality review, or explicit dimension balance check."
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-del-explicit",
+          "dimension": "delegation",
+          "label": "Autonomy level is explicit",
+          "description": "The collaboration includes a clear statement of the AI's autonomy level (automated, augmented, or supervised) or an equivalent role assignment.\n",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "automated",
+              "augmented",
+              "supervised",
+              "decides",
+              "approves",
+              "oversight",
+              "autonomous",
+              "human-in-the-loop",
+              "review before",
+              "sign off before"
+            ]
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-des-rich",
+          "dimension": "description",
+          "label": "Task description includes constraints or success criteria",
+          "description": "The task framing contains at least two explicit constraints, scope boundaries, goals, or acceptance conditions — not just a bare command.\n",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "constraint",
+              "requirement",
+              "must not",
+              "must be",
+              "should not",
+              "should be",
+              "criteria",
+              "success",
+              "goal",
+              "objective",
+              "scope",
+              "out of scope",
+              "acceptable",
+              "definition of done",
+              "expected output"
+            ]
+          },
+          "pass_threshold": 2
+        },
+        {
+          "id": "eval-dis-review",
+          "dimension": "discernment",
+          "label": "Output review or validation step is present",
+          "description": "The collaboration includes at least one step where AI output is evaluated against defined criteria before being accepted or acted upon.\n",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "review",
+              "verify",
+              "validate",
+              "check",
+              "evaluate",
+              "confirm",
+              "test",
+              "assess",
+              "cross-check",
+              "compare",
+              "quality",
+              "accuracy"
+            ]
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-dil-accountability",
+          "dimension": "diligence",
+          "label": "Accountability is assigned",
+          "description": "The collaboration includes an explicit sign-off, ownership assignment, or accountability statement for the final output.\n",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "approve",
+              "sign off",
+              "accountable",
+              "responsible",
+              "owner",
+              "lead",
+              "final review",
+              "authorized",
+              "reviewed by",
+              "approved by",
+              "sign-off",
+              "takes ownership"
+            ]
+          },
+          "pass_threshold": 1
+        }
+      ]
     }
   ]
 }

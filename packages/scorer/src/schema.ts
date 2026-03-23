@@ -13,7 +13,14 @@ export {
   BUNDLED_4D_FRAMEWORK,
 } from "./framework-schema.js";
 
-export type { FrameworkDefinition, FrameworkDimension, DimensionValue } from "./framework-schema.js";
+export type {
+  FrameworkDefinition,
+  FrameworkDimension,
+  DimensionValue,
+  DimensionCombination,
+  BestPractice,
+  EvaluationCriterion,
+} from "./framework-schema.js";
 
 // ── Legacy 4D-specific exports (backward compatible) ─────────────────────────
 // These remain the same shape for any existing code that imports them directly.
