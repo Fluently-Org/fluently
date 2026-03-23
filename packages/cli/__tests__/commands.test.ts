@@ -147,7 +147,18 @@ describe('CLI Functions', () => {
         },
         tags: ['testing', 'automation', 'coding'],
         contributor: 'Test Contributor',
-        version: '1.0.0'
+        version: '1.0.0',
+        collaboration: {
+          pattern: 'linear',
+          description: 'Linear workflow',
+          sequence: [
+            { step: 1, d: 'delegation',  label: 'Define scope',    triggers_next: 'Scope agreed' },
+            { step: 2, d: 'description', label: 'Provide context', triggers_next: 'Context provided' },
+          ],
+          transitions: [
+            { from: 'delegation', to: 'description', trigger: 'Scope agreed' },
+          ],
+        },
       };
 
       expect(() => knowledgeEntrySchema.parse(newEntry)).not.toThrow();
