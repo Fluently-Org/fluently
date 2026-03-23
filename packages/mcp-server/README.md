@@ -153,7 +153,7 @@ Use this server when you need:
 - **Contribute a cycle** — [fluently-org.github.io/fluently/contribute.html](https://fluently-org.github.io/fluently/contribute.html)
 - **GitHub repo** — [github.com/Fluently-Org/fluently](https://github.com/Fluently-Org/fluently)
 - **CLI** — [npmjs.com/package/fluently-cli](https://www.npmjs.com/package/fluently-cli)
-- **Scorer library** — [npmjs.com/package/@fluently/scorer](https://www.npmjs.com/package/@fluently/scorer)
+- **Scorer library** — [npmjs.com/package/fluently-scorer](https://www.npmjs.com/package/fluently-scorer)
 
 ---
 

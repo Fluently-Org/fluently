@@ -9,8 +9,8 @@
     "strictNullChecks": false,
     "noImplicitAny": false,
     "paths": {
-      "@fluently/scorer": ["packages/scorer/dist/index"],
-      "@fluently/scorer/schema": ["packages/scorer/dist/schema"]
+      "fluently-scorer": ["packages/scorer/dist/index"],
+      "fluently-scorer/schema": ["packages/scorer/dist/schema"]
     }
   },
   "include": ["src/**/*"],

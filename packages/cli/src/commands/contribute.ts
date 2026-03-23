@@ -12,9 +12,9 @@ import inquirer from "inquirer";
 import yaml from "js-yaml";
 import fs from "fs";
 import path from "path";
-import { buildKnowledgeSchemas, BUNDLED_4D_FRAMEWORK } from "@fluently/scorer/schema";
-import { checkPrivacy } from "@fluently/scorer";
-import type { FrameworkDefinition } from "@fluently/scorer";
+import { buildKnowledgeSchemas, BUNDLED_4D_FRAMEWORK } from "fluently-scorer/schema";
+import { checkPrivacy } from "fluently-scorer";
+import type { FrameworkDefinition } from "fluently-scorer";
 
 const DOMAINS = ["coding", "writing", "research", "customer-support", "education", "legal", "healthcare", "general"] as const;
 

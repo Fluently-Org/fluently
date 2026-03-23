@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { scoreTask, loadKnowledgeEntries } from '@fluently/scorer';
-import { knowledgeEntrySchema } from '@fluently/scorer/schema';
+import { scoreTask, loadKnowledgeEntries } from 'fluently-scorer';
+import { knowledgeEntrySchema } from 'fluently-scorer/schema';
 import path from 'path';
 import { fileURLToPath } from 'url';
 

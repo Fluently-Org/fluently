@@ -8,8 +8,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@fluently/scorer': path.resolve(__dirname, 'packages/scorer/src'),
-      '@fluently/scorer/': path.resolve(__dirname, 'packages/scorer/src/'),
+      'fluently-scorer': path.resolve(__dirname, 'packages/scorer/src'),
+      'fluently-scorer/': path.resolve(__dirname, 'packages/scorer/src/'),
     },
   },
 });

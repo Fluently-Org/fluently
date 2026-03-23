@@ -7,7 +7,7 @@
 
 import { Command } from "commander";
 import chalk from "chalk";
-import { loadKnowledgeEntries } from "@fluently/scorer";
+import { loadKnowledgeEntries } from "fluently-scorer";
 import { knowledgeDir } from "../utils/paths.js";
 
 export function registerList(program: Command): void {

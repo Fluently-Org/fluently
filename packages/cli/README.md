@@ -112,7 +112,7 @@ Browse the full community knowledge base at **[fluently-org.github.io/fluently/k
 - **GitHub repo** — [github.com/Fluently-Org/fluently](https://github.com/Fluently-Org/fluently)
 - **Issues / discussions** — [github.com/Fluently-Org/fluently/issues](https://github.com/Fluently-Org/fluently/issues)
 - **MCP server** — [npmjs.com/package/fluently-mcp-server](https://www.npmjs.com/package/fluently-mcp-server)
-- **Scorer library** — [npmjs.com/package/@fluently/scorer](https://www.npmjs.com/package/@fluently/scorer)
+- **Scorer library** — [npmjs.com/package/fluently-scorer](https://www.npmjs.com/package/fluently-scorer)
 
 ---
 

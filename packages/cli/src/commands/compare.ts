@@ -14,7 +14,7 @@
 import { Command } from "commander";
 import ora from "ora";
 import chalk from "chalk";
-import { scoreTask } from "@fluently/scorer";
+import { scoreTask } from "fluently-scorer";
 import { knowledgeDir } from "../utils/paths.js";
 import { renderScoreRow, averageScore } from "../utils/display.js";
 

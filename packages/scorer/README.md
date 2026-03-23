@@ -1,10 +1,10 @@
-# @fluently/scorer
+# fluently-scorer
 
 **Shared scoring engine for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/).** Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.
 
 Used internally by both `fluently-cli` and `fluently-mcp-server`. Expose it in your own tools to build on top of the Fluently knowledge base.
 
-[![npm version](https://img.shields.io/npm/v/@fluently/scorer.svg)](https://www.npmjs.com/package/@fluently/scorer)
+[![npm version](https://img.shields.io/npm/v/fluently-scorer.svg)](https://www.npmjs.com/package/fluently-scorer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](../../LICENSE)
 [![Node ≥ 20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org)
 
@@ -13,7 +13,7 @@ Used internally by both `fluently-cli` and `fluently-mcp-server`. Expose it in y
 ## Install
 
 ```bash
-npm install @fluently/scorer
+npm install fluently-scorer
 ```
 
 Requires Node.js 20+. Pure local computation — no network calls, no credentials.
@@ -28,7 +28,7 @@ Load and Zod-validate every `.yaml` file in a directory.
 Throws if any file fails schema validation — keeps CI strict about malformed entries.
 
 ```typescript
-import { loadKnowledgeEntries } from '@fluently/scorer';
+import { loadKnowledgeEntries } from 'fluently-scorer';
 
 const entries = loadKnowledgeEntries('./knowledge');
 // → KnowledgeEntry[]  (Zod-validated)
@@ -45,8 +45,8 @@ console.log(entries[0].tags);    // ["code-review", "triage", "automation"]
 Score a task against all loaded cycles and return the top 3 matches ordered by similarity.
 
 ```typescript
-import { scoreTask } from '@fluently/scorer';
-import type { TaskInput } from '@fluently/scorer';
+import { scoreTask } from 'fluently-scorer';
+import type { TaskInput } from 'fluently-scorer';
 
 const input: TaskInput = {
     description:       'AI reviews PRs for style issues, humans approve before merge',
@@ -78,8 +78,8 @@ Scan text for tokens that may indicate private data (names, emails, keys, etc.).
 Useful as a pre-flight check before sending content to an AI provider.
 
 ```typescript
-import { checkPrivacy } from '@fluently/scorer';
-import type { PrivacyCheckOptions } from '@fluently/scorer';
+import { checkPrivacy } from 'fluently-scorer';
+import type { PrivacyCheckOptions } from 'fluently-scorer';
 
 const result = checkPrivacy('Contact john.doe@example.com about the API_KEY leak', {
     flagEmails: true,
@@ -95,10 +95,10 @@ console.log(result.issues);
 
 ---
 
-### Schema validation (`@fluently/scorer/schema`)
+### Schema validation (`fluently-scorer/schema`)
 
 ```typescript
-import { knowledgeEntrySchema, domainEnum, dimensionSchema } from '@fluently/scorer/schema';
+import { knowledgeEntrySchema, domainEnum, dimensionSchema } from 'fluently-scorer/schema';
 
 // Validate a raw YAML object
 const entry = knowledgeEntrySchema.parse(rawYaml);
@@ -120,7 +120,7 @@ const dim = dimensionSchema.parse({
 ## TypeScript types
 
 ```typescript
-import type { TaskInput, KnowledgeEntry, PrivacyCheckResult, PrivacyIssue, PrivacyCheckOptions } from '@fluently/scorer';
+import type { TaskInput, KnowledgeEntry, PrivacyCheckResult, PrivacyIssue, PrivacyCheckOptions } from 'fluently-scorer';
 ```
 
 | Type | Description |

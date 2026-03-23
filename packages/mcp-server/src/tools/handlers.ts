@@ -13,8 +13,8 @@
  *   - No numeric scores are ever exposed to the agent — the agent reasons.
  */
 
-import { buildKnowledgeSchemas } from "@fluently/scorer/schema";
-import { checkPrivacy, evaluateCompliance } from "@fluently/scorer";
+import { buildKnowledgeSchemas } from "fluently-scorer/schema";
+import { checkPrivacy, evaluateCompliance } from "fluently-scorer";
 import type { KnowledgeConnector, KnowledgeEntry, FrameworkDefinition } from "../connectors/types.js";
 import { GitHubPublicConnector } from "../connectors/github-public.js";
 import { getKnowledge, refreshKnowledge, getFrameworks, invalidateCache } from "../knowledge.js";

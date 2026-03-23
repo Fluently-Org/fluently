@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeAll } from 'vitest';
-import { loadKnowledgeEntries } from '@fluently/scorer';
+import { loadKnowledgeEntries } from 'fluently-scorer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
