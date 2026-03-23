@@ -1,5 +1,5 @@
 {
-  "name": "@fluently/scorer",
+  "name": "fluently-scorer",
   "version": "0.2.1",
   "description": "Zero-dependency scoring engine for the Fluently 4D Framework. Validates YAML knowledge cycles with Zod and ranks them by keyword similarity — no API calls, no false-precision scores.",
   "main": "dist/index.js",

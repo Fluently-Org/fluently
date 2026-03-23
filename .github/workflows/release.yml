@@ -44,7 +44,6 @@ jobs:
 
       - name: Publish scorer to npm
         run: npm publish --workspace=packages/scorer --access public
-        continue-on-error: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -75,7 +74,7 @@ jobs:
           node -e "
             const fs = require('fs');
             const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-            pkg.name = '@${{ github.repository_owner }}/fluently-scorer';
+            pkg.name = '@${{ github.repository_owner }}/scorer';
             pkg.publishConfig = { registry: 'https://npm.pkg.github.com', access: 'public' };
             fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
           "
