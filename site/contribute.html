@@ -449,8 +449,8 @@ score_hints:
   discernment: 0.25
   diligence: 0.25
 
-# The collaboration block captures how the 4Ds sequence as human-AI conversation clusters.
-# Each D is not a single prompt — it is a chain of related prompts.
+# The collaboration block is required. It captures how the 4Ds sequence as
+# human-AI conversation clusters — each D is a chain of related prompts, not a single prompt.
 # pattern: linear | linear_with_loops | cyclic | iterative | branching
 collaboration:
   pattern: linear_with_loops
@@ -575,6 +575,18 @@ version: "1.0.0"</code></pre>
                 </label>
                 <label class="flex items-start">
                     <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>collaboration block is present</strong> with <code>pattern</code>, <code>description</code>, <code>sequence</code> (≥2 steps), and <code>transitions</code> (≥1)</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>collaboration.pattern is valid:</strong> linear, linear_with_loops, cyclic, iterative, or branching</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
+                    <span class="ml-3 text-gray-700"><strong>example_prompts show realistic human↔AI exchanges</strong> for each D-cluster</span>
+                </label>
+                <label class="flex items-start">
+                    <input type="checkbox" class="mt-1 w-5 h-5 text-blue-600 rounded" disabled>
                     <span class="ml-3 text-gray-700"><strong>YAML syntax is valid</strong> (proper indentation, no special chars)</span>
                 </label>
             </div>
@@ -606,10 +618,12 @@ Real-world scenarios where this guidance helps.
 
 ## Verification Checklist
 
-- [x] Schema validation passes locally
-- [x] All 4 dimensions are complete
+- [x] Schema validation passes locally (`node scripts/validate-knowledge.js`)
+- [x] All 4 dimensions are complete (description, example, antipattern)
 - [x] score_hints sum to 1.0
 - [x] score_hints reflect relative importance
+- [x] collaboration block is present with pattern, sequence (≥2 steps), and transitions
+- [x] example_prompts show realistic human↔AI exchanges
 - [x] YAML syntax is valid (checked in editor)</code></pre>
             </div>
         </div>

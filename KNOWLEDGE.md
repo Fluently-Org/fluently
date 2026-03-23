@@ -78,11 +78,12 @@ Contributions require a GitHub token. The cycle must:
 2. Have a unique `id` (kebab-case slug)
 3. Belong to one of the supported domains
 4. Include `score_hints` that sum to 1.0
+5. Include a `collaboration` block with `pattern`, `description`, `sequence` (≥2 steps), and `transitions` (≥1)
 
 Steps:
 1. Fork https://github.com/Fluently-Org/fluently
 2. Add your YAML to `knowledge/{domain}-{id}.yaml`
-3. Open a pull request — CI will validate the schema automatically
+3. Open a pull request — CI will validate the full schema automatically (including collaboration)
 
 ## How to use the Fluently MCP server instead
 
@@ -104,9 +105,9 @@ Configure in any MCP-compatible client (Claude Desktop, Claude Code, VS Code Cop
 Default connector: `github-public` (fetches live from this repo, no auth needed).
 For private knowledge, see `packages/mcp-server/README.md`.
 
-## Collaboration block (optional, recommended)
+## Collaboration block (required)
 
-Each cycle can include a `collaboration` block describing how the 4Ds sequence as human↔AI conversation clusters. This is how a cycle captures its structural pattern — linear, iterative, cyclic, etc.
+Every cycle must include a `collaboration` block describing how the 4Ds sequence as human↔AI conversation clusters. This is how a cycle captures its structural pattern — linear, iterative, cyclic, etc.
 
 ```yaml
 collaboration:
@@ -142,7 +143,7 @@ collaboration:
     - { from: diligence, to: delegation, trigger: "Scope changed — restart needed", is_cycle_restart: true }
 ```
 
-The `collaboration` block is validated by the schema. All `d` values must be one of `delegation | description | discernment | diligence`.
+The `collaboration` block is required and validated by the schema. All `d` values must be one of `delegation | description | discernment | diligence`. See `CONTRIBUTING.md` for the full schema reference.
 
 ## index.json fields
 

@@ -86,6 +86,6 @@ export const knowledgeEntrySchema = z.object({
   contributor: z.string(),
   reference: z.string().optional(),
   version: z.string(), // semver
-  // Optional — collaboration block captures how the 4Ds flow as conversation clusters
-  collaboration: collaborationSchema.optional(),
+  // Required — collaboration block captures how the 4Ds flow as conversation clusters
+  collaboration: collaborationSchema,
 });
