@@ -1,4 +1,4 @@
-import type { KnowledgeConnector, KnowledgeEntry, ContributionResult } from './types.js';
+import type { KnowledgeConnector, KnowledgeEntry, ContributionResult, FrameworkDefinition } from './types.js';
 import yaml from 'js-yaml';
 
 export class GitHubPublicConnector implements KnowledgeConnector {
@@ -18,6 +18,13 @@ export class GitHubPublicConnector implements KnowledgeConnector {
     if (!res.ok) throw new Error(`Failed to fetch knowledge index: HTTP ${res.status}`);
     const data = await res.json() as { entries: KnowledgeEntry[] };
     return data.entries;
+  }
+
+  async loadFrameworks(): Promise<FrameworkDefinition[]> {
+    const res = await fetch(`${this.rawBase}/frameworks/index.json`);
+    if (!res.ok) throw new Error(`Failed to fetch frameworks index: HTTP ${res.status}`);
+    const data = await res.json() as { frameworks: FrameworkDefinition[] };
+    return data.frameworks;
   }
 
   /**

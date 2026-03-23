@@ -152,6 +152,7 @@ The auto-generated `index.json` contains every field needed for search and rende
 | Field | Type | Description |
 |---|---|---|
 | `id` | string | Kebab-case unique slug |
+| `framework_id` | string | Framework this entry belongs to (default: `4d-framework`) |
 | `title` | string | Human-readable name |
 | `domain` | string | One of the supported domains |
 | `tags` | string[] | Search/filter tags |
@@ -159,5 +160,49 @@ The auto-generated `index.json` contains every field needed for search and rende
 | `version` | string | Semver |
 | `summary` | string | One-sentence description |
 | `file` | string | Filename in knowledge/ |
-| `dimensions` | object | All 4 dimensions with description, example, antipattern |
-| `score_hints` | object | Relative weights per dimension (sum to 1.0) |
+| `dimensions` | object | All dimensions with description, example, antipattern — keys match the framework's dimension keys |
+| `score_hints` | object | Relative weights per dimension key (sum to 1.0) |
+
+## Frameworks
+
+Fluently is framework-agnostic. The `frameworks/` directory contains YAML definitions for each supported collaboration framework:
+
+```
+frameworks/
+├── index.json              ← pre-built index of all frameworks (fetch this first)
+└── 4d-framework.yaml       ← the bundled AI Fluency 4D Framework
+```
+
+Each framework defines:
+- `id` — kebab-case unique identifier (e.g. `4d-framework`)
+- `name` — human-readable name
+- `version` — semver
+- `contributor` — author
+- `dimensions` — list of dimension objects with `key`, `label`, `description`, and `canonical_order`
+- `tags` — optional search tags
+- `reference` — optional URL
+
+Knowledge cycles belong to a framework via `framework_id`. Validation uses the framework's dimension keys — so a 4D entry must have `delegation`, `description`, `discernment`, and `diligence`, but a different framework's entry must match that framework's own keys.
+
+### Frameworks index URL
+
+```
+https://raw.githubusercontent.com/Fluently-Org/fluently/main/frameworks/index.json
+```
+
+### Contributing a new framework
+
+Three paths:
+
+**1. Manual PR**
+- Create `frameworks/{id}.yaml` following the schema
+- CI will validate with `scripts/validate-frameworks.js` and regenerate `index.json`
+- Add knowledge cycles with `framework_id: your-framework-id`
+
+**2. Via GitHub MCP (agents)**
+- Use the Fluently MCP server's `contribute_cycle` tool with `framework_id` set
+- Use `list_frameworks` and `get_framework_detail` to discover existing frameworks
+
+**3. Private MCP**
+- Fork the repo and add your framework YAML privately
+- Configure `FLUENTLY_GITHUB_REPO` to point to your fork

@@ -58,10 +58,7 @@ export function rankCycles(
             e.domain,
             e.summary ?? "",
             ...(e.tags ?? []),
-            e.dimensions.delegation.description,
-            e.dimensions.description.description,
-            e.dimensions.discernment.description,
-            e.dimensions.diligence.description,
+            ...Object.values(e.dimensions).map(d => d.description),
           ].join(" ")
         )
       ),

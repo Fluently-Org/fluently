@@ -18,6 +18,9 @@ import {
   handleGetDimensionGuidance,
   handleRefreshKnowledge,
   handleContributeCycle,
+  handleListFrameworks,
+  handleGetFrameworkDetail,
+  handleCompareFrameworks,
 } from "./tools/handlers.js";
 
 const { version: SERVER_VERSION } = JSON.parse(
@@ -65,6 +68,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "get_dimension_guidance": return handleGetDimensionGuidance(args, connector);
       case "refresh_knowledge":      return handleRefreshKnowledge(connector);
       case "contribute_cycle":       return handleContributeCycle(args, connector);
+      case "list_frameworks":        return handleListFrameworks(connector);
+      case "get_framework_detail":   return handleGetFrameworkDetail(args, connector);
+      case "compare_frameworks":     return handleCompareFrameworks(args, connector);
       default: throw new Error(`Unknown tool: ${name}`);
     }
   })();

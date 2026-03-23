@@ -117,6 +117,56 @@ export const TOOLS = [
   },
 
   {
+    name: "list_frameworks",
+    description:
+      "List all registered collaboration frameworks in the knowledge base. " +
+      "Each framework defines its own dimension keys, labels, and canonical order. " +
+      "Use this to discover available frameworks before filtering cycles by framework.",
+    inputSchema: { type: "object", properties: {}, required: [] },
+  },
+
+  {
+    name: "get_framework_detail",
+    description:
+      "Get the full definition of a specific framework by id, including all dimensions, " +
+      "their descriptions, and canonical order. " +
+      "Call list_frameworks first to discover available framework ids.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "Framework id (e.g. '4d-framework')",
+        },
+      },
+      required: ["id"],
+    },
+  },
+
+  {
+    name: "compare_frameworks",
+    description:
+      "For a task description, find the best matching cycle from each available framework " +
+      "and return them side by side for comparison. " +
+      "Useful when multiple frameworks are registered and you want to understand " +
+      "which framework's approach best fits the task.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        task_description: {
+          type: "string",
+          description: "Plain-language description of the AI-assisted task",
+        },
+        domain: {
+          type: "string",
+          description: "Optional domain filter",
+        },
+      },
+      required: ["task_description"],
+    },
+  },
+
+  {
     name: "contribute_cycle",
     description:
       "Validate and submit a new 4D cycle to the configured knowledge source. " +

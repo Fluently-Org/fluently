@@ -24,6 +24,7 @@ function generateKnowledgeIndex() {
       
       entries.push({
         id: data.id,
+        framework_id: data.framework_id || '4d-framework',
         title: data.title,
         domain: data.domain,
         file: file,

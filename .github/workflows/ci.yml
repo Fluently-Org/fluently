@@ -6,6 +6,8 @@ on:
     paths:
       - 'packages/**'
       - 'knowledge/**'
+      - 'frameworks/**'
+      - 'scripts/**'
       - '.github/workflows/ci.yml'
       - 'package.json'
       - 'tsconfig.base.json'
@@ -14,6 +16,8 @@ on:
     paths:
       - 'packages/**'
       - 'knowledge/**'
+      - 'frameworks/**'
+      - 'scripts/**'
       - '.github/workflows/ci.yml'
       - 'package.json'
       - 'tsconfig.base.json'
@@ -47,6 +51,10 @@ jobs:
 
       - name: Build packages
         run: npm run build
+
+      - name: Validate framework definitions
+        run: node scripts/validate-frameworks.js
+        continue-on-error: false
 
       - name: Validate knowledge schema
         run: node scripts/validate-knowledge.js

@@ -1,0 +1,31 @@
+id: 4d-framework
+name: AI Fluency 4D Framework
+version: 1.0.0
+contributor: Dakan & Feller
+description: >
+  Four dimensions of good human-AI collaboration. Originally described
+  in the AI Fluency book by Dakan and Feller, this framework structures
+  every AI-assisted task across Delegation, Description, Discernment,
+  and Diligence.
+dimensions:
+  - key: delegation
+    label: Delegation
+    description: Who owns the decision — human, AI, or both? What level of autonomy is appropriate?
+    canonical_order: 1
+  - key: description
+    label: Description
+    description: How should the task be framed so AI understands context fully?
+    canonical_order: 2
+  - key: discernment
+    label: Discernment
+    description: How do you evaluate whether the AI output is trustworthy? When do you push back?
+    canonical_order: 3
+  - key: diligence
+    label: Diligence
+    description: What human accountability is required after AI is involved? Who signs off?
+    canonical_order: 4
+tags:
+  - human-ai-collaboration
+  - ai-fluency
+  - 4d
+reference: https://fluently.ctrl6.com

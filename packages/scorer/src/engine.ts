@@ -17,6 +17,8 @@ import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
 import { knowledgeEntrySchema } from "./schema.js";
+import { BUNDLED_4D_FRAMEWORK } from "./framework-schema.js";
+import type { FrameworkDimension, DimensionValue } from "./framework-schema.js";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -98,7 +100,10 @@ function cosineSimilarity(a: Set<string>, b: Set<string>): number {
  * Returns the numeric score, a human-readable `summary`, and an `insights`
  * array that lists one bullet per criterion (✓ pass / ⚠ fail).
  */
-export function scoreCollaboration(entry: KnowledgeEntry): {
+export function scoreCollaboration(
+  entry: KnowledgeEntry,
+  frameworkDimensions?: FrameworkDimension[]
+): {
   score: number;
   summary: string;
   insights: string[];
@@ -117,17 +122,21 @@ export function scoreCollaboration(entry: KnowledgeEntry): {
   const insights: string[] = [];
   let score = 0;
 
-  // ── 1. All 4 Ds represented? (40 pts) ─────────────────────────────────────
+  // ── 1. All dimensions represented? (40 pts) ───────────────────────────────
+  const dims = frameworkDimensions ?? BUNDLED_4D_FRAMEWORK.dimensions;
+  const allKeys = dims.map(d => d.key);
+  const canonicalOrder = [...dims].sort((a, b) => a.canonical_order - b.canonical_order).map(d => d.key);
+
   const dsPresent = new Set(collab.sequence.map((s) => s.d));
-  const ALL_DS = ["delegation", "description", "discernment", "diligence"] as const;
-  const missingDs = ALL_DS.filter((d) => !dsPresent.has(d));
+  const missingDs = allKeys.filter((d) => !dsPresent.has(d));
+  const totalDims = allKeys.length;
 
   if (missingDs.length === 0) {
     score += 40;
-    insights.push("✓ All 4 dimensions are represented in the sequence");
+    insights.push(`✓ All ${totalDims} dimensions are represented in the sequence`);
   } else {
-    score += (4 - missingDs.length) * 10;
-    insights.push(`⚠ Missing D-clusters: ${missingDs.join(", ")}`);
+    score += ((totalDims - missingDs.length) / totalDims) * 40;
+    insights.push(`⚠ Missing dimension clusters: ${missingDs.join(", ")}`);
   }
 
   // ── 2. Transition triggers defined for every step? (20 pts) ───────────────
@@ -165,27 +174,27 @@ export function scoreCollaboration(entry: KnowledgeEntry): {
     );
   }
 
-  // ── 4. Canonical D order: Del → Des → Dis → Dil? (20 pts) ─────────────────
-  // Checks that the *first occurrence* of each D respects the recommended order.
+  // ── 4. Canonical dimension order? (20 pts) ─────────────────────────────────
+  // Checks that the *first occurrence* of each dimension respects the canonical order.
   const firstStep: Record<string, number> = {};
   collab.sequence.forEach((s) => {
     if (!(s.d in firstStep)) firstStep[s.d] = s.step;
   });
 
   let orderCorrect = true;
-  for (let i = 0; i < ALL_DS.length - 1; i++) {
-    const a = firstStep[ALL_DS[i]];
-    const b = firstStep[ALL_DS[i + 1]];
+  for (let i = 0; i < canonicalOrder.length - 1; i++) {
+    const a = firstStep[canonicalOrder[i]];
+    const b = firstStep[canonicalOrder[i + 1]];
     if (a !== undefined && b !== undefined && a > b) {
       orderCorrect = false;
       insights.push(
-        `⚠ ${ALL_DS[i]} (step ${a}) appears after ${ALL_DS[i + 1]} (step ${b}) — check sequence order`
+        `⚠ ${canonicalOrder[i]} (step ${a}) appears after ${canonicalOrder[i + 1]} (step ${b}) — check sequence order`
       );
     }
   }
   if (orderCorrect) {
     score += 20;
-    insights.push("✓ D-cluster order follows recommended Del → Des → Dis → Dil flow");
+    insights.push(`✓ Dimension order follows recommended canonical flow`);
   }
 
   const patternLabel: Record<string, string> = {
@@ -223,11 +232,12 @@ export function scoreTask(input: TaskInput, knowledgeDir: string) {
 
   const scored = entries.map((entry) => {
     // Build entry text from title + domain + all dimension descriptions
+    const dims = entry.dimensions as Record<string, DimensionValue>;
     const entryText = keywordSet(
       [
         entry.title,
         entry.domain,
-        ...Object.values(entry.dimensions).map((d) => d.description),
+        ...Object.values(dims).map((d) => d.description),
       ].join(" ")
     );
 
@@ -270,7 +280,7 @@ export function scoreTask(input: TaskInput, knowledgeDir: string) {
       collaborationSummary,
       collaborationInsights,
       suggestions: Object.fromEntries(
-        Object.entries(entry.dimensions).map(([dim, val]) => [
+        Object.entries(entry.dimensions as Record<string, DimensionValue>).map(([dim, val]) => [
           dim,
           `Improve ${dim}: ${val.antipattern}`,
         ])

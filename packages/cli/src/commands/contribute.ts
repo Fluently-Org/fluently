@@ -2,8 +2,8 @@
  * commands/contribute.ts
  *
  * `fluent contribute` — interactive wizard that walks the user through each
- * 4D dimension, validates the result against the Zod schema, then writes a
- * YAML file ready to be committed and PR'd to the community repo.
+ * dimension of the selected framework, validates the result against the Zod
+ * schema, then writes a YAML file ready to be committed and PR'd.
  */
 
 import { Command } from "commander";
@@ -12,22 +12,62 @@ import inquirer from "inquirer";
 import yaml from "js-yaml";
 import fs from "fs";
 import path from "path";
-import { knowledgeEntrySchema } from "@fluently/scorer/schema";
+import { buildKnowledgeSchemas, BUNDLED_4D_FRAMEWORK } from "@fluently/scorer/schema";
 import { checkPrivacy } from "@fluently/scorer";
+import type { FrameworkDefinition } from "@fluently/scorer";
 
-const DIMENSIONS = ["delegation", "description", "discernment", "diligence"] as const;
-const DOMAINS    = ["coding", "writing", "research", "customer-support", "education", "legal", "healthcare", "general"] as const;
+const DOMAINS = ["coding", "writing", "research", "customer-support", "education", "legal", "healthcare", "general"] as const;
+
+/** Load framework definitions from the frameworks/ directory. */
+function loadFrameworks(): FrameworkDefinition[] {
+  // __dirname is the compiled dist/commands/ dir
+  const frameworksDir = path.resolve(__dirname, "../../../frameworks");
+  if (!fs.existsSync(frameworksDir)) return [BUNDLED_4D_FRAMEWORK];
+
+  try {
+    const indexPath = path.join(frameworksDir, "index.json");
+    if (!fs.existsSync(indexPath)) return [BUNDLED_4D_FRAMEWORK];
+
+    const raw = JSON.parse(fs.readFileSync(indexPath, "utf8")) as { frameworks: FrameworkDefinition[] };
+    return raw.frameworks.length > 0 ? raw.frameworks : [BUNDLED_4D_FRAMEWORK];
+  } catch {
+    return [BUNDLED_4D_FRAMEWORK];
+  }
+}
 
 export function registerContribute(program: Command): void {
   program
     .command("contribute")
     .description(
-      "Build a new 4D cycle interactively and save it as validated YAML.\n\n" +
-      "Walks you through each dimension — delegation, description, discernment,\n" +
-      "and diligence — then validates schema before writing the file.\n" +
+      "Build a new cycle interactively and save it as validated YAML.\n\n" +
+      "Walks you through selecting a framework, then each dimension —\n" +
+      "validates schema before writing the file.\n" +
       "Open a PR against Fluently-Org/fluently to share with the community."
     )
     .action(async () => {
+      // ── Step 0: Framework selection ────────────────────────────────────────
+      const frameworks = loadFrameworks();
+      let selectedFramework: FrameworkDefinition = BUNDLED_4D_FRAMEWORK;
+
+      if (frameworks.length > 1) {
+        const { frameworkId } = await inquirer.prompt([{
+          type: "list",
+          name: "frameworkId",
+          message: "Which framework are you contributing to?",
+          choices: frameworks.map(f => ({
+            name: `${f.name} (${f.id}) — ${f.dimensions.length} dimensions`,
+            value: f.id,
+          })),
+        }]);
+        selectedFramework = frameworks.find(f => f.id === frameworkId) ?? BUNDLED_4D_FRAMEWORK;
+      } else {
+        console.log(chalk.cyan(`Using framework: ${selectedFramework.name}`));
+      }
+
+      const DIMENSIONS = selectedFramework.dimensions
+        .sort((a, b) => a.canonical_order - b.canonical_order)
+        .map(d => d.key);
+
       // ── Step 1: Basic metadata ─────────────────────────────────────────────
       const basic = await inquirer.prompt([
         { type: "input", name: "id",          message: "Slug (unique kebab-case id):" },
@@ -38,14 +78,19 @@ export function registerContribute(program: Command): void {
         { type: "input", name: "version",      message: "Version (semver):", default: "1.0.0" },
       ]);
 
-      // ── Step 2: 4D dimensions ──────────────────────────────────────────────
+      // ── Step 2: Framework dimensions ──────────────────────────────────────
       const dimensions: Record<string, unknown> = {};
       for (const dim of DIMENSIONS) {
-        console.log(chalk.bold.cyan(`\n— ${dim.toUpperCase()} —`));
+        const dimDef = selectedFramework.dimensions.find(d => d.key === dim);
+        const label = dimDef?.label ?? dim;
+        console.log(chalk.bold.cyan(`\n— ${label.toUpperCase()} —`));
+        if (dimDef?.description) {
+          console.log(chalk.gray(`  ${dimDef.description}`));
+        }
         dimensions[dim] = await inquirer.prompt([
-          { type: "input", name: "description", message: `What does good ${dim} look like?` },
-          { type: "input", name: "example",     message: `Concrete example of good ${dim}:` },
-          { type: "input", name: "antipattern", message: `What is the most common ${dim} mistake?` },
+          { type: "input", name: "description", message: `What does good ${label} look like?` },
+          { type: "input", name: "example",     message: `Concrete example of good ${label}:` },
+          { type: "input", name: "antipattern", message: `What is the most common ${label} mistake?` },
         ]);
       }
 
@@ -62,12 +107,15 @@ export function registerContribute(program: Command): void {
       // ── Assemble and validate ──────────────────────────────────────────────
       const candidate = {
         ...basic,
+        framework_id: selectedFramework.id,
         tags: basic.tags.split(",").map((t: string) => t.trim()).filter(Boolean),
         dimensions,
         score_hints: Object.fromEntries(
           Object.entries(hintsRaw).map(([k, v]) => [k, parseFloat(v as string)])
         ),
       };
+
+      const { knowledgeEntrySchema } = buildKnowledgeSchemas(selectedFramework);
 
       try {
         knowledgeEntrySchema.parse(candidate);

@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frameworks | Fluently</title>
+    <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
+    <script src="config.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ── Framework card ────────────────────────────────────────────── */
+        .fw-card {
+            background: #fff;
+            border-radius: 0.75rem;
+            box-shadow: 0 1px 4px rgba(0,0,0,.08);
+            transition: box-shadow 0.15s, transform 0.15s;
+            border: 1px solid #e5e7eb;
+        }
+        .fw-card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,.12);
+            transform: translateY(-1px);
+        }
+
+        /* ── Dimension pill ─────────────────────────────────────────────── */
+        .dim-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 999px;
+            letter-spacing: 0.03em;
+            white-space: nowrap;
+        }
+
+        /* ── Framework card grid ────────────────────────────────────────── */
+        #frameworks-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: 1fr;
+        }
+        @media (min-width: 640px) {
+            #frameworks-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 1024px) {
+            #frameworks-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* ── Compare section ────────────────────────────────────────────── */
+        .compare-col {
+            flex: 1;
+            min-width: 0;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        /* ── Loading skeleton ───────────────────────────────────────────── */
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+            border-radius: 0.375rem;
+        }
+        @keyframes shimmer {
+            0%   { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NAVIGATION
+    ════════════════════════════════════════════════════════════════════════ -->
+    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
+                    <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
+                </div>
+                <!-- Desktop links -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
+                    <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
+                    <a href="/frameworks.html" class="text-indigo-600 font-bold border-b-2 border-indigo-600">Frameworks</a>
+                    <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
+                    <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
+                    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+                <!-- Hamburger (mobile only) -->
+                <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+                    <i id="menu-icon" class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile slide-down panel -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white shadow-md">
+            <div class="px-4 py-3 space-y-1">
+                <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
+                <a href="/knowledge.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Knowledge Base</a>
+                <a href="/frameworks.html" class="block py-2 px-3 rounded-lg bg-indigo-50 text-indigo-600 font-bold">Frameworks</a>
+                <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
+                <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
+                <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
+                    <i class="fab fa-github mr-1"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         HERO
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 border-b border-gray-200 py-14">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
+                <i class="fas fa-layer-group"></i>
+                Framework-Agnostic Knowledge Base
+            </div>
+            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+                Every framework,<br class="hidden sm:block"> one knowledge base
+            </h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
+                Fluently supports any collaboration framework — not just 4D.
+                Each framework defines its own dimensions and validation rules.
+                Knowledge cycles are validated against their specific framework's schema.
+            </p>
+            <div class="flex flex-wrap gap-3 justify-center">
+                <a href="#frameworks" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-lg text-sm transition">
+                    <i class="fas fa-layer-group mr-2"></i>Browse Frameworks
+                </a>
+                <a href="#compare" class="bg-white hover:bg-gray-50 text-gray-800 font-bold py-2.5 px-6 rounded-lg text-sm border border-gray-300 transition">
+                    <i class="fas fa-columns mr-2"></i>Compare Frameworks
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         FRAMEWORK CARDS GRID
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section id="frameworks" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-gray-900">
+                <i class="fas fa-layer-group text-indigo-600 mr-2"></i>Registered Frameworks
+            </h2>
+            <span id="fw-count-badge" class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full"></span>
+        </div>
+
+        <!-- Loading state -->
+        <div id="frameworks-grid">
+            <div class="fw-card p-6">
+                <div class="skeleton h-5 w-2/3 mb-3"></div>
+                <div class="skeleton h-3 w-full mb-2"></div>
+                <div class="skeleton h-3 w-3/4"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         FRAMEWORK COMPARISON
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section id="compare" class="bg-white border-t border-b border-gray-200 py-12">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">
+                    <i class="fas fa-columns text-indigo-600 mr-2"></i>Compare Frameworks
+                </h2>
+                <p class="text-gray-600 text-sm sm:text-base">
+                    Describe your task and see what each framework's best cycle looks like — side by side.
+                </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-2xl border border-gray-200 p-5 sm:p-6 mb-6">
+                <label class="block text-sm font-bold text-gray-700 mb-2">Your task description</label>
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <textarea id="compare-task" rows="3"
+                        placeholder="e.g. Review a customer's medical record and suggest a diagnosis pathway using AI assistance."
+                        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none bg-white"></textarea>
+                    <button onclick="runCompare()"
+                        class="sm:self-start bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition shrink-0">
+                        <i class="fas fa-columns mr-1"></i>Compare
+                    </button>
+                </div>
+                <div id="compare-loading" class="hidden mt-3 text-center text-sm text-gray-500">
+                    <i class="fas fa-spinner fa-spin text-indigo-500 mr-2"></i>Fetching best cycles from each framework…
+                </div>
+            </div>
+
+            <div id="compare-results" class="hidden">
+                <div id="compare-cols" class="flex flex-col sm:flex-row gap-4 flex-wrap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         HOW TO CONTRIBUTE A FRAMEWORK
+    ════════════════════════════════════════════════════════════════════════ -->
+    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+            <i class="fas fa-plus-circle text-green-600 mr-2"></i>Contribute a New Framework
+        </h2>
+        <div class="grid sm:grid-cols-3 gap-6">
+            <div class="bg-white rounded-xl border border-gray-200 p-5">
+                <div class="text-2xl mb-2">📄</div>
+                <h3 class="font-bold text-gray-900 mb-1">1. Write a YAML file</h3>
+                <p class="text-sm text-gray-600">
+                    Create <code class="bg-gray-100 px-1 rounded text-xs">frameworks/your-framework.yaml</code>
+                    with <code class="bg-gray-100 px-1 rounded text-xs">id</code>,
+                    <code class="bg-gray-100 px-1 rounded text-xs">name</code>,
+                    <code class="bg-gray-100 px-1 rounded text-xs">dimensions</code>, and
+                    <code class="bg-gray-100 px-1 rounded text-xs">description</code>.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 p-5">
+                <div class="text-2xl mb-2">✅</div>
+                <h3 class="font-bold text-gray-900 mb-1">2. Validate &amp; index</h3>
+                <p class="text-sm text-gray-600">
+                    CI runs <code class="bg-gray-100 px-1 rounded text-xs">validate-frameworks.js</code>
+                    and regenerates <code class="bg-gray-100 px-1 rounded text-xs">frameworks/index.json</code>
+                    automatically on merge.
+                </p>
+            </div>
+            <div class="bg-white rounded-xl border border-gray-200 p-5">
+                <div class="text-2xl mb-2">🔗</div>
+                <h3 class="font-bold text-gray-900 mb-1">3. Add knowledge cycles</h3>
+                <p class="text-sm text-gray-600">
+                    Knowledge YAML files tagged with your
+                    <code class="bg-gray-100 px-1 rounded text-xs">framework_id</code>
+                    will be validated against your framework's dimension keys.
+                </p>
+            </div>
+        </div>
+        <div class="mt-6 text-center">
+            <a href="https://github.com/Fluently-Org/fluently/blob/main/CONTRIBUTING.md"
+               data-fluently="contributing"
+               target="_blank"
+               class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white font-bold py-2.5 px-6 rounded-lg text-sm transition">
+                <i class="fab fa-github"></i>Read CONTRIBUTING.md
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         FOOTER
+    ════════════════════════════════════════════════════════════════════════ -->
+    <footer class="bg-gray-900 text-gray-300 py-12 mt-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h4 class="text-white font-bold mb-3">Fluently</h4>
+                    <p class="text-sm">Framework-agnostic AI collaboration knowledge base</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">Links</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="/" class="hover:text-white transition">Home</a></li>
+                        <li><a href="/knowledge.html" class="hover:text-white transition">Knowledge</a></li>
+                        <li><a href="/frameworks.html" class="hover:text-white transition">Frameworks</a></li>
+                        <li><a href="/contribute.html" class="hover:text-white transition">Contribute</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">Community</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="hover:text-white transition">GitHub</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/issues" data-fluently="issues" target="_blank" class="hover:text-white transition">Issues</a></li>
+                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" data-fluently="discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">License</h4>
+                    <p class="text-sm">MIT</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center text-sm">
+                <p>&copy; 2026 Fluently / Dakan &amp; Feller. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         JAVASCRIPT
+    ════════════════════════════════════════════════════════════════════════ -->
+    <script>
+    'use strict';
+
+    // ── URLs ──────────────────────────────────────────────────────────────────
+
+    const FRAMEWORKS_URL = (window.FLUENTLY && window.FLUENTLY.rawBase
+        ? window.FLUENTLY.rawBase + '/frameworks/index.json'
+        : 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/frameworks/index.json');
+
+    const KNOWLEDGE_URL = (window.FLUENTLY && window.FLUENTLY.indexJsonUrl)
+        || 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json';
+
+    const BLOB_BASE = (window.FLUENTLY && window.FLUENTLY.blobBase)
+        || 'https://github.com/Fluently-Org/fluently/blob/main';
+
+    // ── Palette for dimension pills ────────────────────────────────────────────
+
+    const PILL_PALETTE = [
+        { bg: '#dbeafe', text: '#1d4ed8' },
+        { bg: '#dcfce7', text: '#15803d' },
+        { bg: '#f3e8ff', text: '#7e22ce' },
+        { bg: '#ffedd5', text: '#c2410c' },
+        { bg: '#fef9c3', text: '#713f12' },
+        { bg: '#e0e7ff', text: '#3730a3' },
+        { bg: '#fee2e2', text: '#991b1b' },
+        { bg: '#f3f4f6', text: '#374151' },
+    ];
+
+    // ── Data ──────────────────────────────────────────────────────────────────
+
+    let _frameworks = [];
+    let _entries    = [];
+
+    function escapeHtml(v) {
+        const el = document.createElement('span');
+        el.textContent = String(v ?? '');
+        return el.innerHTML;
+    }
+
+    async function loadData() {
+        const [fwRes, kRes] = await Promise.all([
+            fetch(FRAMEWORKS_URL).catch(() => null),
+            fetch(KNOWLEDGE_URL).catch(() => null),
+        ]);
+
+        if (fwRes && fwRes.ok) {
+            const d = await fwRes.json().catch(() => ({}));
+            _frameworks = d.frameworks || [];
+        }
+
+        if (kRes && kRes.ok) {
+            const d = await kRes.json().catch(() => ({}));
+            _entries = d.entries || [];
+        }
+    }
+
+    // ── Framework cards ──────────────────────────────────────────────────────
+
+    function renderFrameworkCards() {
+        const grid  = document.getElementById('frameworks-grid');
+        const badge = document.getElementById('fw-count-badge');
+
+        if (_frameworks.length === 0) {
+            grid.innerHTML = `
+                <div class="col-span-full py-12 text-center">
+                    <i class="fas fa-exclamation-circle text-gray-300 text-4xl mb-3"></i>
+                    <p class="text-gray-500">No frameworks found. Check your network or try refreshing.</p>
+                </div>`;
+            return;
+        }
+
+        badge.textContent = `${_frameworks.length} framework${_frameworks.length !== 1 ? 's' : ''}`;
+
+        grid.innerHTML = _frameworks.map(fw => {
+            const cycleCount = _entries.filter(e =>
+                (e.framework_id || '4d-framework') === fw.id
+            ).length;
+
+            const dimPills = (fw.dimensions || [])
+                .sort((a, b) => a.canonical_order - b.canonical_order)
+                .map((d, idx) => {
+                    const c = PILL_PALETTE[idx % PILL_PALETTE.length];
+                    return `<span class="dim-pill" style="background:${c.bg};color:${c.text}" title="${escapeHtml(d.description)}">
+                        ${escapeHtml(d.label)}
+                    </span>`;
+                }).join('');
+
+            const tags = (fw.tags || []).map(t =>
+                `<span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
+            ).join('');
+
+            return `
+            <div class="fw-card p-6 flex flex-col">
+                <div class="flex items-start justify-between gap-2 mb-3">
+                    <div>
+                        <h3 class="text-base font-bold text-gray-900">${escapeHtml(fw.name)}</h3>
+                        <code class="text-xs text-gray-400">${escapeHtml(fw.id)}</code>
+                    </div>
+                    <span class="shrink-0 text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-1 rounded-full">
+                        v${escapeHtml(fw.version)}
+                    </span>
+                </div>
+
+                <p class="text-sm text-gray-600 mb-4 leading-relaxed">${escapeHtml(fw.description)}</p>
+
+                <div class="flex flex-wrap gap-1.5 mb-4">${dimPills}</div>
+
+                <div class="flex-1"></div>
+
+                <div class="flex flex-wrap gap-1.5 mb-4">${tags}</div>
+
+                <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-100 pt-3">
+                    <span><i class="fas fa-user mr-1"></i>${escapeHtml(fw.contributor)}</span>
+                    <span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-medium">
+                        ${cycleCount} cycle${cycleCount !== 1 ? 's' : ''}
+                    </span>
+                </div>
+
+                ${fw.reference ? `
+                <div class="mt-2">
+                    <a href="${escapeHtml(fw.reference)}" target="_blank"
+                       class="text-xs text-blue-500 hover:underline">
+                        <i class="fas fa-external-link-alt mr-1"></i>Reference
+                    </a>
+                </div>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    // ── Compare frameworks ────────────────────────────────────────────────────
+
+    function tokenize(text) {
+        return new Set((text || '').toLowerCase().split(/\W+/).filter(w => w.length > 2));
+    }
+
+    function cosineSim(a, b) {
+        const all = new Set([...a, ...b]);
+        let dot = 0, ma = 0, mb = 0;
+        for (const w of all) {
+            const x = a.has(w) ? 1 : 0, y = b.has(w) ? 1 : 0;
+            dot += x * y; ma += x; mb += y;
+        }
+        return (ma && mb) ? dot / (Math.sqrt(ma) * Math.sqrt(mb)) : 0;
+    }
+
+    function findBestMatch(task, fwId) {
+        const q = tokenize(task);
+        const fwEntries = _entries.filter(e => (e.framework_id || '4d-framework') === fwId);
+        if (fwEntries.length === 0) return null;
+
+        return fwEntries
+            .map(e => ({
+                entry: e,
+                sim: cosineSim(q, tokenize([e.title, e.domain, (e.tags || []).join(' '), e.summary || ''].join(' '))),
+            }))
+            .sort((a, b) => b.sim - a.sim)[0]?.entry ?? null;
+    }
+
+    async function runCompare() {
+        const task = document.getElementById('compare-task').value.trim();
+        if (!task) {
+            alert('Please enter a task description.');
+            return;
+        }
+
+        document.getElementById('compare-loading').classList.remove('hidden');
+        document.getElementById('compare-results').classList.add('hidden');
+
+        // Load data if not already loaded
+        if (_frameworks.length === 0) await loadData();
+
+        document.getElementById('compare-loading').classList.add('hidden');
+
+        if (_frameworks.length === 0) {
+            document.getElementById('compare-cols').innerHTML =
+                '<p class="text-sm text-gray-500">No frameworks available for comparison.</p>';
+            document.getElementById('compare-results').classList.remove('hidden');
+            return;
+        }
+
+        const cols = _frameworks.map(fw => {
+            const best = findBestMatch(task, fw.id);
+            const dimOrder = (fw.dimensions || [])
+                .sort((a, b) => a.canonical_order - b.canonical_order)
+                .map(d => d.key);
+
+            const seqHtml = best?.collaboration?.sequence
+                ? best.collaboration.sequence.map(s =>
+                    `<li class="text-xs text-gray-600">${s.step}. <span class="font-bold text-indigo-700">[${s.d.toUpperCase()}]</span> ${escapeHtml(s.label)}</li>`
+                  ).join('')
+                : '';
+
+            return `
+            <div class="compare-col">
+                <div class="flex items-center gap-2 mb-3">
+                    <h3 class="font-bold text-gray-900 text-sm">${escapeHtml(fw.name)}</h3>
+                    <span class="text-xs text-gray-400 font-mono">${escapeHtml(fw.id)}</span>
+                </div>
+                <div class="flex flex-wrap gap-1 mb-3">
+                    ${dimOrder.map((k, idx) => {
+                        const c = PILL_PALETTE[idx % PILL_PALETTE.length];
+                        return `<span class="dim-pill" style="background:${c.bg};color:${c.text}">${k.slice(0,3).toUpperCase()}</span>`;
+                    }).join('')}
+                </div>
+                ${best ? `
+                    <p class="text-xs font-semibold text-gray-700 mb-1">${escapeHtml(best.title)}</p>
+                    <p class="text-xs text-gray-500 mb-2">${escapeHtml(best.domain)} &mdash; ${escapeHtml(best.contributor)}</p>
+                    ${seqHtml ? `<ol class="space-y-0.5 pl-0 list-none">${seqHtml}</ol>` : ''}
+                    <a href="${BLOB_BASE}/knowledge/${escapeHtml(best.file || best.domain + '-' + best.id + '.yaml')}"
+                       target="_blank" class="inline-block mt-3 text-xs text-blue-500 hover:underline">
+                        View YAML →
+                    </a>
+                ` : `
+                    <p class="text-xs text-gray-400 italic">No cycles registered for this framework yet.</p>
+                `}
+            </div>`;
+        }).join('');
+
+        document.getElementById('compare-cols').innerHTML = cols;
+        document.getElementById('compare-results').classList.remove('hidden');
+    }
+
+    // ── Mobile hamburger ──────────────────────────────────────────────────────
+
+    function initHamburger() {
+        const btn  = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('menu-icon');
+        if (!btn || !menu) return;
+        btn.addEventListener('click', () => {
+            const open   = menu.classList.toggle('hidden');
+            const isOpen = !open;
+            btn.setAttribute('aria-expanded', isOpen);
+            icon.className = isOpen ? 'fas fa-times text-xl' : 'fas fa-bars text-xl';
+        });
+    }
+
+    // ── Config links ──────────────────────────────────────────────────────────
+
+    function applyConfigLinks() {
+        if (!window.FLUENTLY) return;
+        document.querySelectorAll('[data-fluently]').forEach(el => {
+            const key = el.getAttribute('data-fluently');
+            const map = {
+                repo:         window.FLUENTLY.repoUrl,
+                issues:       window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/issues'      : null,
+                discussions:  window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/discussions' : null,
+                contributing: window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/blob/main/CONTRIBUTING.md' : null,
+            };
+            if (map[key]) el.href = map[key];
+        });
+    }
+
+    // ── Init ──────────────────────────────────────────────────────────────────
+
+    async function init() {
+        initHamburger();
+        applyConfigLinks();
+        await loadData();
+        renderFrameworkCards();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+    </script>
+</body>
+</html>

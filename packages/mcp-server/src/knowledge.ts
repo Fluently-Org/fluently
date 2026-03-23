@@ -13,7 +13,7 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
-import type { KnowledgeConnector, KnowledgeEntry } from "./connectors/types.js";
+import type { KnowledgeConnector, KnowledgeEntry, FrameworkDefinition } from "./connectors/types.js";
 
 /** Bundled fallback — YAML files copied into dist/knowledge at build time. */
 export const BUNDLED_KNOWLEDGE = path.join(__dirname, "../knowledge");
@@ -27,7 +27,14 @@ export interface KnowledgeCache {
   source: string;
 }
 
+export interface FrameworkCache {
+  frameworks: FrameworkDefinition[];
+  loadedAt: number;
+  source: string;
+}
+
 let cache: KnowledgeCache | null = null;
+let frameworkCache: FrameworkCache | null = null;
 
 /** Return cached entries if still fresh, otherwise reload from the connector. */
 export async function getKnowledge(connector: KnowledgeConnector): Promise<KnowledgeCache> {
@@ -69,7 +76,44 @@ export async function refreshKnowledge(connector: KnowledgeConnector): Promise<K
   }
 }
 
+/** Return cached frameworks if still fresh, otherwise reload from the connector. */
+export async function getFrameworks(connector: KnowledgeConnector): Promise<FrameworkCache> {
+  if (frameworkCache && Date.now() - frameworkCache.loadedAt < CACHE_TTL_MS) return frameworkCache;
+  return refreshFrameworks(connector);
+}
+
+/**
+ * Force-reload frameworks from the connector, bypassing the TTL.
+ * Falls back to stale cache on failure.
+ */
+export async function refreshFrameworks(connector: KnowledgeConnector): Promise<FrameworkCache> {
+  if (!connector.loadFrameworks) {
+    // Connector does not support frameworks — return stale cache or empty
+    if (frameworkCache) return frameworkCache;
+    frameworkCache = { frameworks: [], loadedAt: Date.now(), source: connector.name };
+    return frameworkCache;
+  }
+
+  try {
+    const frameworks = await connector.loadFrameworks();
+    frameworkCache = { frameworks, loadedAt: Date.now(), source: connector.name };
+    console.error(`[fluently] Loaded ${frameworks.length} framework(s) from ${connector.name}`);
+    return frameworkCache;
+  } catch (err: any) {
+    console.error(`[fluently] Framework load failed (${connector.name}): ${err.message}`);
+
+    if (frameworkCache) {
+      console.error(`[fluently] Using stale framework cache (${frameworkCache.frameworks.length} framework(s))`);
+      return frameworkCache;
+    }
+
+    frameworkCache = { frameworks: [], loadedAt: Date.now(), source: "empty-fallback" };
+    return frameworkCache;
+  }
+}
+
 /** Invalidate the cache so the next getKnowledge() call reloads. */
 export function invalidateCache(): void {
   cache = null;
+  frameworkCache = null;
 }

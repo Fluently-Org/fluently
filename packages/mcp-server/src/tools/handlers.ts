@@ -13,11 +13,11 @@
  *   - No numeric scores are ever exposed to the agent — the agent reasons.
  */
 
-import { knowledgeEntrySchema } from "@fluently/scorer/schema";
+import { buildKnowledgeSchemas } from "@fluently/scorer/schema";
 import { checkPrivacy } from "@fluently/scorer";
-import type { KnowledgeConnector, KnowledgeEntry } from "../connectors/types.js";
+import type { KnowledgeConnector, KnowledgeEntry, FrameworkDefinition } from "../connectors/types.js";
 import { GitHubPublicConnector } from "../connectors/github-public.js";
-import { getKnowledge, refreshKnowledge, invalidateCache } from "../knowledge.js";
+import { getKnowledge, refreshKnowledge, getFrameworks, invalidateCache } from "../knowledge.js";
 import { rankCycles } from "../ranking.js";
 
 /** Convenience: wrap any JSON-serialisable value in MCP content format. */
@@ -55,6 +55,7 @@ export async function handleFindRelevantCycles(
 
   const results = ranked.map(e => ({
     id: e.id,
+    framework_id: e.framework_id ?? "4d-framework",
     title: e.title,
     domain: e.domain,
     tags: e.tags,
@@ -66,12 +67,9 @@ export async function handleFindRelevantCycles(
     sequence_summary: e.collaboration?.sequence.map(
       s => `${s.step}. [${s.d.toUpperCase()}] ${s.label}`
     ) ?? null,
-    dimensions: {
-      delegation:  { description: e.dimensions.delegation.description },
-      description: { description: e.dimensions.description.description },
-      discernment: { description: e.dimensions.discernment.description },
-      diligence:   { description: e.dimensions.diligence.description },
-    },
+    dimensions: Object.fromEntries(
+      Object.entries(e.dimensions).map(([key, val]) => [key, { description: val.description }])
+    ),
   }));
 
   return json({
@@ -149,33 +147,133 @@ export async function handleGetCollaborationPattern(
 
 // ── get_dimension_guidance ───────────────────────────────────────────────────
 
-const VALID_DIMS = ["delegation", "description", "discernment", "diligence"] as const;
-type DimKey = typeof VALID_DIMS[number];
-
 export async function handleGetDimensionGuidance(
   args: { dimension: string; domain?: string },
   connector: KnowledgeConnector
 ) {
   const { dimension, domain } = args;
-
-  if (!VALID_DIMS.includes(dimension as DimKey)) {
-    return json({
-      error: `Invalid dimension "${dimension}". Valid values: ${VALID_DIMS.join(", ")}`,
-    });
-  }
-
   const { entries, source } = await getKnowledge(connector);
   const filtered = domain ? entries.filter(e => e.domain === domain) : entries;
 
-  const guidance = filtered.map(e => ({
+  // Filter to entries that actually have this dimension key
+  const relevant = filtered.filter(e => dimension in e.dimensions);
+
+  if (relevant.length === 0) {
+    return json({
+      error: `No cycles found with dimension "${dimension}"${domain ? ` in domain "${domain}"` : ""}. Use list_frameworks to see valid dimension keys.`,
+    });
+  }
+
+  const guidance = relevant.map(e => ({
     cycle: e.title,
     domain: e.domain,
-    description: (e.dimensions as any)[dimension].description,
-    example:     (e.dimensions as any)[dimension].example,
-    antipattern: (e.dimensions as any)[dimension].antipattern,
+    framework_id: e.framework_id ?? "4d-framework",
+    description: e.dimensions[dimension].description,
+    example:     e.dimensions[dimension].example,
+    antipattern: e.dimensions[dimension].antipattern,
   }));
 
   return json({ source, dimension, domain: domain ?? "all", guidance });
+}
+
+// ── list_frameworks ───────────────────────────────────────────────────────────
+
+export async function handleListFrameworks(connector: KnowledgeConnector) {
+  const { frameworks, source } = await getFrameworks(connector);
+
+  if (frameworks.length === 0) {
+    return json({
+      source,
+      total: 0,
+      frameworks: [],
+      note: "No frameworks loaded. The connector may not support loadFrameworks(). The bundled 4D Framework is always available via knowledge entries.",
+    });
+  }
+
+  const summary = frameworks.map(f => ({
+    id: f.id,
+    name: f.name,
+    version: f.version,
+    contributor: f.contributor,
+    dimension_count: f.dimensions.length,
+    dimension_keys: f.dimensions.map(d => d.key),
+    tags: f.tags ?? [],
+  }));
+
+  return json({ source, total: frameworks.length, frameworks: summary });
+}
+
+// ── get_framework_detail ──────────────────────────────────────────────────────
+
+export async function handleGetFrameworkDetail(
+  args: { id: string },
+  connector: KnowledgeConnector
+) {
+  const { frameworks, source } = await getFrameworks(connector);
+  const framework = frameworks.find(f => f.id === args.id);
+
+  if (!framework) {
+    return json({
+      error: `Framework "${args.id}" not found. Use list_frameworks to discover available frameworks.`,
+    });
+  }
+
+  return json({ source, framework });
+}
+
+// ── compare_frameworks ────────────────────────────────────────────────────────
+
+export async function handleCompareFrameworks(
+  args: { task_description: string; domain?: string },
+  connector: KnowledgeConnector
+) {
+  const { task_description, domain } = args;
+  const [{ entries, source }, { frameworks }] = await Promise.all([
+    getKnowledge(connector),
+    getFrameworks(connector),
+  ]);
+
+  if (frameworks.length === 0) {
+    return json({
+      error: "No frameworks available for comparison. The connector may not support loadFrameworks().",
+    });
+  }
+
+  const comparison = frameworks.map((fw: FrameworkDefinition) => {
+    // Filter entries belonging to this framework
+    const fwEntries = entries.filter(e => (e.framework_id ?? "4d-framework") === fw.id);
+    const ranked = rankCycles(task_description, fwEntries, domain, 1);
+    const best = ranked[0] ?? null;
+
+    return {
+      framework_id: fw.id,
+      framework_name: fw.name,
+      dimension_keys: fw.dimensions.map(d => d.key),
+      best_match: best
+        ? {
+            id: best.id,
+            title: best.title,
+            domain: best.domain,
+            collaboration_pattern: best.collaboration?.pattern ?? null,
+            sequence_summary: best.collaboration?.sequence.map(
+              s => `${s.step}. [${s.d.toUpperCase()}] ${s.label}`
+            ) ?? null,
+          }
+        : null,
+      cycles_available: fwEntries.length,
+    };
+  });
+
+  return json({
+    source,
+    task: task_description,
+    domain: domain ?? "all",
+    comparison,
+    guidance:
+      "Each framework is shown with its best-matching cycle for this task. " +
+      "Use get_framework_detail to understand a framework's dimensions in depth, " +
+      "or get_cycle_detail to read the full cycle for any best_match id.",
+  });
 }
 
 // ── refresh_knowledge ────────────────────────────────────────────────────────
@@ -226,7 +324,25 @@ export async function handleContributeCycle(
   const { cycle, acknowledge_privacy_warnings = false, contribute_to_public = false } = args;
 
   // ── Step 1: Schema validation ─────────────────────────────────────────────
+  // Determine which framework this entry targets and validate against its schema.
   try {
+    const cycleObj = cycle as Record<string, unknown>;
+    const frameworkId = (cycleObj.framework_id as string) ?? "4d-framework";
+    const { frameworks } = await getFrameworks(connector);
+    const framework = frameworks.find(f => f.id === frameworkId) ?? {
+      id: "4d-framework",
+      name: "AI Fluency 4D Framework",
+      version: "1.0.0",
+      contributor: "Dakan & Feller",
+      description: "Four dimensions of good human-AI collaboration.",
+      dimensions: [
+        { key: "delegation",  label: "Delegation",  description: "", canonical_order: 1 },
+        { key: "description", label: "Description", description: "", canonical_order: 2 },
+        { key: "discernment", label: "Discernment", description: "", canonical_order: 3 },
+        { key: "diligence",   label: "Diligence",   description: "", canonical_order: 4 },
+      ],
+    };
+    const { knowledgeEntrySchema } = buildKnowledgeSchemas(framework);
     knowledgeEntrySchema.parse(cycle);
   } catch (err: any) {
     return json({

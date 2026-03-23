@@ -1,13 +1,82 @@
 # Contributing to Fluently
 
-Thank you for your interest in contributing to Fluently! This document explains how to submit new Fluently 4D cycles and contribute to the codebase.
+Thank you for your interest in contributing to Fluently! This document explains how to submit new Fluently 4D cycles, contribute new frameworks, and contribute to the codebase.
 
 ## Table of Contents
 
 - [Adding a New Fluently 4D Cycle](#adding-a-new-fluently-4d-cycle)
+- [Contributing a New Framework](#contributing-a-new-framework)
 - [Submitting a Pull Request](#submitting-a-pull-request)
 - [Schema Requirements](#schema-requirements)
 - [Code Contributions](#code-contributions)
+
+## Contributing a New Framework
+
+Fluently is framework-agnostic. You can register any collaboration framework that structures human-AI tasks into named dimensions.
+
+### Framework YAML schema
+
+Create `frameworks/{your-framework-id}.yaml`:
+
+```yaml
+id: my-framework           # kebab-case, unique
+name: My Collaboration Framework
+version: 1.0.0
+contributor: Your Name
+description: >
+  One-paragraph description of what the framework is and what problem it solves.
+dimensions:
+  - key: plan              # kebab-case dimension key
+    label: Plan
+    description: What planning looks like in this framework.
+    canonical_order: 1     # determines rendering/scoring order (must be unique positive int)
+  - key: execute
+    label: Execute
+    description: How execution is handled.
+    canonical_order: 2
+  - key: review
+    label: Review
+    description: How outputs are reviewed.
+    canonical_order: 3
+tags:
+  - optional-tag
+reference: https://your-framework-reference.example   # optional
+```
+
+### CI validation
+
+Every `frameworks/*.yaml` file is validated by `scripts/validate-frameworks.js` against `frameworkDefinitionSchema`. The CI step also regenerates `frameworks/index.json`.
+
+### Adding knowledge cycles for your framework
+
+Once your framework YAML is merged, knowledge cycles can reference it:
+
+```yaml
+id: my-cycle
+framework_id: my-framework   # must match your framework's id
+title: My Cycle Title
+domain: coding
+dimensions:
+  plan:
+    description: ...
+    example: ...
+    antipattern: ...
+  execute:
+    description: ...
+    example: ...
+    antipattern: ...
+  review:
+    description: ...
+    example: ...
+    antipattern: ...
+score_hints:
+  plan: 0.34
+  execute: 0.33
+  review: 0.33
+# ... collaboration block required
+```
+
+Dimension keys in `dimensions` and `score_hints` must exactly match your framework's dimension keys. The Zod schema is built dynamically per framework, so a typo will fail CI validation.
 
 ## Adding a New Fluently 4D Cycle
 

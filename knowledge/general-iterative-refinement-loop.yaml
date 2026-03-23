@@ -1,4 +1,5 @@
 id: iterative-refinement-loop
+framework_id: 4d-framework
 version: "1.0.0"
 contributor: "Rick Dakan & Joseph Feller / Anthropic"
 title: "Description-Discernment Iterative Refinement Loop"
