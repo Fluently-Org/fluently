@@ -1,6 +1,6 @@
 {
   "name": "fluently-mcp-server",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "MCP server for the Fluently framework. Exposes knowledge retrieval and contribution tools so any AI agent (Claude, GPT, Gemini, Mistral, Copilot…) can find, reason over, and extend Fluently cycles.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
