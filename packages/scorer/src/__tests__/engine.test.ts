@@ -24,26 +24,40 @@ const DIM = {
   antipattern: "Skipping review entirely",
 };
 
+const COLLAB = {
+  pattern:     "linear",
+  description: "Linear workflow",
+  sequence: [
+    { step: 1, d: "delegation",  label: "Define scope",    triggers_next: "Scope agreed" },
+    { step: 2, d: "description", label: "Provide context", triggers_next: "Context provided" },
+  ],
+  transitions: [
+    { from: "delegation", to: "description", trigger: "Scope agreed" },
+  ],
+};
+
 const CODE_REVIEW_ENTRY = {
-  id:          "code-review-test",
-  title:       "Code Review Test",
-  domain:      "coding",
-  tags:        ["code-review", "pull-request"],
-  contributor: "Test",
-  version:     "1.0.0",
-  dimensions:  { delegation: DIM, description: DIM, discernment: DIM, diligence: DIM },
-  score_hints: { delegation: 0.25, description: 0.25, discernment: 0.25, diligence: 0.25 },
+  id:            "code-review-test",
+  title:         "Code Review Test",
+  domain:        "coding",
+  tags:          ["code-review", "pull-request"],
+  contributor:   "Test",
+  version:       "1.0.0",
+  dimensions:    { delegation: DIM, description: DIM, discernment: DIM, diligence: DIM },
+  score_hints:   { delegation: 0.25, description: 0.25, discernment: 0.25, diligence: 0.25 },
+  collaboration: COLLAB,
 };
 
 const WRITING_ENTRY = {
-  id:          "writing-test",
-  title:       "Content Writing Test",
-  domain:      "writing",
-  tags:        ["drafting", "editing"],
-  contributor: "Test",
-  version:     "1.0.0",
-  dimensions:  { delegation: DIM, description: DIM, discernment: DIM, diligence: DIM },
-  score_hints: { delegation: 0.25, description: 0.25, discernment: 0.25, diligence: 0.25 },
+  id:            "writing-test",
+  title:         "Content Writing Test",
+  domain:        "writing",
+  tags:          ["drafting", "editing"],
+  contributor:   "Test",
+  version:       "1.0.0",
+  dimensions:    { delegation: DIM, description: DIM, discernment: DIM, diligence: DIM },
+  score_hints:   { delegation: 0.25, description: 0.25, discernment: 0.25, diligence: 0.25 },
+  collaboration: COLLAB,
 };
 
 // ── Temp directory setup ──────────────────────────────────────────────────────
@@ -109,8 +123,9 @@ describe("scoreTask", () => {
 
 describe("scoreCollaboration", () => {
   it("returns score 0 when collaboration block is missing", () => {
-    // Cast to satisfy type — collaboration is optional in the real schema
-    const entry = CODE_REVIEW_ENTRY as unknown as KnowledgeEntry;
+    // Cast to satisfy type — testing scoreCollaboration's graceful handling of missing block
+    const { collaboration: _, ...entryWithoutCollab } = CODE_REVIEW_ENTRY;
+    const entry = entryWithoutCollab as unknown as KnowledgeEntry;
     const result = scoreCollaboration(entry);
     expect(result.score).toBe(0);
     expect(result.insights).toContain("Missing collaboration block");

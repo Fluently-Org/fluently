@@ -6,7 +6,7 @@
  * Strategy:
  *   - Build a minimal valid entry and verify it passes.
  *   - Mutate one field at a time to verify each validation rule fires.
- *   - Cover the collaboration block separately (optional but schema-validated).
+ *   - Cover the collaboration block separately (required and schema-validated).
  */
 
 import { describe, it, expect } from "vitest";
@@ -19,6 +19,19 @@ const validDim = {
   description: "Good description",
   example:     "Concrete example",
   antipattern: "Common mistake",
+};
+
+/** Minimal valid collaboration block. */
+const validCollab = {
+  pattern:     "linear",
+  description: "Linear workflow",
+  sequence: [
+    { step: 1, d: "delegation",  label: "Define scope",    triggers_next: "Scope agreed" },
+    { step: 2, d: "description", label: "Provide context", triggers_next: "Context provided" },
+  ],
+  transitions: [
+    { from: "delegation", to: "description", trigger: "Scope agreed" },
+  ],
 };
 
 /** A minimal valid knowledge entry — all required fields, no optionals. */
@@ -41,6 +54,7 @@ const validEntry = {
     discernment: 0.25,
     diligence:   0.25,
   },
+  collaboration: validCollab,
 };
 
 // ── Valid entry ───────────────────────────────────────────────────────────────
@@ -50,7 +64,7 @@ describe("knowledgeEntrySchema — valid entries", () => {
     expect(() => knowledgeEntrySchema.parse(validEntry)).not.toThrow();
   });
 
-  it("accepts an entry with optional collaboration block", () => {
+  it("accepts an entry with a full collaboration block including example_prompts", () => {
     const withCollab = {
       ...validEntry,
       collaboration: {
