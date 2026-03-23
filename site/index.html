@@ -629,6 +629,9 @@
       .bento { grid-template-columns: 1fr; }
       .nav-links { display: none; }
       .hero-stats { flex-wrap: wrap; gap: 20px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+      .footer-bottom { flex-wrap: wrap; gap: 8px; }
+      .install-grid { grid-template-columns: 1fr; }
     }
   </style>
   <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
@@ -879,7 +882,7 @@
     </div>
 
     <!-- Visual: what a cluster looks like -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:56px;" class="cluster-grid">
+    <div style="gap:32px;margin-bottom:56px;" class="cluster-grid">
       <div>
         <h3 style="font-size:1.1rem;font-weight:600;color:var(--fg);margin-bottom:16px;">One cluster = a chain of related prompts</h3>
         <div style="display:flex;flex-direction:column;gap:6px;">
@@ -947,27 +950,25 @@
       <h3 style="font-size:1rem;font-weight:600;color:var(--fg-muted);text-align:center;margin-bottom:20px;letter-spacing:.04em;text-transform:uppercase;font-size:0.75rem;">
         Code Review Triage — linear_with_loops · 4 D-clusters · 1 conditional loop-back
       </h3>
-      <div style="display:flex;align-items:flex-start;gap:0;overflow-x:auto;padding-bottom:4px;" id="seqDiagram">
+      <div id="seqDiagram">
         <!-- Step 1: Delegation -->
-        <div class="seq-step" style="flex:1;min-width:160px;">
+        <div class="seq-step">
           <div class="seq-bubble" style="border-color:rgba(212,96,42,0.5);background:rgba(212,96,42,0.08);">
             <div class="seq-d-label" style="color:var(--orange);">DEL</div>
             <div class="seq-step-label">Negotiate AI scope</div>
             <div class="seq-step-sub">Human and AI agree on autonomy boundaries and severity thresholds</div>
           </div>
-          <div class="seq-arrow" style="color:var(--orange);">→</div>
         </div>
         <!-- Step 2: Description -->
-        <div class="seq-step" style="flex:1;min-width:160px;">
+        <div class="seq-step">
           <div class="seq-bubble" style="border-color:rgba(107,108,181,0.5);background:rgba(107,108,181,0.08);">
             <div class="seq-d-label" style="color:var(--indigo);">DES</div>
             <div class="seq-step-label">Provide context</div>
             <div class="seq-step-sub">PR diff, style guide, and linked issues shared with AI</div>
           </div>
-          <div class="seq-arrow" style="color:var(--indigo);">→</div>
         </div>
         <!-- Step 3: Discernment -->
-        <div class="seq-step" style="flex:1;min-width:160px;position:relative;">
+        <div class="seq-step">
           <div class="seq-bubble" style="border-color:rgba(63,185,80,0.5);background:rgba(63,185,80,0.08);">
             <div class="seq-d-label" style="color:var(--green);">DIS</div>
             <div class="seq-step-label">Evaluate findings</div>
@@ -977,17 +978,15 @@
               ↩ loop back to DEL if &gt;30% false positives
             </div>
           </div>
-          <div class="seq-arrow" style="color:var(--green);">→</div>
         </div>
         <!-- Step 4: Diligence -->
-        <div class="seq-step" style="flex:1;min-width:160px;">
+        <div class="seq-step">
           <div class="seq-bubble" style="border-color:rgba(210,153,34,0.5);background:rgba(210,153,34,0.08);">
             <div class="seq-d-label" style="color:var(--amber);">DIL</div>
             <div class="seq-step-label">Approve &amp; document</div>
             <div class="seq-step-sub">Senior engineer signs off, decisions logged in PR comments</div>
             <div style="margin-top:8px;font-size:0.62rem;color:var(--fg-subtle);">↻ restart for next PR</div>
           </div>
-          <div class="seq-arrow" style="color:var(--fg-subtle);opacity:0.3;">·</div>
         </div>
       </div>
     </div>
@@ -1033,19 +1032,19 @@
 </section>
 
 <style>
-.cluster-grid { }
+.cluster-grid { display:grid; grid-template-columns:1fr 1fr; }
 @media (max-width: 768px) { .cluster-grid { grid-template-columns: 1fr; } }
-.seq-step { display:flex;flex-direction:column;align-items:center; }
+#seqDiagram { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+@media (max-width: 640px) { #seqDiagram { grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 400px) { #seqDiagram { grid-template-columns:1fr; } }
+.seq-step { display:flex; flex-direction:column; }
 .seq-bubble {
-  width:100%;border:1px solid;border-radius:10px;padding:12px 10px;
-  font-size:0.78rem;text-align:center;
+  flex:1; border:1px solid; border-radius:10px; padding:12px 10px;
+  font-size:0.78rem; text-align:center;
 }
 .seq-d-label { font-size:0.68rem;font-weight:700;letter-spacing:.1em;margin-bottom:4px; }
 .seq-step-label { font-weight:600;color:var(--fg);margin-bottom:4px; }
 .seq-step-sub { color:var(--fg-muted);font-size:0.72rem;line-height:1.4; }
-.seq-arrow {
-  font-size:1.4rem;padding:0 4px;margin-top:16px;align-self:flex-start;margin-top:32px;
-}
 </style>
 
 
