@@ -65,7 +65,7 @@
           <div>
             <label class="block text-sm font-medium text-gray-300 mb-2">
               <i class="fab fa-github mr-1"></i> GitHub Token
-              <span class="text-xs text-gray-500 ml-2">(repo scope — stored in localStorage)</span>
+              <span class="text-xs text-gray-500 ml-2">(repo scope, stored in localStorage)</span>
             </label>
             <div class="flex gap-2">
               <input id="prGithubToken" type="password" placeholder="ghp_…" autocomplete="off"
@@ -110,7 +110,7 @@
                 <div class="text-sm font-medium text-white mb-1">Private MCP Bridge</div>
                 <div class="text-xs text-gray-400 leading-relaxed">
                   Using a private Fluently MCP? Click <strong class="text-orange-300">Import from Private MCP</strong> below
-                  to paste your private cycle YAML here and share it with the community — your agent and team knowledge, contributed in one click.
+                  to paste your private cycle YAML here and share it with the community. Your agent and team knowledge, contributed in one click.
                 </div>
                 <button onclick="importFromPrivateMcp()" class="mt-2 text-xs text-orange-400 hover:text-orange-300 underline">
                   Import from Private MCP YAML →
@@ -181,7 +181,7 @@ version: &quot;1.0.0&quot;"></textarea>
     <div id="importModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-70">
       <div class="bg-gray-900 rounded-2xl shadow-2xl border border-gray-700 p-8 max-w-lg w-full mx-4">
         <h3 class="text-lg font-bold text-white mb-3"><i class="fas fa-paste mr-2 text-orange-400"></i>Import Private MCP YAML</h3>
-        <p class="text-sm text-gray-400 mb-4">Paste the YAML you retrieved from your private Fluently MCP here. Sensitive proprietary fields will stay on your side — only what you paste gets submitted.</p>
+        <p class="text-sm text-gray-400 mb-4">Paste the YAML you retrieved from your private Fluently MCP here. Sensitive proprietary fields will stay on your side, and only what you paste gets submitted.</p>
         <textarea id="importYamlInput" rows="12" spellcheck="false"
           class="w-full bg-gray-800 border border-gray-600 rounded-lg px-4 py-3 text-xs text-green-300 font-mono focus:outline-none focus:border-orange-400 resize-none mb-4"
           placeholder="Paste private cycle YAML here…"></textarea>
@@ -348,9 +348,9 @@ version: &quot;1.0.0&quot;"></textarea>
                         Describe whether this task should be:
                     </p>
                     <ul class="text-sm text-gray-700 space-y-2 mb-4">
-                        <li><strong>Fully automated</strong> — AI runs without human oversight</li>
-                        <li><strong>Augmented</strong> — AI suggests, human approves</li>
-                        <li><strong>Agentic</strong> — AI escalates to human when uncertain</li>
+                        <li><strong>Fully automated</strong>: AI runs without human oversight</li>
+                        <li><strong>Augmented</strong>: AI suggests, human approves</li>
+                        <li><strong>Agentic</strong>: AI escalates to human when uncertain</li>
                     </ul>
                     <div class="bg-blue-50 p-3 rounded text-sm text-gray-700">
                         <strong>Tip:</strong> Be specific about escalation triggers.

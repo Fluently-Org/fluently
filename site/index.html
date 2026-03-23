@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fluent·ly — AI Fluency 4D Framework</title>
+  <title>Fluent·ly: Community Knowledge for Human-AI Collaboration</title>
   <link rel="icon" type="image/svg+xml" href="logo.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -697,11 +697,11 @@
         </svg>
       </div>
       <h1 class="hero-title">
-        Work better with AI.<br>
-        <em>Every time.</em>
+        Learn to collaborate with AI<br>
+        <em>from those who already do.</em>
       </h1>
       <p class="hero-sub">
-        Fluently operationalizes the 4D Framework — Delegation, Description, Discernment, Diligence — so every human-AI collaboration is intentional, accountable, and reproducible. Built on community knowledge, powered by GitHub MCP.
+        Fluently is a community knowledge base of human-AI collaboration practices, structured by the 4D Framework: Delegation, Description, Discernment, Diligence. Learn from proven patterns, contribute yours, and serve them as AI-ready skills, prompts, resources, and tools.
       </p>
       <div class="hero-actions">
         <a href="#try-it" class="btn btn-purple btn-lg">
@@ -744,7 +744,7 @@
           <div class="terminal-dot dot-yellow"></div>
           <div class="terminal-dot dot-green"></div>
         </div>
-        <span class="terminal-title" id="agentTerminalTitle">Claude + GitHub MCP — live knowledge</span>
+        <span class="terminal-title" id="agentTerminalTitle">Claude + GitHub MCP: live knowledge</span>
       </div>
       <!-- Terminal body: one panel per agent -->
       <div id="agent-panel-claude" class="terminal-body agent-panel active-panel" style="min-height:320px;">
@@ -843,7 +843,7 @@
         <div class="pillar-icon pi-delegation">🎯</div>
         <div class="pillar-num pn-delegation">D1 · Delegation</div>
         <div class="pillar-name">Who owns the decision?</div>
-        <div class="pillar-q">"Who should own this — human, AI, or both?"</div>
+        <div class="pillar-q">"Who should own this: human, AI, or both?"</div>
         <div class="pillar-desc">Define the autonomy level before the task starts. Automated, augmented, or supervised. Ambiguity here creates accountability gaps.</div>
       </div>
       <div class="pillar">
@@ -851,7 +851,7 @@
         <div class="pillar-num pn-description">D2 · Description</div>
         <div class="pillar-name">Is the context complete?</div>
         <div class="pillar-q">"What does the AI need to understand the task fully?"</div>
-        <div class="pillar-desc">Framing determines output quality. A good description includes role, constraints, examples, and expected format — not just the ask.</div>
+        <div class="pillar-desc">Framing determines output quality. A good description includes role, constraints, examples, and expected format. Not just the ask.</div>
       </div>
       <div class="pillar">
         <div class="pillar-icon pi-discernment">🔍</div>
@@ -865,19 +865,57 @@
         <div class="pillar-num pn-diligence">D4 · Diligence</div>
         <div class="pillar-name">Who stays accountable?</div>
         <div class="pillar-q">"What human sign-off is required after AI involvement?"</div>
-        <div class="pillar-desc">Accountability doesn't transfer to AI. Diligence names the human who owns the outcome — and the minimum verification step before shipping.</div>
+        <div class="pillar-desc">Accountability doesn't transfer to AI. Diligence names the human who owns the outcome, along with the minimum verification step before shipping.</div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ── Knowledge as Services ── -->
+<section style="padding: 64px 24px; background: var(--canvas-soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="section-header" style="margin-bottom:40px;">
+      <div class="section-eyebrow">From knowledge to practice</div>
+      <h2 class="section-title">Each 4D dimension becomes a service your AI can call</h2>
+      <p class="section-sub">The knowledge base is not just for reading. Each dimension maps to a concrete type of AI service primitive, so the patterns you learn and contribute are directly actionable in any MCP-compatible agent.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="services-grid">
+      <div style="background:var(--canvas);border:1px solid rgba(107,108,181,0.35);border-radius:12px;padding:24px;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:10px;">D2 · Description</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--fg);margin-bottom:6px;">Skills</div>
+        <div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.6;">Context and scope framing patterns. Triggered on demand as token-light <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 4px;border-radius:3px;">.md</code> files that give agents the right framing for a task.</div>
+      </div>
+      <div style="background:var(--canvas);border:1px solid rgba(212,96,42,0.35);border-radius:12px;padding:24px;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--orange);margin-bottom:10px;">D1 · Delegation</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--fg);margin-bottom:6px;">Prompts</div>
+        <div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.6;">Task handoff and sub-agent patterns. Named, parameterized invocation templates that encode how much autonomy to grant for each task type.</div>
+      </div>
+      <div style="background:var(--canvas);border:1px solid rgba(210,153,34,0.35);border-radius:12px;padding:24px;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">D3 · Discernment</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--fg);margin-bottom:6px;">Resources</div>
+        <div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.6;">Proceed, pause, and escalate heuristics. Read-only knowledge blobs and examples an agent consults to decide whether output is trustworthy enough to proceed.</div>
+      </div>
+      <div style="background:var(--canvas);border:1px solid rgba(63,185,80,0.35);border-radius:12px;padding:24px;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:10px;">D4 · Diligence</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--fg);margin-bottom:6px;">Tools</div>
+        <div style="font-size:0.82rem;color:var(--fg-muted);line-height:1.6;">Verify, validate, and safety checks. Callable functions that contribute new patterns, retrieve existing ones, and validate cycles against the shared schema.</div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+@media (max-width: 768px) { .services-grid { grid-template-columns: repeat(2,1fr) !important; } }
+@media (max-width: 480px) { .services-grid { grid-template-columns: 1fr !important; } }
+</style>
+
 <!-- ── Conversation Clusters: How 4D Cycles Work ── -->
 <section style="padding: 80px 24px; background: var(--canvas-inset); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);" id="how-cycles-work">
   <div class="section-inner">
     <div class="section-header">
       <div class="section-eyebrow">How Cycles Work</div>
-      <h2 class="section-title">The 4Ds are conversation clusters — not tags</h2>
+      <h2 class="section-title">The 4Ds are conversation clusters, not tags</h2>
       <p class="section-sub">
-        Every human-AI collaboration is a <strong>chain of prompts</strong>. Fluently classifies those prompt chains into four kinds of clusters — Delegation, Description, Discernment, and Diligence — and defines how they connect, loop, and restart into a repeatable cycle.
+        Every human-AI collaboration is a <strong>chain of prompts</strong>. Fluently classifies those prompt chains into four kinds of clusters: Delegation, Description, Discernment, and Diligence. It defines how they connect, loop, and restart into a repeatable cycle.
       </p>
     </div>
 
@@ -891,10 +929,10 @@
             <div style="font-size:0.7rem;font-weight:700;color:var(--orange);letter-spacing:.08em;margin-bottom:6px;">DEL · Delegation cluster</div>
             <div style="display:flex;flex-direction:column;gap:4px;font-size:0.78rem;">
               <div style="display:flex;gap:8px;"><span style="color:var(--fg-muted);width:36px;flex-shrink:0;">Human</span><span style="color:var(--fg);">"Can you auto-approve style issues and flag logic ones?"</span></div>
-              <div style="display:flex;gap:8px;"><span style="color:var(--orange);width:36px;flex-shrink:0;">AI</span><span style="color:var(--fg);">"I can flag logic issues with confidence — want me to auto-close only style nits?"</span></div>
-              <div style="display:flex;gap:8px;"><span style="color:var(--fg-muted);width:36px;flex-shrink:0;">Human</span><span style="color:var(--fg);">"Yes — auto-close style, surface everything else with a severity label."</span></div>
+              <div style="display:flex;gap:8px;"><span style="color:var(--orange);width:36px;flex-shrink:0;">AI</span><span style="color:var(--fg);">"I can flag logic issues with confidence. Want me to auto-close only style nits?"</span></div>
+              <div style="display:flex;gap:8px;"><span style="color:var(--fg-muted);width:36px;flex-shrink:0;">Human</span><span style="color:var(--fg);">"Yes. Auto-close style, surface everything else with a severity label."</span></div>
             </div>
-            <div style="margin-top:8px;font-size:0.7rem;color:var(--fg-subtle);">↳ Trigger: autonomy boundaries agreed → moves to Description</div>
+            <div style="margin-top:8px;font-size:0.7rem;color:var(--fg-subtle);">↳ Trigger: autonomy boundaries agreed, moves to Description</div>
           </div>
           <!-- Description cluster example -->
           <div style="background:rgba(107,108,181,0.07);border:1px solid rgba(107,108,181,0.25);border-radius:8px;padding:12px 14px;">
@@ -902,9 +940,9 @@
             <div style="display:flex;flex-direction:column;gap:4px;font-size:0.78rem;">
               <div style="display:flex;gap:8px;"><span style="color:var(--fg-muted);width:36px;flex-shrink:0;">Human</span><span style="color:var(--fg);">"Here's the PR diff, our style guide, and the three issues this PR addresses."</span></div>
               <div style="display:flex;gap:8px;"><span style="color:var(--orange);width:36px;flex-shrink:0;">AI</span><span style="color:var(--fg);">"Should I cross-reference open issues when flagging findings?"</span></div>
-              <div style="display:flex;gap:8px;"><span style="color:var(--fg-muted);width:36px;flex-shrink:0;">Human</span><span style="color:var(--fg);">"Yes — link any finding to the relevant issue if there's a match."</span></div>
+              <div style="display:flex;gap:8px;"><span style="color:var(--fg-muted);width:36px;flex-shrink:0;">Human</span><span style="color:var(--fg);">"Yes, link any finding to the relevant issue if there's a match."</span></div>
             </div>
-            <div style="margin-top:8px;font-size:0.7rem;color:var(--fg-subtle);">↳ Trigger: AI has enough context → moves to Discernment</div>
+            <div style="margin-top:8px;font-size:0.7rem;color:var(--fg-subtle);">↳ Trigger: AI has enough context, moves to Discernment</div>
           </div>
         </div>
       </div>
@@ -948,7 +986,7 @@
     <!-- Animated sequence diagram -->
     <div style="margin-bottom:48px;">
       <h3 style="font-size:1rem;font-weight:600;color:var(--fg-muted);text-align:center;margin-bottom:20px;letter-spacing:.04em;text-transform:uppercase;font-size:0.75rem;">
-        Code Review Triage — linear_with_loops · 4 D-clusters · 1 conditional loop-back
+        Code Review Triage · linear_with_loops · 4 D-clusters · 1 conditional loop-back
       </h3>
       <div id="seqDiagram">
         <!-- Step 1: Delegation -->
@@ -1025,7 +1063,7 @@
         </div>
       </div>
       <p style="margin-top:16px;font-size:0.82rem;color:var(--fg-muted);">
-        Each cycle in the <a href="knowledge.html" style="color:var(--orange);">knowledge base</a> includes its full collaboration block — ordered D-clusters with example prompts, transition triggers, and loop-back conditions. Use <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">get_collaboration_pattern</code> via the MCP server to retrieve this for any cycle.
+        Each cycle in the <a href="knowledge.html" style="color:var(--orange);">knowledge base</a> includes its full collaboration block: ordered D-clusters with example prompts, transition triggers, and loop-back conditions. Use <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">get_collaboration_pattern</code> via the MCP server to retrieve this for any cycle.
       </p>
     </div>
   </div>
@@ -1055,16 +1093,16 @@
     <div class="section-header">
       <div class="section-eyebrow">Architecture</div>
       <h2 class="section-title">Two paths to the knowledge base</h2>
-      <p class="section-sub">Community knowledge flows through GitHub MCP — no server, always current. Private or isolated knowledge uses the custom MCP server with any connector.</p>
+      <p class="section-sub">Community knowledge flows through GitHub MCP: no server required, always current. Private or isolated knowledge uses the custom MCP server with any connector.</p>
     </div>
 
     <!-- River 1: GitHub MCP -->
     <div class="river-row">
       <div class="river-text">
-        <div class="river-eyebrow" style="color: var(--green);">Path A — Community (default)</div>
+        <div class="river-eyebrow" style="color: var(--green);">Path A: Community (default)</div>
         <h3 class="river-title">GitHub MCP reads the knowledge base directly</h3>
         <p class="river-body">
-          The Fluently knowledge base lives in a public GitHub repo. Any AI agent with the GitHub MCP server wired can read <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">KNOWLEDGE.md</code>, fetch <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">knowledge/index.json</code>, and deep-read individual YAML cycles — no custom server, no rebuild, no auth required for reads.
+          The Fluently knowledge base lives in a public GitHub repo. Any AI agent with the GitHub MCP server wired can read <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">KNOWLEDGE.md</code>, fetch <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;">knowledge/index.json</code>, and deep-read individual YAML cycles, with no custom server, no rebuild, and no auth required for reads.
           <br><br>
           Knowledge updates the moment a community cycle is merged. Contributions open a PR automatically via the same GitHub MCP.
         </p>
@@ -1081,7 +1119,7 @@
             <div class="terminal-dot dot-yellow"></div>
             <div class="terminal-dot dot-green"></div>
           </div>
-          <span class="terminal-title">AI Agent — settings.json</span>
+          <span class="terminal-title">AI Agent: settings.json</span>
         </div>
         <div class="terminal-body" style="font-size:0.8rem;">
           <span class="t-line"><span class="t-comment">// Wire GitHub MCP — no auth needed for reads</span></span>
@@ -1105,12 +1143,12 @@
     <!-- River 2: Custom MCP -->
     <div class="river-row reverse">
       <div class="river-text">
-        <div class="river-eyebrow" style="color: var(--purple);">Path B — Private / Isolated</div>
+        <div class="river-eyebrow" style="color: var(--purple);">Path B: Private / Isolated</div>
         <h3 class="river-title">Custom MCP server with pluggable connectors</h3>
         <p class="river-body">
-          When you need private knowledge — a team's proprietary patterns, a fork with domain-specific cycles, or an air-gapped environment — the custom Fluently MCP server connects to any backend: a private GitHub repo, a local directory, SQL, or NoSQL. Five connectors, one interface.
+          When you need private knowledge, like a team's proprietary patterns, a fork with domain-specific cycles, or an air-gapped environment, the custom Fluently MCP server connects to any backend: a private GitHub repo, a local directory, SQL, or NoSQL. Five connectors, one interface.
           <br><br>
-          Six tools are exposed: discover, retrieve, deep-read, inspect dimensions, force-refresh, and contribute. No numeric scores — the agent reasons over ranked candidates contextually.
+          Six tools are exposed: discover, retrieve, deep-read, inspect dimensions, force-refresh, and contribute. No numeric scores: the agent reasons over ranked candidates contextually.
         </p>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
           <span style="font-size:0.8rem;padding:4px 12px;border-radius:999px;background:rgba(212,96,42,0.08);border:1px solid rgba(212,96,42,0.25);color:var(--purple);">✓ Private knowledge</span>
@@ -1125,7 +1163,7 @@
             <div class="terminal-dot dot-yellow"></div>
             <div class="terminal-dot dot-green"></div>
           </div>
-          <span class="terminal-title">fluently-mcp-server — connectors</span>
+          <span class="terminal-title">fluently-mcp-server: connectors</span>
         </div>
         <div class="terminal-body" style="font-size:0.8rem;">
           <span class="t-line"><span class="t-comment"># Community (default — no config)</span></span>
@@ -1158,14 +1196,14 @@
       <div class="bento-card bento-wide">
         <div class="bento-icon" style="background:rgba(63,185,80,0.12);">🔄</div>
         <div class="bento-label">Live Knowledge</div>
-        <div class="bento-title">Always current — no rebuilds</div>
-        <div class="bento-body">The GitHub MCP connector fetches directly from <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">raw.githubusercontent.com</code> on every request. The custom MCP server adds a 1-hour TTL cache with bundled offline fallback. New cycles appear the moment a PR is merged — without restarting anything.</div>
+        <div class="bento-title">Always current, no rebuilds</div>
+        <div class="bento-body">The GitHub MCP connector fetches directly from <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">raw.githubusercontent.com</code> on every request. The custom MCP server adds a 1-hour TTL cache with bundled offline fallback. New cycles appear the moment a PR is merged, without restarting anything.</div>
       </div>
       <div class="bento-card">
         <div class="bento-icon" style="background:rgba(212,96,42,0.12);">🤖</div>
         <div class="bento-label">Agent in the Loop</div>
         <div class="bento-title">No biased scoring</div>
-        <div class="bento-body">Numeric scores encode assumptions about platform maturity and user skill. Instead, the server returns ranked keyword-similarity candidates and lets the agent reason contextually over fit — adapting to your specific context.</div>
+        <div class="bento-body">Numeric scores encode assumptions about platform maturity and user skill. Instead, the server returns ranked keyword-similarity candidates and lets the agent reason contextually over fit, adapting to your specific context.</div>
       </div>
       <div class="bento-card">
         <div class="bento-icon" style="background:rgba(107,108,181,0.12);">🏗️</div>
@@ -1177,13 +1215,13 @@
         <div class="bento-icon" style="background:rgba(210,153,34,0.12);">📤</div>
         <div class="bento-label">Contribute</div>
         <div class="bento-title">One command to PR</div>
-        <div class="bento-body">Validate a new cycle via Zod schema and the <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">contribute_cycle</code> tool handles the rest — returns a PR URL for public knowledge, writes a file for local, or opens a branch automatically for private repos.</div>
+        <div class="bento-body">Validate a new cycle via Zod schema and the <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">contribute_cycle</code> tool handles the rest: returns a PR URL for public knowledge, writes a file for local, or opens a branch automatically for private repos.</div>
       </div>
       <div class="bento-card">
         <div class="bento-icon" style="background:rgba(248,81,73,0.12);">🛡️</div>
         <div class="bento-label">Schema Validation</div>
         <div class="bento-title">Zod-validated entries</div>
-        <div class="bento-body">Every cycle must pass the shared Zod schema before being accepted — all 4 dimensions, examples, antipatterns, score hints. CI enforces this on every PR.</div>
+        <div class="bento-body">Every cycle must pass the shared Zod schema before being accepted: all 4 dimensions, examples, antipatterns, score hints. CI enforces this on every PR.</div>
       </div>
       <div class="bento-card">
         <div class="bento-icon" style="background:rgba(63,185,80,0.12);">📦</div>
@@ -1201,7 +1239,7 @@
     <div class="section-header">
       <div class="section-eyebrow">Live Demo</div>
       <h2 class="section-title">Try it in your browser</h2>
-      <p class="section-sub">Choose your AI provider, describe a task, and watch Fluently fetch live knowledge from GitHub and reason over cycles — exactly what the GitHub MCP path does, running right here.</p>
+      <p class="section-sub">Choose your AI provider, describe a task, and watch Fluently fetch live knowledge from GitHub and reason over cycles, exactly what the GitHub MCP path does, running right here.</p>
     </div>
     <div class="try-layout">
       <div class="try-sidebar">
@@ -1263,7 +1301,7 @@
             </div>
             <div style="display:flex;align-items:flex-start;gap:8px;font-size:0.8rem;color:var(--fg-muted);">
               <span style="color:var(--purple);margin-top:1px;flex-shrink:0;">④</span>
-              <span>Your AI agent reasons over the cycles and tells you which fits best — and why</span>
+              <span>Your AI agent reasons over the cycles and tells you which fits best, and why</span>
             </div>
           </div>
         </div>
@@ -1301,7 +1339,7 @@
     <div class="section-header">
       <div class="section-eyebrow">Get Started</div>
       <h2 class="section-title">Three ways to use Fluently</h2>
-      <p class="section-sub">Browser, CLI, or MCP server — pick the path that fits your workflow.</p>
+      <p class="section-sub">Browser, CLI, or MCP server. Pick the path that fits your workflow.</p>
     </div>
     <div class="install-grid">
       <div class="install-card">
@@ -1312,7 +1350,7 @@
       </div>
       <div class="install-card">
         <span class="install-badge ib-npx">⚡ npx</span>
-        <div class="install-title">CLI — no global install</div>
+        <div class="install-title">CLI: no global install</div>
         <div class="install-desc">Run the Fluently CLI without touching your PATH. Works anywhere Node.js 20+ is available. Scores and compares cycles from the terminal.</div>
         <div class="code-block" onclick="copyText(this, 'npx fluently-cli score \"your task here\"')">
           <code>npx fluently-cli score "your task here"</code>
@@ -1325,7 +1363,7 @@
       </div>
       <div class="install-card">
         <span class="install-badge ib-global">📦 Global install</span>
-        <div class="install-title">CLI — always available</div>
+        <div class="install-title">CLI: always available</div>
         <div class="install-desc">Install once to run <code style="color:var(--fg);background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">fluent</code> from anywhere. Includes all commands: score, compare, list, contribute, sync.</div>
         <div class="code-block" onclick="copyText(this, 'npm install -g fluently-cli')">
           <code>npm install -g fluently-cli</code>
@@ -1487,7 +1525,7 @@
 <div class="modal-overlay hidden" id="keyModal" onclick="handleOverlayClick(event)">
   <div class="modal" style="max-width:520px;">
     <div class="modal-title" id="modalTitle">Connect AI Provider</div>
-    <div class="modal-sub" id="modalSub">Choose your AI provider and enter its API key. Keys are saved only in your browser's localStorage — never sent anywhere except the provider's own API.</div>
+    <div class="modal-sub" id="modalSub">Choose your AI provider and enter its API key. Keys are saved only in your browser's localStorage and never sent anywhere except the provider's own API.</div>
     <div class="modal-form">
       <!-- Provider grid -->
       <div>
@@ -1509,13 +1547,13 @@
       <div style="border-top:1px solid var(--border);margin-top:4px;padding-top:12px;">
         <label style="display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;" onclick="toggleGithubSection()">
           <svg id="ghChevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="transition:transform 0.2s;flex-shrink:0;"><path d="M9 18l6-6-6-6"/></svg>
-          <span style="font-size:0.8rem;color:var(--fg-muted);">GitHub token <span style="color:var(--fg-subtle);font-weight:400;">(optional — for automated PR contributions)</span></span>
+          <span style="font-size:0.8rem;color:var(--fg-muted);">GitHub token <span style="color:var(--fg-subtle);font-weight:400;">(optional, for automated PR contributions)</span></span>
         </label>
         <div id="githubSection" style="display:none;margin-top:10px;flex-direction:column;gap:8px;">
           <div>
             <label style="font-size:0.78rem;">GitHub Personal Access Token</label>
             <input type="password" id="githubTokenInput" placeholder="ghp_…" autocomplete="off" style="margin-top:4px;" />
-            <div class="modal-hint">Create at <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--orange);">github.com/settings/tokens</a> — needs <code>repo</code> scope to open PRs</div>
+            <div class="modal-hint">Create at <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--orange);">github.com/settings/tokens</a>, needs <code>repo</code> scope to open PRs</div>
           </div>
           <div>
             <label style="font-size:0.78rem;">Your name / GitHub handle</label>
@@ -1575,7 +1613,7 @@ const PROVIDERS = {
                 models:['command-r-plus','command-r','command-light'], type:'cohere',
                 base:'https://api.cohere.ai/v2' },
   ollama:     { name:'Ollama',       company:'Local',      emoji:'🏠', color:'#8b949e',
-                placeholder:'(no key needed)', hint:'ollama.ai — run locally',
+                placeholder:'(no key needed)', hint:'ollama.ai, run locally',
                 models:['llama3.2','qwen2.5','mistral','phi3'], type:'ollama',
                 base:'http://localhost:11434/api', noKey:true },
 };
@@ -1800,11 +1838,11 @@ updateKeyStatus();
 
 // ── Agent terminal tabs ────────────────────────────────────────────────────
 const AGENT_TITLES = {
-  claude:  'Claude + GitHub MCP — live knowledge',
-  gpt:     'GPT-4o + GitHub MCP — live knowledge',
-  copilot: 'GitHub Copilot + Fluently MCP — VS Code',
-  mistral: 'Mistral + GitHub MCP — live knowledge',
-  gemini:  'Gemini + GitHub MCP — live knowledge',
+  claude:  'Claude + GitHub MCP: live knowledge',
+  gpt:     'GPT-4o + GitHub MCP: live knowledge',
+  copilot: 'GitHub Copilot + Fluently MCP: VS Code',
+  mistral: 'Mistral + GitHub MCP: live knowledge',
+  gemini:  'Gemini + GitHub MCP: live knowledge',
 };
 let agentRotateTimer = null;
 const AGENT_ORDER = ['claude','gpt','copilot','mistral','gemini'];
@@ -2004,7 +2042,7 @@ async function streamLLM(pid, apiKey, prompt, textEl) {
       method:'POST', headers:{'content-type':'application/json'},
       body:JSON.stringify({ model, messages:[{role:'user',content:prompt}], stream:true }),
     });
-    if (!resp.ok) { textEl.classList.remove('streaming'); textEl.textContent=`Error: ${resp.statusText} — is Ollama running locally?`; return; }
+    if (!resp.ok) { textEl.classList.remove('streaming'); textEl.textContent=`Error: ${resp.statusText}. Is Ollama running locally?`; return; }
     const reader=resp.body.getReader(); const decoder=new TextDecoder(); let buf='';
     while(true) {
       const {done,value}=await reader.read(); if(done) break;
@@ -2103,7 +2141,7 @@ Reason over these and answer:
 3. Biggest antipattern to avoid?
 4. One actionable discernment tip?
 
-Be concise — 4–6 sentences. No numeric scores.`;
+Be concise, 4 to 6 sentences. No numeric scores.`;
 
     await streamLLM(activeProvider, apiKey, prompt, reasonEl);
 
