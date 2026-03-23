@@ -43,17 +43,18 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Publish scorer to npm
-        run: npm publish --workspace=packages/scorer
+        run: npm publish --workspace=packages/scorer --access public
+        continue-on-error: true
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish CLI to npm
-        run: npm publish --workspace=packages/cli
+        run: npm publish --workspace=packages/cli --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish MCP Server to npm
-        run: npm publish --workspace=packages/mcp-server
+        run: npm publish --workspace=packages/mcp-server --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 

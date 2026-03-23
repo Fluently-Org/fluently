@@ -1,6 +1,6 @@
 {
   "name": "fluently-cli",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "src/index.ts",
   "bin": {
     "fluent": "dist/index.js"
@@ -34,25 +34,28 @@
     "typescript": "^5.3.3",
     "vitest": "^4.1.0"
   },
-  "description": "CLI for the Fluently 4D Framework \u2014 score, compare, and contribute human-AI collaboration cycles from your terminal. Works with any AI agent.",
+  "description": "Terminal CLI for the Fluently framework — score and compare AI collaboration cycles, contribute new ones via PR, and explore the knowledge base. Works with Claude, GPT, Gemini, Mistral, Copilot, and any AI agent.",
   "keywords": [
     "ai",
     "ai-collaboration",
+    "human-ai-collaboration",
+    "fluently",
     "llm",
     "prompt-engineering",
     "4d-framework",
     "delegation",
-    "description",
     "discernment",
     "diligence",
     "mcp",
+    "claude",
     "gpt",
     "gemini",
     "mistral",
     "copilot",
     "workflow",
     "productivity",
-    "knowledge-base"
+    "knowledge-base",
+    "typescript"
   ],
   "homepage": "https://fluently.ctrl6.com",
   "repository": {
@@ -63,5 +66,5 @@
     "url": "https://github.com/Fluently-Org/fluently/issues"
   },
   "license": "MIT",
-  "author": "Faical Yannick Palingwend\u00e9 Congo"
+  "author": "Faical Yannick Palingwendé Congo"
 }

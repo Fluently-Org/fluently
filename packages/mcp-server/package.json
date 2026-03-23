@@ -1,7 +1,7 @@
 {
   "name": "fluently-mcp-server",
-  "version": "0.2.0",
-  "description": "MCP server for the Fluently 4D Framework. Exposes knowledge retrieval and contribution tools so any AI agent (Claude, GPT, Gemini, Mistral, Copilot\u2026) can find, reason over, and extend Fluently cycles.",
+  "version": "0.2.1",
+  "description": "MCP server for the Fluently framework. Exposes knowledge retrieval and contribution tools so any AI agent (Claude, GPT, Gemini, Mistral, Copilot…) can find, reason over, and extend Fluently cycles.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -36,17 +36,21 @@
     "model-context-protocol",
     "ai",
     "ai-collaboration",
+    "human-ai-collaboration",
+    "fluently",
     "4d-framework",
     "llm",
+    "claude",
     "gpt",
     "gemini",
-    "claude",
     "mistral",
     "copilot",
     "delegation",
     "discernment",
+    "diligence",
     "knowledge-base",
-    "workflow"
+    "workflow",
+    "typescript"
   ],
   "homepage": "https://fluently.ctrl6.com",
   "repository": {
@@ -57,5 +61,5 @@
     "url": "https://github.com/Fluently-Org/fluently/issues"
   },
   "license": "MIT",
-  "author": "Faical Yannick Palingwend\u00e9 Congo"
+  "author": "Faical Yannick Palingwendé Congo"
 }

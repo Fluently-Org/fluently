@@ -1,7 +1,7 @@
 {
   "name": "@fluently/scorer",
-  "version": "0.2.0",
-  "description": "Shared scoring engine for the Fluently 4D Framework. Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.",
+  "version": "0.2.1",
+  "description": "Zero-dependency scoring engine for the Fluently 4D Framework. Validates YAML knowledge cycles with Zod and ranks them by keyword similarity — no API calls, no false-precision scores.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
@@ -28,14 +28,21 @@
     "vitest": "^4.1.0"
   },
   "keywords": [
-    "ai",
+    "fluently",
     "4d-framework",
+    "ai-collaboration",
+    "human-ai-collaboration",
     "scoring",
+    "ranking",
     "knowledge-base",
+    "yaml",
     "zod",
-    "llm",
+    "validation",
+    "typescript",
     "delegation",
     "discernment",
+    "diligence",
+    "llm",
     "workflow"
   ],
   "homepage": "https://fluently.ctrl6.com",
@@ -47,5 +54,5 @@
     "url": "https://github.com/Fluently-Org/fluently/issues"
   },
   "license": "MIT",
-  "author": "Faical Yannick Palingwend\u00e9 Congo"
+  "author": "Faical Yannick Palingwendé Congo"
 }
