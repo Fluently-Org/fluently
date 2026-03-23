@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-22T19:35:20.606Z",
+  "generated": "2026-03-23T22:24:58.072Z",
   "total": 16,
   "domains": [
     "coding",
@@ -13,6 +13,7 @@
   "entries": [
     {
       "id": "bug-fix-prioritization",
+      "framework_id": "4d-framework",
       "title": "Bug Fix Prioritization",
       "domain": "coding",
       "file": "coding-bug-fix-prioritization.yaml",
@@ -172,6 +173,7 @@
     },
     {
       "id": "code-review-triage",
+      "framework_id": "4d-framework",
       "title": "Code Review Triage",
       "domain": "coding",
       "file": "coding-code-review-triage.yaml",
@@ -331,6 +333,7 @@
     },
     {
       "id": "refactoring-suggestions",
+      "framework_id": "4d-framework",
       "title": "Refactoring Suggestions",
       "domain": "coding",
       "file": "coding-refactoring-suggestions.yaml",
@@ -479,6 +482,7 @@
     },
     {
       "id": "test-case-generation",
+      "framework_id": "4d-framework",
       "title": "Test Case Generation",
       "domain": "coding",
       "file": "coding-test-case-generation.yaml",
@@ -638,6 +642,7 @@
     },
     {
       "id": "course-design",
+      "framework_id": "4d-framework",
       "title": "AI-Augmented Course Design",
       "domain": "education",
       "file": "education-course-design.yaml",
@@ -799,6 +804,7 @@
     },
     {
       "id": "lesson-planning",
+      "framework_id": "4d-framework",
       "title": "AI-Assisted Lesson Planning for Educators",
       "domain": "education",
       "file": "education-lesson-planning.yaml",
@@ -948,6 +954,7 @@
     },
     {
       "id": "student-career-planning",
+      "framework_id": "4d-framework",
       "title": "Student Career Planning with AI",
       "domain": "education",
       "file": "education-student-career-planning.yaml",
@@ -1109,6 +1116,7 @@
     },
     {
       "id": "email-writing",
+      "framework_id": "4d-framework",
       "title": "Professional Email Writing with AI",
       "domain": "general",
       "file": "general-email-writing.yaml",
@@ -1258,6 +1266,7 @@
     },
     {
       "id": "iterative-refinement-loop",
+      "framework_id": "4d-framework",
       "title": "Description-Discernment Iterative Refinement Loop",
       "domain": "general",
       "file": "general-iterative-refinement-loop.yaml",
@@ -1408,6 +1417,7 @@
     },
     {
       "id": "clinical-documentation",
+      "framework_id": "4d-framework",
       "title": "AI-Assisted Clinical Documentation",
       "domain": "healthcare",
       "file": "healthcare-clinical-documentation.yaml",
@@ -1557,6 +1567,7 @@
     },
     {
       "id": "legal-ai-research-drafting",
+      "framework_id": "4d-framework",
       "title": "AI-Assisted Legal Research and Document Drafting",
       "domain": "legal",
       "file": "legal-ai-research-drafting.yaml",
@@ -1706,6 +1717,7 @@
     },
     {
       "id": "research-data-analysis",
+      "framework_id": "4d-framework",
       "title": "Research Paper Data Analysis with AI",
       "domain": "research",
       "file": "research-data-analysis.yaml",
@@ -1867,6 +1879,7 @@
     },
     {
       "id": "literature-review",
+      "framework_id": "4d-framework",
       "title": "AI-Supported Academic Literature Review",
       "domain": "research",
       "file": "research-literature-review.yaml",
@@ -2017,6 +2030,7 @@
     },
     {
       "id": "content-development",
+      "framework_id": "4d-framework",
       "title": "Story and Content Development with AI",
       "domain": "writing",
       "file": "writing-content-development.yaml",
@@ -2167,6 +2181,7 @@
     },
     {
       "id": "creative-ai-collaboration",
+      "framework_id": "4d-framework",
       "title": "Creative Writing with AI as Co-Creator",
       "domain": "writing",
       "file": "writing-creative-ai-collaboration.yaml",
@@ -2323,6 +2338,7 @@
     },
     {
       "id": "marketing-email-campaign",
+      "framework_id": "4d-framework",
       "title": "AI-Assisted Marketing Email Campaigns",
       "domain": "writing",
       "file": "writing-marketing-email-campaign.yaml",
@@ -2487,6 +2503,7 @@
     "coding": [
       {
         "id": "bug-fix-prioritization",
+        "framework_id": "4d-framework",
         "title": "Bug Fix Prioritization",
         "domain": "coding",
         "file": "coding-bug-fix-prioritization.yaml",
@@ -2646,6 +2663,7 @@
       },
       {
         "id": "code-review-triage",
+        "framework_id": "4d-framework",
         "title": "Code Review Triage",
         "domain": "coding",
         "file": "coding-code-review-triage.yaml",
@@ -2805,6 +2823,7 @@
       },
       {
         "id": "refactoring-suggestions",
+        "framework_id": "4d-framework",
         "title": "Refactoring Suggestions",
         "domain": "coding",
         "file": "coding-refactoring-suggestions.yaml",
@@ -2953,6 +2972,7 @@
       },
       {
         "id": "test-case-generation",
+        "framework_id": "4d-framework",
         "title": "Test Case Generation",
         "domain": "coding",
         "file": "coding-test-case-generation.yaml",
@@ -3114,6 +3134,7 @@
     "education": [
       {
         "id": "course-design",
+        "framework_id": "4d-framework",
         "title": "AI-Augmented Course Design",
         "domain": "education",
         "file": "education-course-design.yaml",
@@ -3275,6 +3296,7 @@
       },
       {
         "id": "lesson-planning",
+        "framework_id": "4d-framework",
         "title": "AI-Assisted Lesson Planning for Educators",
         "domain": "education",
         "file": "education-lesson-planning.yaml",
@@ -3424,6 +3446,7 @@
       },
       {
         "id": "student-career-planning",
+        "framework_id": "4d-framework",
         "title": "Student Career Planning with AI",
         "domain": "education",
         "file": "education-student-career-planning.yaml",
@@ -3587,6 +3610,7 @@
     "general": [
       {
         "id": "email-writing",
+        "framework_id": "4d-framework",
         "title": "Professional Email Writing with AI",
         "domain": "general",
         "file": "general-email-writing.yaml",
@@ -3736,6 +3760,7 @@
       },
       {
         "id": "iterative-refinement-loop",
+        "framework_id": "4d-framework",
         "title": "Description-Discernment Iterative Refinement Loop",
         "domain": "general",
         "file": "general-iterative-refinement-loop.yaml",
@@ -3888,6 +3913,7 @@
     "healthcare": [
       {
         "id": "clinical-documentation",
+        "framework_id": "4d-framework",
         "title": "AI-Assisted Clinical Documentation",
         "domain": "healthcare",
         "file": "healthcare-clinical-documentation.yaml",
@@ -4039,6 +4065,7 @@
     "legal": [
       {
         "id": "legal-ai-research-drafting",
+        "framework_id": "4d-framework",
         "title": "AI-Assisted Legal Research and Document Drafting",
         "domain": "legal",
         "file": "legal-ai-research-drafting.yaml",
@@ -4190,6 +4217,7 @@
     "research": [
       {
         "id": "research-data-analysis",
+        "framework_id": "4d-framework",
         "title": "Research Paper Data Analysis with AI",
         "domain": "research",
         "file": "research-data-analysis.yaml",
@@ -4351,6 +4379,7 @@
       },
       {
         "id": "literature-review",
+        "framework_id": "4d-framework",
         "title": "AI-Supported Academic Literature Review",
         "domain": "research",
         "file": "research-literature-review.yaml",
@@ -4503,6 +4532,7 @@
     "writing": [
       {
         "id": "content-development",
+        "framework_id": "4d-framework",
         "title": "Story and Content Development with AI",
         "domain": "writing",
         "file": "writing-content-development.yaml",
@@ -4653,6 +4683,7 @@
       },
       {
         "id": "creative-ai-collaboration",
+        "framework_id": "4d-framework",
         "title": "Creative Writing with AI as Co-Creator",
         "domain": "writing",
         "file": "writing-creative-ai-collaboration.yaml",
@@ -4809,6 +4840,7 @@
       },
       {
         "id": "marketing-email-campaign",
+        "framework_id": "4d-framework",
         "title": "AI-Assisted Marketing Email Campaigns",
         "domain": "writing",
         "file": "writing-marketing-email-campaign.yaml",
