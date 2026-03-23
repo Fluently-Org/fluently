@@ -1,6 +1,6 @@
 {
   "name": "@fluently/scorer",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Shared scoring engine for the Fluently 4D Framework. Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -38,7 +38,7 @@
     "discernment",
     "workflow"
   ],
-  "homepage": "https://fluently-org.github.io/fluently/",
+  "homepage": "https://fluently.ctrl6.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/Fluently-Org/fluently"

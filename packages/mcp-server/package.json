@@ -1,7 +1,7 @@
 {
   "name": "fluently-mcp-server",
-  "version": "0.1.3",
-  "description": "MCP server for the Fluently 4D Framework. Exposes knowledge retrieval and contribution tools so any AI agent (GPT, Gemini, Claude, Mistral, Copilot\u2026) can find, reason over, and extend 4D collaboration cycles.",
+  "version": "0.2.0",
+  "description": "MCP server for the Fluently 4D Framework. Exposes knowledge retrieval and contribution tools so any AI agent (Claude, GPT, Gemini, Mistral, Copilot\u2026) can find, reason over, and extend Fluently cycles.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "bin": {
@@ -48,7 +48,7 @@
     "knowledge-base",
     "workflow"
   ],
-  "homepage": "https://fluently-org.github.io/fluently/",
+  "homepage": "https://fluently.ctrl6.com",
   "repository": {
     "type": "git",
     "url": "https://github.com/Fluently-Org/fluently"
