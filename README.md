@@ -2,7 +2,7 @@
   <img src="site/logo.svg" alt="Fluently" height="64">
 </p>
 
-# Fluently: The Open Standard for Human-AI Collaboration
+# The Open Standard for Human-AI Collaboration
 
 [![fluently-cli](https://img.shields.io/npm/v/fluently-cli?label=fluently-cli&style=flat-square&color=3B82F6)](https://www.npmjs.com/package/fluently-cli)
 [![fluently-mcp-server](https://img.shields.io/npm/v/fluently-mcp-server?label=fluently-mcp-server&style=flat-square&color=6B6CB5)](https://www.npmjs.com/package/fluently-mcp-server)
