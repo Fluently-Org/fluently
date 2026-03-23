@@ -2,11 +2,11 @@
 
 [![fluently-cli](https://img.shields.io/npm/v/fluently-cli?label=fluently-cli&style=flat-square&color=3B82F6)](https://www.npmjs.com/package/fluently-cli)
 [![fluently-mcp-server](https://img.shields.io/npm/v/fluently-mcp-server?label=fluently-mcp-server&style=flat-square&color=6B6CB5)](https://www.npmjs.com/package/fluently-mcp-server)
-[![CI](https://img.shields.io/github/actions/workflow/status/faical-yannick-congo/fluently/ci.yml?branch=main&label=CI&style=flat-square&color=10B981)](https://github.com/faical-yannick-congo/fluently/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/Fluently-Org/fluently/ci.yml?branch=main&label=CI&style=flat-square&color=10B981)](https://github.com/Fluently-Org/fluently/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/faical-yannick-congo/fluently?style=flat-square&color=FFB800)](https://github.com/faical-yannick-congo/fluently/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/Fluently-Org/fluently?style=flat-square&color=FFB800)](https://github.com/Fluently-Org/fluently/stargazers)
 [![MCP Compatible](https://img.shields.io/badge/MCP-compatible-6B6CB5?style=flat-square)](https://modelcontextprotocol.io)
-[![Works with any AI agent](https://img.shields.io/badge/works%20with-Claude%20%7C%20GPT%20%7C%20Gemini%20%7C%20Mistral%20%7C%20Copilot-D4602A?style=flat-square)](https://faical-yannick-congo.github.io/fluently/)
+[![Works with any AI agent](https://img.shields.io/badge/works%20with-Claude%20%7C%20GPT%20%7C%20Gemini%20%7C%20Mistral%20%7C%20Copilot-D4602A?style=flat-square)](https://fluently-org.github.io/fluently/)
 
 ---
 
@@ -48,7 +48,7 @@ Each suggestion links to the full Fluently 4D cycle—delegation guidelines, fra
 
 ## Install in 30 Seconds
 
-**Option 1 — Zero install (browser):** Use the [live scorer](https://faical-yannick-congo.github.io/fluently/) right now. No setup required.
+**Option 1 — Zero install (browser):** Use the [live scorer](https://fluently-org.github.io/fluently/) right now. No setup required.
 
 **Option 2 — Zero install (terminal):** Run instantly with npx — no PATH changes needed:
 ```bash
@@ -81,7 +81,7 @@ This isn't just a framework—it's a **commons for AI fluency**. Every Fluently 
 
 Built on the **AI Fluency 4D Framework** by Dakan & Feller. Everything — code, knowledge cycles, and tooling — is released under the **MIT License**.
 
-[Browse the Knowledge Base →](https://faical-yannick-congo.github.io/fluently/)
+[Browse the Knowledge Base →](https://fluently-org.github.io/fluently/)
 
 ---
 
@@ -158,10 +158,10 @@ Tests        → Vitest
 
 ## Quick Links
 
-- 🌐 [Live Site & Knowledge Browser](https://faical-yannick-congo.github.io/fluently/)
+- 🌐 [Live Site & Knowledge Browser](https://fluently-org.github.io/fluently/)
 - 📖 [Full Documentation](packages/cli/README.md)
-- 💬 [GitHub Discussions](https://github.com/faical-yannick-congo/fluently/discussions)
-- 🐛 [Report Issues](https://github.com/faical-yannick-congo/fluently/issues)
+- 💬 [GitHub Discussions](https://github.com/Fluently-Org/fluently/discussions)
+- 🐛 [Report Issues](https://github.com/Fluently-Org/fluently/issues)
 - 🤝 [Contributing Guide](CONTRIBUTING.md)
 
 ---

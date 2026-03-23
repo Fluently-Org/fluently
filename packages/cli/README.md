@@ -1,6 +1,6 @@
 # fluently-cli
 
-**CLI for the [Fluently 4D Framework](https://faical-yannick-congo.github.io/fluently/) — score, compare, and contribute human-AI collaboration cycles from your terminal.**
+**CLI for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/) — score, compare, and contribute human-AI collaboration cycles from your terminal.**
 
 Works with any AI agent: Claude, GPT-4o, Gemini, Mistral, GitHub Copilot, and more.
 
@@ -101,16 +101,16 @@ Every Fluently cycle covers four dimensions of human-AI collaboration:
 | 👁️ **Discernment** | How do you evaluate and trust the AI output? |
 | ✅ **Diligence** | What accountability steps follow AI involvement? |
 
-Browse the full community knowledge base at **[faical-yannick-congo.github.io/fluently/knowledge.html](https://faical-yannick-congo.github.io/fluently/knowledge.html)**.
+Browse the full community knowledge base at **[fluently-org.github.io/fluently/knowledge.html](https://fluently-org.github.io/fluently/knowledge.html)**.
 
 ---
 
 ## Links
 
-- **Knowledge Base** — [faical-yannick-congo.github.io/fluently/knowledge.html](https://faical-yannick-congo.github.io/fluently/knowledge.html)
-- **Contribute a cycle** — [faical-yannick-congo.github.io/fluently/contribute.html](https://faical-yannick-congo.github.io/fluently/contribute.html)
-- **GitHub repo** — [github.com/faical-yannick-congo/fluently](https://github.com/faical-yannick-congo/fluently)
-- **Issues / discussions** — [github.com/faical-yannick-congo/fluently/issues](https://github.com/faical-yannick-congo/fluently/issues)
+- **Knowledge Base** — [fluently-org.github.io/fluently/knowledge.html](https://fluently-org.github.io/fluently/knowledge.html)
+- **Contribute a cycle** — [fluently-org.github.io/fluently/contribute.html](https://fluently-org.github.io/fluently/contribute.html)
+- **GitHub repo** — [github.com/Fluently-Org/fluently](https://github.com/Fluently-Org/fluently)
+- **Issues / discussions** — [github.com/Fluently-Org/fluently/issues](https://github.com/Fluently-Org/fluently/issues)
 - **MCP server** — [npmjs.com/package/fluently-mcp-server](https://www.npmjs.com/package/fluently-mcp-server)
 - **Scorer library** — [npmjs.com/package/@fluently/scorer](https://www.npmjs.com/package/@fluently/scorer)
 

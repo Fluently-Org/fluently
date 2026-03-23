@@ -48,13 +48,13 @@
     "knowledge-base",
     "workflow"
   ],
-  "homepage": "https://faical-yannick-congo.github.io/fluently/",
+  "homepage": "https://fluently-org.github.io/fluently/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/faical-yannick-congo/fluently"
+    "url": "https://github.com/Fluently-Org/fluently"
   },
   "bugs": {
-    "url": "https://github.com/faical-yannick-congo/fluently/issues"
+    "url": "https://github.com/Fluently-Org/fluently/issues"
   },
   "license": "MIT",
   "author": "Faical Yannick Palingwend\u00e9 Congo"

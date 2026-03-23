@@ -68,7 +68,7 @@ coding · writing · research · education · legal · healthcare · general
 
 Raw URL (no auth required — public repo):
 ```
-https://raw.githubusercontent.com/faical-yannick-congo/fluently/main/knowledge/index.json
+https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json
 ```
 
 ## How to contribute a new cycle (GitHub MCP path)
@@ -80,7 +80,7 @@ Contributions require a GitHub token. The cycle must:
 4. Include `score_hints` that sum to 1.0
 
 Steps:
-1. Fork https://github.com/faical-yannick-congo/fluently
+1. Fork https://github.com/Fluently-Org/fluently
 2. Add your YAML to `knowledge/{domain}-{id}.yaml`
 3. Open a pull request — CI will validate the schema automatically
 

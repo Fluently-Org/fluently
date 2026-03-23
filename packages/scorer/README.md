@@ -1,6 +1,6 @@
 # @fluently/scorer
 
-**Shared scoring engine for the [Fluently 4D Framework](https://faical-yannick-congo.github.io/fluently/).** Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.
+**Shared scoring engine for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/).** Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.
 
 Used internally by both `fluently-cli` and `fluently-mcp-server`. Expose it in your own tools to build on top of the Fluently knowledge base.
 
@@ -145,8 +145,8 @@ import type { TaskInput, KnowledgeEntry, PrivacyCheckResult, PrivacyIssue, Priva
 
 ## Links
 
-- **Knowledge Base** — [faical-yannick-congo.github.io/fluently/knowledge.html](https://faical-yannick-congo.github.io/fluently/knowledge.html)
-- **GitHub repo** — [github.com/faical-yannick-congo/fluently](https://github.com/faical-yannick-congo/fluently)
+- **Knowledge Base** — [fluently-org.github.io/fluently/knowledge.html](https://fluently-org.github.io/fluently/knowledge.html)
+- **GitHub repo** — [github.com/Fluently-Org/fluently](https://github.com/Fluently-Org/fluently)
 - **CLI** — [npmjs.com/package/fluently-cli](https://www.npmjs.com/package/fluently-cli)
 - **MCP server** — [npmjs.com/package/fluently-mcp-server](https://www.npmjs.com/package/fluently-mcp-server)
 

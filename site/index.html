@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Fluently 4D Framework — https://faical-yannick-congo.github.io/fluently/ -->
+<!-- Fluently 4D Framework — https://fluently.ctrl6.com/ -->
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -631,6 +631,8 @@
       .hero-stats { flex-wrap: wrap; gap: 20px; }
     }
   </style>
+  <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
+  <script src="config.js"></script>
 </head>
 <body>
 
@@ -653,10 +655,10 @@
       <li><a href="#how-it-works">How it works</a></li>
       <li><a href="#try-it">Try it live</a></li>
       <li><a href="#get-started">Get started</a></li>
-      <li><a href="https://github.com/faical-yannick-congo/fluently" target="_blank">GitHub</a></li>
+      <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a></li>
     </ul>
     <div class="nav-cta">
-      <a href="https://github.com/faical-yannick-congo/fluently" class="btn btn-outline" target="_blank">
+      <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" class="btn btn-outline" target="_blank">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
         View on GitHub
       </a>
@@ -744,7 +746,7 @@
       <!-- Terminal body: one panel per agent -->
       <div id="agent-panel-claude" class="terminal-body agent-panel active-panel" style="min-height:320px;">
         <span class="t-line"><span class="t-comment"># Claude reads KNOWLEDGE.md via GitHub MCP</span></span>
-        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Read KNOWLEDGE.md in faical-yannick-congo/fluently</span></span>
+        <span class="t-line"><span class="t-prompt">Claude ›</span> <span class="t-cmd">Read KNOWLEDGE.md in <span data-fluently-text="full-repo">Fluently-Org/fluently</span></span></span>
         <span class="t-line"><span class="t-out">→ 16 cycles · 7 domains · always live from main branch</span></span>
         <span class="t-line">&nbsp;</span>
         <span class="t-line"><span class="t-comment"># Find cycles that match the task</span></span>
@@ -762,7 +764,7 @@
       </div>
       <div id="agent-panel-gpt" class="terminal-body agent-panel" style="min-height:320px;display:none;">
         <span class="t-line"><span class="t-comment"># GPT-4o with GitHub MCP — same knowledge base</span></span>
-        <span class="t-line"><span class="t-prompt">GPT ›</span> <span class="t-cmd">Fetch knowledge/index.json from faical-yannick-congo/fluently</span></span>
+        <span class="t-line"><span class="t-prompt">GPT ›</span> <span class="t-cmd">Fetch knowledge/index.json from <span data-fluently-text="full-repo">Fluently-Org/fluently</span></span></span>
         <span class="t-line"><span class="t-out">→ 16 community cycles available</span></span>
         <span class="t-line">&nbsp;</span>
         <span class="t-line"><span class="t-comment"># Task: AI drafts customer reply, human reviews</span></span>
@@ -807,7 +809,7 @@
       </div>
       <div id="agent-panel-gemini" class="terminal-body agent-panel" style="min-height:320px;display:none;">
         <span class="t-line"><span class="t-comment"># Gemini reads the knowledge base via GitHub MCP</span></span>
-        <span class="t-line"><span class="t-prompt">Gemini ›</span> <span class="t-cmd">Read KNOWLEDGE.md in faical-yannick-congo/fluently</span></span>
+        <span class="t-line"><span class="t-prompt">Gemini ›</span> <span class="t-cmd">Read KNOWLEDGE.md in <span data-fluently-text="full-repo">Fluently-Org/fluently</span></span></span>
         <span class="t-line"><span class="t-out">→ Community knowledge base loaded — 16 cycles</span></span>
         <span class="t-line">&nbsp;</span>
         <span class="t-line"><span class="t-comment"># Education use-case: AI tutors a student</span></span>
@@ -1095,7 +1097,7 @@
           <span class="t-line"><span class="t-out">}</span></span>
           <span class="t-line">&nbsp;</span>
           <span class="t-line"><span class="t-comment">// Then prompt your agent:</span></span>
-          <span class="t-line"><span class="t-green">Read KNOWLEDGE.md in faical-yannick-congo/fluently</span></span>
+          <span class="t-line"><span class="t-green">Read KNOWLEDGE.md in <span data-fluently-text="full-repo">Fluently-Org/fluently</span></span></span>
           <span class="t-line"><span class="t-green">Find cycles for "AI draft + human review" workflow</span></span>
         </div>
       </div>
@@ -1386,7 +1388,7 @@
 <span class="k">}</span></div>
         </div>
       </div>
-      <p style="margin-top:16px;font-size:0.82rem;color:var(--fg-muted);">Then prompt your agent: <em style="color:var(--fg);">"Read KNOWLEDGE.md in faical-yannick-congo/fluently and find the best cycle for my task."</em></p>
+      <p style="margin-top:16px;font-size:0.82rem;color:var(--fg-muted);">Then prompt your agent: <em style="color:var(--fg);">"Read KNOWLEDGE.md in <span data-fluently-text="full-repo">Fluently-Org/fluently</span> and find the best cycle for my task."</em></p>
     </div>
     <div id="mcp-custom" class="mcp-panel">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
@@ -1435,8 +1437,8 @@
     <p class="cta-band-sub">Fluently is open-source and community-driven. Contribute a cycle, fork the knowledge base, or wire it to your team's private patterns.</p>
     <div class="cta-band-actions">
       <a href="#try-it" class="btn btn-purple btn-lg">Try it live</a>
-      <a href="https://github.com/faical-yannick-congo/fluently" class="btn btn-outline btn-lg" target="_blank">View on GitHub</a>
-      <a href="https://github.com/faical-yannick-congo/fluently/blob/main/KNOWLEDGE.md" class="btn btn-outline btn-lg" target="_blank">Browse knowledge base</a>
+      <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" class="btn btn-outline btn-lg" target="_blank">View on GitHub</a>
+      <a href="https://github.com/Fluently-Org/fluently/blob/main/KNOWLEDGE.md" data-fluently="knowledge-md" class="btn btn-outline btn-lg" target="_blank">Browse knowledge base</a>
     </div>
   </div>
 </section>
@@ -1453,9 +1455,9 @@
       <div class="footer-col-title">Framework</div>
       <ul class="footer-links">
         <li><a href="#how-it-works">4D Framework</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/blob/main/KNOWLEDGE.md" target="_blank">Knowledge base</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/tree/main/knowledge" target="_blank">Browse cycles</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/blob/main/TESTPLAYBOOK.md" target="_blank">Test playbook</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/blob/main/KNOWLEDGE.md" data-fluently="knowledge-md" target="_blank">Knowledge base</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/tree/main/knowledge" data-fluently="tree:knowledge" target="_blank">Browse cycles</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/blob/main/TESTPLAYBOOK.md" data-fluently="blob:TESTPLAYBOOK.md" target="_blank">Test playbook</a></li>
       </ul>
     </div>
     <div>
@@ -1463,16 +1465,16 @@
       <ul class="footer-links">
         <li><a href="https://www.npmjs.com/package/fluently-cli" target="_blank">fluently-cli</a></li>
         <li><a href="https://www.npmjs.com/package/fluently-mcp-server" target="_blank">fluently-mcp-server</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/blob/main/packages/mcp-server/README.md" target="_blank">MCP server docs</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/blob/main/packages/mcp-server/README.md" data-fluently="blob:packages/mcp-server/README.md" target="_blank">MCP server docs</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Community</div>
       <ul class="footer-links">
-        <li><a href="https://github.com/faical-yannick-congo/fluently" target="_blank">GitHub</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/issues" target="_blank">Issues</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/pulls" target="_blank">Pull requests</a></li>
-        <li><a href="https://github.com/faical-yannick-congo/fluently/blob/main/CONTRIBUTING.md" target="_blank">Contribute a cycle</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/issues" data-fluently="issues" target="_blank">Issues</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/pulls" data-fluently="pulls" target="_blank">Pull requests</a></li>
+        <li><a href="https://github.com/Fluently-Org/fluently/blob/main/CONTRIBUTING.md" data-fluently="contributing" target="_blank">Contribute a cycle</a></li>
       </ul>
     </div>
   </div>
@@ -1579,8 +1581,9 @@ const PROVIDERS = {
                 base:'http://localhost:11434/api', noKey:true },
 };
 
-const REPO = 'faical-yannick-congo/fluently';
-const RAW  = `https://raw.githubusercontent.com/${REPO}/main`;
+// Use window.FLUENTLY set by config.js; fallbacks keep standalone usage working.
+const REPO = (window.FLUENTLY && window.FLUENTLY.fullRepo) || 'Fluently-Org/fluently';
+const RAW  = (window.FLUENTLY && window.FLUENTLY.rawBase)  || `https://raw.githubusercontent.com/${REPO}/main`;
 
 let activeProvider = localStorage.getItem('FLUENTLY_PROVIDER') || 'claude';
 
