@@ -1,6 +1,6 @@
 {
   "name": "fluently-scorer",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Zero-dependency scoring and validation engine for human-AI collaboration frameworks. Validates knowledge cycles, ranks them by similarity, and evaluates framework compliance. Bundles the AI Fluency 4D Framework; any framework with named dimensions can be registered.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
