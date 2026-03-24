@@ -1,8 +1,10 @@
 # fluently-scorer
 
-**Shared scoring engine for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/).** Validates knowledge YAML against the schema and ranks cycles by keyword similarity for any AI task.
+**Shared scoring and validation engine for human-AI collaboration frameworks.** Validates knowledge cycles against their framework schema, ranks them by similarity, and evaluates compliance. Framework-agnostic: works with any framework that defines named dimensions.
 
-Used internally by both `fluently-cli` and `fluently-mcp-server`. Expose it in your own tools to build on top of the Fluently knowledge base.
+Bundles the [AI Fluency 4D Framework](https://fluently-org.github.io/fluently/) as the default. Any framework registered in the knowledge base is automatically supported.
+
+Used internally by both `fluently-cli` and `fluently-mcp-server`. Import it directly to build on top of the Fluently knowledge base in your own tools.
 
 [![npm version](https://img.shields.io/npm/v/fluently-scorer.svg)](https://www.npmjs.com/package/fluently-scorer)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](../../LICENSE)
@@ -58,6 +60,7 @@ const results = scoreTask(input, './knowledge');
 results.forEach(({ entry, dimensionScores }) => {
     console.log(entry.title);
     console.log(dimensionScores);
+    // Dimension keys match the registered framework — e.g. for the 4D Framework:
     // { delegation: 80, description: 90, discernment: 70, diligence: 75 }
 });
 ```

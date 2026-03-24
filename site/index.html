@@ -1265,6 +1265,12 @@
               <textarea id="taskInput" placeholder="e.g. AI generates first draft of a blog post, human edits and publishes" rows="4"></textarea>
             </div>
             <div>
+              <label for="frameworkSelect">Framework</label>
+              <select id="frameworkSelect">
+                <option value="4d-framework">AI Fluency 4D (default)</option>
+              </select>
+            </div>
+            <div>
               <label for="domainSelect">Domain (optional)</label>
               <select id="domainSelect">
                 <option value="">All domains</option>
@@ -1322,7 +1328,7 @@
             <div class="try-placeholder">
               <div class="try-placeholder-icon">⚡</div>
               <div class="try-placeholder-text">
-                Connect an AI provider (GPT, Gemini, Mistral…),<br>
+                Connect an AI provider (GPT, Gemini, Copilot, Mistral…),<br>
                 describe your AI task, and click Run.<br><br>
                 <span style="color:var(--fg-subtle);font-size:0.82rem;">Fetches live knowledge from GitHub<br>and streams AI reasoning back here.</span>
               </div>
@@ -1613,6 +1619,10 @@ const PROVIDERS = {
                 placeholder:'your-cohere-key', hint:'dashboard.cohere.com/api-keys',
                 models:['command-r-plus','command-r','command-light'], type:'cohere',
                 base:'https://api.cohere.ai/v2' },
+  copilot:    { name:'Copilot',      company:'GitHub',     emoji:'🐙', color:'#238636',
+                placeholder:'github_pat_…', hint:'github.com/settings/tokens — needs Models:Read scope',
+                models:['gpt-4o','gpt-4o-mini','meta-llama-3.1-70b-instruct','Phi-3.5-mini-instruct'], type:'openai',
+                base:'https://models.inference.ai.azure.com' },
   ollama:     { name:'Ollama',       company:'Local',      emoji:'🏠', color:'#8b949e',
                 placeholder:'(no key needed)', hint:'ollama.ai, run locally',
                 models:['llama3.2','qwen2.5','mistral','phi3'], type:'ollama',
@@ -1624,6 +1634,26 @@ const REPO = (window.FLUENTLY && window.FLUENTLY.fullRepo) || 'Fluently-Org/flue
 const RAW  = (window.FLUENTLY && window.FLUENTLY.rawBase)  || `https://raw.githubusercontent.com/${REPO}/main`;
 
 let activeProvider = localStorage.getItem('FLUENTLY_PROVIDER') || 'claude';
+
+// ── Framework selector population ──────────────────────────────────────────
+(async function initFrameworkSelect() {
+  const sel = document.getElementById('frameworkSelect');
+  if (!sel) return;
+  try {
+    const resp = await fetch(`${RAW}/frameworks/index.json`);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const frameworks = data.frameworks || [];
+    sel.innerHTML = '';
+    frameworks.forEach(fw => {
+      const opt = document.createElement('option');
+      opt.value = fw.id;
+      opt.textContent = fw.id === '4d-framework' ? `${fw.name} (default)` : fw.name;
+      if (fw.id === '4d-framework') opt.selected = true;
+      sel.appendChild(opt);
+    });
+  } catch (e) { /* keep placeholder option */ }
+})();
 
 // ── Key storage (per provider) ─────────────────────────────────────────────
 function storageKey(pid) { return `FLUENTLY_KEY_${pid.toUpperCase()}`; }
@@ -2088,6 +2118,7 @@ async function runDemo() {
   const task = document.getElementById('taskInput').value.trim();
   if (!task) { document.getElementById('taskInput').focus(); return; }
   const domain = document.getElementById('domainSelect').value;
+  const frameworkId = document.getElementById('frameworkSelect').value || '4d-framework';
 
   const btn = document.getElementById('runBtn');
   btn.disabled = true;
@@ -2105,6 +2136,7 @@ async function runDemo() {
 
     const taskSet = keywordSet(task);
     let entries = idx.entries;
+    if (frameworkId) entries = entries.filter(e => (e.framework_id || '4d-framework') === frameworkId);
     if (domain) entries = entries.filter(e => e.domain === domain);
     const ranked = entries
       .map(e => ({ e, sim: cosineSim(taskSet, keywordSet([e.title, e.domain, ...(e.tags||[])].join(' '))) }))
@@ -2124,12 +2156,12 @@ async function runDemo() {
     addStep('ai', `${p.emoji} ${p.name} (${model}) → Reasoning`, '');
     const reasonEl = addStep('ai', `${p.emoji} ${p.name} → Analysis`, '');
 
-    const cycleText = cycles.map(c => `
-## ${c.title} (${c.domain})
-Delegation: ${c.dimensions?.delegation?.description||''} | Example: ${c.dimensions?.delegation?.example||''} | Antipattern: ${c.dimensions?.delegation?.antipattern||''}
-Description: ${c.dimensions?.description?.description||''} | Example: ${c.dimensions?.description?.example||''} | Antipattern: ${c.dimensions?.description?.antipattern||''}
-Discernment: ${c.dimensions?.discernment?.description||''} | Example: ${c.dimensions?.discernment?.example||''} | Antipattern: ${c.dimensions?.discernment?.antipattern||''}
-Diligence: ${c.dimensions?.diligence?.description||''} | Example: ${c.dimensions?.diligence?.example||''} | Antipattern: ${c.dimensions?.diligence?.antipattern||''}`).join('\n---\n');
+    const cycleText = cycles.map(c => {
+      const dimLines = Object.entries(c.dimensions || {}).map(([key, val]) =>
+        `${key[0].toUpperCase()+key.slice(1)}: ${val?.description||''} | Example: ${val?.example||''} | Antipattern: ${val?.antipattern||''}`
+      ).join('\n');
+      return `\n## ${c.title} (${c.domain})\n${dimLines}`;
+    }).join('\n---\n');
 
     const prompt = `You are a Fluently collaboration advisor. Task: "${task}"${domain?'\nDomain: '+domain:''}
 

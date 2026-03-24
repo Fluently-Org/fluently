@@ -37,8 +37,8 @@ await build({
     js: '#!/usr/bin/env node',
   },
   alias: {
-    '@fluently/scorer': resolve(root, 'packages/scorer/src/index.ts'),
-    '@fluently/scorer/schema': resolve(root, 'packages/scorer/src/schema.ts'),
+    'fluently-scorer': resolve(root, 'packages/scorer/src/index.ts'),
+    'fluently-scorer/schema': resolve(root, 'packages/scorer/src/schema.ts'),
   },
   external: ['esbuild'],
 });

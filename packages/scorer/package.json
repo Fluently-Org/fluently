@@ -1,7 +1,7 @@
 {
   "name": "fluently-scorer",
   "version": "0.2.3",
-  "description": "Zero-dependency scoring engine for the Fluently 4D Framework. Validates YAML knowledge cycles with Zod and ranks them by keyword similarity — no API calls, no false-precision scores.",
+  "description": "Zero-dependency scoring and validation engine for human-AI collaboration frameworks. Validates knowledge cycles, ranks them by similarity, and evaluates framework compliance. Bundles the AI Fluency 4D Framework; any framework with named dimensions can be registered.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
