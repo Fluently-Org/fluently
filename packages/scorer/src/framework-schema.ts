@@ -178,7 +178,13 @@ export function buildKnowledgeSchemas(framework: FrameworkDefinition) {
     framework_id: z.string().default(framework.id),
     title: z.string(),
     domain: domainEnum,
-    dimensions: z.record(dimKeyEnum, dimensionValueSchema),
+    dimensions: z.record(dimKeyEnum, dimensionValueSchema).superRefine((dims, ctx) => {
+      for (const key of keys) {
+        if (!(key in dims)) {
+          ctx.addIssue({ code: z.ZodIssueCode.custom, message: `Missing required dimension: ${key}` });
+        }
+      }
+    }),
     score_hints: z.record(dimKeyEnum, z.number().min(0).max(1)).refine(
       obj => Math.abs(Object.values(obj).reduce((a: number, b: number) => a + b, 0) - 1) < 1e-9,
       { message: "Dimension weights must sum to 1" }
