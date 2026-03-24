@@ -1,6 +1,8 @@
 # fluently-mcp-server
 
-**MCP server for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/).** Exposes knowledge retrieval and contribution tools so any AI agent can find, reason over, and extend Fluently 4D cycles — without hardcoded scores.
+**MCP server for [Fluently](https://fluently-org.github.io/fluently/) — exposes knowledge retrieval and contribution tools so any AI agent can find, reason over, and extend collaboration cycles across any registered framework, without hardcoded scores.**
+
+Framework-agnostic. Bundles the AI Fluency 4D Framework as the default. Any framework with named dimensions can be registered.
 
 Works with Claude, GPT-4o, Gemini, Mistral, Llama, GitHub Copilot, Cursor, Cline, and any other MCP-compatible agent.
 
@@ -54,7 +56,7 @@ The same config block works for any MCP-compatible client. The server speaks std
 |------|---------|
 | `list_domains` | List available knowledge domains and cycle counts |
 | `find_relevant_cycles` | Retrieve ranked candidate cycles for a task — agent reasons, no false-precision scores |
-| `get_cycle_detail` | Full 4D cycle by ID (delegation · description · discernment · diligence) |
+| `get_cycle_detail` | Full cycle by ID — all dimension fields for its registered framework |
 | `get_dimension_guidance` | Antipatterns + examples for one dimension across all cycles |
 | `refresh_knowledge` | Re-fetch from the connector without restarting the server |
 | `contribute_cycle` | Validate a new cycle and submit it to the knowledge source |
