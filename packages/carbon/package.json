@@ -1,0 +1,48 @@
+{
+  "name": "fluently-carbon",
+  "version": "0.1.0",
+  "description": "Zero-dependency CO₂ emission calculator for LLM token consumption. Uses the Fluently Carbon RATE_TABLE (EcoLogits methodology). Framework-agnostic, no API calls.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.1.0"
+  },
+  "keywords": [
+    "fluently",
+    "carbon",
+    "co2",
+    "emissions",
+    "llm",
+    "sustainability",
+    "ai-collaboration",
+    "ecologits",
+    "token-cost"
+  ],
+  "homepage": "https://fluently.ctrl6.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fluently-Org/fluently"
+  },
+  "bugs": {
+    "url": "https://github.com/Fluently-Org/fluently/issues"
+  },
+  "license": "MIT",
+  "author": "Faical Yannick Palingwendé Congo"
+}
