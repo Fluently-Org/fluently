@@ -15,8 +15,18 @@ import path from "path";
 import yaml from "js-yaml";
 import type { KnowledgeConnector, KnowledgeEntry, FrameworkDefinition } from "./connectors/types.js";
 
+// __dirname is a CJS module variable (available in the compiled esbuild CJS output).
+// In ESM contexts (vitest running TypeScript source) it is not defined — catch the
+// ReferenceError and fall back to a path relative to process.cwd() (repo root in CI).
+let _dirname: string;
+try {
+  _dirname = __dirname; // works in compiled CJS (Node.js module scope)
+} catch {
+  _dirname = path.join(process.cwd(), "packages/mcp-server/src");
+}
+
 /** Bundled fallback — YAML files copied into dist/knowledge at build time. */
-export const BUNDLED_KNOWLEDGE = path.join(__dirname, "../knowledge");
+export const BUNDLED_KNOWLEDGE = path.join(_dirname, "../knowledge");
 
 /** How long a successful load is considered fresh. */
 const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
