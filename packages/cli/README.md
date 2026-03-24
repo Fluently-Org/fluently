@@ -1,8 +1,8 @@
 # fluently-cli
 
-**CLI for the [Fluently 4D Framework](https://fluently-org.github.io/fluently/) — score, compare, and contribute human-AI collaboration cycles from your terminal.**
+**Terminal CLI for [Fluently](https://fluently-org.github.io/fluently/) — score, compare, and contribute human-AI collaboration cycles across any registered framework.**
 
-Works with any AI agent: Claude, GPT-4o, Gemini, Mistral, GitHub Copilot, and more.
+Framework-agnostic. Bundles the AI Fluency 4D Framework as the default. Works with any AI agent: Claude, GPT-4o, Gemini, Mistral, GitHub Copilot, and more.
 
 [![npm version](https://img.shields.io/npm/v/fluently-cli.svg)](https://www.npmjs.com/package/fluently-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](../../LICENSE)
@@ -24,7 +24,7 @@ Requires Node.js 20+.
 
 | Command | What it does |
 |---------|-------------|
-| `fluent score <task>` | Find the 3 most similar 4D cycles to a task description |
+| `fluent score <task>` | Find the 3 most relevant cycles from the knowledge base for a task |
 | `fluent compare --description <desc> --delegation <intent>` | Match a task + delegation intent to the closest cycle |
 | `fluent list [domain]` | Browse all cycles, optionally filtered by domain |
 | `fluent contribute` | Interactive wizard to build and validate a new cycle as YAML |
@@ -78,7 +78,7 @@ Available domains: `coding` · `writing` · `research` · `education` · `legal`
 fluent contribute
 ```
 
-The interactive wizard walks through each of the 4 dimensions, validates the result against the Zod schema, and writes a `.yaml` file ready to commit and PR to the community repo.
+The interactive wizard walks through each dimension of the chosen framework, validates the result against the Zod schema, and writes a `.yaml` file ready to commit and PR to the community repo.
 
 ### Sync — stay up to date
 
@@ -90,9 +90,11 @@ Pulls the latest cycles from upstream. For a global npm install, use `npm update
 
 ---
 
-## The 4D Framework
+## Frameworks
 
-Every Fluently cycle covers four dimensions of human-AI collaboration:
+Fluently is framework-agnostic. Any collaboration framework with named dimensions can be registered. Each cycle carries a `framework_id` that determines which dimension fields it uses.
+
+The **AI Fluency 4D Framework** is bundled as the default:
 
 | Dimension | Question |
 |-----------|----------|
@@ -100,6 +102,8 @@ Every Fluently cycle covers four dimensions of human-AI collaboration:
 | 📝 **Description** | What context makes the AI most effective? |
 | 👁️ **Discernment** | How do you evaluate and trust the AI output? |
 | ✅ **Diligence** | What accountability steps follow AI involvement? |
+
+Additional frameworks can be added by contributing a YAML definition to `/frameworks/`. Cycles for that framework will be validated and scored against its own dimension schema automatically.
 
 Browse the full community knowledge base at **[fluently-org.github.io/fluently/knowledge.html](https://fluently-org.github.io/fluently/knowledge.html)**.
 

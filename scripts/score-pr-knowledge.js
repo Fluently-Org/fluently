@@ -5,7 +5,7 @@ import path from 'path';
 import YAML from 'js-yaml';
 import { exec } from 'child_process';
 import { promisify } from 'util';
-import { scoreTask } from '../packages/scorer/src/engine.js';
+import { scoreTask } from '../packages/scorer/dist/engine.js';
 import { fileURLToPath } from 'url';
 
 const execAsync = promisify(exec);
@@ -50,14 +50,12 @@ async function scoreNewEntries() {
         KNOWLEDGE_DIR
       );
 
-      // Calculate overall score from top result's dimensionScores
+      // Calculate overall score from top result's dimensionScores (any framework)
       const topScores = result[0]?.dimensionScores || {};
-      const avgScore = (
-        (topScores.delegation || 0) +
-        (topScores.description || 0) +
-        (topScores.discernment || 0) +
-        (topScores.diligence || 0)
-      ) / 4;
+      const scoreValues = Object.values(topScores);
+      const avgScore = scoreValues.length
+        ? scoreValues.reduce((a, b) => a + b, 0) / scoreValues.length
+        : 0;
 
       scores.push(`- **${entry.title}** (${entry.domain}): ${avgScore.toFixed(1)}/100`);
     } catch (err) {

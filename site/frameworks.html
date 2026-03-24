@@ -204,41 +204,117 @@
          HOW TO CONTRIBUTE A FRAMEWORK
     ════════════════════════════════════════════════════════════════════════ -->
     <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">
             <i class="fas fa-plus-circle text-green-600 mr-2"></i>Contribute a New Framework
         </h2>
-        <div class="grid sm:grid-cols-3 gap-6">
-            <div class="bg-white rounded-xl border border-gray-200 p-5">
-                <div class="text-2xl mb-2">📄</div>
-                <h3 class="font-bold text-gray-900 mb-1">1. Write a YAML file</h3>
-                <p class="text-sm text-gray-600">
-                    Create <code class="bg-gray-100 px-1 rounded text-xs">frameworks/your-framework.yaml</code>
-                    with <code class="bg-gray-100 px-1 rounded text-xs">id</code>,
-                    <code class="bg-gray-100 px-1 rounded text-xs">name</code>,
-                    <code class="bg-gray-100 px-1 rounded text-xs">dimensions</code>, and
-                    <code class="bg-gray-100 px-1 rounded text-xs">description</code>.
-                </p>
+        <p class="text-gray-600 text-sm mb-8">
+            Any collaboration framework with named dimensions can be registered. Two paths: submit a PR yourself, or ask your AI agent to build and test it for you.
+        </p>
+
+        <!-- Path A: Manual PR -->
+        <div class="mb-10">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full">Path A</span>
+                <h3 class="text-lg font-bold text-gray-900">Manual PR</h3>
             </div>
-            <div class="bg-white rounded-xl border border-gray-200 p-5">
-                <div class="text-2xl mb-2">✅</div>
-                <h3 class="font-bold text-gray-900 mb-1">2. Validate &amp; index</h3>
-                <p class="text-sm text-gray-600">
-                    CI runs <code class="bg-gray-100 px-1 rounded text-xs">validate-frameworks.js</code>
-                    and regenerates <code class="bg-gray-100 px-1 rounded text-xs">frameworks/index.json</code>
-                    automatically on merge.
-                </p>
-            </div>
-            <div class="bg-white rounded-xl border border-gray-200 p-5">
-                <div class="text-2xl mb-2">🔗</div>
-                <h3 class="font-bold text-gray-900 mb-1">3. Add knowledge cycles</h3>
-                <p class="text-sm text-gray-600">
-                    Knowledge YAML files tagged with your
-                    <code class="bg-gray-100 px-1 rounded text-xs">framework_id</code>
-                    will be validated against your framework's dimension keys.
-                </p>
+            <div class="grid sm:grid-cols-3 gap-5">
+                <div class="bg-white rounded-xl border border-gray-200 p-5">
+                    <div class="text-2xl mb-2">📄</div>
+                    <h4 class="font-bold text-gray-900 mb-1">1. Write the YAML</h4>
+                    <p class="text-sm text-gray-600 mb-3">
+                        Fork the repo and create <code class="bg-gray-100 px-1 rounded text-xs">frameworks/your-id.yaml</code>.
+                        Required fields: <code class="bg-gray-100 px-1 rounded text-xs">id</code> (kebab-case),
+                        <code class="bg-gray-100 px-1 rounded text-xs">name</code>,
+                        <code class="bg-gray-100 px-1 rounded text-xs">version</code>,
+                        <code class="bg-gray-100 px-1 rounded text-xs">contributor</code>,
+                        <code class="bg-gray-100 px-1 rounded text-xs">description</code>,
+                        <code class="bg-gray-100 px-1 rounded text-xs">dimensions</code> (array with <code class="bg-gray-100 px-1 rounded text-xs">key</code>, <code class="bg-gray-100 px-1 rounded text-xs">label</code>, <code class="bg-gray-100 px-1 rounded text-xs">description</code>, <code class="bg-gray-100 px-1 rounded text-xs">canonical_order</code>).
+                    </p>
+                    <details class="text-xs">
+                        <summary class="font-bold text-indigo-600 cursor-pointer">Show template</summary>
+                        <pre class="bg-gray-50 border border-gray-200 rounded p-3 mt-2 overflow-x-auto text-gray-700 leading-relaxed">id: my-framework
+name: My Framework
+version: "1.0.0"
+contributor: Your Name
+description: >
+  One-paragraph description of the
+  framework and its goals.
+dimensions:
+  - key: plan
+    label: Plan
+    description: &gt;
+      What is decided before starting?
+    canonical_order: 1
+  - key: execute
+    label: Execute
+    description: &gt;
+      How is the work carried out?
+    canonical_order: 2
+  - key: review
+    label: Review
+    description: &gt;
+      How is the output evaluated?
+    canonical_order: 3</pre>
+                    </details>
+                </div>
+                <div class="bg-white rounded-xl border border-gray-200 p-5">
+                    <div class="text-2xl mb-2">🔍</div>
+                    <h4 class="font-bold text-gray-900 mb-1">2. Validate locally</h4>
+                    <p class="text-sm text-gray-600 mb-3">Run the validation script to catch errors before opening a PR:</p>
+                    <pre class="bg-gray-900 text-green-400 rounded p-3 text-xs overflow-x-auto">npm run build --workspace=packages/scorer
+node scripts/validate-frameworks.js</pre>
+                    <p class="text-xs text-gray-500 mt-2">CI reruns this automatically on every PR and rejects malformed definitions.</p>
+                </div>
+                <div class="bg-white rounded-xl border border-gray-200 p-5">
+                    <div class="text-2xl mb-2">🔗</div>
+                    <h4 class="font-bold text-gray-900 mb-1">3. Open a PR</h4>
+                    <p class="text-sm text-gray-600">Submit your PR. CI validates the schema, regenerates <code class="bg-gray-100 px-1 rounded text-xs">frameworks/index.json</code>, and the new framework appears in the knowledge base and this page after merge.</p>
+                    <div class="mt-3">
+                        <a href="https://github.com/Fluently-Org/fluently/compare"
+                           data-fluently="compare"
+                           target="_blank"
+                           class="inline-flex items-center gap-1 bg-gray-900 hover:bg-gray-700 text-white text-xs font-bold py-1.5 px-3 rounded transition">
+                            <i class="fab fa-github"></i> Open a PR
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="mt-6 text-center">
+
+        <!-- Path B: Via Agent -->
+        <div class="mb-8">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">Path B</span>
+                <h3 class="text-lg font-bold text-gray-900">Via your AI Agent</h3>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">
+                If you have the Fluently MCP server connected, you can ask your agent to generate a framework YAML, validate it, and open the PR — all in one conversation.
+                Copy the prompt below and paste it to Claude, Copilot, Cursor, or any MCP-capable agent.
+            </p>
+            <div class="bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
+                <div class="flex items-center justify-between px-4 py-2 border-b border-gray-700">
+                    <span class="text-xs text-gray-400 font-mono">Agent prompt — paste as-is</span>
+                    <button onclick="copyAgentPrompt()" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold transition">
+                        <i class="fas fa-copy mr-1"></i>Copy
+                    </button>
+                </div>
+                <pre id="agentPromptBlock" class="text-green-300 text-xs leading-relaxed px-4 py-4 overflow-x-auto whitespace-pre-wrap">I want to contribute a new collaboration framework to the Fluently knowledge base.
+
+Framework concept: [DESCRIBE YOUR FRAMEWORK HERE — e.g. "a 3-step Research framework: Question, Investigate, Synthesise"]
+
+Please:
+1. Use the `get_framework_detail` tool to inspect the existing 4D framework structure as a reference.
+2. Generate a valid `frameworks/[id].yaml` file following the same schema (id must be kebab-case, each dimension needs key, label, description, canonical_order).
+3. Run `node scripts/validate-frameworks.js` locally to confirm the file is valid.
+4. Confirm the YAML is ready to commit and provide the exact file contents.
+5. If I approve, create a branch named `feat/framework-[id]`, commit the YAML, and open a GitHub PR with a short description of the framework and its intended use cases.
+
+Do not open the PR without my explicit approval.</pre>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">Requires: Fluently MCP server connected + a GitHub MCP server or a PAT in your agent's settings.</p>
+        </div>
+
+        <div class="mt-4 text-center">
             <a href="https://github.com/Fluently-Org/fluently/blob/main/CONTRIBUTING.md"
                data-fluently="contributing"
                target="_blank"
@@ -247,6 +323,18 @@
             </a>
         </div>
     </section>
+
+    <script>
+    function copyAgentPrompt() {
+        const el = document.getElementById('agentPromptBlock');
+        navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+            const btn = event.currentTarget;
+            btn.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+            btn.style.color = '#34d399';
+            setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy mr-1"></i>Copy'; btn.style.color = ''; }, 2000);
+        });
+    }
+    </script>
 
     <!-- ═══════════════════════════════════════════════════════════════════════
          FOOTER
