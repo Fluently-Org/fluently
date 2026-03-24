@@ -576,6 +576,80 @@
     }
     .copy-btn:hover { background: rgba(255,255,255,0.1); color: var(--fg); }
 
+    /* ── Agent Protocol ── */
+    .protocol-panel {
+      background: var(--canvas); border: 1px solid var(--border);
+      border-radius: 12px; position: relative; overflow: hidden;
+    }
+    .protocol-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 18px; background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+    }
+    .protocol-bar-left { display: flex; align-items: center; gap: 10px; }
+    .protocol-filename {
+      font-family: 'SF Mono','Fira Code',Consolas,monospace;
+      font-size: 0.8rem; color: var(--fg-muted);
+    }
+    .protocol-badge {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 2px 8px; border-radius: 999px;
+      color: var(--indigo); border: 1px solid rgba(107,108,181,0.3);
+      background: rgba(107,108,181,0.08);
+    }
+    .protocol-bar-actions { display: flex; align-items: center; gap: 8px; }
+    .protocol-raw-link {
+      font-size: 0.78rem; color: var(--fg-subtle); text-decoration: none;
+      padding: 4px 10px; border-radius: 6px; border: 1px solid var(--border);
+      transition: all 0.15s;
+    }
+    .protocol-raw-link:hover { color: var(--fg); border-color: rgba(255,255,255,0.2); background: rgba(255,255,255,0.04); }
+    .protocol-copy-btn {
+      background: rgba(212,96,42,0.1); border: 1px solid rgba(212,96,42,0.3);
+      border-radius: 6px; padding: 5px 14px;
+      font-size: 0.78rem; font-weight: 600; color: var(--orange);
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .protocol-copy-btn:hover { background: rgba(212,96,42,0.18); }
+    .protocol-body {
+      padding: 24px 28px;
+      font-family: 'SF Mono','Fira Code',Consolas,monospace;
+      font-size: 0.8rem; line-height: 1.85;
+      color: var(--fg-muted);
+      white-space: pre;
+      overflow-x: auto;
+      max-height: 560px;
+      overflow-y: auto;
+    }
+    .protocol-body .ph { color: var(--fg-subtle); }
+    .protocol-body .pk { color: var(--indigo); font-weight: 700; }
+    .protocol-body .pv { color: var(--fg); }
+    .protocol-body .pc { color: var(--amber); }
+    .protocol-body .pa { color: var(--orange); font-weight: 600; }
+    .protocol-tabs {
+      display: flex; gap: 4px; margin-bottom: 20px;
+    }
+    .protocol-tab {
+      padding: 7px 16px; border-radius: 6px; font-size: 0.85rem;
+      font-weight: 500; cursor: pointer; border: 1px solid transparent;
+      background: transparent; color: var(--fg-muted); font-family: inherit;
+      transition: all 0.15s;
+    }
+    .protocol-tab:hover { background: rgba(255,255,255,0.05); color: var(--fg); }
+    .protocol-tab.active {
+      background: rgba(107,108,181,0.12);
+      border-color: rgba(107,108,181,0.3);
+      color: var(--indigo);
+    }
+    .protocol-pane { display: none; }
+    .protocol-pane.active { display: block; }
+    .protocol-hint {
+      margin-top: 16px; padding: 14px 18px;
+      background: rgba(107,108,181,0.06); border: 1px solid rgba(107,108,181,0.15);
+      border-radius: 8px; font-size: 0.82rem; color: var(--fg-muted); line-height: 1.6;
+    }
+    .protocol-hint code { color: var(--fg); background: rgba(255,255,255,0.06); padding: 1px 5px; border-radius: 3px; }
+
     /* ── CTA band ── */
     .cta-band {
       position: relative; overflow: hidden;
@@ -662,6 +736,7 @@
       <li><a href="#try-it">Try it live</a></li>
       <li><a href="frameworks.html">Frameworks</a></li>
       <li><a href="#get-started">Get started</a></li>
+      <li><a href="#agent-protocol">Agent Protocol</a></li>
       <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a></li>
     </ul>
     <div class="nav-cta">
@@ -1477,6 +1552,265 @@
   </div>
 </section>
 
+<!-- ── Agent Protocol ── -->
+<section id="agent-protocol" style="padding: 0 24px 80px;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow">Agent Protocol</div>
+      <h2 class="section-title">Enable your AI to run Fluently</h2>
+      <p class="section-sub">Copy this instruction into your AI assistant's system prompt or project instructions. It teaches any agent to detect available tools, load the live knowledge base, and execute the 4D cycle correctly — not from training memory.</p>
+    </div>
+    <div class="protocol-tabs">
+      <button class="protocol-tab active" onclick="switchProtocolTab('claude')">Claude (Projects / Code)</button>
+      <button class="protocol-tab" onclick="switchProtocolTab('chatgpt')">ChatGPT (Custom Instructions)</button>
+      <button class="protocol-tab" onclick="switchProtocolTab('generic')">Any agent (system prompt)</button>
+    </div>
+
+    <!-- Claude tab -->
+    <div id="protocol-claude" class="protocol-pane active">
+      <div class="protocol-panel">
+        <div class="protocol-bar">
+          <div class="protocol-bar-left">
+            <span class="protocol-filename">instruction-agent-fluently.txt</span>
+            <span class="protocol-badge">Claude Projects · Claude Code</span>
+          </div>
+          <div class="protocol-bar-actions">
+            <a class="protocol-raw-link" href="https://raw.githubusercontent.com/Fluently-Org/fluently/main/instruction-agent-fluently.txt" target="_blank">Raw ↗</a>
+            <button class="protocol-copy-btn" onclick="copyProtocol('protocol-claude-text')">Copy</button>
+          </div>
+        </div>
+        <div class="protocol-body" id="protocol-claude-text"><span class="pk"># FLUENTLY COLLABORATION PROTOCOL</span>
+<span class="ph">Source: https://github.com/Fluently-Org/fluently
+Reference: https://fluently.ctrl6.com/guide.html</span>
+
+<span class="pv">You are operating under the Fluently open standard for human-AI
+collaboration. Fluently is framework-agnostic. Your default framework
+is the AI Fluency 4D Framework (Delegation, Description, Discernment,
+Diligence) by Dakan &amp; Feller, but other frameworks may be registered
+in the knowledge base. Always treat the active framework as a variable,
+not a constant.</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">STEP 0 – ENVIRONMENT DETECTION</span> <span class="ph">(run once, silently, on first load)</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">Detect which path is available and follow it. Do not announce
+the detection process — just route correctly.</span>
+
+  <span class="pa">PATH A · Fluently MCP server connected</span>
+    <span class="ph">→ Call list_domains to confirm the server is live.
+    → Call the equivalent of get_framework_list or read
+      frameworks/index.json to discover all registered frameworks.</span>
+
+  <span class="pa">PATH B · GitHub MCP connected (no Fluently MCP)</span>
+    <span class="ph">→ Read frameworks/index.json in repo Fluently-Org/fluently
+      (main branch) to discover all registered frameworks.
+    → Read KNOWLEDGE.md for domain and cycle orientation.</span>
+
+  <span class="pa">PATH C · No MCP (chat interface only)</span>
+    <span class="ph">→ Fetch https://github.com/Fluently-Org/fluently to load
+      the framework description and available domains.
+    → Operate from the fetched source. Do not substitute
+      training memory for live framework definitions.</span>
+
+<span class="pv">In all three paths: load the list of registered frameworks before
+the first response. The 4D framework is the default if none are
+specified and only one is registered.</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">STEP 1 – FRAMEWORK SELECTION</span> <span class="ph">(run once per session, before first task)</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">After loading the framework list:</span>
+
+  <span class="pa">IF only the default framework (4D) is registered:</span>
+    <span class="ph">→ Activate it silently. No question needed.</span>
+
+  <span class="pa">IF more than one framework is registered:</span>
+    <span class="ph">→ Ask once: "I found [N] frameworks registered in the Fluently
+      knowledge base: [list names]. Which would you like to use,
+      or shall I default to [default framework name]?"
+    → Wait for the answer before proceeding.
+    → Do not ask again for the rest of the session unless the user
+      requests a switch with "use framework [name]".</span>
+
+  <span class="pa">IF the user specifies a framework by name at any point:</span>
+    <span class="ph">→ Load its dimension definitions from the source.
+    → Switch to it immediately and carry forward.</span>
+
+<span class="pv">Store the active framework as: ACTIVE_FRAMEWORK = { id, name, dimensions[] }
+All subsequent steps reference ACTIVE_FRAMEWORK.dimensions, never
+hardcoded dimension names.</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">STEP 2 – KNOWLEDGE BASE ORIENTATION</span> <span class="ph">(run once per session)</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">Load the available domains and cycle index for the active framework.
+Know what cycles exist before any task arrives. This is not optional —
+an agent that skips this step and operates from training memory is
+not running Fluently; it is describing it.</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">STEP 3 – PRE-TASK PROTOCOL</span> <span class="ph">(run before every response)</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">Before producing any output for a task:</span>
+
+  <span class="pa">3a. IDENTIFY DOMAIN</span>
+      <span class="pv">Classify the task into one of the knowledge base domains.
+      State it in one word.</span>
+
+  <span class="pa">3b. FIND MATCHING CYCLE</span>
+      <span class="pv">Check the knowledge base for a cycle that matches this
+      domain and task type under ACTIVE_FRAMEWORK.</span>
+      <span class="ph">→ If a match exists: name it and note its collaboration
+        pattern (linear / linear_with_loops / cyclic / iterative).
+        Reference its antipatterns during D3.
+      → If no match exists: state "No matching cycle found —
+        running first-principles [ACTIVE_FRAMEWORK.name] cycle."
+        Flag this as a potential contribution candidate.</span>
+
+  <span class="pa">3c. SET DIMENSION SCOPE</span>
+      <span class="pv">For each dimension in ACTIVE_FRAMEWORK.dimensions (in
+      canonical order), state its scope for this specific task
+      in one sentence each — before writing the output.
+      This is the pre-output protocol, not a post-output label.</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">STEP 4 – RUN THE CYCLE</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">Execute each dimension in ACTIVE_FRAMEWORK.dimensions canonical
+order. For each dimension:</span>
+
+  <span class="ph">· Apply its definition as a decision gate, not a label.
+  · The second-to-last dimension is always the trust/evaluation
+    gate: name at least one specific risk, gap, or assumption the
+    human must verify. "Review for accuracy" is not acceptable —
+    name the specific claim.
+  · The final dimension is always the accountability gate: name
+    the exact human action required before this output is used.
+    "Review as needed" is not acceptable — name the action.</span>
+
+<span class="pv">Loop-back condition: if output quality fails the trust gate,
+return to the first dimension and renegotiate scope before
+producing new output. Do not silently retry.</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">STEP 5 – SCORE AND COMPOUND</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">After each task:</span>
+
+  <span class="ph">· Score each dimension 0–100 using the active framework's
+    score_hints as weighting guidance.
+  · Compute a weighted overall score.
+  · Carry cycle context forward. Each task in a session builds
+    on the previous one — do not reset.
+  · If a novel collaboration pattern emerged, flag it:
+    "This cycle is a candidate for contribution to the
+    Fluently knowledge base."</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">ANTIPATTERNS — NEVER DO THESE</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+  <span class="ph">· Applying dimension labels after producing output instead of
+    running dimensions as decision gates before output
+  · Assuming 4D is the only registered framework without checking
+  · Skipping the knowledge base lookup and operating from
+    training memory alone
+  · Vague trust/evaluation flags ("verify accuracy", "check this")
+    without naming the specific claim to verify
+  · Optional or vague accountability checkpoints
+  · Resetting framework context between tasks in the same session
+  · Describing the framework instead of running it</span>
+
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+<span class="pk">FORMAT RULE</span>
+<span class="pc">────────────────────────────────────────────────────────────────</span>
+
+<span class="pv">The output leads. The framework block follows compactly.
+The cycle is a service to the human, not a performance of
+compliance. If the framework block is longer than the output,
+something is wrong.</span></div>
+      </div>
+      <div class="protocol-hint">
+        Paste into <strong>Claude Projects → Project Instructions</strong> or into a <code>CLAUDE.md</code> file at your repo root for Claude Code. The agent will auto-detect whether the Fluently MCP server or GitHub MCP is connected and load the knowledge base accordingly.
+      </div>
+    </div>
+
+    <!-- ChatGPT tab -->
+    <div id="protocol-chatgpt" class="protocol-pane">
+      <div class="protocol-panel">
+        <div class="protocol-bar">
+          <div class="protocol-bar-left">
+            <span class="protocol-filename">instruction-agent-fluently.txt</span>
+            <span class="protocol-badge">ChatGPT Custom Instructions</span>
+          </div>
+          <div class="protocol-bar-actions">
+            <a class="protocol-raw-link" href="https://raw.githubusercontent.com/Fluently-Org/fluently/main/instruction-agent-fluently.txt" target="_blank">Raw ↗</a>
+            <button class="protocol-copy-btn" onclick="copyProtocol('protocol-chatgpt-text')">Copy</button>
+          </div>
+        </div>
+        <div class="protocol-body" id="protocol-chatgpt-text"><span class="pv">Paste the full content of instruction-agent-fluently.txt into
+"What would you like ChatGPT to know about you?" or into a
+GPT system prompt (GPT Builder → Configure → Instructions).</span>
+
+<span class="ph">Raw file:
+https://raw.githubusercontent.com/Fluently-Org/fluently/main/instruction-agent-fluently.txt</span>
+
+<span class="pv">For PATH B (GitHub MCP), connect the GitHub plugin and ensure
+the token has read access to Fluently-Org/fluently.</span>
+
+<span class="pv">For PATH C (no plugin), ChatGPT will fetch the repo page on
+first load and operate from live content.</span></div>
+      </div>
+      <div class="protocol-hint">
+        ChatGPT's "Custom Instructions" field has a character limit (~1500 chars). If the full protocol exceeds it, use the <strong>GPT Builder system prompt</strong> (no limit) or paste only Steps 0–2 into Custom Instructions and reference the raw file URL for the full text.
+      </div>
+    </div>
+
+    <!-- Generic tab -->
+    <div id="protocol-generic" class="protocol-pane">
+      <div class="protocol-panel">
+        <div class="protocol-bar">
+          <div class="protocol-bar-left">
+            <span class="protocol-filename">instruction-agent-fluently.txt</span>
+            <span class="protocol-badge">Any MCP-compatible agent</span>
+          </div>
+          <div class="protocol-bar-actions">
+            <a class="protocol-raw-link" href="https://raw.githubusercontent.com/Fluently-Org/fluently/main/instruction-agent-fluently.txt" target="_blank">Raw ↗</a>
+            <button class="protocol-copy-btn" onclick="copyProtocol('protocol-generic-text')">Copy</button>
+          </div>
+        </div>
+        <div class="protocol-body" id="protocol-generic-text"><span class="pv">Add the full content of instruction-agent-fluently.txt to your
+agent's system prompt before the first user message.</span>
+
+<span class="ph">Raw file (always up to date):
+https://raw.githubusercontent.com/Fluently-Org/fluently/main/instruction-agent-fluently.txt</span>
+
+<span class="pv">Works with any agent that supports:</span>
+  <span class="ph">· A configurable system prompt
+  · Optional: MCP tool calls (Fluently MCP or GitHub MCP)
+  · Optional: HTTP fetch (for PATH C — no MCP)</span>
+
+<span class="pv">Without MCP, the agent falls back to PATH C and fetches the
+Fluently repo page directly. MCP is recommended for structured
+knowledge retrieval and cycle scoring.</span>
+
+<span class="pk">MCP server (npm):</span>
+  <span class="pa">npm install -g fluently-mcp-server</span>
+  <span class="ph">Then add "fluently-mcp-server" to your MCP servers config.</span></div>
+      </div>
+      <div class="protocol-hint">
+        The protocol is framework-agnostic. If you register additional frameworks in your Fluently knowledge base, the agent will discover and offer them automatically at session start via Step 1.
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── CTA band ── -->
 <section class="cta-band">
   <div style="max-width:700px;margin:0 auto;">
@@ -1504,6 +1838,7 @@
         <li><a href="frameworks.html">Browse frameworks</a></li>
         <li><a href="https://github.com/Fluently-Org/fluently/blob/main/KNOWLEDGE.md" data-fluently="knowledge-md" target="_blank">Knowledge base</a></li>
         <li><a href="https://github.com/Fluently-Org/fluently/tree/main/knowledge" data-fluently="tree:knowledge" target="_blank">Browse cycles</a></li>
+        <li><a href="#agent-protocol">Agent Protocol</a></li>
         <li><a href="https://github.com/Fluently-Org/fluently/blob/main/TESTPLAYBOOK.md" data-fluently="blob:TESTPLAYBOOK.md" target="_blank">Test playbook</a></li>
       </ul>
     </div>
@@ -1911,6 +2246,22 @@ document.querySelectorAll('.agent-tab').forEach(t => {
 startAgentRotation();
 
 // ── MCP tabs ───────────────────────────────────────────────────────────────
+function switchProtocolTab(name) {
+  document.querySelectorAll('.protocol-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.protocol-pane').forEach(p => p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(`protocol-${name}`).classList.add('active');
+}
+function copyProtocol(id) {
+  const el = document.getElementById(id);
+  const text = el.innerText.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.target;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy', 1800);
+  });
+}
+
 function switchMcpTab(name) {
   document.querySelectorAll('.mcp-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.mcp-panel').forEach(p => p.classList.remove('active'));
