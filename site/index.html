@@ -576,6 +576,140 @@
     }
     .copy-btn:hover { background: rgba(255,255,255,0.1); color: var(--fg); }
 
+    /* ── Carbon Footprint ── */
+    .carbon-layout {
+      display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start;
+    }
+    .carbon-card {
+      background: var(--canvas-soft); border: 1px solid var(--border);
+      border-radius: 14px; overflow: hidden;
+    }
+    .carbon-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+    .carbon-leaf {
+      width: 20px; height: 20px; flex-shrink: 0;
+      background: var(--green); border-radius: 50% 50% 50% 0;
+      transform: rotate(-45deg);
+    }
+    .carbon-header-title { font-size: 0.88rem; font-weight: 700; color: var(--fg); }
+    .carbon-conf-badge {
+      margin-left: auto; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 3px 9px; border-radius: 999px;
+    }
+    .cc-high   { background: rgba(63,185,80,0.12);  color: var(--green);  border: 1px solid rgba(63,185,80,0.3); }
+    .cc-medium { background: rgba(210,153,34,0.12); color: var(--amber);  border: 1px solid rgba(210,153,34,0.3); }
+    .cc-low    { background: rgba(248,81,73,0.12);  color: var(--red);    border: 1px solid rgba(248,81,73,0.3); }
+    .carbon-select-wrap {
+      padding: 12px 18px 10px; border-bottom: 1px solid var(--border);
+    }
+    .carbon-select-wrap label {
+      display: block; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--fg-subtle); margin-bottom: 6px;
+    }
+    .carbon-select-wrap select {
+      width: 100%; font-size: 0.85rem; padding: 7px 10px;
+      border: 1px solid var(--border); border-radius: 7px;
+      background: var(--canvas); color: var(--fg);
+      cursor: pointer; font-family: inherit;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238b949e' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center;
+      padding-right: 28px;
+    }
+    .carbon-metrics {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .carbon-metric-row {
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .carbon-metric-label { font-size: 0.8rem; color: var(--fg-muted); }
+    .carbon-metric-value { font-size: 0.88rem; font-weight: 700; color: var(--fg); }
+    .carbon-metric-value.accent { color: var(--green); }
+    .carbon-chart { padding: 12px 18px; border-bottom: 1px solid var(--border); }
+    .carbon-chart-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--fg-subtle); margin-bottom: 10px;
+    }
+    .carbon-bar-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 7px;
+    }
+    .carbon-bar-row:last-child { margin-bottom: 0; }
+    .carbon-bar-name {
+      width: 80px; font-size: 0.78rem; color: var(--fg-muted);
+      flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .carbon-bar-track {
+      flex: 1; height: 6px; background: rgba(255,255,255,0.06);
+      border-radius: 3px; overflow: hidden;
+    }
+    .carbon-bar-fill {
+      height: 100%; border-radius: 3px; transition: width .35s ease;
+    }
+    .cb-baseline  { background: var(--fg-subtle); }
+    .cb-framework { background: var(--indigo); }
+    .cb-best      { background: var(--green); }
+    .carbon-bar-val { font-size: 0.72rem; color: var(--fg-muted); width: 38px; text-align: right; flex-shrink: 0; }
+    .carbon-analogy {
+      padding: 10px 18px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: flex-start; gap: 8px;
+    }
+    .carbon-analogy-icon {
+      width: 20px; height: 20px; background: rgba(63,185,80,0.1);
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; flex-shrink: 0; margin-top: 2px; color: var(--green);
+    }
+    .carbon-analogy-text { font-size: 0.8rem; color: var(--fg-muted); line-height: 1.5; }
+    .carbon-footer {
+      padding: 10px 18px; background: rgba(0,0,0,0.12);
+    }
+    .carbon-caveat { font-size: 0.72rem; color: var(--fg-subtle); line-height: 1.5; }
+    .carbon-caveat a { color: var(--green); text-decoration: none; }
+    .carbon-caveat a:hover { text-decoration: underline; }
+    .carbon-description {
+      font-size: 0.88rem; color: var(--fg-muted); line-height: 1.7;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .carbon-description p { margin: 0; }
+    .carbon-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 4px 10px; border-radius: 999px;
+      color: var(--green); border: 1px solid rgba(63,185,80,0.3);
+      background: rgba(63,185,80,0.08);
+    }
+    .carbon-table {
+      width: 100%; border-collapse: collapse; font-size: 0.8rem;
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+    }
+    .carbon-table th {
+      text-align: left; padding: 8px 12px; font-size: 0.7rem;
+      font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--fg-subtle); background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+    }
+    .carbon-table td {
+      padding: 8px 12px; color: var(--fg-muted); border-bottom: 1px solid rgba(48,54,61,0.5);
+    }
+    .carbon-table tr:last-child td { border-bottom: none; }
+    .carbon-table td:last-child { text-align: right; }
+    .carbon-table .saving { color: var(--green); font-weight: 600; }
+    .carbon-source {
+      margin-top: 16px; padding: 12px 16px;
+      background: rgba(63,185,80,0.05); border: 1px solid rgba(63,185,80,0.15);
+      border-radius: 8px; font-size: 0.78rem; color: var(--fg-subtle); line-height: 1.6;
+    }
+    .carbon-source a { color: var(--green); text-decoration: none; }
+    .carbon-source a:hover { text-decoration: underline; }
+    @media (max-width: 1024px) {
+      .carbon-layout { grid-template-columns: 1fr; }
+    }
+
     /* ── Agent Protocol ── */
     .protocol-panel {
       background: var(--canvas); border: 1px solid var(--border);
@@ -736,6 +870,7 @@
       <li><a href="#try-it">Try it live</a></li>
       <li><a href="frameworks.html">Frameworks</a></li>
       <li><a href="#get-started">Get started</a></li>
+      <li><a href="#carbon">Carbon</a></li>
       <li><a href="#agent-protocol">Agent Protocol</a></li>
       <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a></li>
     </ul>
@@ -1552,6 +1687,136 @@
   </div>
 </section>
 
+<!-- ── Carbon Footprint ── -->
+<section id="carbon" style="padding: 0 24px 80px;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-eyebrow" style="color:var(--green);border-color:rgba(63,185,80,0.25);background:rgba(63,185,80,0.07);">Carbon Footprint</div>
+      <h2 class="section-title">AI has a carbon cost. Fluently helps reduce it.</h2>
+      <p class="section-sub">Better-scoped prompts mean fewer tokens. Fewer tokens mean lower CO₂. The 4D framework reduces token consumption by 30–45% vs unstructured prompting — and now any agent can estimate and track that impact.</p>
+    </div>
+    <div class="carbon-layout">
+      <!-- Left: description + framework savings table -->
+      <div class="carbon-description">
+        <p>
+          <span class="carbon-pill">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+            Zero-dependency
+          </span>&nbsp;
+          The carbon calculator is pure arithmetic — no API calls, no libraries. Load
+          <a href="https://github.com/Fluently-Org/fluently/blob/main/CARBON_KNOWLEDGE.md" target="_blank" style="color:var(--green);">CARBON_KNOWLEDGE.md</a>
+          into any agent's context and it can calculate, track, and report CO₂ from token consumption.
+        </p>
+        <p>
+          <strong style="color:var(--fg);">How it works:</strong> every LLM call has an input token count and an output token count.
+          Each model has a gCO₂eq rate per token (from the
+          <a href="https://ecologits.ai" target="_blank" style="color:var(--green);">EcoLogits</a> open database).
+          Multiply, sum, and you have an estimate. Fluently adds framework efficiency multipliers on top.
+        </p>
+        <div style="overflow-x:auto;">
+          <table class="carbon-table">
+            <thead>
+              <tr>
+                <th>Framework</th>
+                <th>Token reduction</th>
+                <th>CO₂ saving</th>
+                <th>vs baseline</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong style="color:var(--fg);">Fluently 4D</strong></td>
+                <td>30–45%</td>
+                <td class="saving">25–40%</td>
+                <td class="saving">most efficient</td>
+              </tr>
+              <tr>
+                <td>Fluently Linear</td>
+                <td>20–30%</td>
+                <td class="saving">15–25%</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Fluently Cyclic</td>
+                <td>15–25%</td>
+                <td class="saving">10–20%</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>No framework</td>
+                <td>—</td>
+                <td style="color:var(--fg-subtle);">baseline</td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="carbon-source">
+          Rates from <a href="https://ecologits.ai/latest/" target="_blank">EcoLogits</a> open model database (MIT licensed).
+          Anthropic, OpenAI, and Mistral figures are modelled bottom-up estimates (±40% band, medium confidence).
+          Google Gemini figures are calibrated against vendor-disclosed data (high confidence).
+          Fluently savings are from the 3-task benchmark, March 2026.
+          Download: <a href="https://github.com/Fluently-Org/fluently/blob/main/CARBON_KNOWLEDGE.md" target="_blank">CARBON_KNOWLEDGE.md</a>
+          · <a href="https://github.com/Fluently-Org/fluently/blob/main/CARBON_SKILL.md" target="_blank">CARBON_SKILL.md</a>
+          · <code style="font-size:0.75rem;">npm install fluently-carbon</code>
+        </div>
+      </div>
+
+      <!-- Right: live carbon panel -->
+      <div class="carbon-card">
+        <div class="carbon-header">
+          <div class="carbon-leaf" aria-hidden="true"></div>
+          <span class="carbon-header-title">Carbon estimate</span>
+          <span class="carbon-conf-badge cc-medium" id="carbon-conf-badge">medium</span>
+        </div>
+        <div class="carbon-select-wrap">
+          <label for="carbon-model-select">Model</label>
+          <select id="carbon-model-select">
+            <option value="claude-sonnet">Claude Sonnet 4.6</option>
+            <option value="claude-haiku">Claude Haiku 4.5</option>
+            <option value="claude-opus">Claude Opus 4.6</option>
+            <option value="gpt-5-mini">GPT-5 mini</option>
+            <option value="gpt-5.2">GPT-5.2</option>
+            <option value="gemini-flash">Gemini Flash</option>
+            <option value="gemini-pro">Gemini Pro</option>
+            <option value="mistral-large">Mistral Large</option>
+            <option value="deepseek-v3">DeepSeek V3</option>
+          </select>
+        </div>
+        <div class="carbon-metrics">
+          <div class="carbon-metric-row">
+            <span class="carbon-metric-label">Per 100k tokens</span>
+            <span class="carbon-metric-value accent" id="carbon-per100k">—</span>
+          </div>
+          <div class="carbon-metric-row">
+            <span class="carbon-metric-label">Demo session (3 tasks)</span>
+            <span class="carbon-metric-value" id="carbon-session-co2">—</span>
+          </div>
+          <div class="carbon-metric-row">
+            <span class="carbon-metric-label">Session tokens</span>
+            <span class="carbon-metric-value" id="carbon-session-tokens">—</span>
+          </div>
+        </div>
+        <div class="carbon-chart">
+          <div class="carbon-chart-label">Framework comparison</div>
+          <div id="carbon-bars"></div>
+        </div>
+        <div class="carbon-analogy">
+          <div class="carbon-analogy-icon">🌿</div>
+          <div class="carbon-analogy-text" id="carbon-analogy">Select a model to see the estimate.</div>
+        </div>
+        <div class="carbon-footer">
+          <p class="carbon-caveat">
+            Modelled estimates via <a href="https://ecologits.ai" target="_blank" rel="noopener">EcoLogits</a> (MIT).
+            Anthropic does not disclose energy data. ±40% uncertainty band.
+            <a href="https://ecologits.ai/latest/methodology/" target="_blank" rel="noopener">Methodology ↗</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── Agent Protocol ── -->
 <section id="agent-protocol" style="padding: 0 24px 80px;">
   <div class="section-inner">
@@ -1838,6 +2103,7 @@ knowledge retrieval and cycle scoring.</span>
         <li><a href="frameworks.html">Browse frameworks</a></li>
         <li><a href="https://github.com/Fluently-Org/fluently/blob/main/KNOWLEDGE.md" data-fluently="knowledge-md" target="_blank">Knowledge base</a></li>
         <li><a href="https://github.com/Fluently-Org/fluently/tree/main/knowledge" data-fluently="tree:knowledge" target="_blank">Browse cycles</a></li>
+        <li><a href="#carbon">Carbon footprint</a></li>
         <li><a href="#agent-protocol">Agent Protocol</a></li>
         <li><a href="https://github.com/Fluently-Org/fluently/blob/main/TESTPLAYBOOK.md" data-fluently="blob:TESTPLAYBOOK.md" target="_blank">Test playbook</a></li>
       </ul>
@@ -2246,6 +2512,96 @@ document.querySelectorAll('.agent-tab').forEach(t => {
 startAgentRotation();
 
 // ── MCP tabs ───────────────────────────────────────────────────────────────
+// ── Carbon panel ────────────────────────────────────────────────────────────
+(function () {
+  const RATES = {
+    "claude-haiku":  { in: 0.000004, out: 0.000020, conf: "medium" },
+    "claude-sonnet": { in: 0.000012, out: 0.000060, conf: "medium" },
+    "claude-opus":   { in: 0.000040, out: 0.000200, conf: "medium" },
+    "gpt-5-nano":    { in: 0.000002, out: 0.000010, conf: "medium" },
+    "gpt-5-mini":    { in: 0.000005, out: 0.000025, conf: "medium" },
+    "gpt-5.2":       { in: 0.000035, out: 0.000175, conf: "medium" },
+    "gemini-flash":  { in: 0.000001, out: 0.000005, conf: "high"   },
+    "gemini-pro":    { in: 0.000010, out: 0.000050, conf: "high"   },
+    "mistral-large": { in: 0.000020, out: 0.000100, conf: "medium" },
+    "deepseek-v3":   { in: 0.000050, out: 0.000250, conf: "low"    },
+  };
+  const FRAMEWORKS = [
+    { label: "No framework", key: "baseline", inputRed: 0,    outputRed: 0    },
+    { label: "Linear",       key: "linear",   inputRed: 0.15, outputRed: 0.25 },
+    { label: "4D",           key: "4d",       inputRed: 0.23, outputRed: 0.38 },
+  ];
+  // Demo session: 3 tasks at typical token counts
+  const SESSION = { inputTokens: 2529, outputTokens: 1200 };
+
+  function calcCO2(key, inp, out) {
+    const r = RATES[key] || RATES["claude-sonnet"];
+    const co2 = inp * r.in + out * r.out;
+    const total = inp + out;
+    return { co2, per100k: total > 0 ? (co2 / total) * 1e5 : 0, conf: r.conf };
+  }
+
+  function analogy(g) {
+    if (g <= 0)    return "0 gCO₂eq — no tokens consumed";
+    if (g < 0.001) return "less than 0.01% of a smartphone charge";
+    if (g < 0.03)  return ((g / 3) * 100).toFixed(2) + "% of a smartphone charge";
+    if (g < 1.5)   return "~" + (g / 3).toFixed(3) + " smartphone charges";
+    if (g < 10)    return "~" + (g / 1.5).toFixed(1) + " kettles boiled";
+    return "~" + (g / 250).toFixed(4) + " km in a petrol car";
+  }
+
+  function render(modelKey) {
+    const r = RATES[modelKey] || RATES["claude-sonnet"];
+    const sess = calcCO2(modelKey, SESSION.inputTokens, SESSION.outputTokens);
+
+    document.getElementById("carbon-per100k").textContent =
+      sess.per100k.toFixed(1) + " g / 100k";
+    document.getElementById("carbon-session-co2").textContent =
+      sess.co2.toFixed(4) + " gCO₂eq";
+    document.getElementById("carbon-session-tokens").textContent =
+      (SESSION.inputTokens + SESSION.outputTokens).toLocaleString();
+    document.getElementById("carbon-analogy").textContent =
+      analogy(sess.co2) +
+      " [" + (sess.co2 * 0.6).toFixed(4) + " – " + (sess.co2 * 1.4).toFixed(4) + " gCO₂eq]";
+
+    const badge = document.getElementById("carbon-conf-badge");
+    badge.textContent = sess.conf;
+    badge.className = "carbon-conf-badge cc-" + sess.conf;
+
+    // Bar chart
+    const barsEl = document.getElementById("carbon-bars");
+    barsEl.innerHTML = "";
+    const runs = FRAMEWORKS.map(fw => {
+      const inp = Math.round(SESSION.inputTokens  * (1 - fw.inputRed));
+      const out = Math.round(SESSION.outputTokens * (1 - fw.outputRed));
+      return { label: fw.label, key: fw.key, per100k: calcCO2(modelKey, inp, out).per100k };
+    });
+    const maxVal = Math.max(...runs.map(r => r.per100k));
+    runs.forEach((run, i) => {
+      const pct = maxVal > 0 ? Math.round((run.per100k / maxVal) * 100) : 0;
+      const cls = i === 0 ? "cb-baseline" : i === runs.length - 1 ? "cb-best" : "cb-framework";
+      const row = document.createElement("div");
+      row.className = "carbon-bar-row";
+      row.innerHTML =
+        '<span class="carbon-bar-name">' + run.label + '</span>' +
+        '<span class="carbon-bar-track"><span class="carbon-bar-fill ' + cls + '" style="width:' + pct + '%"></span></span>' +
+        '<span class="carbon-bar-val">' + run.per100k.toFixed(1) + 'g</span>';
+      barsEl.appendChild(row);
+    });
+  }
+
+  const sel = document.getElementById("carbon-model-select");
+  if (sel) {
+    sel.addEventListener("change", () => render(sel.value));
+    // Expose for external wiring (e.g. from the Try It runner)
+    window.fluentlySetCarbonModel = function(key) { if (RATES[key]) { sel.value = key; render(key); } };
+    window.fluentlyUpdateCarbonTokens = function(inp, out) {
+      SESSION.inputTokens = inp; SESSION.outputTokens = out; render(sel.value);
+    };
+    render(sel.value);
+  }
+})();
+
 function switchProtocolTab(name) {
   document.querySelectorAll('.protocol-tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.protocol-pane').forEach(p => p.classList.remove('active'));

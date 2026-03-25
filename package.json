@@ -7,7 +7,8 @@
   "workspaces": [
     "packages/cli",
     "packages/mcp-server",
-    "packages/scorer"
+    "packages/scorer",
+    "packages/carbon"
   ],
   "scripts": {
     "build": "npm run -ws build",
