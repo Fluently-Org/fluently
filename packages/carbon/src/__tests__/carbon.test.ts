@@ -110,7 +110,7 @@ describe("RATE_TABLE", () => {
 
   it("output rate is exactly 5× input rate for every entry", () => {
     for (const [key, e] of Object.entries(RATE_TABLE)) {
-      expect(e.outputRate / e.inputRate).toBe(5),
+      expect(e.outputRate / e.inputRate).toBeCloseTo(5, 10),
         `${key}: expected ratio 5, got ${e.outputRate / e.inputRate}`;
     }
   });
