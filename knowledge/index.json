@@ -1,6 +1,6 @@
 {
-  "generated": "2026-03-23T22:24:58.072Z",
-  "total": 16,
+  "generated": "2026-03-26T11:02:37.338Z",
+  "total": 17,
   "domains": [
     "coding",
     "education",
@@ -1259,6 +1259,158 @@
             "from": "diligence",
             "to": "delegation",
             "trigger": "Next email — fresh cycle.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "idea-to-action-with-ai-personas",
+      "framework_id": "4d-framework",
+      "title": "From Idea to Action: AI as a Complementary Expert Panel",
+      "domain": "general",
+      "file": "general-idea-to-action-with-ai-personas.yaml",
+      "dimensions": {
+        "delegation": {
+          "description": "The human owns the idea and all decisions about direction and viability. AI is granted autonomy to roleplay expert personas and surface blind spots, but never to decide whether the idea is good or should proceed. Persona selection is negotiated explicitly at the start of each session.\n",
+          "example": "Amara says: \"I have an idea for a community food hub. I don't have a business background. Can you act as a business model strategist and ask me the ten questions an investor would ask — but explain each one in plain language before asking it?\" AI responds: \"Understood. I'll act as a business strategist who explains jargon before using it. You decide which questions matter for your context. Ready when you are.\"\n",
+          "antipattern": "Letting AI declare the idea \"viable\" or \"not viable\" without the human having verified the assumptions the AI used to reach that judgment.\n"
+        },
+        "description": {
+          "description": "The human describes the idea in their own words — not in technical or business language — and explicitly names what they know, what they don't know, and which expertise gaps they feel most exposed by. The AI uses this to assemble the right persona(s) for the session.\n",
+          "example": "\"I want to create a space where local farmers sell directly to urban families. I know the neighborhood. I don't know how food regulations work, how to price things, or whether anyone has tried this and failed. I feel most lost on the legal and financial side.\" AI: \"I'll play three roles for you: a food-sector regulatory guide (plain language, no legal advice), a pricing strategist, and a 'what-went-wrong' researcher who will surface similar initiatives that struggled and why.\"\n",
+          "antipattern": "AI adopting a single generic \"expert\" persona without asking which expertise gaps the human actually feels, leading to answers that are confident but miss the real blind spots.\n"
+        },
+        "discernment": {
+          "description": "The human explicitly challenges AI outputs before accepting them. For each key claim the AI makes — market size, regulatory summary, pricing model — the human asks: \"How confident are you? What would change this answer? Can you show me a counter-argument?\" AI is prompted to flag its own uncertainty rather than maintain a persona of false authority.\n",
+          "example": "AI (as pricing strategist): \"A 15–20% margin on fresh produce is typical for direct-to-consumer models.\" Human: \"Are you sure about that? Where would that figure break down?\" AI: \"Good push. That figure holds for established platforms with volume. A new, low-volume hub could see margins squeezed to 5–8% in the first year. I'd recommend verifying this with a local food-sector operator before using it in any plan.\"\n",
+          "antipattern": "Human accepting AI's persona-delivered facts as expert knowledge without asking for confidence levels or sources — the persona voice creates an illusion of authority that plain-text answers do not.\n"
+        },
+        "diligence": {
+          "description": "Before any idea output (pitch, plan, financial model, regulatory checklist) is used in the real world, the human must route at least one AI-generated claim per domain through a real-world check: a practitioner conversation, a public database, a regulatory body. The AI closes each session by naming the specific claims that need external validation and by whom.\n",
+          "example": "AI closes the session: \"Three claims in today's session need verification before you act on them: (1) the 20% margin figure — validate with a farmer's market operator; (2) the food safety certification requirement — confirm with your local health authority; (3) the 'community hub grant' I mentioned — check availability with your municipal economic development office. These are the three things I cannot verify for you.\"\n",
+          "antipattern": "Human treating the AI session output as a completed plan, moving to execution without validating the domain-specific claims that the AI surfaced under persona authority.\n"
+        }
+      },
+      "score_hints": {
+        "delegation": 0.2,
+        "description": 0.3,
+        "discernment": 0.3,
+        "diligence": 0.2
+      },
+      "summary": "The human owns the idea and all decisions about direction and viability. AI is granted autonomy to roleplay expert personas and surface blind spots, but never to decide whether the idea is good or sho",
+      "tags": [
+        "ideation",
+        "entrepreneurship",
+        "persona",
+        "non-technical",
+        "innovation",
+        "strategy",
+        "complementary-expertise"
+      ],
+      "contributor": "Dr. Faïçal CONGO",
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Human shares raw idea and named gaps → AI assembles personas → AI probes and surfaces blind spots → Human challenges outputs → AI closes with a specific validation checklist → Human validates before acting. Loops back to Description if the human's framing shifts during the session.\n",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Negotiate persona scope",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "\"I have an idea but I'm out of my depth on the business and technical sides. Can you play the roles I'm missing and ask me the hard questions without overwhelming me with jargon?\"\n"
+              },
+              {
+                "speaker": "ai",
+                "text": "\"Yes. Tell me your idea in plain words, then tell me what you know well and what feels most unclear. I'll assemble the right roles and explain what each one will do before starting.\"\n"
+              }
+            ],
+            "triggers_next": "Persona roles and autonomy limits agreed"
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Human frames idea and gaps",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "\"I want to build X. I know Y. I don't know Z. The part that scares me most is [financial / legal / technical / market].\"\n"
+              },
+              {
+                "speaker": "ai",
+                "text": "\"Understood. I'll play [role A], [role B], and [role C]. [Role A] will handle [domain]. I'll flag when I'm uncertain and ask you before making assumptions.\"\n"
+              }
+            ],
+            "triggers_next": "AI has enough context to begin structured probing",
+            "loop_back": {
+              "to": "delegation",
+              "condition": "Idea scope shifts significantly during probing",
+              "reason": "Persona mix may need to change if the core idea changes"
+            }
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Human challenges AI persona outputs",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "Are you confident about that? What would make that wrong?"
+              },
+              {
+                "speaker": "ai",
+                "text": "\"My confidence here is [low/medium/high] because [reason]. This would break down if [condition]. I'd recommend verifying [specific claim] with [specific source type] before using it.\"\n"
+              }
+            ],
+            "triggers_next": "Human accepts output with named uncertainties acknowledged"
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "AI delivers validation checklist",
+            "example_prompts": [
+              {
+                "speaker": "ai",
+                "text": "\"Before you act on anything from this session, validate these three claims: [claim 1] — check with [source]; [claim 2] — confirm via [source]; [claim 3] — speak to [practitioner type]. These are the things I cannot verify for you.\"\n"
+              },
+              {
+                "speaker": "human",
+                "text": "Understood. I'll take [claim 1] to [person/source] this week."
+              }
+            ],
+            "triggers_next": "Human has a concrete validation action for each AI-sourced claim",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Persona scope agreed and autonomy limits set"
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "AI has enough framing to begin probing"
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Human has challenged outputs and acknowledged uncertainties"
+          },
+          {
+            "from": "description",
+            "to": "delegation",
+            "trigger": "Idea scope shifted — persona mix needs renegotiation",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "New idea dimension emerges after validation",
             "is_cycle_restart": true
           }
         ]
@@ -3753,6 +3905,158 @@
               "from": "diligence",
               "to": "delegation",
               "trigger": "Next email — fresh cycle.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "idea-to-action-with-ai-personas",
+        "framework_id": "4d-framework",
+        "title": "From Idea to Action: AI as a Complementary Expert Panel",
+        "domain": "general",
+        "file": "general-idea-to-action-with-ai-personas.yaml",
+        "dimensions": {
+          "delegation": {
+            "description": "The human owns the idea and all decisions about direction and viability. AI is granted autonomy to roleplay expert personas and surface blind spots, but never to decide whether the idea is good or should proceed. Persona selection is negotiated explicitly at the start of each session.\n",
+            "example": "Amara says: \"I have an idea for a community food hub. I don't have a business background. Can you act as a business model strategist and ask me the ten questions an investor would ask — but explain each one in plain language before asking it?\" AI responds: \"Understood. I'll act as a business strategist who explains jargon before using it. You decide which questions matter for your context. Ready when you are.\"\n",
+            "antipattern": "Letting AI declare the idea \"viable\" or \"not viable\" without the human having verified the assumptions the AI used to reach that judgment.\n"
+          },
+          "description": {
+            "description": "The human describes the idea in their own words — not in technical or business language — and explicitly names what they know, what they don't know, and which expertise gaps they feel most exposed by. The AI uses this to assemble the right persona(s) for the session.\n",
+            "example": "\"I want to create a space where local farmers sell directly to urban families. I know the neighborhood. I don't know how food regulations work, how to price things, or whether anyone has tried this and failed. I feel most lost on the legal and financial side.\" AI: \"I'll play three roles for you: a food-sector regulatory guide (plain language, no legal advice), a pricing strategist, and a 'what-went-wrong' researcher who will surface similar initiatives that struggled and why.\"\n",
+            "antipattern": "AI adopting a single generic \"expert\" persona without asking which expertise gaps the human actually feels, leading to answers that are confident but miss the real blind spots.\n"
+          },
+          "discernment": {
+            "description": "The human explicitly challenges AI outputs before accepting them. For each key claim the AI makes — market size, regulatory summary, pricing model — the human asks: \"How confident are you? What would change this answer? Can you show me a counter-argument?\" AI is prompted to flag its own uncertainty rather than maintain a persona of false authority.\n",
+            "example": "AI (as pricing strategist): \"A 15–20% margin on fresh produce is typical for direct-to-consumer models.\" Human: \"Are you sure about that? Where would that figure break down?\" AI: \"Good push. That figure holds for established platforms with volume. A new, low-volume hub could see margins squeezed to 5–8% in the first year. I'd recommend verifying this with a local food-sector operator before using it in any plan.\"\n",
+            "antipattern": "Human accepting AI's persona-delivered facts as expert knowledge without asking for confidence levels or sources — the persona voice creates an illusion of authority that plain-text answers do not.\n"
+          },
+          "diligence": {
+            "description": "Before any idea output (pitch, plan, financial model, regulatory checklist) is used in the real world, the human must route at least one AI-generated claim per domain through a real-world check: a practitioner conversation, a public database, a regulatory body. The AI closes each session by naming the specific claims that need external validation and by whom.\n",
+            "example": "AI closes the session: \"Three claims in today's session need verification before you act on them: (1) the 20% margin figure — validate with a farmer's market operator; (2) the food safety certification requirement — confirm with your local health authority; (3) the 'community hub grant' I mentioned — check availability with your municipal economic development office. These are the three things I cannot verify for you.\"\n",
+            "antipattern": "Human treating the AI session output as a completed plan, moving to execution without validating the domain-specific claims that the AI surfaced under persona authority.\n"
+          }
+        },
+        "score_hints": {
+          "delegation": 0.2,
+          "description": 0.3,
+          "discernment": 0.3,
+          "diligence": 0.2
+        },
+        "summary": "The human owns the idea and all decisions about direction and viability. AI is granted autonomy to roleplay expert personas and surface blind spots, but never to decide whether the idea is good or sho",
+        "tags": [
+          "ideation",
+          "entrepreneurship",
+          "persona",
+          "non-technical",
+          "innovation",
+          "strategy",
+          "complementary-expertise"
+        ],
+        "contributor": "Dr. Faïçal CONGO",
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Human shares raw idea and named gaps → AI assembles personas → AI probes and surfaces blind spots → Human challenges outputs → AI closes with a specific validation checklist → Human validates before acting. Loops back to Description if the human's framing shifts during the session.\n",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Negotiate persona scope",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "\"I have an idea but I'm out of my depth on the business and technical sides. Can you play the roles I'm missing and ask me the hard questions without overwhelming me with jargon?\"\n"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "\"Yes. Tell me your idea in plain words, then tell me what you know well and what feels most unclear. I'll assemble the right roles and explain what each one will do before starting.\"\n"
+                }
+              ],
+              "triggers_next": "Persona roles and autonomy limits agreed"
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Human frames idea and gaps",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "\"I want to build X. I know Y. I don't know Z. The part that scares me most is [financial / legal / technical / market].\"\n"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "\"Understood. I'll play [role A], [role B], and [role C]. [Role A] will handle [domain]. I'll flag when I'm uncertain and ask you before making assumptions.\"\n"
+                }
+              ],
+              "triggers_next": "AI has enough context to begin structured probing",
+              "loop_back": {
+                "to": "delegation",
+                "condition": "Idea scope shifts significantly during probing",
+                "reason": "Persona mix may need to change if the core idea changes"
+              }
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Human challenges AI persona outputs",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "Are you confident about that? What would make that wrong?"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "\"My confidence here is [low/medium/high] because [reason]. This would break down if [condition]. I'd recommend verifying [specific claim] with [specific source type] before using it.\"\n"
+                }
+              ],
+              "triggers_next": "Human accepts output with named uncertainties acknowledged"
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "AI delivers validation checklist",
+              "example_prompts": [
+                {
+                  "speaker": "ai",
+                  "text": "\"Before you act on anything from this session, validate these three claims: [claim 1] — check with [source]; [claim 2] — confirm via [source]; [claim 3] — speak to [practitioner type]. These are the things I cannot verify for you.\"\n"
+                },
+                {
+                  "speaker": "human",
+                  "text": "Understood. I'll take [claim 1] to [person/source] this week."
+                }
+              ],
+              "triggers_next": "Human has a concrete validation action for each AI-sourced claim",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Persona scope agreed and autonomy limits set"
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "AI has enough framing to begin probing"
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Human has challenged outputs and acknowledged uncertainties"
+            },
+            {
+              "from": "description",
+              "to": "delegation",
+              "trigger": "Idea scope shifted — persona mix needs renegotiation",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "New idea dimension emerges after validation",
               "is_cycle_restart": true
             }
           ]
