@@ -1,6 +1,6 @@
 {
-  "generated": "2026-03-26T11:02:37.338Z",
-  "total": 17,
+  "generated": "2026-03-26T12:24:40.261Z",
+  "total": 18,
   "domains": [
     "coding",
     "education",
@@ -1562,6 +1562,159 @@
             "from": "diligence",
             "to": "delegation",
             "trigger": "Next refinement pass — new goal.",
+            "is_cycle_restart": true
+          }
+        ]
+      }
+    },
+    {
+      "id": "problem-to-solution-with-ai-guidance",
+      "framework_id": "4d-framework",
+      "title": "From Problem to Solution: AI as a Structured Problem-Solving Partner",
+      "domain": "general",
+      "file": "general-problem-to-solution-with-ai-guidance.yaml",
+      "dimensions": {
+        "delegation": {
+          "description": "The human owns the problem definition and the final decision on which solution path to pursue. AI is granted autonomy to ask structured diagnostic questions, propose solution frameworks, and surface resource and financial considerations — but never to declare a solution \"correct\" or a budget \"sufficient\" without the human having verified the underlying assumptions. The human explicitly sets the constraint envelope (budget ceiling, timeline, available people) before AI begins structuring anything.\n",
+          "example": "Human: \"I run a small community health clinic. Our patient records are still on paper. I know this is a problem but I don't know if the solution is software, people, or both — and I have no idea what it costs or how long it takes. Can you help me structure this without assuming I have a tech team?\" AI: \"Understood. I'll help you structure the problem and map what a solution would require — people, money, time, and procurement. I won't assume any technical capacity on your side. You tell me what's real; I'll tell you what questions to ask next. First: what is the problem costing you right now, even roughly?\"\n",
+          "antipattern": "AI jumping directly to solution recommendations before fully understanding the human's actual constraints — proposing a cloud-based EHR system to a clinic with no IT budget and unreliable internet, because that is the \"standard\" answer.\n"
+        },
+        "description": {
+          "description": "The human describes the problem from lived experience — not in technical or managerial language — and explicitly names what they have tried, what failed, and what constraints are non-negotiable. AI uses this to map four axes before proposing anything: (1) financial envelope and funding sources, (2) procurement path (buy, build, hire, partner), (3) human resources available or needed, (4) realistic timeline given the constraint set. Each axis is surfaced as a question to the human, not as an AI assumption.\n",
+          "example": "AI: \"Before I suggest anything, I need to map four things with you. First, finances: do you have a rough budget in mind, or do we need to figure out what this could cost before you can say? Second, procurement: are you open to buying an off-the-shelf tool, hiring someone, or doing this yourself with guidance? Third, people: who in your clinic could own this — even part-time? Fourth, time: is there a deadline driving this, or is it open?\" Human: \"Budget: I genuinely don't know. Procurement: I'd rather buy than build. People: me and one administrator. Time: before the rainy season when patient volume doubles — four months.\" AI: \"Good. Four months, two people, buy-not-build. That constraint set rules out most custom solutions immediately. Let me map what exists in that envelope.\"\n",
+          "antipattern": "AI presenting a fully-formed solution plan — with costs, vendors, and timelines — before the human has confirmed the constraint set, forcing the human into a reactive \"yes/no\" rather than a collaborative build.\n"
+        },
+        "discernment": {
+          "description": "For every resource estimate, cost figure, vendor recommendation, or timeline the AI surfaces, the human explicitly asks: \"Is this real for my context, or is this a global average?\" AI is required to flag when a figure comes from a general knowledge base versus local market reality, and to name the specific assumption that could make the estimate wrong. The human is coached to distinguish between AI-structured thinking (high reliability) and AI-generated numbers (medium-to-low reliability without local validation).\n",
+          "example": "AI: \"A basic electronic health record system for a small clinic typically costs between $200 and $500 per month on a subscription model, with a one-time setup of $500 to $2,000.\" Human: \"Is that true for Morocco?\" AI: \"Honest answer: that figure is from North American and European market data. In Morocco, locally-hosted solutions or regional vendors may be significantly cheaper — or have different pricing models entirely. The number I gave you is useful as a ceiling estimate, not a budget figure. Before using it, you need one conversation with a local health IT vendor or your regional Ministry of Health digital health desk. That single call will tell you more than I can.\"\n",
+          "antipattern": "Human treating AI cost and timeline estimates as a budget, presenting them to funders or management without local validation — AI's global averages can be off by a factor of three or more in specific markets.\n"
+        },
+        "diligence": {
+          "description": "Before the human acts on any element of the AI-structured plan — commits budget, signs a procurement contract, hires a person, or sets a deadline with stakeholders — they must validate the four axes through real-world checks. AI closes each session with a named accountability matrix: one validation action per axis, one named person or source responsible, and a realistic date. The plan is not a plan until the matrix is filled by the human, not the AI.\n",
+          "example": "AI closes the session: \"Here is your validation matrix before this becomes a real plan: (1) Financial — get one local vendor quote to ground the cost estimate: target this week, owner: you. (2) Procurement — call your regional Ministry of Health digital health desk to ask if there is a subsidized or recommended solution for clinics your size: target within 10 days, owner: you. (3) Human resources — confirm with your administrator that they can own the data migration task: target before you sign anything, owner: you. (4) Timeline — validate the four-month window against the vendor's typical onboarding duration: ask in the vendor call. None of these take more than two hours total. Until they are done, treat everything we built today as a structured hypothesis, not a plan.\"\n",
+          "antipattern": "Human sharing the AI-generated plan with stakeholders, funders, or management before completing the validation matrix — the plan has the appearance of rigor but the substance of a first draft.\n"
+        }
+      },
+      "score_hints": {
+        "delegation": 0.2,
+        "description": 0.35,
+        "discernment": 0.25,
+        "diligence": 0.2
+      },
+      "summary": "The human owns the problem definition and the final decision on which solution path to pursue. AI is granted autonomy to ask structured diagnostic questions, propose solution frameworks, and surface r",
+      "tags": [
+        "problem-solving",
+        "planning",
+        "non-technical",
+        "resources",
+        "finance",
+        "procurement",
+        "timeline",
+        "complementary-expertise"
+      ],
+      "contributor": "Dr. Faïçal CONGO",
+      "version": "1.0.0",
+      "collaboration": {
+        "pattern": "linear_with_loops",
+        "description": "Human names the problem from lived experience → AI maps constraint axes (financial, procurement, resources, timeline) through structured questions → AI surfaces solution options within the constraint set → Human challenges all estimates for local/contextual fit → AI closes with a named validation matrix. Loops back to Description if new constraints surface during discernment.\n",
+        "sequence": [
+          {
+            "step": 1,
+            "d": "delegation",
+            "label": "Name the problem and set the constraint envelope",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "\"I have a problem I need to fix. I think AI can help but I don't know how. The problem is [X]. I have roughly [budget / no idea on budget]. I need it solved by [date / as soon as possible]. I have [these people / just myself].\"\n"
+              },
+              {
+                "speaker": "ai",
+                "text": "\"Understood. Before I suggest anything, I'll map what a solution requires across four axes: finances, procurement, people, and time. You confirm what's real; I structure from there. You stay in charge of what's acceptable. Let's start with the constraint that feels most fixed to you.\"\n"
+              }
+            ],
+            "triggers_next": "Problem named and at least one constraint confirmed as non-negotiable"
+          },
+          {
+            "step": 2,
+            "d": "description",
+            "label": "Map the four axes through structured dialogue",
+            "example_prompts": [
+              {
+                "speaker": "ai",
+                "text": "\"Financial axis: do you have a figure in mind, or do we need to estimate what this category of solution costs before you can set a ceiling? Procurement axis: buy, build, hire, or partner — which feels most realistic given your context? Resource axis: who would own implementation — name a person, not a role? Timeline axis: is there a hard deadline, or a soft one? What happens if you miss it?\"\n"
+              },
+              {
+                "speaker": "human",
+                "text": "\"Budget: [figure or 'I don't know']. Procurement: [preference]. People: [name or 'just me']. Timeline: [date and consequence].\"\n"
+              }
+            ],
+            "triggers_next": "All four axes mapped — AI has enough to propose options within the constraint set",
+            "loop_back": {
+              "to": "delegation",
+              "condition": "A new constraint surfaces that changes the problem definition",
+              "reason": "Problem scope must be renegotiated before solution mapping continues"
+            }
+          },
+          {
+            "step": 3,
+            "d": "discernment",
+            "label": "Human challenges every estimate for local and contextual fit",
+            "example_prompts": [
+              {
+                "speaker": "human",
+                "text": "\"Is that cost figure real for my context — my country, my sector, my scale? What assumption would make it wrong?\"\n"
+              },
+              {
+                "speaker": "ai",
+                "text": "\"That figure comes from [source type / general knowledge]. It would be wrong if [specific condition — local market, sector pricing, scale factor]. Before using it, verify with [specific source type]. My structured thinking is reliable; my numbers need local grounding.\"\n"
+              }
+            ],
+            "triggers_next": "Human understands which outputs are structural (reliable) vs numerical (needs validation)"
+          },
+          {
+            "step": 4,
+            "d": "diligence",
+            "label": "AI delivers named validation matrix — one action per axis",
+            "example_prompts": [
+              {
+                "speaker": "ai",
+                "text": "\"Your validation matrix: (1) Financial — [specific action], owner: you, target: [date]. (2) Procurement — [specific action], owner: [name], target: [date]. (3) Resources — [specific action], owner: [name], target: [date]. (4) Timeline — [specific action], confirm in [call/meeting]. Until this matrix is complete, treat today's output as a structured hypothesis, not a plan.\"\n"
+              },
+              {
+                "speaker": "human",
+                "text": "\"I'll take action (1) to [person/source] by [date]. Action (2) I'll delegate to [name].\"\n"
+              }
+            ],
+            "triggers_next": "Human has a named owner and date for each validation action",
+            "can_restart": true
+          }
+        ],
+        "transitions": [
+          {
+            "from": "delegation",
+            "to": "description",
+            "trigger": "Problem named and at least one hard constraint confirmed"
+          },
+          {
+            "from": "description",
+            "to": "discernment",
+            "trigger": "All four axes mapped within the constraint set"
+          },
+          {
+            "from": "discernment",
+            "to": "diligence",
+            "trigger": "Human understands reliability boundaries of AI outputs"
+          },
+          {
+            "from": "description",
+            "to": "delegation",
+            "trigger": "New constraint surfaces that changes the problem scope",
+            "is_loop_back": true
+          },
+          {
+            "from": "diligence",
+            "to": "delegation",
+            "trigger": "Validation reveals the problem was mis-scoped — restart needed",
             "is_cycle_restart": true
           }
         ]
@@ -4208,6 +4361,159 @@
               "from": "diligence",
               "to": "delegation",
               "trigger": "Next refinement pass — new goal.",
+              "is_cycle_restart": true
+            }
+          ]
+        }
+      },
+      {
+        "id": "problem-to-solution-with-ai-guidance",
+        "framework_id": "4d-framework",
+        "title": "From Problem to Solution: AI as a Structured Problem-Solving Partner",
+        "domain": "general",
+        "file": "general-problem-to-solution-with-ai-guidance.yaml",
+        "dimensions": {
+          "delegation": {
+            "description": "The human owns the problem definition and the final decision on which solution path to pursue. AI is granted autonomy to ask structured diagnostic questions, propose solution frameworks, and surface resource and financial considerations — but never to declare a solution \"correct\" or a budget \"sufficient\" without the human having verified the underlying assumptions. The human explicitly sets the constraint envelope (budget ceiling, timeline, available people) before AI begins structuring anything.\n",
+            "example": "Human: \"I run a small community health clinic. Our patient records are still on paper. I know this is a problem but I don't know if the solution is software, people, or both — and I have no idea what it costs or how long it takes. Can you help me structure this without assuming I have a tech team?\" AI: \"Understood. I'll help you structure the problem and map what a solution would require — people, money, time, and procurement. I won't assume any technical capacity on your side. You tell me what's real; I'll tell you what questions to ask next. First: what is the problem costing you right now, even roughly?\"\n",
+            "antipattern": "AI jumping directly to solution recommendations before fully understanding the human's actual constraints — proposing a cloud-based EHR system to a clinic with no IT budget and unreliable internet, because that is the \"standard\" answer.\n"
+          },
+          "description": {
+            "description": "The human describes the problem from lived experience — not in technical or managerial language — and explicitly names what they have tried, what failed, and what constraints are non-negotiable. AI uses this to map four axes before proposing anything: (1) financial envelope and funding sources, (2) procurement path (buy, build, hire, partner), (3) human resources available or needed, (4) realistic timeline given the constraint set. Each axis is surfaced as a question to the human, not as an AI assumption.\n",
+            "example": "AI: \"Before I suggest anything, I need to map four things with you. First, finances: do you have a rough budget in mind, or do we need to figure out what this could cost before you can say? Second, procurement: are you open to buying an off-the-shelf tool, hiring someone, or doing this yourself with guidance? Third, people: who in your clinic could own this — even part-time? Fourth, time: is there a deadline driving this, or is it open?\" Human: \"Budget: I genuinely don't know. Procurement: I'd rather buy than build. People: me and one administrator. Time: before the rainy season when patient volume doubles — four months.\" AI: \"Good. Four months, two people, buy-not-build. That constraint set rules out most custom solutions immediately. Let me map what exists in that envelope.\"\n",
+            "antipattern": "AI presenting a fully-formed solution plan — with costs, vendors, and timelines — before the human has confirmed the constraint set, forcing the human into a reactive \"yes/no\" rather than a collaborative build.\n"
+          },
+          "discernment": {
+            "description": "For every resource estimate, cost figure, vendor recommendation, or timeline the AI surfaces, the human explicitly asks: \"Is this real for my context, or is this a global average?\" AI is required to flag when a figure comes from a general knowledge base versus local market reality, and to name the specific assumption that could make the estimate wrong. The human is coached to distinguish between AI-structured thinking (high reliability) and AI-generated numbers (medium-to-low reliability without local validation).\n",
+            "example": "AI: \"A basic electronic health record system for a small clinic typically costs between $200 and $500 per month on a subscription model, with a one-time setup of $500 to $2,000.\" Human: \"Is that true for Morocco?\" AI: \"Honest answer: that figure is from North American and European market data. In Morocco, locally-hosted solutions or regional vendors may be significantly cheaper — or have different pricing models entirely. The number I gave you is useful as a ceiling estimate, not a budget figure. Before using it, you need one conversation with a local health IT vendor or your regional Ministry of Health digital health desk. That single call will tell you more than I can.\"\n",
+            "antipattern": "Human treating AI cost and timeline estimates as a budget, presenting them to funders or management without local validation — AI's global averages can be off by a factor of three or more in specific markets.\n"
+          },
+          "diligence": {
+            "description": "Before the human acts on any element of the AI-structured plan — commits budget, signs a procurement contract, hires a person, or sets a deadline with stakeholders — they must validate the four axes through real-world checks. AI closes each session with a named accountability matrix: one validation action per axis, one named person or source responsible, and a realistic date. The plan is not a plan until the matrix is filled by the human, not the AI.\n",
+            "example": "AI closes the session: \"Here is your validation matrix before this becomes a real plan: (1) Financial — get one local vendor quote to ground the cost estimate: target this week, owner: you. (2) Procurement — call your regional Ministry of Health digital health desk to ask if there is a subsidized or recommended solution for clinics your size: target within 10 days, owner: you. (3) Human resources — confirm with your administrator that they can own the data migration task: target before you sign anything, owner: you. (4) Timeline — validate the four-month window against the vendor's typical onboarding duration: ask in the vendor call. None of these take more than two hours total. Until they are done, treat everything we built today as a structured hypothesis, not a plan.\"\n",
+            "antipattern": "Human sharing the AI-generated plan with stakeholders, funders, or management before completing the validation matrix — the plan has the appearance of rigor but the substance of a first draft.\n"
+          }
+        },
+        "score_hints": {
+          "delegation": 0.2,
+          "description": 0.35,
+          "discernment": 0.25,
+          "diligence": 0.2
+        },
+        "summary": "The human owns the problem definition and the final decision on which solution path to pursue. AI is granted autonomy to ask structured diagnostic questions, propose solution frameworks, and surface r",
+        "tags": [
+          "problem-solving",
+          "planning",
+          "non-technical",
+          "resources",
+          "finance",
+          "procurement",
+          "timeline",
+          "complementary-expertise"
+        ],
+        "contributor": "Dr. Faïçal CONGO",
+        "version": "1.0.0",
+        "collaboration": {
+          "pattern": "linear_with_loops",
+          "description": "Human names the problem from lived experience → AI maps constraint axes (financial, procurement, resources, timeline) through structured questions → AI surfaces solution options within the constraint set → Human challenges all estimates for local/contextual fit → AI closes with a named validation matrix. Loops back to Description if new constraints surface during discernment.\n",
+          "sequence": [
+            {
+              "step": 1,
+              "d": "delegation",
+              "label": "Name the problem and set the constraint envelope",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "\"I have a problem I need to fix. I think AI can help but I don't know how. The problem is [X]. I have roughly [budget / no idea on budget]. I need it solved by [date / as soon as possible]. I have [these people / just myself].\"\n"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "\"Understood. Before I suggest anything, I'll map what a solution requires across four axes: finances, procurement, people, and time. You confirm what's real; I structure from there. You stay in charge of what's acceptable. Let's start with the constraint that feels most fixed to you.\"\n"
+                }
+              ],
+              "triggers_next": "Problem named and at least one constraint confirmed as non-negotiable"
+            },
+            {
+              "step": 2,
+              "d": "description",
+              "label": "Map the four axes through structured dialogue",
+              "example_prompts": [
+                {
+                  "speaker": "ai",
+                  "text": "\"Financial axis: do you have a figure in mind, or do we need to estimate what this category of solution costs before you can set a ceiling? Procurement axis: buy, build, hire, or partner — which feels most realistic given your context? Resource axis: who would own implementation — name a person, not a role? Timeline axis: is there a hard deadline, or a soft one? What happens if you miss it?\"\n"
+                },
+                {
+                  "speaker": "human",
+                  "text": "\"Budget: [figure or 'I don't know']. Procurement: [preference]. People: [name or 'just me']. Timeline: [date and consequence].\"\n"
+                }
+              ],
+              "triggers_next": "All four axes mapped — AI has enough to propose options within the constraint set",
+              "loop_back": {
+                "to": "delegation",
+                "condition": "A new constraint surfaces that changes the problem definition",
+                "reason": "Problem scope must be renegotiated before solution mapping continues"
+              }
+            },
+            {
+              "step": 3,
+              "d": "discernment",
+              "label": "Human challenges every estimate for local and contextual fit",
+              "example_prompts": [
+                {
+                  "speaker": "human",
+                  "text": "\"Is that cost figure real for my context — my country, my sector, my scale? What assumption would make it wrong?\"\n"
+                },
+                {
+                  "speaker": "ai",
+                  "text": "\"That figure comes from [source type / general knowledge]. It would be wrong if [specific condition — local market, sector pricing, scale factor]. Before using it, verify with [specific source type]. My structured thinking is reliable; my numbers need local grounding.\"\n"
+                }
+              ],
+              "triggers_next": "Human understands which outputs are structural (reliable) vs numerical (needs validation)"
+            },
+            {
+              "step": 4,
+              "d": "diligence",
+              "label": "AI delivers named validation matrix — one action per axis",
+              "example_prompts": [
+                {
+                  "speaker": "ai",
+                  "text": "\"Your validation matrix: (1) Financial — [specific action], owner: you, target: [date]. (2) Procurement — [specific action], owner: [name], target: [date]. (3) Resources — [specific action], owner: [name], target: [date]. (4) Timeline — [specific action], confirm in [call/meeting]. Until this matrix is complete, treat today's output as a structured hypothesis, not a plan.\"\n"
+                },
+                {
+                  "speaker": "human",
+                  "text": "\"I'll take action (1) to [person/source] by [date]. Action (2) I'll delegate to [name].\"\n"
+                }
+              ],
+              "triggers_next": "Human has a named owner and date for each validation action",
+              "can_restart": true
+            }
+          ],
+          "transitions": [
+            {
+              "from": "delegation",
+              "to": "description",
+              "trigger": "Problem named and at least one hard constraint confirmed"
+            },
+            {
+              "from": "description",
+              "to": "discernment",
+              "trigger": "All four axes mapped within the constraint set"
+            },
+            {
+              "from": "discernment",
+              "to": "diligence",
+              "trigger": "Human understands reliability boundaries of AI outputs"
+            },
+            {
+              "from": "description",
+              "to": "delegation",
+              "trigger": "New constraint surfaces that changes the problem scope",
+              "is_loop_back": true
+            },
+            {
+              "from": "diligence",
+              "to": "delegation",
+              "trigger": "Validation reveals the problem was mis-scoped — restart needed",
               "is_cycle_restart": true
             }
           ]
