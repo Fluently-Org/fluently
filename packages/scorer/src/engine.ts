@@ -16,8 +16,9 @@
 import fs from "fs";
 import path from "path";
 import yaml from "js-yaml";
+import { z } from "zod";
 import { knowledgeEntrySchema } from "./schema.js";
-import { BUNDLED_4D_FRAMEWORK } from "./framework-schema.js";
+import { BUNDLED_4D_FRAMEWORK, buildKnowledgeSchemas } from "./framework-schema.js";
 import type { FrameworkDimension, FrameworkDefinition, DimensionValue } from "./framework-schema.js";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -32,22 +33,60 @@ export type TaskInput = {
 /** Validated knowledge entry as produced by Zod parse */
 export type KnowledgeEntry = ReturnType<typeof knowledgeEntrySchema.parse>;
 
+/** A framework-agnostic knowledge entry (dimensions keyed by any string) */
+export type AnyKnowledgeEntry = Omit<KnowledgeEntry, 'dimensions' | 'score_hints'> & {
+  dimensions: Record<string, DimensionValue>;
+  score_hints: Record<string, number>;
+};
+
+// ── Framework index loader ────────────────────────────────────────────────────
+
+/** Attempt to load framework definitions from a frameworks index.json */
+function loadFrameworkIndex(frameworksDir: string): Record<string, FrameworkDefinition> {
+  const indexPath = path.join(frameworksDir, "index.json");
+  try {
+    const raw = JSON.parse(fs.readFileSync(indexPath, "utf8"));
+    const entries = (raw.frameworks ?? []) as FrameworkDefinition[];
+    return Object.fromEntries(entries.map((f) => [f.id, f]));
+  } catch {
+    return {};
+  }
+}
+
+const frameworkIdPeek = z.object({ framework_id: z.string().optional() });
+
 // ── Knowledge loading ─────────────────────────────────────────────────────────
 
 /**
  * Load and Zod-validate every `.yaml` file in `knowledgeDir`.
  * Throws if any file fails schema validation — this is intentional so CI
  * catches malformed entries before they reach users.
+ *
+ * Framework-aware: reads `framework_id` from each entry and uses the
+ * corresponding schema from `../frameworks/index.json` when available.
+ * Falls back to the bundled 4D schema for entries without a framework_id
+ * or when the frameworks index cannot be loaded.
  */
-export function loadKnowledgeEntries(knowledgeDir: string): KnowledgeEntry[] {
+export function loadKnowledgeEntries(knowledgeDir: string): AnyKnowledgeEntry[] {
   const files = fs
     .readdirSync(knowledgeDir)
     .filter((f: string) => f.endsWith(".yaml"));
 
+  // Attempt to load framework definitions from the sibling frameworks directory
+  const frameworksDir = path.resolve(knowledgeDir, "../frameworks");
+  const frameworkIndex = loadFrameworkIndex(frameworksDir);
+
   return files.map((file: string) => {
     const content = fs.readFileSync(path.join(knowledgeDir, file), "utf8");
-    const raw = yaml.load(content);
-    return knowledgeEntrySchema.parse(raw);
+    const raw = yaml.load(content) as Record<string, unknown>;
+
+    // Peek at framework_id to select the right schema
+    const { framework_id } = frameworkIdPeek.parse(raw);
+    const fwId = framework_id ?? "4d-framework";
+    const framework = frameworkIndex[fwId] ?? BUNDLED_4D_FRAMEWORK;
+    const { knowledgeEntrySchema: fwSchema } = buildKnowledgeSchemas(framework);
+
+    return fwSchema.parse(raw) as AnyKnowledgeEntry;
   });
 }
 
@@ -101,7 +140,7 @@ function cosineSimilarity(a: Set<string>, b: Set<string>): number {
  * array that lists one bullet per criterion (✓ pass / ⚠ fail).
  */
 export function scoreCollaboration(
-  entry: KnowledgeEntry,
+  entry: AnyKnowledgeEntry | KnowledgeEntry,
   frameworkDimensions?: FrameworkDimension[]
 ): {
   score: number;
@@ -297,7 +336,7 @@ export function evaluateCompliance(
  * a perfect similarity on a dimension weighted 0.25 yields a score of 100.
  */
 export function scoreTask(input: TaskInput, knowledgeDir: string) {
-  const entries = loadKnowledgeEntries(knowledgeDir);
+  const entries: AnyKnowledgeEntry[] = loadKnowledgeEntries(knowledgeDir);
   const inputSet = keywordSet(`${input.description} ${input.delegation_intent}`);
 
   const scored = entries.map((entry) => {

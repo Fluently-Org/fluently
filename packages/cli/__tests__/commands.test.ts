@@ -27,10 +27,11 @@ describe('CLI Functions', () => {
         expect(entry.title).toBeDefined();
         expect(entry.domain).toBeDefined();
         expect(dimensionScores).toBeDefined();
-        
-        const dims = ['delegation', 'description', 'discernment', 'diligence'];
-        dims.forEach(dim => {
-          expect(dimensionScores[dim as keyof typeof dimensionScores]).toBeDefined();
+
+        // dimensionScores are keyed by the entry's own framework dimensions
+        const dimKeys = Object.keys(dimensionScores);
+        expect(dimKeys.length).toBeGreaterThan(0);
+        dimKeys.forEach(dim => {
           expect(typeof dimensionScores[dim as keyof typeof dimensionScores]).toBe('number');
         });
       });
@@ -47,7 +48,8 @@ describe('CLI Functions', () => {
 
       const topResult = result[0];
       const scores = topResult.dimensionScores;
-      const overall = Object.values(scores).reduce((a, b) => a + b, 0) / 4;
+      const dimCount = Object.keys(scores).length;
+      const overall = Object.values(scores).reduce((a, b) => a + b, 0) / dimCount;
 
       expect(overall).toBeGreaterThanOrEqual(0);
       expect(overall).toBeLessThanOrEqual(100);
