@@ -87,7 +87,7 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
                     <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
-                    <a href="/frameworks.html" class="text-indigo-600 font-bold border-b-2 border-indigo-600">Frameworks</a>
+                    <a href="/frameworks.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Frameworks</a>
                     <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
                     <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
@@ -105,7 +105,7 @@
             <div class="px-4 py-3 space-y-1">
                 <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
                 <a href="/knowledge.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Knowledge Base</a>
-                <a href="/frameworks.html" class="block py-2 px-3 rounded-lg bg-indigo-50 text-indigo-600 font-bold">Frameworks</a>
+                <a href="/frameworks.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Frameworks</a>
                 <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
                 <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
                 <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
@@ -116,28 +116,22 @@
     </nav>
 
     <!-- ═══════════════════════════════════════════════════════════════════════
-         HERO
+         PAGE HEADER
     ════════════════════════════════════════════════════════════════════════ -->
-    <section class="bg-gradient-to-br from-indigo-50 via-white to-purple-50 border-b border-gray-200 py-14">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full mb-4">
-                <i class="fas fa-layer-group"></i>
-                Framework-Agnostic Knowledge Base
-            </div>
-            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
-                Every framework,<br class="hidden sm:block"> one knowledge base
+    <section class="bg-white border-b border-gray-200 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+                <i class="fas fa-layer-group mr-2 text-blue-600"></i>Frameworks
             </h1>
-            <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-                Fluently supports any collaboration framework, not just 4D.
-                Each framework defines its own dimensions and validation rules.
-                Knowledge cycles are validated against their specific framework's schema.
+            <p class="text-lg text-gray-600 mb-4">
+                Every collaboration framework in one knowledge base. Browse, compare, and contribute.
             </p>
-            <div class="flex flex-wrap gap-3 justify-center">
-                <a href="#frameworks" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-6 rounded-lg text-sm transition">
-                    <i class="fas fa-layer-group mr-2"></i>Browse Frameworks
+            <div class="flex flex-wrap gap-3">
+                <a href="#frameworks" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg text-sm transition">
+                    <i class="fas fa-layer-group mr-1.5"></i>Browse Frameworks
                 </a>
-                <a href="#compare" class="bg-white hover:bg-gray-50 text-gray-800 font-bold py-2.5 px-6 rounded-lg text-sm border border-gray-300 transition">
-                    <i class="fas fa-columns mr-2"></i>Compare Frameworks
+                <a href="#compare" class="bg-white hover:bg-gray-50 text-gray-700 font-semibold py-2 px-5 rounded-lg text-sm border border-gray-300 transition">
+                    <i class="fas fa-columns mr-1.5"></i>Compare
                 </a>
             </div>
         </div>
@@ -149,9 +143,9 @@
     <section id="frameworks" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="flex items-center justify-between mb-6">
             <h2 class="text-2xl font-bold text-gray-900">
-                <i class="fas fa-layer-group text-indigo-600 mr-2"></i>Registered Frameworks
+                <i class="fas fa-layer-group text-blue-600 mr-2"></i>Registered Frameworks
             </h2>
-            <span id="fw-count-badge" class="bg-indigo-100 text-indigo-700 text-xs font-bold px-3 py-1 rounded-full"></span>
+            <span id="fw-count-badge" class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full"></span>
         </div>
 
         <!-- Loading state -->
@@ -171,7 +165,7 @@
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8">
                 <h2 class="text-2xl font-bold text-gray-900 mb-2">
-                    <i class="fas fa-columns text-indigo-600 mr-2"></i>Compare Frameworks
+                    <i class="fas fa-columns text-blue-600 mr-2"></i>Compare Frameworks
                 </h2>
                 <p class="text-gray-600 text-sm sm:text-base">
                     Describe your task and see what each framework's best cycle looks like, side by side.
@@ -183,14 +177,14 @@
                 <div class="flex flex-col sm:flex-row gap-3">
                     <textarea id="compare-task" rows="3"
                         placeholder="e.g. Review a customer's medical record and suggest a diagnosis pathway using AI assistance."
-                        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 resize-none bg-white"></textarea>
+                        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none bg-white"></textarea>
                     <button onclick="runCompare()"
-                        class="sm:self-start bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition shrink-0">
+                        class="sm:self-start bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition shrink-0">
                         <i class="fas fa-columns mr-1"></i>Compare
                     </button>
                 </div>
                 <div id="compare-loading" class="hidden mt-3 text-center text-sm text-gray-500">
-                    <i class="fas fa-spinner fa-spin text-indigo-500 mr-2"></i>Fetching best cycles from each framework…
+                    <i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i>Fetching best cycles from each framework…
                 </div>
             </div>
 
@@ -231,7 +225,7 @@
                         <code class="bg-gray-100 px-1 rounded text-xs">dimensions</code> (array with <code class="bg-gray-100 px-1 rounded text-xs">key</code>, <code class="bg-gray-100 px-1 rounded text-xs">label</code>, <code class="bg-gray-100 px-1 rounded text-xs">description</code>, <code class="bg-gray-100 px-1 rounded text-xs">canonical_order</code>).
                     </p>
                     <details class="text-xs">
-                        <summary class="font-bold text-indigo-600 cursor-pointer">Show template</summary>
+                        <summary class="font-bold text-blue-600 cursor-pointer">Show template</summary>
                         <pre class="bg-gray-50 border border-gray-200 rounded p-3 mt-2 overflow-x-auto text-gray-700 leading-relaxed">id: my-framework
 name: My Framework
 version: "1.0.0"
@@ -294,7 +288,7 @@ node scripts/validate-frameworks.js</pre>
             <div class="bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
                 <div class="flex items-center justify-between px-4 py-2 border-b border-gray-700">
                     <span class="text-xs text-gray-400 font-mono">Agent prompt — paste as-is</span>
-                    <button onclick="copyAgentPrompt()" class="text-xs text-indigo-400 hover:text-indigo-300 font-bold transition">
+                    <button onclick="copyAgentPrompt()" class="text-xs text-blue-400 hover:text-blue-300 font-bold transition">
                         <i class="fas fa-copy mr-1"></i>Copy
                     </button>
                 </div>
@@ -475,7 +469,7 @@ Do not open the PR without my explicit approval.</pre>
                         <h3 class="text-base font-bold text-gray-900">${escapeHtml(fw.name)}</h3>
                         <code class="text-xs text-gray-400">${escapeHtml(fw.id)}</code>
                     </div>
-                    <span class="shrink-0 text-xs bg-indigo-100 text-indigo-700 font-bold px-2 py-1 rounded-full">
+                    <span class="shrink-0 text-xs bg-blue-100 text-blue-700 font-bold px-2 py-1 rounded-full">
                         v${escapeHtml(fw.version)}
                     </span>
                 </div>
@@ -570,7 +564,7 @@ Do not open the PR without my explicit approval.</pre>
 
             const seqHtml = best?.collaboration?.sequence
                 ? best.collaboration.sequence.map(s =>
-                    `<li class="text-xs text-gray-600">${s.step}. <span class="font-bold text-indigo-700">[${s.d.toUpperCase()}]</span> ${escapeHtml(s.label)}</li>`
+                    `<li class="text-xs text-gray-600">${s.step}. <span class="font-bold text-blue-700">[${s.d.toUpperCase()}]</span> ${escapeHtml(s.label)}</li>`
                   ).join('')
                 : '';
 

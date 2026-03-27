@@ -23,15 +23,34 @@
                     <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
                     <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
                 </div>
+                <!-- Desktop links -->
                 <div class="hidden md:flex space-x-8">
                     <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
                     <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
+                    <a href="/frameworks.html" class="text-gray-700 hover:text-blue-600 font-medium">Frameworks</a>
                     <a href="/guide.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
                     <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
                         <i class="fab fa-github"></i> GitHub
                     </a>
                 </div>
+                <!-- Hamburger (mobile only) -->
+                <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
+                    <i id="menu-icon" class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile slide-down panel -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white shadow-md">
+            <div class="px-4 py-3 space-y-1">
+                <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
+                <a href="/knowledge.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Knowledge Base</a>
+                <a href="/frameworks.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Frameworks</a>
+                <a href="/guide.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Guide</a>
+                <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
+                <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
+                    <i class="fab fa-github mr-1"></i> GitHub
+                </a>
             </div>
         </div>
     </nav>
@@ -613,5 +632,25 @@
             </div>
         </div>
     </footer>
+    <script>
+    (function () {
+        const btn  = document.getElementById('menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('menu-icon');
+        if (!btn || !menu) return;
+        btn.addEventListener('click', function () {
+            const open   = menu.classList.toggle('hidden');
+            const isOpen = !open;
+            btn.setAttribute('aria-expanded', isOpen);
+            icon.className = isOpen ? 'fas fa-times text-xl' : 'fas fa-bars text-xl';
+        });
+        if (window.FLUENTLY) {
+            document.querySelectorAll('[data-fluently]').forEach(function (el) {
+                var key = el.getAttribute('data-fluently');
+                if (key === 'repo' && window.FLUENTLY.repoUrl) el.href = window.FLUENTLY.repoUrl;
+            });
+        }
+    }());
+    </script>
 </body>
 </html>
