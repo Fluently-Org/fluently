@@ -27,7 +27,18 @@
                 <div class="hidden md:flex space-x-8">
                     <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
                     <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
-                    <a href="/frameworks.html" class="text-gray-700 hover:text-blue-600 font-medium">Frameworks</a>
+                    <!-- Frameworks dropdown -->
+                    <div class="relative" id="fw-nav-dd">
+                        <button id="fw-dd-btn" class="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium focus:outline-none" aria-haspopup="true" aria-expanded="false">
+                            Frameworks <i class="fas fa-chevron-down text-xs mt-0.5"></i>
+                        </button>
+                        <div id="fw-dd-panel" class="hidden absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
+                            <a href="/frameworks.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600">Browse All Frameworks</a>
+                            <a href="/frameworks.html#compare" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600">Compare Frameworks</a>
+                            <div class="border-t border-gray-100 my-1"></div>
+                            <a href="/frameworks.html#contribute" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600">Contribute a Framework</a>
+                        </div>
+                    </div>
                     <a href="/guide.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Guide</a>
                     <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
                     <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
@@ -45,7 +56,13 @@
             <div class="px-4 py-3 space-y-1">
                 <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
                 <a href="/knowledge.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Knowledge Base</a>
-                <a href="/frameworks.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Frameworks</a>
+                <div>
+                    <a href="/frameworks.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Frameworks</a>
+                    <div class="pl-5 mt-0.5 space-y-0.5">
+                        <a href="/frameworks.html#compare" class="block py-1.5 px-3 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-blue-600 text-sm">Compare</a>
+                        <a href="/frameworks.html#contribute" class="block py-1.5 px-3 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-blue-600 text-sm">Contribute</a>
+                    </div>
+                </div>
                 <a href="/guide.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Guide</a>
                 <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
                 <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
@@ -650,6 +667,17 @@
                 if (key === 'repo' && window.FLUENTLY.repoUrl) el.href = window.FLUENTLY.repoUrl;
             });
         }
+        // Frameworks dropdown
+        (function () {
+            var wrapper = document.getElementById('fw-nav-dd');
+            var ddBtn   = document.getElementById('fw-dd-btn');
+            var panel   = document.getElementById('fw-dd-panel');
+            if (!wrapper || !ddBtn || !panel) return;
+            wrapper.addEventListener('mouseenter', function () { panel.classList.remove('hidden'); ddBtn.setAttribute('aria-expanded', 'true'); });
+            wrapper.addEventListener('mouseleave', function () { panel.classList.add('hidden');    ddBtn.setAttribute('aria-expanded', 'false'); });
+            ddBtn.addEventListener('click', function (e) { e.stopPropagation(); var h = panel.classList.toggle('hidden'); ddBtn.setAttribute('aria-expanded', !h); });
+            document.addEventListener('click', function () { panel.classList.add('hidden'); ddBtn.setAttribute('aria-expanded', 'false'); });
+        }());
     }());
     </script>
 </body>
