@@ -1,0 +1,244 @@
+id: eu-high-risk-documentation
+framework_id: eu-ai-act
+version: "1.0.0"
+contributor: Fluently Community
+title: EU AI Act High-Risk System Documentation
+domain: legal
+
+summary: >
+  A legal and engineering team prepares the complete documentation package
+  required for a high-risk AI system under the EU AI Act before market
+  deployment. The cycle covers classification confirmation, technical file
+  preparation, human oversight documentation, robustness evidence compilation,
+  and conformity declaration — producing a legally defensible documentation
+  package for regulators and notified bodies.
+
+dimensions:
+  risk-classification:
+    description: >
+      The team confirms the high-risk classification in writing, citing the
+      specific Annex III entry, the intended purpose, the deployment context,
+      and any use-case changes that could affect the classification —
+      creating the foundational document for the entire compliance package.
+    example: >
+      Legal counsel: "We need a written classification rationale for the
+      technical file. What does it need to contain?"
+      AI: "The classification rationale document should contain: (1) System
+      identification — name, version, and intended purpose in the deployer's
+      own words. (2) Annex III mapping — the specific Annex III entry that
+      applies, with a one-paragraph explanation of why the system's actual
+      use matches that entry. (3) Deployment context — who deploys it, in
+      which jurisdictions, in what operational setting. (4) Scope boundaries —
+      what uses are out of scope and how the system prevents out-of-scope use.
+      (5) Review trigger — what changes to the system or its deployment context
+      would require a new classification review. This document is a living
+      record, not a one-time declaration."
+    antipattern: >
+      Writing the classification rationale as a summary of the marketing
+      description rather than an analysis of the actual use against Annex III —
+      producing a document that fails regulatory scrutiny.
+
+  transparency:
+    description: >
+      The team produces the complete transparency documentation package:
+      the technical file under Article 11, instructions for use under
+      Article 13, the logging specification under Article 12, and the
+      candidate/user notification mechanism.
+    example: >
+      AI: "Technical file (Article 11) must contain: (1) General description —
+      system purpose, intended use, and technical specifications. (2) Design
+      and development process — how the system was built, including training
+      data description, data governance, and testing methodology. (3) Performance
+      metrics — accuracy, precision, recall, and fairness metrics disaggregated
+      by relevant subgroups. (4) Risk management — the risk management system
+      applied during development. (5) Changes — documentation of all versions
+      and material changes. (6) Post-market monitoring plan — how the system
+      will be monitored after deployment. The file must be maintained for
+      10 years. Assign a document owner now."
+    antipattern: >
+      Preparing the technical file as a one-time document for the conformity
+      assessment without assigning an owner responsible for keeping it current —
+      allowing the file to diverge from the deployed system within months.
+
+  human-oversight:
+    description: >
+      The team documents the human oversight mechanism in a format that
+      satisfies Article 14 — including the oversight design, the reviewer
+      training program, the override capability, and evidence that oversight
+      is effective rather than nominal.
+    example: >
+      Human: "How do we document human oversight in a way that satisfies
+      Article 14 for a regulator?"
+      AI: "Article 14 documentation package: (1) Oversight design document —
+      describes the oversight mechanism: who reviews, at what stage, with
+      what information, and with what authority to override. (2) Reviewer
+      training program — syllabus, duration, completion tracking, and
+      assessment results. Regulators will ask whether reviewers understand
+      the system's limitations. (3) Override capability specification —
+      technical documentation showing that the override function exists,
+      is accessible, and has been tested. (4) Effectiveness evidence —
+      override rate data (what percentage of AI outputs are overridden?)
+      and a sample of documented override decisions. A 0% override rate
+      is a red flag — it suggests nominal rather than effective oversight."
+    antipattern: >
+      Documenting human oversight as a process description ('the reviewer
+      checks the output before the decision is made') without providing
+      evidence that the oversight mechanism is technically implemented,
+      that reviewers are trained, and that overrides actually occur.
+
+  robustness:
+    description: >
+      The team compiles the technical validation evidence for the technical
+      file — accuracy testing, bias audits, cybersecurity assessment, and
+      resilience testing — in a format that supports the conformity assessment.
+    example: >
+      AI: "Robustness evidence package for the technical file: (1) Performance
+      testing report — aggregate and disaggregated accuracy metrics. For high-risk
+      systems with individual impact, disaggregation by protected group is
+      required — overall accuracy without subgroup analysis is insufficient.
+      (2) Bias audit report — third-party preferred; document methodology,
+      metrics used, and findings. If a disparity was found, document the
+      remediation and re-test results. (3) Cybersecurity assessment — penetration
+      test report not older than 12 months; data encryption documentation.
+      (4) Resilience testing — what happens at the system's performance
+      boundaries? Document the degradation profile: what inputs produce
+      unreliable outputs and how does the system signal this to the user?"
+    antipattern: >
+      Submitting a conformity assessment with only aggregate performance
+      metrics and no subgroup analysis — producing a documentation package
+      that fails regulatory review for fairness-sensitive applications.
+
+  governance:
+    description: >
+      The team produces the Declaration of Conformity, registers the system
+      in the EU AI database, and documents the post-market monitoring system —
+      completing the governance documentation required before first deployment.
+    example: >
+      AI closes the documentation cycle: "Final governance documentation:
+      (1) Declaration of Conformity — signed by the provider (not the deployer)
+      under Article 47; contains: system identification, conformity assessment
+      route taken, applied standards, and the provider's name and address.
+      (2) EU AI database registration — register via the Commission's AI Act
+      portal before deployment; retain the registration number.
+      (3) Post-market monitoring plan — document: who monitors, what metrics,
+      at what frequency, what triggers a review or incident report, and what
+      the escalation path is for serious incidents under Article 73.
+      (4) Technical file index — a table of contents listing every document
+      in the technical file with its version and last-updated date. This
+      index is what a notified body auditor will review first."
+    antipattern: >
+      Treating the Declaration of Conformity as the end of the compliance
+      process — missing the EU AI database registration and post-market
+      monitoring obligations that are legally required before and after
+      market deployment.
+
+score_hints:
+  risk-classification: 0.15
+  transparency: 0.30
+  human-oversight: 0.25
+  robustness: 0.20
+  governance: 0.10
+
+tags:
+  - eu-ai-act
+  - documentation
+  - legal
+  - high-risk
+  - technical-file
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Classification rationale is confirmed in writing → technical file and
+    transparency documentation package is built out → human oversight
+    mechanism is documented with effectiveness evidence → robustness evidence
+    is compiled with subgroup analysis → Declaration of Conformity and
+    database registration complete the governance package.
+
+  sequence:
+    - step: 1
+      d: risk-classification
+      label: "Confirm and document classification rationale"
+      example_prompts:
+        - speaker: human
+          text: "We've classified our AI as high-risk. What's the first documentation step?"
+        - speaker: ai
+          text: "Write the classification rationale document before any other documentation work. Five sections: (1) System identification — name, version, purpose. (2) Annex III mapping — cite the specific entry and explain why your system's actual use matches it. Quote the Annex text directly. (3) Deployment context — jurisdictions, operator type, user type, and operational setting. (4) Scope boundaries — what uses are explicitly out of scope and what technical controls enforce that boundary? (5) Review trigger — what changes to the system or its use would require a new classification review? Have legal counsel approve this document before the technical file is assembled — it is the foundation for everything that follows."
+        - speaker: human
+          text: "Classification rationale drafted, citing Annex III paragraph 4 (employment screening). Legal approved."
+      triggers_next: "Classification rationale documented and legally approved."
+
+    - step: 2
+      d: transparency
+      label: "Build the technical file and transparency documentation"
+      example_prompts:
+        - speaker: human
+          text: "What does the technical file need to contain and who owns each section?"
+        - speaker: ai
+          text: "Technical file sections with owners: (1) General description — Product owner; due: 2 weeks. (2) Design and development — ML engineering; includes: training data description, data governance, model architecture, training methodology. Due: 3 weeks. (3) Performance metrics — Data science; includes: aggregate and disaggregated accuracy, fairness metrics. Due: 3 weeks. (4) Risk management — Risk/legal; the risk management process applied during development. Due: 2 weeks. (5) Changes log — Technical writer; tracks all versions. Ongoing. (6) Post-market monitoring plan — Risk/compliance; Due: 4 weeks. Instructions for use (Article 13) — Technical writer; plain-language deployer guide. Due: 3 weeks. Assign owners and due dates now; the technical file cannot be assembled retroactively."
+        - speaker: human
+          text: "All section owners assigned. Three-week documentation sprint started."
+      triggers_next: "Technical file section ownership assigned; documentation sprint started."
+
+    - step: 3
+      d: human-oversight
+      label: "Document oversight mechanism with effectiveness evidence"
+      example_prompts:
+        - speaker: human
+          text: "How do we document human oversight in a way that will satisfy a notified body auditor?"
+        - speaker: ai
+          text: "Four-document oversight package: (1) Oversight design specification — describes the oversight mechanism in technical detail: who has access to the override function, at what point in the process, with what information visible to the reviewer. Include a process flow diagram. (2) Training program documentation — course outline, delivery method, duration, and assessment. Include completion records for all current reviewers. (3) Override capability test evidence — screenshot or screen recording showing the override function in the production UI; test log showing override testing in QA. (4) Override rate data — pull the past 3 months of production data: what percentage of AI outputs were overridden? If 0%, investigate — this suggests the override function is not being used, which is an oversight effectiveness finding."
+        - speaker: human
+          text: "Override rate: 8% — reviewers are actively overriding. All four documents compiled."
+      triggers_next: "Human oversight documentation package complete with effectiveness evidence."
+      loop_back:
+        to: risk-classification
+        condition: "Oversight documentation reveals the system is used in ways beyond the classification rationale scope."
+        reason: "Extended use scope requires classification rationale update before the technical file is finalized."
+
+    - step: 4
+      d: robustness
+      label: "Compile technical validation evidence"
+      example_prompts:
+        - speaker: human
+          text: "What robustness evidence do we need for the technical file?"
+        - speaker: ai
+          text: "Four evidence packages: (1) Performance testing report — format: table with accuracy, precision, recall by: overall population, and each protected characteristic (gender, age band, ethnicity) for the employment screening use case. Any subgroup with accuracy more than 5 percentage points below overall must be flagged and explained. (2) Third-party bias audit — commissioned independently of the development team; include methodology, disparity metrics, findings, and any remediation and re-test results. (3) Cybersecurity — penetration test report (not older than 12 months) and data encryption documentation for applicant data at rest and in transit. (4) Resilience — document the system's behavior at edge cases: incomplete CVs, non-standard formats, languages outside the training set. Include the system's warning or degradation signal for out-of-distribution inputs."
+        - speaker: human
+          text: "All four packages compiled. Third-party bias audit complete — one finding remediated and re-tested."
+      triggers_next: "Robustness evidence package complete with subgroup analysis."
+
+    - step: 5
+      d: governance
+      label: "Produce Declaration of Conformity and register in EU database"
+      example_prompts:
+        - speaker: human
+          text: "What are the final governance steps before we can deploy?"
+        - speaker: ai
+          text: "Three pre-deployment governance actions: (1) Declaration of Conformity — drafted by legal, signed by the provider's authorized representative. Must contain: system identification, conformity assessment route (internal assessment or notified body), list of applied harmonized standards or common specifications, and provider details. One copy retained for 10 years. (2) EU AI database registration — register at the Commission's AI Act portal. Required before first deployment. Retain the registration number and screenshot confirmation. (3) Post-market monitoring — confirm the monitoring plan is operational: monitoring owner named, first monthly review scheduled, incident reporting escalation path documented and tested. Once all three are complete, deployment is legally authorized. Document the deployment authorization date."
+        - speaker: human
+          text: "Declaration signed. EU database registration confirmed. Monitoring plan operational. Deployment authorized."
+      triggers_next: "Full compliance documentation package complete; deployment legally authorized."
+      can_restart: true
+
+  transitions:
+    - from: risk-classification
+      to: transparency
+      trigger: "Classification rationale legally approved."
+    - from: transparency
+      to: human-oversight
+      trigger: "Technical file sections assigned and documentation sprint started."
+    - from: human-oversight
+      to: risk-classification
+      trigger: "Oversight documentation reveals use beyond classification scope."
+      is_loop_back: true
+    - from: human-oversight
+      to: robustness
+      trigger: "Oversight documentation package complete."
+    - from: robustness
+      to: governance
+      trigger: "Robustness evidence package complete."
+    - from: governance
+      to: risk-classification
+      trigger: "Material system change triggers classification review and documentation update."
+      is_cycle_restart: true

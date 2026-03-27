@@ -1,0 +1,239 @@
+id: ai-ethics-board-setup
+framework_id: wef-responsible-ai
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Ethics Board Setup
+domain: enterprise
+
+summary: >
+  An enterprise uses the WEF Responsible AI Playbook to design and launch
+  an AI ethics board with real decision authority. The cycle covers strategic
+  mandate alignment, governance structure design, ethical risk scope,
+  operational integration into the development workflow, and accountability
+  mechanisms that make the board's impact visible to stakeholders.
+
+dimensions:
+  strategy:
+    description: >
+      The ethics board's mandate is grounded in the organization's AI strategy —
+      it exists to protect the organization's stated values and purpose, not
+      to slow down deployment. The strategic framing determines what questions
+      the board is designed to answer.
+    example: >
+      CEO: "We want an AI ethics board. But I need it to help us move
+      responsibly, not to be a blocker."
+      AI: "That framing is exactly right — and it should be written into
+      the board's charter. The WEF Playbook frames an ethics board as a
+      'responsible acceleration' function: its job is to identify and
+      resolve ethical risks early, when changes are cheap, not to review
+      finished products. Define two things in the charter: (1) The board's
+      purpose — protect the organization's stated values in AI deployment.
+      (2) The board's success metric — time from ethics flag to resolution,
+      not number of deployments blocked."
+    antipattern: >
+      Creating an ethics board whose implicit purpose is to say 'no' to
+      AI initiatives — producing a governance structure that is adversarial
+      to the product teams it is supposed to guide.
+
+  governance:
+    description: >
+      The board's governance structure is designed with clear composition,
+      real decision authority, defined escalation paths, and a cadence
+      that can keep pace with the organization's AI deployment rhythm.
+    example: >
+      AI: "For an ethics board with real authority, four design decisions:
+      (1) Composition — include external independent members (at least 30%)
+      who are not employees and have no financial interest in deployment speed.
+      (2) Authority — the board must have explicit pause authority for
+      deployments that fail ethics review; advisory-only boards are theater.
+      (3) Escalation — define who the board escalates to when deadlocked:
+      CEO, audit committee, or both. (4) Cadence — standing monthly meeting
+      plus an async channel for urgent reviews that cannot wait 30 days.
+      What is the fastest your organization currently ships an AI feature?
+      That rhythm determines the async review SLA."
+    antipattern: >
+      Designing an ethics board that meets quarterly and has a 60-day
+      review cycle — making it structurally unable to influence AI deployments
+      that ship on a 2-week sprint cycle.
+
+  risk-ethics:
+    description: >
+      The board's scope covers the full ethical risk landscape — not just
+      fairness and bias, but mission alignment, societal impact, dual-use
+      risks, and the ethical implications of what the organization chooses
+      not to build.
+    example: >
+      Human: "What ethical risks should the board be able to review?"
+      AI: "The WEF Playbook identifies five ethical risk categories that
+      the board should own: (1) Fairness and discrimination — AI that
+      produces disparate outcomes for protected groups. (2) Privacy and
+      surveillance — AI that collects or infers more than necessary.
+      (3) Mission alignment — AI that serves financial objectives at the
+      expense of the organization's stated purpose. (4) Dual-use —
+      AI that could be used for purposes the organization has not sanctioned.
+      (5) Systemic risk — AI at scale that could harm markets, democracies,
+      or public trust even if individual uses are benign. Define which
+      categories require mandatory board review versus optional escalation."
+    antipattern: >
+      Limiting the ethics board's scope to fairness and bias metrics —
+      the most measurable risk category — while omitting mission alignment,
+      dual-use, and systemic risks that are harder to quantify but often
+      more consequential.
+
+  implementation:
+    description: >
+      The ethics board is integrated into the development workflow through
+      a defined review gate — triggered by risk criteria, not by voluntary
+      submission — and is supported by a lightweight intake process that
+      product teams can actually use.
+    example: >
+      AI: "For workflow integration, define two review triggers: (1) Mandatory
+      review — any AI feature that: (a) affects a decision about an individual
+      (hiring, lending, healthcare, benefits); (b) involves sensitive data
+      categories; (c) is deployed at scale (>100,000 users); or (d) is
+      in a new domain or use case not previously reviewed. (2) Voluntary
+      review — product teams can escalate any AI feature they have questions
+      about. Design a one-page intake form: describe the AI, its users,
+      its decisions, and the three ethical risks you see. That form is the
+      only pre-meeting requirement. The board reviews the form before the
+      meeting and asks questions — not a presentation, a conversation."
+    antipattern: >
+      Requiring product teams to prepare a 20-page ethics impact assessment
+      before requesting board review — creating a bureaucratic burden that
+      incentivizes teams to find reasons their product does not require review.
+
+  accountability:
+    description: >
+      The board's decisions and reasoning are documented and disclosed —
+      to the organization, to regulators, and in some cases to the public —
+      creating an accountability record that demonstrates responsible AI
+      governance in practice.
+    example: >
+      AI closes the setup cycle: "Board accountability mechanisms:
+      (1) Decision log — every board decision (approve, approve-with-conditions,
+      pause, reject) is logged with a one-paragraph rationale. The log is
+      reviewed quarterly by the audit committee. (2) Annual ethics report —
+      the board chair presents an annual summary to the board of directors:
+      how many reviews, how many conditions imposed, how many pauses,
+      and what systemic themes emerged. (3) External disclosure — the
+      organization's annual responsible AI report includes a summary of
+      ethics board activity. (4) Whistleblower pathway — employees can
+      escalate concerns about AI deployments directly to the board chair,
+      bypassing the product team."
+    antipattern: >
+      Operating an ethics board whose deliberations and decisions are
+      entirely internal and undisclosed — making it impossible for external
+      stakeholders, regulators, or the public to assess whether the board
+      is functioning effectively.
+
+score_hints:
+  strategy: 0.20
+  governance: 0.25
+  risk-ethics: 0.20
+  implementation: 0.25
+  accountability: 0.10
+
+tags:
+  - ethics-board
+  - enterprise
+  - wef
+  - responsible-ai
+  - governance
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Board mandate is grounded in organizational AI strategy → governance
+    structure with real authority is designed → ethical risk scope is defined
+    across five categories → review gate is integrated into the development
+    workflow → accountability mechanisms make board impact visible. Loops back
+    to governance if implementation reveals the board's cadence cannot keep
+    pace with the deployment rhythm.
+
+  sequence:
+    - step: 1
+      d: strategy
+      label: "Ground the board mandate in AI strategy"
+      example_prompts:
+        - speaker: human
+          text: "Leadership has approved an AI ethics board. How do we frame its mandate?"
+        - speaker: ai
+          text: "Write the mandate in the charter with two sentences: (1) Purpose — 'The AI Ethics Board exists to ensure that the organization's AI deployments are consistent with its stated values of [X] and its commitments to [Y].' Fill in the actual values and commitments from the AI strategy document. (2) Success metric — 'The board's effectiveness is measured by the time from ethics flag to resolution, and by the quality of responsible AI practices embedded in the development process — not by the number of deployments reviewed or blocked.' This framing makes the board a collaborator with product teams, not a gatekeeper."
+        - speaker: human
+          text: "Mandate drafted: purpose tied to organizational values, success metric is resolution speed and practice quality."
+      triggers_next: "Board mandate drafted with strategic grounding and success metric."
+
+    - step: 2
+      d: governance
+      label: "Design composition, authority, escalation, and cadence"
+      example_prompts:
+        - speaker: human
+          text: "Who should be on the board and how often should it meet?"
+        - speaker: ai
+          text: "Composition: 5-7 members — (1) 2 external independent members with AI ethics, law, or civil society expertise; no financial stake in the organization. (2) 1 customer or community representative if the AI affects external stakeholders at scale. (3) Chief Ethics or Responsible AI Officer as chair. (4) Representatives from legal, product, and data science in a non-voting advisory capacity. Authority: the board has explicit pause authority for any mandatory-review deployment; decisions require majority vote. Escalation: deadlock goes to CEO within 48 hours. Cadence: monthly standing meeting (2 hours) plus an async Slack or email channel for urgent reviews with a 72-hour SLA. The async channel is the most important operational design decision — it is what makes the board usable at sprint speed."
+        - speaker: human
+          text: "Five-member board approved including two external members. Async channel with 72-hour SLA confirmed."
+      triggers_next: "Governance structure approved: composition, authority, escalation, and cadence defined."
+      loop_back:
+        to: governance
+        condition: "Implementation reveals the 72-hour async SLA cannot be met with the current member workload — cadence requires redesign."
+        reason: "A board that cannot operate at deployment speed is structurally ineffective — governance must be re-designed."
+
+    - step: 3
+      d: risk-ethics
+      label: "Define the board's ethical risk scope"
+      example_prompts:
+        - speaker: human
+          text: "What should the board be able to review — and what is out of scope?"
+        - speaker: ai
+          text: "In scope — mandatory review triggers: (1) AI decisions about individuals in regulated domains (employment, credit, healthcare, benefits, criminal justice). (2) AI involving sensitive data (health, biometric, financial, children's data). (3) AI deployed to more than 100,000 users. (4) AI in a new domain not previously reviewed. (5) AI with identified dual-use potential. Optional escalation — any AI feature a product team has questions about. Out of scope — AI infrastructure (APIs, databases) with no direct user-facing decision function; AI for internal analytics with no individual impact. Publish the in/out scope criteria so product teams can self-assess."
+        - speaker: human
+          text: "Scope criteria approved and published to all product teams."
+      triggers_next: "Ethical risk scope defined and published."
+
+    - step: 4
+      d: implementation
+      label: "Integrate the review gate into the development workflow"
+      example_prompts:
+        - speaker: human
+          text: "How do we make the ethics review part of the standard development process?"
+        - speaker: ai
+          text: "Three integration points: (1) Design gate — at the point where a product manager writes the AI feature specification, they complete the one-page ethics intake form and self-assess against the mandatory review criteria. If criteria are met, they submit to the board — this is not optional. (2) Pre-deployment gate — the deployment checklist includes a confirmation field: 'Ethics board review completed (date) or ethics criteria not triggered (rationale).' No deployment proceeds without one of the two. (3) Post-deployment monitoring — for features approved with conditions, the product team reports back to the board at 90 days with outcome data. The intake form is the key friction point — keep it to one page or adoption will fail."
+        - speaker: human
+          text: "One-page intake form finalized. Design gate and deployment checklist updated. Engineering VP signed off."
+      triggers_next: "Ethics review gate integrated into design and deployment workflow."
+
+    - step: 5
+      d: accountability
+      label: "Design decision logging and external disclosure"
+      example_prompts:
+        - speaker: human
+          text: "How do we show externally that the ethics board is working?"
+        - speaker: ai
+          text: "Four accountability mechanisms: (1) Decision log — every board decision logged with: date, feature reviewed, decision (approve/approve-with-conditions/pause/reject), one-paragraph rationale. Log reviewed quarterly by the audit committee. (2) Annual ethics report to the board of directors — chair presents: total reviews, condition rate, pause rate, systemic themes (e.g., 'fairness in hiring AI was the most common concern in Q3'). (3) External disclosure — the organization's responsible AI report includes a summary of board activity — not individual case details, but aggregate statistics and themes. (4) Employee escalation pathway — employees can submit concerns directly to the board chair email; all submissions acknowledged within 5 business days."
+        - speaker: human
+          text: "Decision log template created. Annual report to board of directors committed. Employee escalation email established."
+      triggers_next: "Accountability mechanisms operational; board launched."
+      can_restart: true
+
+  transitions:
+    - from: strategy
+      to: governance
+      trigger: "Board mandate drafted with strategic grounding."
+    - from: governance
+      to: risk-ethics
+      trigger: "Governance structure approved."
+    - from: risk-ethics
+      to: implementation
+      trigger: "Ethical risk scope defined and published."
+    - from: implementation
+      to: governance
+      trigger: "Cadence cannot match deployment rhythm — redesign governance."
+      is_loop_back: true
+    - from: implementation
+      to: accountability
+      trigger: "Review gate integrated into workflow."
+    - from: accountability
+      to: strategy
+      trigger: "Annual review — reassess board mandate against strategic evolution."
+      is_cycle_restart: true

@@ -76,6 +76,16 @@ export const frameworkDefinitionSchema = z.object({
   ),
   tags: z.array(z.string()).optional(),
   reference: z.string().optional(),
+  /**
+   * The primary audience or scope level for this framework.
+   * Examples: "User/worker", "Enterprise", "Government", "Global/State", "Market/Legal"
+   */
+  level: z.string().optional(),
+  /**
+   * Whether adherence to this framework is legally binding.
+   * "Yes" = legally mandated, "No" = voluntary, "Voluntary cert." = optional certification.
+   */
+  binding: z.string().optional(),
   /** How dimensions interact — synergies, prerequisites, and tensions. */
   dimension_combinations: z.array(dimensionCombinationSchema).optional(),
   /** Actionable recommendations for applying this framework well. */
@@ -171,6 +181,7 @@ export function buildKnowledgeSchemas(framework: FrameworkDefinition) {
   const domainEnum = z.enum([
     "coding", "writing", "research", "customer-support",
     "education", "legal", "healthcare", "general",
+    "enterprise", "policy",
   ]);
 
   const knowledgeEntrySchema = z.object({
@@ -178,6 +189,7 @@ export function buildKnowledgeSchemas(framework: FrameworkDefinition) {
     framework_id: z.string().default(framework.id),
     title: z.string(),
     domain: domainEnum,
+    summary: z.string().optional(),
     dimensions: z.record(dimKeyEnum, dimensionValueSchema).superRefine((dims, ctx) => {
       for (const key of keys) {
         if (!(key in dims)) {

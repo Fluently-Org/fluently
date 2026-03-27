@@ -1,0 +1,187 @@
+id: nist-ai-rmf
+name: NIST AI Risk Management Framework
+version: "1.0.0"
+contributor: NIST (National Institute of Standards and Technology)
+description: >
+  A voluntary framework for managing risks related to the design, development,
+  deployment, and use of AI products and services. Organized around four core
+  functions — GOVERN, MAP, MEASURE, and MANAGE — it helps organizations integrate
+  AI risk management into broader enterprise risk practices and build trustworthy AI.
+dimensions:
+  - key: govern
+    label: Govern
+    description: >
+      Establish organizational policies, accountability structures, roles, and
+      culture for AI risk management across the enterprise.
+    canonical_order: 1
+  - key: map
+    label: Map
+    description: >
+      Identify and categorize AI risks in context — who is affected, what can
+      go wrong, where risks originate, and what the system is designed to do.
+    canonical_order: 2
+  - key: measure
+    label: Measure
+    description: >
+      Analyze and assess identified risks using quantitative and qualitative
+      methods; evaluate likelihood, impact, and existing controls.
+    canonical_order: 3
+  - key: manage
+    label: Manage
+    description: >
+      Prioritize and implement responses to AI risks; monitor outcomes,
+      track residual risks, and improve controls over time.
+    canonical_order: 4
+level: Enterprise
+binding: "No"
+tags:
+  - risk-management
+  - ai-governance
+  - enterprise
+  - nist
+reference: https://airc.nist.gov/
+
+dimension_combinations:
+  - id: govern-map-prerequisite
+    dimensions: [govern, map]
+    type: prerequisite
+    label: Governance enables scoped risk mapping
+    description: >
+      Without governance structures in place — roles, policies, and accountability
+      lines — risk mapping becomes ad hoc and unowned. Govern creates the
+      organizational context that makes Map systematic and repeatable.
+    guidance: >
+      Before mapping AI risks, confirm that ownership is assigned and a risk
+      appetite statement exists. If governance is absent, start with Govern even
+      for a small pilot.
+
+  - id: map-measure-synergy
+    dimensions: [map, measure]
+    type: synergy
+    label: Scope drives measurement rigor
+    description: >
+      A well-scoped risk map determines what to measure. When mapping is shallow,
+      measurement misses material risks; when measurement is richer than mapping,
+      effort is wasted on low-priority concerns.
+    guidance: >
+      Use the risk map as the input to your measurement plan — measure what was
+      mapped, and extend the map whenever measurement surfaces unmapped risks.
+
+  - id: measure-manage-prerequisite
+    dimensions: [measure, manage]
+    type: prerequisite
+    label: Measurement justifies management actions
+    description: >
+      Risk responses must be grounded in measured evidence. Skipping measurement
+      leads to gut-feel prioritization and resources allocated to the wrong risks.
+    guidance: >
+      Do not move to manage until at least a qualitative assessment of likelihood
+      and impact exists for each mapped risk. Management decisions should cite
+      measurement findings.
+
+  - id: govern-manage-tension
+    dimensions: [govern, manage]
+    type: tension
+    label: Policy breadth vs. operational speed
+    description: >
+      Broad governance policies can slow management response when AI incidents
+      require fast action. Organizations must balance comprehensive oversight
+      with the agility needed to address live AI risks.
+    guidance: >
+      Define pre-authorized response playbooks within governance so that Manage
+      can act quickly for known risk types without requiring fresh governance
+      approval each time.
+
+best_practices:
+  - id: bp-govern-policy-first
+    title: Establish AI risk policy before deploying AI
+    dimension: govern
+    description: >
+      Define the organization's AI risk appetite, accountability structure, and
+      minimum acceptable standards before any AI system goes to production.
+    antipattern: >
+      Deploying AI systems and writing governance policy retroactively — leaving
+      a gap where real risks exist but no owner is accountable for them.
+    signal: >
+      Opening prompt or brief contains a named AI risk owner, a risk appetite
+      statement, or references an existing enterprise risk management program.
+
+  - id: bp-map-stakeholders
+    title: Map risk from all affected stakeholder perspectives
+    dimension: map
+    description: >
+      Include end-users, impacted communities, operators, and regulators in
+      the risk mapping process — not just the development team.
+    antipattern: >
+      Risk maps built exclusively by engineers that miss societal, legal, or
+      operational risks visible only to non-technical stakeholders.
+    signal: >
+      Risk mapping session includes or references user research, legal review,
+      or community impact assessment.
+
+  - id: bp-measure-baselines
+    title: Establish baselines before comparing measurements
+    dimension: measure
+    description: >
+      Measure AI risk metrics at system launch to create baselines. All future
+      measurements are meaningful only relative to a known starting state.
+    antipattern: >
+      Measuring AI performance or risk after an incident and retrospectively
+      claiming this is the baseline — masking deterioration over time.
+    signal: >
+      Measurement plan references initial baseline capture date and comparison
+      methodology.
+
+  - id: bp-manage-residual
+    title: Document residual risk after every management action
+    dimension: manage
+    description: >
+      After implementing a risk control, explicitly record what residual risk
+      remains and whether it is within the organization's risk appetite.
+    antipattern: >
+      Closing a risk item after a control is deployed without assessing whether
+      the control was sufficient — leading to false confidence.
+    signal: >
+      Risk register entries include a residual risk field and an acceptance
+      signature from the accountable owner.
+
+evaluation_criteria:
+  - id: eval-govern-ownership
+    dimension: govern
+    label: Accountable AI risk owner is named
+    description: A specific role or individual is designated as accountable for the AI risk.
+    weight: 0.25
+    signals:
+      present: [owner, accountable, responsible, governance, policy, oversight, risk-owner, sponsor]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-map-scope
+    dimension: map
+    label: Risk scope and affected parties are identified
+    description: The risk mapping activity names the system, its use case, and who is affected.
+    weight: 0.25
+    signals:
+      present: [scope, affected, stakeholder, impact, use-case, system, risk, harm, context]
+      absent: []
+    pass_threshold: 2
+
+  - id: eval-measure-evidence
+    dimension: measure
+    label: Risk assessment uses evidence or measurement
+    description: Risk conclusions are supported by data, testing results, or structured analysis.
+    weight: 0.25
+    signals:
+      present: [measure, assess, evaluate, test, metric, score, likelihood, impact, evidence, analysis]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-manage-action
+    dimension: manage
+    label: Risk response action is defined and owned
+    description: A concrete action to address the risk is identified with an owner and timeline.
+    weight: 0.25
+    signals:
+      present: [mitigate, respond, control, action, remediate, monitor, track, owner, deadline, plan]
+      absent: []
+    pass_threshold: 2

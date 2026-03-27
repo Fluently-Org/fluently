@@ -1,0 +1,237 @@
+id: eu-ai-risk-classification
+framework_id: eu-ai-act
+version: "1.0.0"
+contributor: Fluently Community
+title: EU AI Act Risk Classification
+domain: legal
+
+summary: >
+  A legal and compliance team uses the EU AI Act to classify an AI system
+  into the correct risk tier before deployment. The cycle covers risk tier
+  determination, documentation obligations, human oversight design, technical
+  standards alignment, and conformity assessment planning — preventing costly
+  misclassification and ensuring legal readiness before market deployment.
+
+dimensions:
+  risk-classification:
+    description: >
+      The team systematically determines whether the AI system falls into
+      the prohibited, high-risk, limited-risk, or minimal-risk category
+      by applying the Act's annexes and the system's actual intended purpose
+      and deployment context — not its marketing description.
+    example: >
+      Legal counsel: "Our AI system suggests interview questions to hiring
+      managers. Marketing calls it a 'decision support tool.' Is it high-risk?"
+      AI: "Yes — under Annex III of the EU AI Act, AI systems used in
+      employment and recruitment decisions are classified as high-risk
+      regardless of how they are marketed. 'Decision support' does not
+      reduce the classification if the system materially influences the
+      outcome. The relevant question is: does a human hiring manager
+      typically follow the system's suggestions? If yes, the system is
+      used in a manner that determines or influences the recruitment decision —
+      high-risk classification applies."
+    antipattern: >
+      Accepting a vendor's classification of their own system as 'minimal-risk'
+      without independently applying the Act's annexes to the actual use case
+      and deployment context.
+
+  transparency:
+    description: >
+      The team identifies the full set of transparency and documentation
+      obligations applicable to the classified risk tier — technical file,
+      instructions for use, logging, and user notification — and creates
+      a compliance documentation plan.
+    example: >
+      AI: "For a high-risk hiring AI, the transparency obligations are:
+      (1) Technical file (Article 11) — detailed system documentation including
+      design specifications, training data description, performance metrics,
+      and risk management records. Must be maintained for 10 years post-market.
+      (2) Instructions for use (Article 13) — plain-language guidance for
+      deployers including the system's purpose, performance limitations, and
+      oversight requirements. (3) Logging (Article 12) — the system must
+      automatically log its inputs and outputs to the extent technically feasible.
+      (4) Notification — affected candidates must be informed that AI is used
+      in the recruitment process. Which of these does your current system
+      documentation cover?"
+    antipattern: >
+      Treating technical file preparation as a one-time pre-certification task
+      rather than a continuous documentation obligation — allowing the file
+      to diverge from the deployed system within months of certification.
+
+  human-oversight:
+    description: >
+      The team designs human oversight mechanisms that comply with Article 14 —
+      ensuring deployers can meaningfully monitor, intervene in, and override
+      the AI system's outputs under real operational conditions.
+    example: >
+      Human: "We have a human review step before a hiring decision is made.
+      Is that sufficient for Article 14?"
+      AI: "It depends on the quality of the review, not its existence.
+      Article 14 requires that human oversight is 'effective' — the reviewer
+      must understand the system's outputs and limitations, have the ability
+      and authority to override the system, and not be under time pressure
+      that makes real review impossible. If your hiring managers are reviewing
+      AI recommendations for 30 seconds before approving, that is nominal
+      oversight, not effective oversight. I recommend documenting: the time
+      allocated for review, the training provided to reviewers on the
+      system's limitations, and the rate at which reviewers actually
+      override the AI — as evidence of effective oversight."
+    antipattern: >
+      Satisfying Article 14 with a checkbox in the interface that confirms
+      'human reviewed this decision' without any mechanism to verify that
+      the review was substantive or effective.
+
+  robustness:
+    description: >
+      The team validates that the AI system meets technical standards for
+      accuracy, cybersecurity, and resilience — and documents testing evidence
+      that supports the conformity assessment.
+    example: >
+      AI: "For robustness documentation of a high-risk hiring AI, you need:
+      (1) Accuracy metrics — overall and disaggregated by protected group.
+      'Accuracy' for a hiring AI should include candidate quality outcomes,
+      not just model prediction metrics. (2) Bias testing — third-party
+      disparity audit across gender, age, and ethnicity for the roles in scope.
+      (3) Cybersecurity — evidence that candidate data is protected against
+      unauthorized access; penetration test results. (4) Resilience — how does
+      the system behave when input data is missing, corrupted, or anomalous?
+      All four evidence types are needed for the technical file."
+    antipattern: >
+      Documenting only aggregate model accuracy without disaggregated
+      performance metrics by demographic group — leaving a material
+      compliance gap in the technical file for a high-risk system.
+
+  governance:
+    description: >
+      The team plans the full conformity pathway — notified body involvement
+      if required, EU AI database registration, post-market monitoring system,
+      and incident reporting obligations — before the system is deployed to market.
+    example: >
+      AI closes the cycle: "Governance compliance plan for the high-risk
+      hiring AI: (1) Conformity assessment — high-risk AI in employment
+      requires either a third-party notified body assessment or a manufacturer's
+      own conformity assessment depending on whether harmonized standards are
+      applied. Confirm which pathway with legal. (2) EU AI database registration —
+      required before deployment under Article 71. Register at the
+      Commission's AI Office portal. (3) Post-market monitoring —
+      implement quarterly performance reviews including bias audits and
+      incident log review. Name a post-market monitoring officer.
+      (4) Incident reporting — serious incidents must be reported to the
+      national market surveillance authority within the timeframe specified
+      in Article 73. Name the reporting responsible. Target: all four
+      items complete before first deployment."
+    antipattern: >
+      Treating post-market monitoring as a future compliance task to be
+      designed after the system launches — leaving a gap between deployment
+      and active monitoring that creates legal exposure under Article 72.
+
+score_hints:
+  risk-classification: 0.25
+  transparency: 0.20
+  human-oversight: 0.25
+  robustness: 0.15
+  governance: 0.15
+
+tags:
+  - eu-ai-act
+  - risk-classification
+  - legal
+  - compliance
+  - hiring-ai
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Risk tier is determined using the Act's annexes applied to actual use →
+    full transparency and documentation obligations are mapped → human
+    oversight mechanism is designed for real operational conditions →
+    technical validation evidence is compiled → conformity assessment and
+    post-market monitoring plan are completed before deployment.
+
+  sequence:
+    - step: 1
+      d: risk-classification
+      label: "Classify the AI system using Act annexes and actual use context"
+      example_prompts:
+        - speaker: human
+          text: "We're deploying an AI that screens job applications and ranks candidates. What's our EU AI Act classification?"
+        - speaker: ai
+          text: "Applying Annex III: AI systems used in employment and recruitment — specifically for 'screening or filtering applications, evaluating candidates in the course of interviews or tests, or making decisions about promotion or termination' — are classified as high-risk. Your system ranks candidates, which directly influences shortlisting decisions. Classification: High-Risk. This triggers the full compliance requirements under Articles 8-15. Note: if the vendor classifies this as 'minimal risk,' they are misclassifying it — you as the deployer are legally responsible for correct classification and compliance."
+        - speaker: human
+          text: "High-risk classification confirmed. We'll update the project documentation and notify the vendor."
+      triggers_next: "Risk tier confirmed as High-Risk with Article and Annex citations documented."
+
+    - step: 2
+      d: transparency
+      label: "Map documentation and disclosure obligations"
+      example_prompts:
+        - speaker: human
+          text: "What documentation do we need for a high-risk hiring AI?"
+        - speaker: ai
+          text: "Four documentation streams: (1) Technical file — design specifications, training data description, performance metrics, risk management records, and post-market monitoring plan. Must be maintained for 10 years from market placement. (2) Instructions for use — plain-language deployer guide: system purpose, performance limits, oversight requirements, and prohibited uses. (3) Automatic logging — log inputs and outputs to the extent technically feasible; retain logs per your data retention policy minimum. (4) Candidate notification — inform applicants in the job posting or application process that AI is used in candidate screening. Which of these is not yet in place?"
+        - speaker: human
+          text: "Candidate notification is missing from our job postings. Technical file is incomplete — no performance metrics for protected groups."
+      triggers_next: "Documentation gaps identified and prioritized for remediation."
+
+    - step: 3
+      d: human-oversight
+      label: "Design effective human oversight for Article 14"
+      example_prompts:
+        - speaker: human
+          text: "Our HR managers review AI rankings before shortlisting. Is that Article 14 compliant?"
+        - speaker: ai
+          text: "Three things to check: (1) Understanding — do HR managers understand what the system ranks on and what its known limitations are? If not, training is required before oversight is meaningful. (2) Authority — do they have explicit authority to override the ranking, and is there a documented process for doing so? (3) Time — how long do managers spend reviewing each ranking? If it is under 2 minutes for a ranking of 20 candidates, the review is likely nominal. Recommendation: document the oversight process, train reviewers on system limitations, log override rates, and set a minimum review time guideline. Override rate below 5% is a red flag — it suggests reviewers are rubber-stamping the AI."
+        - speaker: human
+          text: "Reviewer training scheduled. Override rate will be logged from launch."
+      triggers_next: "Human oversight mechanism designed, documented, and training scheduled."
+      loop_back:
+        to: risk-classification
+        condition: "Oversight design reveals the system is being used beyond the classified use case."
+        reason: "Extended use cases may trigger additional Annex III categories — classification must be reviewed."
+
+    - step: 4
+      d: robustness
+      label: "Compile technical validation evidence for the technical file"
+      example_prompts:
+        - speaker: human
+          text: "What technical evidence do we need for the conformity assessment?"
+        - speaker: ai
+          text: "Four evidence packages: (1) Performance metrics — overall and disaggregated by gender, age, ethnicity for each role type. Include both precision/recall and business outcome metrics (quality of hire). (2) Bias audit — third-party disparity analysis; I recommend contracting this independently of the vendor. (3) Cybersecurity — penetration test report not older than 12 months; data encryption documentation. (4) Resilience testing — what happens when the model receives incomplete CVs, names in non-Western scripts, or unusual formatting? Document the degradation boundary. Which of these four does the vendor currently provide, and which requires your own testing?"
+        - speaker: human
+          text: "Vendor provides packages 1 and 3. We need to commission a third-party bias audit and run our own resilience tests."
+      triggers_next: "Technical validation evidence compiled or commissioned; gaps documented."
+
+    - step: 5
+      d: governance
+      label: "Complete conformity assessment and post-market monitoring plan"
+      example_prompts:
+        - speaker: human
+          text: "What is our path to lawful market deployment?"
+        - speaker: ai
+          text: "Deployment governance checklist: (1) Conformity assessment — for hiring AI, you can use the internal conformity assessment route if your technical file is complete and you apply harmonized standards. If no harmonized standard exists for your specific use case, a notified body assessment is safer. Confirm with legal. (2) EU AI database registration — required under Article 71 before first use; register via the Commission's AI Act portal. (3) Post-market monitoring plan — quarterly bias audits, monthly incident log review, annual technical file update. Name a post-market monitoring responsible person now, before deployment. (4) Incident reporting — serious incidents (significant impact on health, safety, or fundamental rights) reported to the national market surveillance authority within the Article 73 timeframe. Legal must confirm the reporting pathway for your jurisdiction."
+        - speaker: human
+          text: "Conformity assessment in progress. Database registration submitted. Post-market monitoring officer named."
+      triggers_next: "Conformity assessment complete; database registered; post-market monitoring operational."
+      can_restart: true
+
+  transitions:
+    - from: risk-classification
+      to: transparency
+      trigger: "Risk tier confirmed with Annex citations."
+    - from: transparency
+      to: human-oversight
+      trigger: "Documentation obligations mapped and gaps identified."
+    - from: human-oversight
+      to: risk-classification
+      trigger: "Oversight design reveals use beyond classified scope."
+      is_loop_back: true
+    - from: human-oversight
+      to: robustness
+      trigger: "Human oversight mechanism designed and documented."
+    - from: robustness
+      to: governance
+      trigger: "Technical validation evidence compiled or commissioned."
+    - from: governance
+      to: risk-classification
+      trigger: "System update or new use case triggers re-classification review."
+      is_cycle_restart: true

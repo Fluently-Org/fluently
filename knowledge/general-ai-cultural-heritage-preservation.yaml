@@ -1,0 +1,242 @@
+id: ai-cultural-heritage-preservation
+framework_id: unesco-ai-ethics
+version: "1.0.0"
+contributor: Fluently Community
+title: AI for Cultural Heritage Preservation
+domain: general
+
+summary: >
+  A cultural institution uses the UNESCO AI Ethics Recommendation to deploy
+  AI for digitizing and making accessible its cultural heritage collection.
+  The cycle ensures the project respects the dignity of source communities,
+  minimizes environmental impact, protects privacy and community data rights,
+  maintains transparency about AI's role, and establishes community-led
+  accountability governance.
+
+dimensions:
+  human-dignity:
+    description: >
+      The institution ensures that AI-assisted heritage digitization and
+      description respects the cultural dignity of source communities —
+      including their right to determine how their heritage is represented,
+      who has access to it, and whether certain sacred or sensitive materials
+      should be excluded from AI processing.
+    example: >
+      Project lead: "We are digitizing 40,000 ethnographic photographs using
+      AI tagging. What dignity issues should we address?"
+      AI: "Four dignity considerations before deploying AI on ethnographic materials:
+      (1) Source community consent — have the communities whose heritage is
+      depicted been consulted about AI processing of these images? Consent
+      for original archiving does not extend to AI analysis. (2) Sacred or
+      restricted materials — some communities restrict who may view certain
+      ceremonial objects or images. AI tagging and search could make restricted
+      materials publicly discoverable. (3) Representation — AI object recognition
+      systems are known to mislabel and stereotype non-Western cultural objects.
+      Human expert review by community members is required. (4) Repatriation
+      alignment — if communities have outstanding repatriation claims, AI
+      accessibility projects must not undermine those claims by creating
+      commercial derivatives."
+    antipattern: >
+      Using AI to automate description and public access for ethnographic
+      collections without consulting source communities — treating cultural
+      objects as data assets rather than living heritage with community rights.
+
+  environment:
+    description: >
+      The project chooses AI approaches that minimize computational waste —
+      preferring efficient, task-specific models over large general-purpose ones
+      for digitization and cataloging tasks that do not require general intelligence.
+    example: >
+      AI: "For cultural heritage digitization, three efficient AI choices:
+      (1) For optical character recognition of manuscripts — use a domain-specific
+      OCR model trained on historical scripts rather than a large language model;
+      the task is well-defined and the efficiency difference is significant.
+      (2) For image tagging — a fine-tuned vision model on your specific
+      collection domain uses a fraction of the compute of a general-purpose
+      multimodal model. (3) For metadata generation — use AI to draft, with
+      mandatory human expert review, rather than full automation; this reduces
+      both compute and error costs."
+    antipattern: >
+      Deploying large general-purpose AI models for well-defined cataloging
+      tasks (OCR, classification, tagging) where specialized efficient models
+      would produce equivalent or better results at a fraction of the
+      environmental cost.
+
+  privacy:
+    description: >
+      The project protects the privacy of living individuals who may appear
+      in heritage materials — particularly photographs — and respects community
+      data sovereignty over materials that belong culturally to specific groups.
+    example: >
+      Human: "Our collection includes photographs of living community members
+      from the 1960s–1990s. Can we use AI facial recognition for cataloging?"
+      AI: "No — facial recognition on living individuals without consent is
+      a serious privacy violation under GDPR and most data protection laws,
+      regardless of the cultural heritage context. For the photography collection:
+      (1) Do not use facial recognition for any image that could contain
+      living individuals. (2) For deceased individuals, check jurisdiction-specific
+      rules — some protect images of recently deceased persons. (3) For community
+      data sovereignty — consult with the communities whether they consider
+      community-wide images to be personal community data requiring collective
+      consent, not just individual consent."
+    antipattern: >
+      Using AI facial recognition on heritage photography collections on the
+      assumption that historical context removes privacy obligations —
+      missing both legal requirements and the deeper community sovereignty
+      dimension.
+
+  transparency:
+    description: >
+      The institution is transparent with the public, researchers, and source
+      communities about what AI was used, what it produced, how it was
+      validated, and what the known error rates and limitations are for
+      AI-generated metadata.
+    example: >
+      AI: "For the public-facing collection, add an AI disclosure banner:
+      'Descriptive metadata for this collection was generated with AI assistance
+      and reviewed by human curators. AI-generated descriptions may contain
+      errors; report corrections using the feedback link below.' For researchers,
+      provide a methodology document: which AI tools were used, what the
+      validation process was, and what the estimated error rate is for different
+      material types. For source communities, provide a separate report in
+      accessible language explaining what AI did and did not do to their heritage."
+    antipattern: >
+      Presenting AI-generated heritage metadata as authoritative curatorial
+      description without disclosing its AI origin, known error rates, or
+      the validation process — misleading researchers and the public about
+      the metadata's reliability.
+
+  accountability:
+    description: >
+      The project establishes a community advisory board with real authority
+      over how AI-processed heritage materials are described, accessed, and
+      used — including the right to request removal or restriction of specific
+      materials.
+    example: >
+      AI closes the cycle: "Community accountability governance for the
+      heritage AI project: (1) Community advisory board — one representative
+      per source community with materials in scope; meets quarterly;
+      has authority to request removal, restriction, or reclassification
+      of any item. (2) Correction pathway — public-facing feedback tool
+      for reporting AI metadata errors; institution commits to review
+      within 30 days. (3) Annual community report — published in accessible
+      language describing what AI produced, what was corrected, and what
+      will change in the next year. (4) Commercial use prohibition —
+      AI-processed heritage materials may not be licensed for commercial
+      use without separate community consent."
+    antipattern: >
+      Creating a heritage AI project with an academic advisory board of
+      heritage scholars but no representation from the source communities
+      whose cultural materials are being processed — producing governance
+      that serves institutional interests over community rights.
+
+score_hints:
+  human-dignity: 0.35
+  environment: 0.10
+  privacy: 0.20
+  transparency: 0.20
+  accountability: 0.15
+
+tags:
+  - cultural-heritage
+  - general
+  - digitization
+  - community-rights
+  - unesco
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Source community consultation determines which materials may be AI-processed
+    and under what conditions → efficient AI tools are selected to minimize
+    environmental footprint → privacy protections are designed for living individuals
+    and community data sovereignty → public transparency disclosure is prepared →
+    community advisory board with real authority is established before launch.
+
+  sequence:
+    - step: 1
+      d: human-dignity
+      label: "Consult source communities on consent and access restrictions"
+      example_prompts:
+        - speaker: human
+          text: "We want to use AI to catalog 40,000 ethnographic photographs. Where do we start?"
+        - speaker: ai
+          text: "Before any AI processing: identify the source communities for each collection segment and initiate consultation. The consultation must address four questions: (1) Do community members consent to AI processing of these materials — including object recognition, automated description, and public search indexing? (2) Are any materials sacred, restricted, or ceremonially sensitive and should be excluded from AI processing? (3) Who from the community has authority to give consent — an individual elder, a cultural council, a formal governance body? (4) What are the community's conditions for participation — do they want co-authorship of descriptions, veto over public access, or a separate community-controlled access layer? This consultation cannot be replaced by a website notice or opt-out form."
+        - speaker: human
+          text: "Three communities identified. Two agreed to participate with restrictions. One requested all their materials be excluded from AI processing until a formal agreement is signed."
+      triggers_next: "Community consent and access restrictions documented per collection segment."
+
+    - step: 2
+      d: environment
+      label: "Select efficient AI tools proportionate to the task"
+      example_prompts:
+        - speaker: human
+          text: "Our vendor recommends using GPT-4V for image description across all 40,000 photographs. Is that the right choice?"
+        - speaker: ai
+          text: "That is likely over-engineered and environmentally wasteful for this task. For heritage photograph description, compare three options: (1) A fine-tuned domain-specific vision model trained on similar cultural collections — higher accuracy for your specific material types, significantly lower compute per image. (2) GPT-4V — high general capability but expensive and energy-intensive at 40,000 images; better suited for complex or ambiguous edge cases. (3) Hybrid — use the efficient model for 90% of straightforward images, route ambiguous or complex cases to the larger model. The hybrid approach is both the most accurate and the most environmentally responsible. Estimate compute cost for all three before deciding."
+        - speaker: human
+          text: "Hybrid approach approved. Efficient model handles standard catalog; GPT-4V handles complex or ambiguous cases."
+      triggers_next: "AI tooling selected with environmental efficiency rationale documented."
+
+    - step: 3
+      d: privacy
+      label: "Design privacy protections for individuals and community data"
+      example_prompts:
+        - speaker: human
+          text: "Many photographs include identifiable people, some of whom may still be living. How do we handle this?"
+        - speaker: ai
+          text: "Three-tier privacy approach: (1) Living individuals — do not use facial recognition. For photographs estimated to include living individuals (roughly 1960s onward), manually review before AI processing. If AI is used for description, configure the model to describe the scene without identifying individuals. (2) Recently deceased — check applicable law; some jurisdictions protect image rights for 70 years post-death. (3) Community data sovereignty — for materials depicting community ceremonies or practices, the entire community's collective consent is required for AI processing and public access, not just the consent of individuals pictured. Document the privacy approach per collection segment and make it auditable."
+        - speaker: human
+          text: "Facial recognition disabled. 1960s onward photographs flagged for manual review before AI processing."
+      triggers_next: "Privacy controls implemented per collection segment with documented rationale."
+
+    - step: 4
+      d: transparency
+      label: "Prepare AI disclosure for public, researchers, and communities"
+      example_prompts:
+        - speaker: human
+          text: "How do we disclose the AI's role in our catalog to different audiences?"
+        - speaker: ai
+          text: "Three disclosure levels: (1) Public-facing — banner on every AI-assisted record: 'Description generated with AI assistance and reviewed by a human curator. Estimated error rate: 8% for object classification, 12% for cultural context. Report corrections below.' (2) Researcher methodology document — AI tools used, training data sources, validation methodology, error rates by material type, and human review process. Posted in the collection's methodology section. (3) Community report — plain-language summary for each source community: what AI did to their heritage materials, what restrictions are enforced, and how to request corrections or restrictions. Delivered in the community's primary language if possible."
+        - speaker: human
+          text: "All three disclosure documents drafted. Community reports translated into two languages."
+      triggers_next: "Transparency documents prepared for all three audiences."
+      loop_back:
+        to: human-dignity
+        condition: "Community review of AI-generated descriptions reveals systematic misrepresentation of cultural objects."
+        reason: "Systematic misrepresentation is a dignity issue requiring community re-consultation before public access."
+
+    - step: 5
+      d: accountability
+      label: "Establish community advisory board with real authority"
+      example_prompts:
+        - speaker: human
+          text: "How do we build genuine community accountability into the project governance?"
+        - speaker: ai
+          text: "Community advisory board structure: (1) Composition — one representative per source community, appointed by the community (not by the institution). Two academic heritage experts. One digital rights specialist. Chair rotates annually. (2) Authority — the board has binding authority to: request removal or access restriction of any item; reject AI-generated descriptions for culturally sensitive materials; approve or reject any secondary use of the digitized collection. Recommendations must be implemented within 60 days. (3) Quarterly reporting — institution provides the board with: AI error reports, correction log, access statistics, any commercial use requests. (4) Public correction channel — anyone can report AI metadata errors; institution commits to 30-day review and public correction log."
+        - speaker: human
+          text: "Community advisory board established with binding authority charter. First meeting scheduled."
+      triggers_next: "Community advisory board operational with binding authority."
+      can_restart: true
+
+  transitions:
+    - from: human-dignity
+      to: environment
+      trigger: "Community consent documented and access restrictions defined."
+    - from: environment
+      to: privacy
+      trigger: "AI tooling selected with environmental rationale."
+    - from: privacy
+      to: transparency
+      trigger: "Privacy controls implemented per collection segment."
+    - from: transparency
+      to: human-dignity
+      trigger: "AI descriptions show systematic cultural misrepresentation — re-consult communities."
+      is_loop_back: true
+    - from: transparency
+      to: accountability
+      trigger: "Transparency documents prepared for all audiences."
+    - from: accountability
+      to: human-dignity
+      trigger: "Annual review cycle — community re-consultation on scope changes."
+      is_cycle_restart: true

@@ -1,0 +1,209 @@
+id: iso-42001
+name: ISO/IEC 42001 — AI Management System
+version: "1.0.0"
+contributor: ISO/IEC (International Organization for Standardization)
+description: >
+  ISO/IEC 42001:2023 specifies requirements and provides guidance for
+  establishing, implementing, maintaining, and continually improving an
+  Artificial Intelligence Management System (AIMS) within organizations.
+  Following the Plan-Do-Check-Act structure shared by ISO 9001, 27001, and
+  others, it is the first internationally certifiable AI management standard
+  and is applicable to any organization regardless of size or sector.
+dimensions:
+  - key: context
+    label: Context
+    description: >
+      Understand the organizational context, internal and external stakeholders,
+      legal obligations, and define the scope of the AI management system.
+    canonical_order: 1
+  - key: leadership
+    label: Leadership & Policy
+    description: >
+      Demonstrate top-management commitment, establish an AI policy, and assign
+      clear roles, responsibilities, and authorities for the AIMS.
+    canonical_order: 2
+  - key: planning
+    label: Planning
+    description: >
+      Conduct risk and opportunity assessments for AI; set measurable AI
+      objectives and define plans to achieve them within the management system.
+    canonical_order: 3
+  - key: operation
+    label: Operation
+    description: >
+      Implement, control, document, and execute AI development and deployment
+      processes in accordance with the management system requirements.
+    canonical_order: 4
+  - key: performance
+    label: Performance & Improvement
+    description: >
+      Monitor, measure, internally audit, and management-review the AIMS;
+      address nonconformities and drive continual improvement.
+    canonical_order: 5
+level: Enterprise
+binding: "Voluntary cert."
+tags:
+  - ai-management-system
+  - certification
+  - enterprise
+  - iso
+  - pdca
+reference: https://www.iso.org/standard/81230.html
+
+dimension_combinations:
+  - id: context-leadership-prerequisite
+    dimensions: [context, leadership]
+    type: prerequisite
+    label: Context defines the leadership mandate
+    description: >
+      Leadership commitment must be scoped to a defined organizational context.
+      A policy that is too broad is unenforceable; one that is too narrow misses
+      critical AI risks. Context scoping must precede policy drafting.
+    guidance: >
+      Before approving the AI policy, leadership should confirm the AIMS scope
+      document is complete and reflects the organization's actual AI footprint,
+      legal environment, and stakeholder expectations.
+
+  - id: planning-operation-prerequisite
+    dimensions: [planning, operation]
+    type: prerequisite
+    label: Planning outputs are operational inputs
+    description: >
+      Risk assessments and AI objectives from Planning are the direct inputs
+      that Operation implements. Gaps in planning create uncontrolled operational
+      risks; over-specified plans create bureaucratic friction.
+    guidance: >
+      Ensure every operational AI process traces back to at least one planning
+      objective or risk treatment. Orphaned processes indicate planning gaps.
+
+  - id: operation-performance-synergy
+    dimensions: [operation, performance]
+    type: synergy
+    label: Operation generates the evidence Performance needs
+    description: >
+      Performance monitoring is only as reliable as the operational records it
+      draws on. Well-documented operations make audits efficient and
+      improvement cycles evidence-based.
+    guidance: >
+      Design operational processes to generate audit-ready records by default —
+      not as a retrospective documentation exercise before certification audits.
+
+best_practices:
+  - id: bp-context-stakeholder-register
+    title: Build a stakeholder register before scoping the AIMS
+    dimension: context
+    description: >
+      Identify all internal and external parties with an interest in the
+      organization's AI activities before defining the AIMS scope.
+    antipattern: >
+      Scoping the AIMS based solely on legal obligations while missing
+      operational stakeholders (frontline staff, customers, suppliers)
+      whose needs shape what the management system must address.
+    signal: >
+      Scope document references a named stakeholder register or lists
+      internal and external interested parties explicitly.
+
+  - id: bp-leadership-policy-review
+    title: Review the AI policy at every management review cycle
+    dimension: leadership
+    description: >
+      The AI policy must be a living document reviewed regularly against
+      changes in technology, regulation, and organizational strategy.
+    antipattern: >
+      Publishing an AI policy once at AIMS launch and treating it as permanent
+      — leaving it misaligned with the organization's actual AI use within
+      months as the landscape changes.
+    signal: >
+      AI policy document includes a review schedule and a version history
+      with management sign-off dates.
+
+  - id: bp-planning-risk-treatment
+    title: Document a risk treatment plan for every identified AI risk
+    dimension: planning
+    description: >
+      Every AI risk identified in the risk assessment must have a documented
+      treatment option (accept, avoid, mitigate, transfer) with owner and timeline.
+    antipattern: >
+      Producing a risk register with no treatment decisions — turning the
+      planning exercise into a documentation artifact rather than a decision tool.
+    signal: >
+      Risk register includes a treatment column with named owners and
+      target treatment dates for each identified risk.
+
+  - id: bp-operation-process-documentation
+    title: Document AI processes at the level needed for reproducibility
+    dimension: operation
+    description: >
+      AI development and deployment processes must be documented in enough
+      detail that a different team could reproduce the outcome and verify compliance.
+    antipattern: >
+      Relying on tribal knowledge or individual expertise instead of documented
+      procedures — creating key-person dependency and audit failure risk.
+    signal: >
+      Process documentation exists and has been used by someone other than
+      the original author without requiring direct coaching.
+
+  - id: bp-performance-internal-audit
+    title: Conduct internal audits before certification, not only during it
+    dimension: performance
+    description: >
+      Internal audits should drive genuine improvement, not just prepare for
+      external certification audits. Run them on a regular schedule aligned
+      with operational risk, not just before certification renewals.
+    antipattern: >
+      Scheduling internal audits only in the weeks before external certification
+      assessment — making audit findings reactive rather than preventive.
+    signal: >
+      Audit schedule is annual or risk-based and exists independently of
+      external certification timelines.
+
+evaluation_criteria:
+  - id: eval-context-scope
+    dimension: context
+    label: AIMS scope and stakeholders are defined
+    description: The organizational context and interested parties are explicitly identified.
+    weight: 0.20
+    signals:
+      present: [scope, context, stakeholder, boundary, organization, interested, party, legal, obligation, environment]
+      absent: []
+    pass_threshold: 2
+
+  - id: eval-leadership-policy
+    dimension: leadership
+    label: AI policy and accountable leadership are named
+    description: A policy exists and leadership accountability is assigned.
+    weight: 0.20
+    signals:
+      present: [policy, leadership, commitment, management, role, responsibility, authority, sponsor, approve, sign]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-planning-risk
+    dimension: planning
+    label: Risk assessment and objectives are documented
+    description: Risks are identified and AI objectives with treatment plans exist.
+    weight: 0.20
+    signals:
+      present: [risk, objective, plan, assess, treat, opportunity, target, measure, criteria, control]
+      absent: []
+    pass_threshold: 2
+
+  - id: eval-operation-process
+    dimension: operation
+    label: Operational processes are documented and controlled
+    description: AI development and deployment follows documented, controlled processes.
+    weight: 0.20
+    signals:
+      present: [process, procedure, document, control, implement, deploy, execute, record, evidence, operate]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-performance-review
+    dimension: performance
+    label: Monitoring, audit, or management review is scheduled
+    description: A review or audit mechanism exists to assess AIMS effectiveness.
+    weight: 0.20
+    signals:
+      present: [monitor, audit, review, measure, evaluate, improve, nonconformity, corrective, performance, assess]
+      absent: []
+    pass_threshold: 1

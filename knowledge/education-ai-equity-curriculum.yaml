@@ -1,0 +1,222 @@
+id: ai-equity-curriculum
+framework_id: unesco-ai-ethics
+version: "1.0.0"
+contributor: Fluently Community
+title: Equitable AI Curriculum Design
+domain: education
+
+summary: >
+  An educational institution uses the UNESCO AI Ethics Recommendation to design
+  an AI curriculum that is equitable, environmentally conscious, privacy-safe,
+  transparent to learners, and accountable to the community. The cycle ensures
+  AI education serves human dignity and does not entrench existing inequalities.
+
+dimensions:
+  human-dignity:
+    description: >
+      The curriculum is designed to serve learners of all backgrounds with
+      equal dignity — ensuring AI education does not embed cultural bias,
+      exclude learners with disabilities, or reinforce existing power imbalances
+      between those who "understand AI" and those who do not.
+    example: >
+      Curriculum designer: "Our AI literacy course uses examples from Silicon
+      Valley companies exclusively. Is that consistent with human dignity
+      for our predominantly African and Middle Eastern student body?"
+      AI: "No — a curriculum that presents only one cultural context for AI
+      normalizes a particular worldview as 'default.' UNESCO's principle of
+      human dignity includes cultural respect and non-discrimination in education.
+      I recommend auditing every case study and example for cultural diversity,
+      and co-designing at least 30% of examples with students from the
+      communities you serve."
+    antipattern: >
+      Designing an AI curriculum that treats a single cultural or economic
+      context as universal — producing graduates who understand AI through
+      one lens and are unprepared to question whose interests AI systems serve.
+
+  environment:
+    description: >
+      The curriculum addresses the environmental cost of AI — training compute,
+      data center energy, hardware lifecycle — and teaches learners to make
+      environmentally informed decisions about AI system design.
+    example: >
+      AI: "For the environmental module, I recommend three content blocks:
+      (1) The energy cost of model training — a GPT-4-scale model consumes
+      more electricity than 100 US households for a year. (2) Inference at
+      scale — even deployed models have a per-query energy footprint that
+      multiplies across billions of users. (3) Sustainable design choices —
+      model distillation, efficient architectures, and green compute options.
+      Make the environmental calculation a required component of every
+      student capstone project."
+    antipattern: >
+      Teaching AI design without any environmental impact component —
+      producing AI practitioners who optimize for performance and cost
+      but are blind to ecological externalities.
+
+  privacy:
+    description: >
+      The curriculum teaches learners to design privacy-protective AI systems
+      and applies privacy principles to the educational technology used to
+      deliver the course itself — including AI-powered learning platforms.
+    example: >
+      Human: "Our LMS uses an AI engagement tracker that monitors keystroke
+      patterns. Is that consistent with the privacy principle for our students?"
+      AI: "That is a surveillance tool applied to learners without meaningful
+      consent. UNESCO's privacy principle applies to learners in educational
+      settings — they have the right to know what data is collected, why,
+      and how to opt out. The curriculum should both teach privacy by design
+      and practice it: audit the LMS, disclose data collection to students,
+      and provide a genuine opt-out that does not disadvantage learning outcomes."
+    antipattern: >
+      Teaching AI privacy principles in the classroom while using AI-powered
+      surveillance tools on students without their informed consent —
+      undermining the curriculum's own ethical foundation.
+
+  transparency:
+    description: >
+      The curriculum is transparent about its own design: learning objectives,
+      assessment criteria, AI tools used in teaching, and the limitations of
+      what the curriculum covers — including what it cannot teach.
+    example: >
+      AI: "For course transparency, I recommend publishing three documents
+      to students at enrollment: (1) What AI tools are used in this course
+      and how their data is used. (2) What the curriculum does not cover —
+      students should know if advanced mathematics or specific programming
+      languages are prerequisites for deeper engagement. (3) Assessment criteria
+      in plain language — not just rubrics, but what the institution considers
+      'AI literacy' and why."
+    antipattern: >
+      Presenting an AI curriculum as comprehensive when it primarily covers
+      one paradigm (e.g., large language models) without disclosing to students
+      what is outside its scope.
+
+  accountability:
+    description: >
+      The curriculum has a community accountability mechanism: a student-community
+      advisory board reviews the curriculum annually, findings are published,
+      and the institution commits to responsive updates based on community input.
+    example: >
+      AI closes the cycle: "Accountability structure for the curriculum:
+      (1) Student advisory board — meets each semester, reviews content for
+      relevance, equity, and cultural appropriateness. (2) Community review —
+      annual open review inviting alumni, employers, and community organizations.
+      (3) Published update log — every curriculum change is documented and
+      explained to students. (4) Redress pathway — students can formally
+      flag curriculum concerns with a 30-day response commitment from
+      academic leadership."
+    antipattern: >
+      Reviewing the AI curriculum only through internal faculty committees
+      without any mechanism for student or community input — producing
+      curricula that serve institutional interests over learner needs.
+
+score_hints:
+  human-dignity: 0.25
+  environment: 0.15
+  privacy: 0.20
+  transparency: 0.20
+  accountability: 0.20
+
+tags:
+  - education
+  - curriculum-design
+  - ai-literacy
+  - equity
+  - unesco
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Dignity audit identifies cultural and accessibility gaps in curriculum
+    content → environmental module is designed with concrete metrics for
+    learners → privacy audit of teaching tools and curriculum privacy content
+    → transparency documents are published to students at enrollment →
+    community accountability structure is established with annual review cycle.
+    Loops back to human-dignity if transparency review reveals undisclosed
+    content biases.
+
+  sequence:
+    - step: 1
+      d: human-dignity
+      label: "Audit curriculum content for cultural equity and accessibility"
+      example_prompts:
+        - speaker: human
+          text: "We're designing a new AI ethics and literacy course for undergraduates. Start with dignity — what do we audit first?"
+        - speaker: ai
+          text: "Three dignity audits before any content is finalized: (1) Cultural diversity — review every case study, example, and reading for cultural representation. Who are the AI leaders referenced? Whose AI failures are discussed? Is the student body's own cultural context represented? (2) Accessibility — is the curriculum accessible to learners with visual, auditory, and cognitive disabilities? AI tools used must meet WCAG 2.1 AA minimum. (3) Power balance — does the curriculum teach students to be AI consumers or AI critical agents? UNESCO's dignity principle requires the latter."
+        - speaker: human
+          text: "Case studies are 90% US-centric. Accessibility audit reveals the primary AI demo tool has no screen reader support."
+      triggers_next: "Dignity gaps identified — cultural diversity gap and accessibility gap documented."
+
+    - step: 2
+      d: environment
+      label: "Design the environmental impact module"
+      example_prompts:
+        - speaker: human
+          text: "How do we teach AI's environmental footprint in a way that is accurate and actionable for undergraduates?"
+        - speaker: ai
+          text: "Three-week module structure: Week 1 — The hidden cost of AI: training compute, data center water use, hardware mining. Use ML CO2 Impact calculator as a hands-on exercise. Week 2 — Inference at scale: how each AI query has an energy cost; cumulative impact of billions of queries. Week 3 — Sustainable AI design: model distillation, efficient architectures, green compute providers. Capstone requirement: every student project must include an energy footprint estimate as part of the design documentation."
+        - speaker: human
+          text: "We'll add the environmental footprint requirement to the capstone rubric."
+      triggers_next: "Environmental module designed with concrete student deliverables."
+
+    - step: 3
+      d: privacy
+      label: "Audit teaching tools and design privacy curriculum content"
+      example_prompts:
+        - speaker: human
+          text: "Our LMS has an AI engagement tracker. Should we keep it?"
+        - speaker: ai
+          text: "The engagement tracker must meet three conditions to be consistent with UNESCO privacy principles: (1) Informed consent — students must be told exactly what is tracked, why, and for how long. (2) Data minimization — only data necessary for the educational purpose is collected. (3) Opt-out without penalty — a student who opts out must not be disadvantaged in grading or participation. If the tracker does not meet all three, it must be reconfigured or replaced. For the curriculum content: I recommend a dedicated privacy by design module where students audit a real AI system's data practices."
+        - speaker: human
+          text: "We'll reconfigure the tracker: opt-out available, data deleted after semester ends."
+      triggers_next: "Teaching tool privacy audit complete; privacy curriculum module designed."
+
+    - step: 4
+      d: transparency
+      label: "Publish curriculum transparency documents to students"
+      example_prompts:
+        - speaker: human
+          text: "What transparency documents should students receive at enrollment?"
+        - speaker: ai
+          text: "Three documents at enrollment: (1) AI tools disclosure — list every AI tool used in the course, what data it collects, and how students can opt out. (2) Curriculum scope notice — what this course covers and what it does not; prerequisites and pathways for deeper study. (3) Assessment transparency — plain-language explanation of what 'AI literacy' means for this institution's graduates and how each assessment criterion maps to that definition. Publish all three on the course page, not buried in the LMS."
+        - speaker: human
+          text: "All three documents drafted and published to the course page."
+      triggers_next: "Transparency documents published to students at enrollment."
+      loop_back:
+        to: human-dignity
+        condition: "Transparency review reveals that undisclosed content biases exist in the curriculum."
+        reason: "Dignity audit must be re-run if new biases are uncovered through transparency review."
+
+    - step: 5
+      d: accountability
+      label: "Establish community accountability and annual review cycle"
+      example_prompts:
+        - speaker: human
+          text: "How do we build genuine accountability into the curriculum governance?"
+        - speaker: ai
+          text: "Four-part accountability structure: (1) Student advisory board — 6 student representatives, meets each semester, reviews curriculum for equity and relevance. Board recommendations are responded to in writing within 30 days. (2) Annual community review — open event inviting alumni, employers, civil society. Findings are published. (3) Public curriculum changelog — every update is documented and explained to enrolled and prospective students. (4) Formal redress pathway — students can file curriculum concerns with a named academic ombudsperson; 30-day response commitment. This structure makes accountability real, not nominal."
+        - speaker: human
+          text: "Student advisory board established. First community review scheduled for end of academic year."
+      triggers_next: "Community accountability structure operational with annual review committed."
+      can_restart: true
+
+  transitions:
+    - from: human-dignity
+      to: environment
+      trigger: "Dignity gaps identified and documented."
+    - from: environment
+      to: privacy
+      trigger: "Environmental module designed with student deliverables."
+    - from: privacy
+      to: transparency
+      trigger: "Teaching tool audit complete and privacy module designed."
+    - from: transparency
+      to: human-dignity
+      trigger: "Undisclosed content biases found — dignity audit re-run."
+      is_loop_back: true
+    - from: transparency
+      to: accountability
+      trigger: "Transparency documents published."
+    - from: accountability
+      to: human-dignity
+      trigger: "Annual community review triggers next curriculum cycle."
+      is_cycle_restart: true

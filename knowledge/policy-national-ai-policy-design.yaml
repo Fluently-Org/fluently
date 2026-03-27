@@ -1,0 +1,222 @@
+id: national-ai-policy-design
+framework_id: oecd-ai-principles
+version: "1.0.0"
+contributor: Fluently Community
+title: National AI Policy Design
+domain: policy
+
+summary: >
+  A government policy team uses the OECD AI Principles to design a national
+  AI policy framework. The cycle ensures the policy promotes inclusive growth,
+  centers human rights, mandates transparency, addresses robustness and safety,
+  and establishes accountability mechanisms across public and private AI actors.
+
+dimensions:
+  inclusive-growth:
+    description: >
+      The policy is designed to distribute AI benefits across the full
+      population — not just technologically advanced sectors — with explicit
+      provisions for communities at risk of being left behind by AI-driven
+      economic change.
+    example: >
+      Policy analyst: "Our national AI strategy focuses on economic competitiveness.
+      The OECD Principles require we also address distributional impact.
+      Can you help identify which population groups are most at risk of
+      exclusion from AI benefits in our context?"
+      AI: "Based on the OECD AI Policy Observatory data, the three groups
+      most consistently at risk are: workers in routine-task occupations
+      (displacement risk), rural communities with limited digital infrastructure,
+      and populations with low AI literacy. I recommend the policy include
+      specific measures for each — not just a general 'digital inclusion' clause."
+    antipattern: >
+      Writing an AI policy that focuses entirely on innovation promotion
+      and competitiveness without any provisions for equitable distribution
+      of benefits or mitigation of AI-related economic displacement.
+
+  human-centred:
+    description: >
+      The policy enshrines human rights protections and democratic values
+      as constraints on AI use — not optional considerations. It identifies
+      which rights are most at risk from AI and prescribes protections.
+    example: >
+      AI: "For human-centred value provisions, I recommend mapping three
+      rights categories: (1) Procedural rights — the right to explanation
+      and challenge for consequential automated decisions. (2) Substantive
+      rights — non-discrimination protections applied to AI outputs.
+      (3) Collective rights — protection of democratic processes from AI
+      manipulation (deepfakes, synthetic influence). Which are already
+      covered in your existing legal framework and which require new
+      policy provisions?"
+    antipattern: >
+      Treating human rights compliance as a legal reference in the policy
+      preamble rather than a design constraint that shapes what AI
+      applications the policy permits, restricts, or prohibits.
+
+  transparency:
+    description: >
+      The policy requires disclosure standards for AI systems deployed
+      in public services and high-impact private sector applications —
+      including when citizens are subject to AI decisions and what
+      recourse they have.
+    example: >
+      Human: "Should the policy require explainability for all AI systems
+      or only specific categories?"
+      AI: "The OECD framework supports a risk-proportionate approach:
+      require full explainability for consequential decisions (benefits,
+      justice, employment, credit) and AI-interaction disclosure for
+      customer-facing systems. A blanket requirement for all AI would
+      be unenforceable and technically impossible for all model types.
+      I recommend three tiers: decision explainability, interaction
+      disclosure, and general transparency reporting."
+    antipattern: >
+      Setting a transparency requirement so broad it is unenforceable,
+      or so narrow it only covers government AI while leaving high-impact
+      private sector AI unaddressed.
+
+  robustness:
+    description: >
+      The policy establishes minimum technical and operational standards
+      for AI safety and security in critical sectors, and assigns
+      responsibility for defining and updating these standards over time.
+    example: >
+      AI: "For robustness provisions, the policy should address three
+      levels: (1) Sectoral standards — what safety requirements apply
+      to AI in healthcare, transport, critical infrastructure? (2) Incident
+      reporting — mandatory reporting of significant AI failures to a
+      national authority. (3) Standards body — which existing body
+      (standards institute, sector regulator) is mandated to define
+      and update technical AI safety standards? Without a named body,
+      the provision has no enforcement mechanism."
+    antipattern: >
+      Listing 'AI safety' as a policy objective without specifying who
+      sets technical standards, what those standards are, and what
+      happens when they are violated.
+
+  accountability:
+    description: >
+      The policy assigns clear accountability for AI outcomes to deployers,
+      developers, and public authorities — and establishes redress mechanisms
+      for individuals harmed by AI decisions.
+    example: >
+      AI: "Accountability provisions should distinguish three roles:
+      (1) Developers — liable for fundamental safety properties of
+      models they release. (2) Deployers — liable for how those models
+      are applied to specific use cases. (3) Public authorities — accountable
+      for AI in public services with an appeals pathway for citizens.
+      Without this role distinction, enforcement is impossible — every
+      actor will point to another when harm occurs."
+    antipattern: >
+      Writing accountability provisions that name no specific roles,
+      reference only 'AI actors' generally, and provide no redress
+      mechanism for individuals harmed by AI decisions.
+
+score_hints:
+  inclusive-growth: 0.20
+  human-centred: 0.20
+  transparency: 0.20
+  robustness: 0.20
+  accountability: 0.20
+
+tags:
+  - policy
+  - government
+  - national-ai-strategy
+  - oecd
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Inclusive growth analysis identifies who benefits and who is at risk →
+    human rights mapping determines which rights require new policy protections →
+    transparency provisions are scoped to risk proportionality → robustness
+    standards are assigned to named bodies → accountability roles are
+    distinguished and redress mechanisms defined. Loops back to human-centred
+    if transparency provisions conflict with existing rights frameworks.
+
+  sequence:
+    - step: 1
+      d: inclusive-growth
+      label: "Map AI benefit distribution and inclusion risks"
+      example_prompts:
+        - speaker: human
+          text: "We're drafting a national AI policy. Start with inclusive growth — who benefits and who doesn't in our current context?"
+        - speaker: ai
+          text: "To map distribution risks for your context, I need: (1) Your country's current AI adoption profile — which sectors are leading? (2) Labor market data — which occupations are most exposed to AI displacement? (3) Infrastructure gaps — which regions lack digital access? Once I have these, I can identify the three to five population groups that need explicit policy provisions, and draft inclusion-specific measures beyond a general 'digital access' clause."
+        - speaker: human
+          text: "Leading sectors: finance and logistics. Displacement exposure: truck drivers and data-entry clerks. Infrastructure gaps: rural northern regions."
+      triggers_next: "At-risk groups identified with sector and regional specificity."
+
+    - step: 2
+      d: human-centred
+      label: "Map rights at risk and design protective provisions"
+      example_prompts:
+        - speaker: human
+          text: "Which human rights are most at risk from AI in our context?"
+        - speaker: ai
+          text: "For your context (finance and logistics AI leaders, displacement risks, rural gaps): (1) Right to work — AI displacement in logistics without retraining provisions violates substantive economic rights. (2) Right to non-discrimination — AI in financial services without fairness requirements risks entrenching lending discrimination. (3) Right to an effective remedy — if AI makes a credit or benefits decision, citizens need an appeal pathway. Which of these is already covered in existing law and which requires new policy provisions?"
+        - speaker: human
+          text: "Right to remedy is a gap — no current AI-specific appeals mechanism exists."
+      triggers_next: "Rights gaps identified; new policy provisions scoped."
+      loop_back:
+        to: human-centred
+        condition: "Transparency provisions in step 3 conflict with existing data protection rights."
+        reason: "Rights conflicts must be resolved before transparency requirements are finalized."
+
+    - step: 3
+      d: transparency
+      label: "Define proportionate transparency requirements by risk tier"
+      example_prompts:
+        - speaker: human
+          text: "How should our transparency requirements be structured?"
+        - speaker: ai
+          text: "Risk-proportionate three-tier model: Tier 1 (High-risk consequential decisions — credit, benefits, justice): full explainability required, citizen notification mandatory. Tier 2 (Customer-facing AI interaction): disclosure that AI is being used, opt-out right for sensitive services. Tier 3 (Back-office AI): general transparency reporting to a designated authority annually. This avoids both unenforceable blanket requirements and the opposite — no requirements at all."
+        - speaker: human
+          text: "We'll adopt the three-tier model with the designated authority being our existing data protection regulator."
+      triggers_next: "Transparency tiers defined with enforcement body named."
+
+    - step: 4
+      d: robustness
+      label: "Assign standards bodies and define sector safety requirements"
+      example_prompts:
+        - speaker: human
+          text: "Who should set AI safety standards in our country?"
+        - speaker: ai
+          text: "Three options: (1) Mandate an existing standards body (e.g., national metrology institute) to adopt international standards (ISO 42001, NIST AI RMF) with a national supplement. (2) Create a new AI technical committee under your standards body with industry and civil society representation. (3) Delegate to sector regulators — transport safety for autonomous vehicles, health authority for medical AI. Option 3 is fastest but risks inconsistency across sectors. I recommend option 1 with sector supplements."
+        - speaker: human
+          text: "We'll mandate the national standards institute with a 12-month timeline to produce the first national AI safety standard."
+      triggers_next: "Standards body named, timeline set, sector requirements scoped."
+
+    - step: 5
+      d: accountability
+      label: "Assign accountability roles and define citizen redress"
+      example_prompts:
+        - speaker: human
+          text: "How do we structure accountability in the policy without it being unenforceable?"
+        - speaker: ai
+          text: "Three-role accountability structure: (1) AI developers — register high-risk AI systems with the national authority, provide technical documentation. (2) AI deployers — responsible for use-case compliance, must have a named AI risk officer for high-risk deployments. (3) Public authorities — use of AI in public services requires an impact assessment and a citizen appeals mechanism with a 30-day resolution SLA. Enforcement: existing sector regulators are the primary enforcers, with a cross-sector AI oversight body as the national coordinator. This maps directly to the OECD accountability principle without requiring a new regulatory body from scratch."
+        - speaker: human
+          text: "Agreed. We'll designate the data protection authority as the cross-sector AI coordinator."
+      triggers_next: "Accountability roles, enforcement bodies, and redress mechanisms defined."
+      can_restart: true
+
+  transitions:
+    - from: inclusive-growth
+      to: human-centred
+      trigger: "At-risk groups and inclusion gaps identified."
+    - from: human-centred
+      to: transparency
+      trigger: "Rights gaps mapped and new policy provisions scoped."
+    - from: transparency
+      to: human-centred
+      trigger: "Transparency provisions conflict with existing rights framework."
+      is_loop_back: true
+    - from: transparency
+      to: robustness
+      trigger: "Transparency tiers defined with enforcement body."
+    - from: robustness
+      to: accountability
+      trigger: "Standards body named and sector safety requirements scoped."
+    - from: accountability
+      to: inclusive-growth
+      trigger: "Policy review cycle — restart at next annual assessment."
+      is_cycle_restart: true

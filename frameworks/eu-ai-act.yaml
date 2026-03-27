@@ -1,0 +1,236 @@
+id: eu-ai-act
+name: EU AI Act
+version: "1.0.0"
+contributor: European Parliament & Council of the European Union
+description: >
+  The EU Artificial Intelligence Act (Regulation 2024/1689, in force August 2024)
+  is the world's first comprehensive legally binding AI regulation. It applies a
+  risk-based approach — classifying AI systems as prohibited, high-risk,
+  limited-risk, or minimal-risk — and imposes conformity, transparency,
+  human oversight, and governance obligations proportionate to each risk tier.
+  Non-compliance carries fines of up to €35 million or 7% of global turnover.
+dimensions:
+  - key: risk-classification
+    label: Risk Classification
+    description: >
+      Classify the AI system into the appropriate risk tier: prohibited,
+      high-risk, limited-risk, or minimal-risk, based on the Act's annexes
+      and the system's intended purpose and deployment context.
+    canonical_order: 1
+  - key: transparency
+    label: Transparency & Documentation
+    description: >
+      Meet disclosure, technical documentation, and user-notification
+      obligations proportionate to the classified risk level.
+    canonical_order: 2
+  - key: human-oversight
+    label: Human Oversight
+    description: >
+      Implement meaningful human control mechanisms that allow monitoring,
+      intervention, correction, or override of the AI system's outputs.
+    canonical_order: 3
+  - key: robustness
+    label: Robustness, Accuracy & Safety
+    description: >
+      Demonstrate compliance with technical standards for accuracy,
+      cybersecurity, resilience, and safety throughout the system lifecycle.
+    canonical_order: 4
+  - key: governance
+    label: Governance & Compliance
+    description: >
+      Complete conformity assessment, register in the EU AI database where
+      required, designate an EU representative, and maintain post-market
+      monitoring obligations.
+    canonical_order: 5
+level: "Market/Legal"
+binding: "Yes"
+tags:
+  - regulation
+  - compliance
+  - eu
+  - binding
+  - risk-based
+  - legal
+reference: https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689
+
+dimension_combinations:
+  - id: risk-class-transparency-prerequisite
+    dimensions: [risk-classification, transparency]
+    type: prerequisite
+    label: Risk tier determines documentation obligations
+    description: >
+      Transparency and documentation requirements under the EU AI Act are
+      directly proportional to risk classification. Minimal-risk systems have
+      near-zero documentation obligations; high-risk systems require extensive
+      technical files, conformity assessments, and ongoing audit trails.
+    guidance: >
+      Complete risk classification before drafting any compliance documentation.
+      Building documentation to the wrong tier wastes resources and creates
+      legal exposure if the classification is later challenged.
+
+  - id: risk-class-human-oversight-prerequisite
+    dimensions: [risk-classification, human-oversight]
+    type: prerequisite
+    label: High-risk classification mandates human oversight by law
+    description: >
+      High-risk AI systems are legally required to have human oversight
+      measures under Article 14. The specific oversight design must be
+      proportionate to the risk and the technical capacity of the deployer.
+    guidance: >
+      For any system classified as high-risk, design human oversight
+      mechanisms before deployment — not as an afterthought. Oversight must
+      be genuinely effective, not nominal.
+
+  - id: transparency-governance-synergy
+    dimensions: [transparency, governance]
+    type: synergy
+    label: Documentation feeds conformity assessment
+    description: >
+      Technical documentation required by the transparency dimension is the
+      primary input for the conformity assessment process under governance.
+      Weak documentation produces weak conformity assessments.
+    guidance: >
+      Treat documentation as a live artifact maintained throughout the system
+      lifecycle — not a one-time pre-deployment exercise. Changes to the system
+      must trigger documentation updates before post-market monitoring can
+      detect drift.
+
+  - id: robustness-governance-tension
+    dimensions: [robustness, governance]
+    type: tension
+    label: Continuous improvement vs. certification stability
+    description: >
+      Improving system robustness (retraining, updates, patches) can trigger
+      the need for renewed conformity assessment under governance. Organizations
+      must balance security maintenance with certification continuity.
+    guidance: >
+      Establish a change management process that classifies system updates
+      as substantial or non-substantial modifications. Only substantial
+      modifications require full conformity reassessment.
+
+best_practices:
+  - id: bp-risk-class-documentation
+    title: Document the risk classification rationale before any compliance work
+    dimension: risk-classification
+    description: >
+      Produce a written risk classification rationale that cites the specific
+      annex entries, intended purpose, and deployment context that determine
+      the tier. This document is the foundation for all compliance work.
+    antipattern: >
+      Assuming a system is minimal-risk without checking the Act's annexes,
+      then discovering mid-deployment that it meets high-risk criteria —
+      requiring expensive retrofitting of documentation and oversight.
+    signal: >
+      A risk classification document exists, cites specific EU AI Act
+      articles and annexes, and is approved by legal counsel.
+
+  - id: bp-transparency-technical-file
+    title: Maintain a complete technical file as a living document
+    dimension: transparency
+    description: >
+      High-risk AI systems require a technical file under Article 11 that
+      must be kept current for 10 years post-market. Treat it as a living
+      document updated with every material change.
+    antipattern: >
+      Creating the technical file for the initial conformity assessment
+      and then freezing it — leaving the file diverged from the actual
+      deployed system within months.
+    signal: >
+      Technical file has a version history, a change log, and a named
+      owner responsible for keeping it current post-deployment.
+
+  - id: bp-human-oversight-design
+    title: Design human oversight into the user interface, not the manual
+    dimension: human-oversight
+    description: >
+      Human oversight under Article 14 must be genuinely effective.
+      Override and intervention capabilities must be embedded in the UI/UX
+      in ways that operators can and will actually use under real conditions.
+    antipattern: >
+      Satisfying oversight requirements by describing intervention steps in
+      a user manual that operators never read, with no actual system-level
+      mechanism to pause or override the AI.
+    signal: >
+      System UI includes a visible, tested override or pause mechanism that
+      was designed with operator usability research, not just legal compliance.
+
+  - id: bp-robustness-testing-standard
+    title: Reference harmonized standards for robustness testing
+    dimension: robustness
+    description: >
+      Use harmonized European standards (EN) or common specifications
+      published under the Act for robustness and accuracy testing.
+      Compliance with harmonized standards creates a presumption of conformity.
+    antipattern: >
+      Using proprietary or ad-hoc testing methodologies that cannot be
+      independently verified against recognized standards — creating legal
+      uncertainty about conformity.
+    signal: >
+      Testing plan references at least one harmonized standard or
+      Commission-published common specification relevant to the system's domain.
+
+  - id: bp-governance-post-market
+    title: Implement a post-market monitoring plan before deployment
+    dimension: governance
+    description: >
+      Post-market monitoring (Article 72) is a legal obligation for high-risk
+      systems and must be operational at deployment, not implemented reactively
+      after incidents occur.
+    antipattern: >
+      Treating post-market monitoring as a future compliance task to be
+      designed after the system is in production — leaving a gap between
+      deployment and active monitoring that creates legal exposure.
+    signal: >
+      Deployment plan includes a named post-market monitoring responsible
+      party, monitoring metrics, reporting cadence, and incident escalation path.
+
+evaluation_criteria:
+  - id: eval-risk-classification-documented
+    dimension: risk-classification
+    label: Risk tier is classified and documented
+    description: The AI system's risk classification is determined and supported by written rationale.
+    weight: 0.20
+    signals:
+      present: [risk, classify, tier, prohibited, high-risk, limited-risk, minimal, annex, category, assessment]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-transparency-technical-file
+    dimension: transparency
+    label: Technical documentation and disclosure requirements are addressed
+    description: Documentation obligations proportionate to risk level are identified and planned.
+    weight: 0.20
+    signals:
+      present: [document, technical, file, disclosure, notice, inform, register, transparency, log, instruction]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-human-oversight-mechanism
+    dimension: human-oversight
+    label: Human oversight mechanism is designed and implemented
+    description: A concrete mechanism for human intervention or override exists in the system.
+    weight: 0.20
+    signals:
+      present: [oversight, human, override, intervene, pause, control, monitor, correct, review, operator]
+      absent: []
+    pass_threshold: 2
+
+  - id: eval-robustness-tested
+    dimension: robustness
+    label: Robustness and accuracy are validated
+    description: Testing evidence or references to harmonized standards support robustness claims.
+    weight: 0.20
+    signals:
+      present: [test, accuracy, robust, security, resilience, safe, standard, validate, benchmark, performance]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-governance-conformity
+    dimension: governance
+    label: Conformity assessment and post-market monitoring are planned
+    description: The governance pathway for conformity and ongoing monitoring is defined.
+    weight: 0.20
+    signals:
+      present: [conformity, assessment, register, monitor, post-market, notified, body, certify, compliance, report]
+      absent: []
+    pass_threshold: 1

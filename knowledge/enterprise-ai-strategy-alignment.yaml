@@ -1,0 +1,231 @@
+id: ai-strategy-alignment
+framework_id: wef-responsible-ai
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Strategy Alignment with Organizational Purpose
+domain: enterprise
+
+summary: >
+  An enterprise leadership team uses the WEF Responsible AI Playbook to align
+  its AI strategy with organizational purpose and societal goals. The cycle
+  moves from purpose articulation through governance design, ethical risk
+  scoping, operational embedding, and outcome accountability — ensuring AI
+  serves the mission rather than displacing it.
+
+dimensions:
+  strategy:
+    description: >
+      The leadership team articulates how AI initiatives connect to the
+      organization's stated purpose, values, and societal commitments —
+      and uses this connection as a filter for AI investment decisions.
+    example: >
+      CEO: "We've approved six AI initiatives this year. I want to know
+      which ones actually serve our mission as a public health organization."
+      AI: "Apply the purpose test to each initiative: (1) Does this AI
+      initiative serve patients and communities, or does it primarily
+      serve operational efficiency for the organization? (2) Could this
+      AI use create a conflict of interest between our mission and our
+      financial incentives? (3) If this initiative became public tomorrow,
+      would it be consistent with how we want to be seen? Run all six
+      initiatives through these three questions and rank them by
+      mission alignment before the next board meeting."
+    antipattern: >
+      Approving AI initiatives based exclusively on ROI projections and
+      operational efficiency gains, with no mechanism to verify whether
+      they serve the organization's stated mission and societal purpose.
+
+  governance:
+    description: >
+      The organization designs an oversight structure for responsible AI
+      with real decision authority — including who can pause or veto
+      deployments, how ethics concerns are escalated, and what the
+      governance cadence is.
+    example: >
+      AI: "For responsible AI governance, the WEF Playbook recommends
+      three layers: (1) Operational — an AI review team embedded in
+      the product and engineering workflow that screens every AI deployment
+      before it goes live. (2) Strategic — an AI ethics committee at the
+      VP/Director level with authority to pause high-stakes deployments.
+      (3) Board — an AI governance item on the board agenda at least
+      quarterly, with a named board member as AI accountability sponsor.
+      Which layer is currently missing or weakest in your organization?"
+    antipattern: >
+      Creating an AI ethics committee that meets quarterly and can only
+      advise — with no authority to pause deployments and no connection
+      to operational AI decisions being made daily in product teams.
+
+  risk-ethics:
+    description: >
+      The organization assesses the ethical risks of its AI portfolio —
+      not just technical risks — including who could be harmed, how, and
+      whether the harm is proportionate to the benefit claimed.
+    example: >
+      Human: "Our patient scheduling AI prioritizes patients with better
+      payment histories. Is that an ethical risk?"
+      AI: "Yes — this is a high-severity ethical risk. The harm is direct
+      and systematic: patients with worse payment histories (often lower-income
+      or underinsured) receive worse access to care. In a public health
+      context, this directly conflicts with your mission and may violate
+      health equity law. The WEF Playbook would classify this as an
+      unacceptable ethics risk — a mission conflict, not just a fairness
+      metric. Recommendation: pause this feature and replace the payment
+      history signal with clinically appropriate prioritization criteria."
+    antipattern: >
+      Treating 'payment history' as a neutral data feature without
+      assessing its societal and mission implications — allowing financial
+      logic to override clinical and ethical judgment.
+
+  implementation:
+    description: >
+      The organization embeds responsible AI practices into its operational
+      workflows — making ethics reviews, documentation requirements, and
+      fairness checks part of the standard development process, not
+      optional extras.
+    example: >
+      AI: "To embed responsible AI in your product workflow, I recommend
+      three changes to the current development process: (1) Add an ethics
+      checkpoint at the design phase — before any AI feature is engineered,
+      a one-page ethics impact brief is required. (2) Require an equity
+      review for any AI feature affecting patient access or outcomes —
+      run by clinical and social work staff, not just engineers. (3) Add
+      a responsible AI sign-off to the deployment checklist — a named
+      individual confirms the ethics checkpoint and equity review were
+      completed. These add less than one week to the average release cycle."
+    antipattern: >
+      Publishing a responsible AI policy and expecting development teams
+      to self-apply it without any process change, tooling, or accountability
+      mechanism — producing policies that exist on paper but not in code.
+
+  accountability:
+    description: >
+      The organization tracks whether its AI initiatives are achieving
+      their stated purpose, reports transparently on outcomes — including
+      failures — and uses evidence to drive continuous improvement of
+      the responsible AI program.
+    example: >
+      AI closes the cycle: "Accountability structure for the responsible AI
+      program: (1) Quarterly outcome report — for each AI system, track
+      three metrics: mission alignment score (purpose test results),
+      equity metric (disparity in outcomes across patient groups), and
+      incident count. (2) Annual external report — published to stakeholders
+      including community partners, describing responsible AI commitments
+      and progress. (3) Board accountability item — AI ethics committee
+      presents to the board annually with a forward improvement plan.
+      (4) Whistleblower pathway — staff can report responsible AI concerns
+      anonymously with a named executive reviewer."
+    antipattern: >
+      Reporting only AI successes externally while keeping failures and
+      ethical concerns internal — producing a responsible AI narrative
+      that is not grounded in transparent evidence.
+
+score_hints:
+  strategy: 0.25
+  governance: 0.20
+  risk-ethics: 0.25
+  implementation: 0.20
+  accountability: 0.10
+
+tags:
+  - ai-strategy
+  - responsible-ai
+  - enterprise
+  - wef
+  - healthcare
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    AI initiatives are filtered against organizational purpose → governance
+    structure with real authority is designed → ethical risks in the AI
+    portfolio are assessed → responsible AI practices are embedded in
+    development workflows → outcome tracking and external reporting closes
+    the accountability loop. Loops back to strategy if risk-ethics assessment
+    reveals initiatives that conflict with mission.
+
+  sequence:
+    - step: 1
+      d: strategy
+      label: "Filter AI initiatives against organizational purpose"
+      example_prompts:
+        - speaker: human
+          text: "We have a board-approved AI roadmap with 8 initiatives. How do we know which ones are aligned with our mission?"
+        - speaker: ai
+          text: "Run the purpose test on all 8 initiatives. For each, answer: (1) Who is the primary beneficiary — the organization or the people it serves? (2) Does this initiative serve our core mission or a financial objective that happens to use AI? (3) Would this initiative be defensible if reported by a journalist covering 'AI in healthcare'? Score each initiative Red (mission conflict), Yellow (unclear alignment), or Green (clear mission alignment). Share the results before the next board meeting — Red and Yellow items require a strategy discussion, not just an approval."
+        - speaker: human
+          text: "Three initiatives score Red including the payment-priority scheduler. Two are Yellow. Three are Green."
+      triggers_next: "AI initiatives scored against mission; conflicts identified."
+
+    - step: 2
+      d: governance
+      label: "Design responsible AI governance with real authority"
+      example_prompts:
+        - speaker: human
+          text: "We have an AI ethics advisory group but it has no authority to stop anything. How do we fix this?"
+        - speaker: ai
+          text: "Restructure in three steps: (1) Rename the group to AI Ethics Committee and update the charter to give it explicit pause authority for any AI deployment that scores Red on the purpose test or fails an equity review. (2) Define the escalation path — product team flags concern → AI review team → ethics committee → CEO if committee is deadlocked. (3) Give the committee a direct reporting line to the board's governance committee, not to the CTO. The CTO is an interested party in deployment decisions; the board is the right accountability principal."
+        - speaker: human
+          text: "Charter update drafted. CEO approved pause authority for the ethics committee."
+      triggers_next: "Governance structure with real authority approved and documented."
+
+    - step: 3
+      d: risk-ethics
+      label: "Assess ethical risks in the AI portfolio"
+      example_prompts:
+        - speaker: human
+          text: "The three Red initiatives — what are the specific ethical risks?"
+        - speaker: ai
+          text: "For the payment-priority scheduler: ethical risk is direct — it systematically disadvantages lower-income patients in access to care. This is a mission conflict and a potential health equity law violation. Recommend: pause immediately, replace with clinically validated priority criteria. For the AI-assisted discharge planning tool: risk is opacity — clinicians cannot see why the model recommends discharge timing, creating accountability gaps. Recommend: require explainability layer before deployment. For the predictive readmission model: risk is feedback loop — if the model is used to ration follow-up care, its errors compound. Recommend: human review required for all model outputs above a risk threshold."
+        - speaker: human
+          text: "Ethics committee has reviewed all three. Pause orders issued for payment scheduler."
+      triggers_next: "Ethical risks assessed; pause orders issued for mission-conflicting initiatives."
+      loop_back:
+        to: strategy
+        condition: "Risk-ethics assessment reveals additional initiatives with mission conflicts not identified in the purpose test."
+        reason: "Strategy filter must be re-run with updated criteria before ethics committee reviews remaining portfolio."
+
+    - step: 4
+      d: implementation
+      label: "Embed responsible AI practices in development workflow"
+      example_prompts:
+        - speaker: human
+          text: "How do we make sure the remaining five Green initiatives stay responsible as they're built?"
+        - speaker: ai
+          text: "Three workflow changes: (1) Ethics impact brief — one-page document required at the design phase for every AI feature. Template: what problem are we solving, who could be harmed, what is the mitigation. Owner: product manager. (2) Equity review — any AI feature affecting patient access or clinical outcomes goes through a 2-hour review with clinical informatics and social work. Owner: clinical lead. (3) Deployment checklist — responsible AI sign-off added as a required gate before any AI feature goes to production. Named individual confirms the ethics brief and equity review were completed. These changes add approximately 3-5 days to the standard release cycle."
+        - speaker: human
+          text: "Three changes approved by engineering VP. Adding to the SDLC documentation."
+      triggers_next: "Responsible AI practices embedded in development workflow."
+
+    - step: 5
+      d: accountability
+      label: "Establish outcome tracking and external reporting"
+      example_prompts:
+        - speaker: human
+          text: "How do we demonstrate accountability for our responsible AI program externally?"
+        - speaker: ai
+          text: "Accountability framework: (1) Quarterly internal report — AI ethics committee receives: mission alignment scores, equity metrics per system, incident log, open pause items. (2) Annual external report — published to community partners and on the website: responsible AI commitments made, progress against them, and one honest failure and what was learned. (3) Board agenda item — ethics committee presents annually with a forward improvement plan. (4) Community input mechanism — annual open meeting with patient advocacy groups to review the responsible AI program. The external report is the most important item — it creates genuine accountability by making commitments public."
+        - speaker: human
+          text: "Annual report committed for Q4. Community meeting scheduled. Board agenda item approved."
+      triggers_next: "Accountability structure operational; external reporting committed."
+      can_restart: true
+
+  transitions:
+    - from: strategy
+      to: governance
+      trigger: "AI initiatives scored against mission; conflicts identified."
+    - from: governance
+      to: risk-ethics
+      trigger: "Governance structure with real authority approved."
+    - from: risk-ethics
+      to: strategy
+      trigger: "Additional mission-conflicting initiatives discovered — re-run purpose test."
+      is_loop_back: true
+    - from: risk-ethics
+      to: implementation
+      trigger: "Ethical risks assessed and pause orders issued where needed."
+    - from: implementation
+      to: accountability
+      trigger: "Responsible AI practices embedded in workflow."
+    - from: accountability
+      to: strategy
+      trigger: "Annual review cycle — reassess AI portfolio against mission."
+      is_cycle_restart: true

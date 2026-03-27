@@ -1,0 +1,228 @@
+id: ai-transparency-reporting
+framework_id: oecd-ai-principles
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Transparency Reporting
+domain: enterprise
+
+summary: >
+  An enterprise team uses the OECD AI Principles to produce its first annual
+  AI transparency report — covering equitable benefit distribution, human
+  rights commitments, explainability mechanisms, system robustness evidence,
+  and accountability disclosures. The cycle ensures the report is substantive,
+  not performative.
+
+dimensions:
+  inclusive-growth:
+    description: >
+      The report discloses which populations benefit from the organization's
+      AI systems, which bear disproportionate risk, and what the organization
+      is doing to close identified equity gaps — backed by data, not assertions.
+    example: >
+      Reporting lead: "Our transparency report says we are 'committed to
+      inclusive AI.' How do we make that substantive?"
+      AI: "Replace the commitment statement with three data points:
+      (1) For each major AI system, who uses it and what demographic
+      groups benefit? (2) Where disparity audits found gaps, what was
+      the disparity ratio and what action was taken? (3) What is the
+      organization's equity improvement target for next year, and how
+      will it be measured? A transparency report that makes no measurable
+      commitments is a public relations document, not an accountability one."
+    antipattern: >
+      Publishing general statements about 'commitment to inclusive AI'
+      without any data on who benefits, who is disadvantaged, and what
+      concrete actions are being taken to close identified gaps.
+
+  human-centred:
+    description: >
+      The report identifies which human rights are most implicated by the
+      organization's AI systems and discloses how those rights are protected —
+      including the results of any rights impact assessments conducted.
+    example: >
+      AI: "For the human-centred section, structure it as: (1) Rights at stake —
+      list the top three human rights implicated by your AI systems
+      (e.g., right to non-discrimination for hiring AI, right to privacy
+      for data AI, right to explanation for credit AI). (2) Protection measures —
+      for each right, what mechanism protects it? (3) Assessment results —
+      were any rights impact assessments conducted? What did they find?
+      If no assessment was conducted, say so — incomplete disclosure is
+      still more credible than vague assurance."
+    antipattern: >
+      Referencing 'human rights' in the report without naming which rights
+      are implicated, how they are protected, or whether any assessment
+      of rights impacts was conducted.
+
+  transparency:
+    description: >
+      The report itself is transparent about its scope limitations —
+      what AI systems are covered, what is excluded and why, and what
+      the organization does not yet know about its own AI impacts.
+    example: >
+      Human: "Should we disclose that we have three AI systems we couldn't
+      include because they are under NDA with the vendor?"
+      AI: "Yes — disclosing scope limitations is more credible than
+      implying complete coverage. State: 'This report covers eight of
+      eleven AI systems in production. Three systems operated under
+      third-party vendor agreements that restrict disclosure. We are
+      working with vendors to enable disclosure in next year's report.'
+      Readers who discover undisclosed systems will question everything
+      in the report; readers who see honest scope limitations will
+      trust the disclosed content more."
+    antipattern: >
+      Publishing a transparency report that does not disclose its own
+      scope limitations — implying complete coverage when significant
+      AI systems are excluded.
+
+  robustness:
+    description: >
+      The report discloses the organization's approach to AI system
+      safety and security testing — including what testing was conducted,
+      by whom, and what the results indicated — not just that testing occurred.
+    example: >
+      AI: "For robustness disclosure, three elements: (1) Testing scope —
+      which systems were tested for safety and security, and which were not?
+      (2) Methodology — was testing internal, third-party, or regulatory?
+      Third-party testing is more credible. (3) Material findings — were any
+      significant safety or security issues found? If so, what was the
+      remediation? Disclosing a finding and its remediation demonstrates
+      a mature program; concealing it creates legal and reputational risk
+      if the issue is later discovered externally."
+    antipattern: >
+      Stating 'all AI systems undergo rigorous testing' without specifying
+      what was tested, by whom, and what the results were — making the
+      claim unverifiable and therefore meaningless.
+
+  accountability:
+    description: >
+      The report names who is accountable for the organization's AI program,
+      what governance structures exist, and how stakeholders can raise concerns —
+      with a commitment to respond to feedback before the next report.
+    example: >
+      AI closes the reporting cycle: "Accountability section structure:
+      (1) Named AI leadership — the executive responsible for AI governance
+      and their reporting line. (2) Governance bodies — AI ethics committee,
+      board oversight item, internal audit scope. (3) Incident summary —
+      how many AI incidents occurred, how many were resolved, and
+      what systemic changes resulted. (4) Stakeholder engagement —
+      how did the organization gather external input for this report?
+      (5) Contact for feedback — a named channel for stakeholders to
+      respond to this report, with a commitment to acknowledge receipt
+      within 30 days."
+    antipattern: >
+      Publishing an AI transparency report with no named executive,
+      no governance disclosure, no incident summary, and no way for
+      stakeholders to provide feedback — making 'accountability' a
+      heading rather than a reality.
+
+score_hints:
+  inclusive-growth: 0.20
+  human-centred: 0.20
+  transparency: 0.25
+  robustness: 0.15
+  accountability: 0.20
+
+tags:
+  - transparency-reporting
+  - enterprise
+  - oecd
+  - responsible-ai
+  - disclosure
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Equity data is gathered and converted from assertions to evidence →
+    human rights implications are named and protection measures disclosed →
+    report scope limitations are explicitly disclosed → robustness testing
+    results are summarized with methodology → accountability structure and
+    feedback mechanism close the report. Loops back to inclusive-growth if
+    rights impact assessment reveals equity gaps not captured in the initial
+    data pull.
+
+  sequence:
+    - step: 1
+      d: inclusive-growth
+      label: "Convert equity commitments to data-backed disclosures"
+      example_prompts:
+        - speaker: human
+          text: "We want to publish our first AI transparency report. The draft says we are 'committed to equitable AI.' How do we make this substantive?"
+        - speaker: ai
+          text: "Three data requests to replace the commitment statement: (1) Pull disparity audit results for each AI system — do they exist? If not, note the gap and commit to conducting them by a named date. (2) For systems with audits, what were the disparity ratios and what actions were taken? (3) What is the measurable equity target for next year — e.g., 'reduce disparity ratio in hiring AI from 1.34 to below 1.15 by Q4'? A report with one specific target and its baseline is more credible than five pages of aspirational language."
+        - speaker: human
+          text: "Hiring AI disparity ratio: 1.34. Credit AI: no audit conducted. Equity target: hiring AI ratio below 1.15 by Q4."
+      triggers_next: "Equity data gathered; targets set; audit gaps disclosed."
+
+    - step: 2
+      d: human-centred
+      label: "Name rights at stake and disclose protection mechanisms"
+      example_prompts:
+        - speaker: human
+          text: "Which human rights should we reference in the report?"
+        - speaker: ai
+          text: "Map your AI systems to rights: (1) Hiring AI — right to non-discrimination (Article 21, EU Charter; Title VII equivalent in US); right to explanation for automated decisions (GDPR Article 22). (2) Credit AI — right to non-discrimination; right to human review of automated credit decisions. (3) Customer analytics AI — right to privacy and data protection. For each right, document: what mechanism protects it? Has a rights impact assessment been conducted? If no assessment exists, say so and commit to one — that honest disclosure is more credible than vague assurance."
+        - speaker: human
+          text: "No formal rights impact assessment has been conducted. We'll disclose this and commit to one for hiring AI by Q2."
+      triggers_next: "Rights at stake named; protection mechanisms disclosed; assessment gaps acknowledged."
+      loop_back:
+        to: inclusive-growth
+        condition: "Rights impact assessment reveals equity gaps not captured in the initial disparity data."
+        reason: "Equity section must be updated to reflect rights-based findings."
+
+    - step: 3
+      d: transparency
+      label: "Disclose report scope and limitations explicitly"
+      example_prompts:
+        - speaker: human
+          text: "Three of our AI systems are covered by vendor NDAs. Do we include them?"
+        - speaker: ai
+          text: "Disclose the limitation explicitly: 'This report covers eight of eleven AI systems in production. Three systems are operated under third-party vendor agreements that currently restrict public disclosure. We are engaging vendors to enable disclosure in next year's report.' This is the right approach for three reasons: (1) Stakeholders who find the undisclosed systems will question the entire report. (2) Named limitations signal a mature transparency program. (3) The vendor engagement commitment creates accountability for next year's disclosure. Add the three system categories without identifying the vendors if NDA permits."
+        - speaker: human
+          text: "Scope limitation section drafted with vendor engagement commitment."
+      triggers_next: "Report scope and limitations explicitly disclosed."
+
+    - step: 4
+      d: robustness
+      label: "Summarize testing methodology and material findings"
+      example_prompts:
+        - speaker: human
+          text: "Our security team ran penetration tests on four AI systems. Should we disclose results?"
+        - speaker: ai
+          text: "Disclose at the finding level, not the vulnerability level: 'Four AI systems underwent third-party penetration testing in Q2. Two systems had findings that were remediated within 30 days of discovery. No findings remain open.' This discloses that testing occurred, that issues were found and fixed, and that nothing is outstanding — without providing a map for attackers. If a finding is still open, say so with its severity and target remediation date. Concealing open findings in a transparency report creates legal exposure if the vulnerability is later exploited."
+        - speaker: human
+          text: "Two findings, both remediated. Summary language drafted for robustness section."
+      triggers_next: "Testing methodology and material findings summarized without operational security risk."
+
+    - step: 5
+      d: accountability
+      label: "Name executives, governance bodies, and feedback channel"
+      example_prompts:
+        - speaker: human
+          text: "How do we close the report with genuine accountability?"
+        - speaker: ai
+          text: "Accountability section: (1) Named AI executive — 'AI governance is the responsibility of [Name], Chief Technology Officer, reporting to the CEO and the Board Governance Committee.' (2) Governance bodies — AI Ethics Committee (members listed by role, not name if preferred), meets quarterly, has pause authority for high-risk deployments. (3) Incident summary — '3 AI incidents logged in the reporting period; all resolved; 1 systemic process change resulted.' (4) Stakeholder engagement — 'This report was reviewed by an external civil society organization before publication.' (5) Feedback channel — 'Submit feedback at [email/form]; we commit to acknowledging receipt within 30 days and publishing a summary of feedback received in next year's report.'"
+        - speaker: human
+          text: "Accountability section complete. Report ready for executive review before publication."
+      triggers_next: "Report complete with named accountability, incident summary, and feedback channel."
+      can_restart: true
+
+  transitions:
+    - from: inclusive-growth
+      to: human-centred
+      trigger: "Equity data gathered and targets set."
+    - from: human-centred
+      to: inclusive-growth
+      trigger: "Rights assessment reveals equity gaps not in initial data."
+      is_loop_back: true
+    - from: human-centred
+      to: transparency
+      trigger: "Rights implications named and protection mechanisms disclosed."
+    - from: transparency
+      to: robustness
+      trigger: "Scope limitations explicitly disclosed."
+    - from: robustness
+      to: accountability
+      trigger: "Testing methodology and findings summarized."
+    - from: accountability
+      to: inclusive-growth
+      trigger: "Annual reporting cycle — begin data collection for next report."
+      is_cycle_restart: true
