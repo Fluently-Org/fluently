@@ -1,0 +1,223 @@
+id: wef-responsible-ai
+name: WEF Responsible AI Playbook
+version: "1.0.0"
+contributor: World Economic Forum
+description: >
+  The World Economic Forum Responsible AI Playbook provides practical
+  operationalization guidance for enterprises and governments seeking to
+  deploy AI responsibly. It structures responsible AI work across five
+  interconnected pillars: strategy alignment, governance design, risk and
+  ethics assessment, implementation, and outcome accountability — bridging
+  the gap between ethical principles and operational reality.
+dimensions:
+  - key: strategy
+    label: Strategy
+    description: >
+      Align AI initiatives with organizational purpose, values, and societal
+      goals — ensuring AI serves the mission rather than driving it.
+    canonical_order: 1
+  - key: governance
+    label: Governance
+    description: >
+      Establish oversight structures, ethics bodies, decision-making processes,
+      and escalation paths for responsible AI across the organization.
+    canonical_order: 2
+  - key: risk-ethics
+    label: Risk & Ethics
+    description: >
+      Identify, assess, and prioritize ethical risks and potential harms from
+      AI systems before and during deployment.
+    canonical_order: 3
+  - key: implementation
+    label: Implementation
+    description: >
+      Deploy responsible AI practices into teams, tools, workflows, and
+      procurement — making ethics operational rather than aspirational.
+    canonical_order: 4
+  - key: accountability
+    label: Accountability
+    description: >
+      Track outcomes, report transparently on AI impact, and drive continuous
+      improvement through evidence rather than assertion.
+    canonical_order: 5
+level: "Enterprise/Gov"
+binding: "No"
+tags:
+  - responsible-ai
+  - enterprise-governance
+  - wef
+  - operationalization
+  - playbook
+reference: https://www.weforum.org/publications/responsible-ai-playbook/
+
+dimension_combinations:
+  - id: strategy-governance-prerequisite
+    dimensions: [strategy, governance]
+    type: prerequisite
+    label: Strategy defines what governance must protect
+    description: >
+      Governance structures are only effective when they are scoped to a clear
+      strategic mandate. Without strategy, governance becomes bureaucracy with
+      no direction; without governance, strategy becomes aspiration with no
+      enforcement.
+    guidance: >
+      Before designing governance structures, confirm the AI strategy document
+      is approved and names the values and boundaries governance must enforce.
+
+  - id: risk-ethics-implementation-prerequisite
+    dimensions: [risk-ethics, implementation]
+    type: prerequisite
+    label: Ethics assessment gates implementation
+    description: >
+      Responsible implementation requires that ethical risks are assessed
+      before deployment decisions are made — not retrofitted after problems emerge.
+    guidance: >
+      Treat the ethics assessment as a pre-deployment gate, not a parallel
+      track. No implementation should proceed for high-stakes AI without a
+      completed risk-ethics review.
+
+  - id: implementation-accountability-synergy
+    dimensions: [implementation, accountability]
+    type: synergy
+    label: Operational evidence supports accountability claims
+    description: >
+      Accountability for AI outcomes is credible only when it is backed by
+      operational records — decision logs, audit trails, outcome metrics.
+      Implementation that generates evidence makes accountability genuine.
+    guidance: >
+      Build accountability-ready record-keeping into implementation from day one.
+      Retroactive record reconstruction is expensive and legally fragile.
+
+  - id: governance-accountability-tension
+    dimensions: [governance, accountability]
+    type: tension
+    label: Committee speed vs. reporting cadence
+    description: >
+      Governance bodies that meet infrequently can create accountability gaps
+      between decision points. Fast-moving AI deployments require accountability
+      mechanisms that operate at operational speed, not board-meeting cadence.
+    guidance: >
+      Supplement board-level governance with operational accountability
+      mechanisms (automated monitoring, team-level review cycles) that provide
+      real-time signals between governance meetings.
+
+best_practices:
+  - id: bp-strategy-purpose-test
+    title: Apply the purpose test before approving AI initiatives
+    dimension: strategy
+    description: >
+      Every proposed AI initiative must answer: does this serve our stated
+      purpose and values, or does it serve operational convenience at the
+      expense of mission?
+    antipattern: >
+      Approving AI projects based on cost-efficiency projections alone,
+      without checking alignment with organizational values or societal goals.
+    signal: >
+      Project approval documentation includes a purpose alignment statement
+      signed off by a senior leader beyond the project sponsor.
+
+  - id: bp-governance-ethics-body
+    title: Establish an AI ethics body with real decision authority
+    dimension: governance
+    description: >
+      An AI ethics committee must have the authority to pause or block
+      deployments — not merely issue non-binding recommendations.
+    antipattern: >
+      Creating an ethics advisory committee that can only recommend,
+      while deployment decisions are made exclusively by business units
+      with no obligation to follow ethics guidance.
+    signal: >
+      Governance charter explicitly grants the ethics body pause or
+      veto authority for deployments that fail ethics review.
+
+  - id: bp-risk-ethics-red-team
+    title: Run adversarial ethics reviews before deployment
+    dimension: risk-ethics
+    description: >
+      Assign a team to actively find ethical failure modes, misuse scenarios,
+      and unintended harms — not just review whether stated requirements are met.
+    antipattern: >
+      Conducting ethics review as a self-assessment checklist completed by
+      the project team that built the system being reviewed.
+    signal: >
+      Ethics review is conducted by a team independent of the project,
+      with a mandate to find problems, not confirm compliance.
+
+  - id: bp-implementation-tooling
+    title: Embed responsible AI practices into developer tooling
+    dimension: implementation
+    description: >
+      Responsible AI requirements must be built into the development workflow —
+      model cards, bias checks, documentation requirements — not left to
+      individual discretion.
+    antipattern: >
+      Publishing an AI ethics policy and expecting developers to self-apply it
+      without tooling, templates, or automated checks integrated into the
+      development pipeline.
+    signal: >
+      Development pipeline includes at least one automated responsible AI
+      check (bias detection, documentation gate, model card requirement).
+
+  - id: bp-accountability-public-reporting
+    title: Publish an annual responsible AI progress report
+    dimension: accountability
+    description: >
+      Responsible AI accountability requires external visibility — internal
+      reporting alone is insufficient for organizations with public AI impact.
+    antipattern: >
+      Treating responsible AI reporting as internal-only and refusing to
+      disclose outcomes, incidents, or improvement actions to the public.
+    signal: >
+      Organization has published at least one external report on responsible
+      AI outcomes, or has committed to a publication schedule.
+
+evaluation_criteria:
+  - id: eval-strategy-alignment
+    dimension: strategy
+    label: AI initiative is aligned with organizational purpose
+    description: The work demonstrates connection between AI use and the organization's stated values or mission.
+    weight: 0.20
+    signals:
+      present: [strategy, purpose, mission, values, alignment, goal, vision, objective, organizational, mandate]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-governance-structure
+    dimension: governance
+    label: Oversight structure or ethics body is defined
+    description: A governance body or process exists with named decision authority for AI.
+    weight: 0.20
+    signals:
+      present: [governance, oversight, ethics, committee, board, authority, escalation, process, decision, review]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-risk-ethics-assessment
+    dimension: risk-ethics
+    label: Ethical risk assessment is completed
+    description: Potential harms and ethical risks are identified and assessed before deployment.
+    weight: 0.20
+    signals:
+      present: [risk, ethics, harm, assess, impact, fairness, bias, misuse, adverse, review]
+      absent: []
+    pass_threshold: 2
+
+  - id: eval-implementation-practice
+    dimension: implementation
+    label: Responsible AI practice is embedded in operations
+    description: At least one responsible AI practice is built into the operational workflow.
+    weight: 0.20
+    signals:
+      present: [implement, embed, deploy, practice, tool, checklist, pipeline, process, template, workflow]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-accountability-reporting
+    dimension: accountability
+    label: Outcome tracking and reporting mechanism exists
+    description: A mechanism for tracking and reporting AI outcomes is defined.
+    weight: 0.20
+    signals:
+      present: [track, report, outcome, monitor, metric, disclose, publish, audit, evidence, measure]
+      absent: []
+    pass_threshold: 1

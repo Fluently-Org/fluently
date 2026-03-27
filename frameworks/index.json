@@ -1,6 +1,6 @@
 {
-  "generated": "2026-03-23T22:35:09.301Z",
-  "total": 1,
+  "generated": "2026-03-27T14:15:27.185Z",
+  "total": 7,
   "frameworks": [
     {
       "id": "4d-framework",
@@ -40,6 +40,8 @@
         "4d"
       ],
       "reference": "https://fluently.ctrl6.com",
+      "level": "User/Worker",
+      "binding": "No",
       "dimension_combinations": [
         {
           "id": "del-des-synergy",
@@ -246,6 +248,1457 @@
               "sign-off",
               "takes ownership"
             ]
+          },
+          "pass_threshold": 1
+        }
+      ]
+    },
+    {
+      "id": "eu-ai-act",
+      "name": "EU AI Act",
+      "version": "1.0.0",
+      "contributor": "European Parliament & Council of the European Union",
+      "description": "The EU Artificial Intelligence Act (Regulation 2024/1689, in force August 2024) is the world's first comprehensive legally binding AI regulation. It applies a risk-based approach — classifying AI systems as prohibited, high-risk, limited-risk, or minimal-risk — and imposes conformity, transparency, human oversight, and governance obligations proportionate to each risk tier. Non-compliance carries fines of up to €35 million or 7% of global turnover.\n",
+      "dimensions": [
+        {
+          "key": "risk-classification",
+          "label": "Risk Classification",
+          "description": "Classify the AI system into the appropriate risk tier: prohibited, high-risk, limited-risk, or minimal-risk, based on the Act's annexes and the system's intended purpose and deployment context.\n",
+          "canonical_order": 1
+        },
+        {
+          "key": "transparency",
+          "label": "Transparency & Documentation",
+          "description": "Meet disclosure, technical documentation, and user-notification obligations proportionate to the classified risk level.\n",
+          "canonical_order": 2
+        },
+        {
+          "key": "human-oversight",
+          "label": "Human Oversight",
+          "description": "Implement meaningful human control mechanisms that allow monitoring, intervention, correction, or override of the AI system's outputs.\n",
+          "canonical_order": 3
+        },
+        {
+          "key": "robustness",
+          "label": "Robustness, Accuracy & Safety",
+          "description": "Demonstrate compliance with technical standards for accuracy, cybersecurity, resilience, and safety throughout the system lifecycle.\n",
+          "canonical_order": 4
+        },
+        {
+          "key": "governance",
+          "label": "Governance & Compliance",
+          "description": "Complete conformity assessment, register in the EU AI database where required, designate an EU representative, and maintain post-market monitoring obligations.\n",
+          "canonical_order": 5
+        }
+      ],
+      "tags": [
+        "regulation",
+        "compliance",
+        "eu",
+        "binding",
+        "risk-based",
+        "legal"
+      ],
+      "reference": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R1689",
+      "level": "Market/Legal",
+      "binding": "Yes",
+      "dimension_combinations": [
+        {
+          "id": "risk-class-transparency-prerequisite",
+          "dimensions": [
+            "risk-classification",
+            "transparency"
+          ],
+          "type": "prerequisite",
+          "label": "Risk tier determines documentation obligations",
+          "description": "Transparency and documentation requirements under the EU AI Act are directly proportional to risk classification. Minimal-risk systems have near-zero documentation obligations; high-risk systems require extensive technical files, conformity assessments, and ongoing audit trails.\n",
+          "guidance": "Complete risk classification before drafting any compliance documentation. Building documentation to the wrong tier wastes resources and creates legal exposure if the classification is later challenged.\n"
+        },
+        {
+          "id": "risk-class-human-oversight-prerequisite",
+          "dimensions": [
+            "risk-classification",
+            "human-oversight"
+          ],
+          "type": "prerequisite",
+          "label": "High-risk classification mandates human oversight by law",
+          "description": "High-risk AI systems are legally required to have human oversight measures under Article 14. The specific oversight design must be proportionate to the risk and the technical capacity of the deployer.\n",
+          "guidance": "For any system classified as high-risk, design human oversight mechanisms before deployment — not as an afterthought. Oversight must be genuinely effective, not nominal.\n"
+        },
+        {
+          "id": "transparency-governance-synergy",
+          "dimensions": [
+            "transparency",
+            "governance"
+          ],
+          "type": "synergy",
+          "label": "Documentation feeds conformity assessment",
+          "description": "Technical documentation required by the transparency dimension is the primary input for the conformity assessment process under governance. Weak documentation produces weak conformity assessments.\n",
+          "guidance": "Treat documentation as a live artifact maintained throughout the system lifecycle — not a one-time pre-deployment exercise. Changes to the system must trigger documentation updates before post-market monitoring can detect drift.\n"
+        },
+        {
+          "id": "robustness-governance-tension",
+          "dimensions": [
+            "robustness",
+            "governance"
+          ],
+          "type": "tension",
+          "label": "Continuous improvement vs. certification stability",
+          "description": "Improving system robustness (retraining, updates, patches) can trigger the need for renewed conformity assessment under governance. Organizations must balance security maintenance with certification continuity.\n",
+          "guidance": "Establish a change management process that classifies system updates as substantial or non-substantial modifications. Only substantial modifications require full conformity reassessment.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-risk-class-documentation",
+          "title": "Document the risk classification rationale before any compliance work",
+          "dimension": "risk-classification",
+          "description": "Produce a written risk classification rationale that cites the specific annex entries, intended purpose, and deployment context that determine the tier. This document is the foundation for all compliance work.\n",
+          "antipattern": "Assuming a system is minimal-risk without checking the Act's annexes, then discovering mid-deployment that it meets high-risk criteria — requiring expensive retrofitting of documentation and oversight.\n",
+          "signal": "A risk classification document exists, cites specific EU AI Act articles and annexes, and is approved by legal counsel.\n"
+        },
+        {
+          "id": "bp-transparency-technical-file",
+          "title": "Maintain a complete technical file as a living document",
+          "dimension": "transparency",
+          "description": "High-risk AI systems require a technical file under Article 11 that must be kept current for 10 years post-market. Treat it as a living document updated with every material change.\n",
+          "antipattern": "Creating the technical file for the initial conformity assessment and then freezing it — leaving the file diverged from the actual deployed system within months.\n",
+          "signal": "Technical file has a version history, a change log, and a named owner responsible for keeping it current post-deployment.\n"
+        },
+        {
+          "id": "bp-human-oversight-design",
+          "title": "Design human oversight into the user interface, not the manual",
+          "dimension": "human-oversight",
+          "description": "Human oversight under Article 14 must be genuinely effective. Override and intervention capabilities must be embedded in the UI/UX in ways that operators can and will actually use under real conditions.\n",
+          "antipattern": "Satisfying oversight requirements by describing intervention steps in a user manual that operators never read, with no actual system-level mechanism to pause or override the AI.\n",
+          "signal": "System UI includes a visible, tested override or pause mechanism that was designed with operator usability research, not just legal compliance.\n"
+        },
+        {
+          "id": "bp-robustness-testing-standard",
+          "title": "Reference harmonized standards for robustness testing",
+          "dimension": "robustness",
+          "description": "Use harmonized European standards (EN) or common specifications published under the Act for robustness and accuracy testing. Compliance with harmonized standards creates a presumption of conformity.\n",
+          "antipattern": "Using proprietary or ad-hoc testing methodologies that cannot be independently verified against recognized standards — creating legal uncertainty about conformity.\n",
+          "signal": "Testing plan references at least one harmonized standard or Commission-published common specification relevant to the system's domain.\n"
+        },
+        {
+          "id": "bp-governance-post-market",
+          "title": "Implement a post-market monitoring plan before deployment",
+          "dimension": "governance",
+          "description": "Post-market monitoring (Article 72) is a legal obligation for high-risk systems and must be operational at deployment, not implemented reactively after incidents occur.\n",
+          "antipattern": "Treating post-market monitoring as a future compliance task to be designed after the system is in production — leaving a gap between deployment and active monitoring that creates legal exposure.\n",
+          "signal": "Deployment plan includes a named post-market monitoring responsible party, monitoring metrics, reporting cadence, and incident escalation path.\n"
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-risk-classification-documented",
+          "dimension": "risk-classification",
+          "label": "Risk tier is classified and documented",
+          "description": "The AI system's risk classification is determined and supported by written rationale.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "risk",
+              "classify",
+              "tier",
+              "prohibited",
+              "high-risk",
+              "limited-risk",
+              "minimal",
+              "annex",
+              "category",
+              "assessment"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-transparency-technical-file",
+          "dimension": "transparency",
+          "label": "Technical documentation and disclosure requirements are addressed",
+          "description": "Documentation obligations proportionate to risk level are identified and planned.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "document",
+              "technical",
+              "file",
+              "disclosure",
+              "notice",
+              "inform",
+              "register",
+              "transparency",
+              "log",
+              "instruction"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-human-oversight-mechanism",
+          "dimension": "human-oversight",
+          "label": "Human oversight mechanism is designed and implemented",
+          "description": "A concrete mechanism for human intervention or override exists in the system.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "oversight",
+              "human",
+              "override",
+              "intervene",
+              "pause",
+              "control",
+              "monitor",
+              "correct",
+              "review",
+              "operator"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 2
+        },
+        {
+          "id": "eval-robustness-tested",
+          "dimension": "robustness",
+          "label": "Robustness and accuracy are validated",
+          "description": "Testing evidence or references to harmonized standards support robustness claims.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "test",
+              "accuracy",
+              "robust",
+              "security",
+              "resilience",
+              "safe",
+              "standard",
+              "validate",
+              "benchmark",
+              "performance"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-governance-conformity",
+          "dimension": "governance",
+          "label": "Conformity assessment and post-market monitoring are planned",
+          "description": "The governance pathway for conformity and ongoing monitoring is defined.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "conformity",
+              "assessment",
+              "register",
+              "monitor",
+              "post-market",
+              "notified",
+              "body",
+              "certify",
+              "compliance",
+              "report"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        }
+      ]
+    },
+    {
+      "id": "iso-42001",
+      "name": "ISO/IEC 42001 — AI Management System",
+      "version": "1.0.0",
+      "contributor": "ISO/IEC (International Organization for Standardization)",
+      "description": "ISO/IEC 42001:2023 specifies requirements and provides guidance for establishing, implementing, maintaining, and continually improving an Artificial Intelligence Management System (AIMS) within organizations. Following the Plan-Do-Check-Act structure shared by ISO 9001, 27001, and others, it is the first internationally certifiable AI management standard and is applicable to any organization regardless of size or sector.\n",
+      "dimensions": [
+        {
+          "key": "context",
+          "label": "Context",
+          "description": "Understand the organizational context, internal and external stakeholders, legal obligations, and define the scope of the AI management system.\n",
+          "canonical_order": 1
+        },
+        {
+          "key": "leadership",
+          "label": "Leadership & Policy",
+          "description": "Demonstrate top-management commitment, establish an AI policy, and assign clear roles, responsibilities, and authorities for the AIMS.\n",
+          "canonical_order": 2
+        },
+        {
+          "key": "planning",
+          "label": "Planning",
+          "description": "Conduct risk and opportunity assessments for AI; set measurable AI objectives and define plans to achieve them within the management system.\n",
+          "canonical_order": 3
+        },
+        {
+          "key": "operation",
+          "label": "Operation",
+          "description": "Implement, control, document, and execute AI development and deployment processes in accordance with the management system requirements.\n",
+          "canonical_order": 4
+        },
+        {
+          "key": "performance",
+          "label": "Performance & Improvement",
+          "description": "Monitor, measure, internally audit, and management-review the AIMS; address nonconformities and drive continual improvement.\n",
+          "canonical_order": 5
+        }
+      ],
+      "tags": [
+        "ai-management-system",
+        "certification",
+        "enterprise",
+        "iso",
+        "pdca"
+      ],
+      "reference": "https://www.iso.org/standard/81230.html",
+      "level": "Enterprise",
+      "binding": "Voluntary cert.",
+      "dimension_combinations": [
+        {
+          "id": "context-leadership-prerequisite",
+          "dimensions": [
+            "context",
+            "leadership"
+          ],
+          "type": "prerequisite",
+          "label": "Context defines the leadership mandate",
+          "description": "Leadership commitment must be scoped to a defined organizational context. A policy that is too broad is unenforceable; one that is too narrow misses critical AI risks. Context scoping must precede policy drafting.\n",
+          "guidance": "Before approving the AI policy, leadership should confirm the AIMS scope document is complete and reflects the organization's actual AI footprint, legal environment, and stakeholder expectations.\n"
+        },
+        {
+          "id": "planning-operation-prerequisite",
+          "dimensions": [
+            "planning",
+            "operation"
+          ],
+          "type": "prerequisite",
+          "label": "Planning outputs are operational inputs",
+          "description": "Risk assessments and AI objectives from Planning are the direct inputs that Operation implements. Gaps in planning create uncontrolled operational risks; over-specified plans create bureaucratic friction.\n",
+          "guidance": "Ensure every operational AI process traces back to at least one planning objective or risk treatment. Orphaned processes indicate planning gaps.\n"
+        },
+        {
+          "id": "operation-performance-synergy",
+          "dimensions": [
+            "operation",
+            "performance"
+          ],
+          "type": "synergy",
+          "label": "Operation generates the evidence Performance needs",
+          "description": "Performance monitoring is only as reliable as the operational records it draws on. Well-documented operations make audits efficient and improvement cycles evidence-based.\n",
+          "guidance": "Design operational processes to generate audit-ready records by default — not as a retrospective documentation exercise before certification audits.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-context-stakeholder-register",
+          "title": "Build a stakeholder register before scoping the AIMS",
+          "dimension": "context",
+          "description": "Identify all internal and external parties with an interest in the organization's AI activities before defining the AIMS scope.\n",
+          "antipattern": "Scoping the AIMS based solely on legal obligations while missing operational stakeholders (frontline staff, customers, suppliers) whose needs shape what the management system must address.\n",
+          "signal": "Scope document references a named stakeholder register or lists internal and external interested parties explicitly.\n"
+        },
+        {
+          "id": "bp-leadership-policy-review",
+          "title": "Review the AI policy at every management review cycle",
+          "dimension": "leadership",
+          "description": "The AI policy must be a living document reviewed regularly against changes in technology, regulation, and organizational strategy.\n",
+          "antipattern": "Publishing an AI policy once at AIMS launch and treating it as permanent — leaving it misaligned with the organization's actual AI use within months as the landscape changes.\n",
+          "signal": "AI policy document includes a review schedule and a version history with management sign-off dates.\n"
+        },
+        {
+          "id": "bp-planning-risk-treatment",
+          "title": "Document a risk treatment plan for every identified AI risk",
+          "dimension": "planning",
+          "description": "Every AI risk identified in the risk assessment must have a documented treatment option (accept, avoid, mitigate, transfer) with owner and timeline.\n",
+          "antipattern": "Producing a risk register with no treatment decisions — turning the planning exercise into a documentation artifact rather than a decision tool.\n",
+          "signal": "Risk register includes a treatment column with named owners and target treatment dates for each identified risk.\n"
+        },
+        {
+          "id": "bp-operation-process-documentation",
+          "title": "Document AI processes at the level needed for reproducibility",
+          "dimension": "operation",
+          "description": "AI development and deployment processes must be documented in enough detail that a different team could reproduce the outcome and verify compliance.\n",
+          "antipattern": "Relying on tribal knowledge or individual expertise instead of documented procedures — creating key-person dependency and audit failure risk.\n",
+          "signal": "Process documentation exists and has been used by someone other than the original author without requiring direct coaching.\n"
+        },
+        {
+          "id": "bp-performance-internal-audit",
+          "title": "Conduct internal audits before certification, not only during it",
+          "dimension": "performance",
+          "description": "Internal audits should drive genuine improvement, not just prepare for external certification audits. Run them on a regular schedule aligned with operational risk, not just before certification renewals.\n",
+          "antipattern": "Scheduling internal audits only in the weeks before external certification assessment — making audit findings reactive rather than preventive.\n",
+          "signal": "Audit schedule is annual or risk-based and exists independently of external certification timelines.\n"
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-context-scope",
+          "dimension": "context",
+          "label": "AIMS scope and stakeholders are defined",
+          "description": "The organizational context and interested parties are explicitly identified.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "scope",
+              "context",
+              "stakeholder",
+              "boundary",
+              "organization",
+              "interested",
+              "party",
+              "legal",
+              "obligation",
+              "environment"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 2
+        },
+        {
+          "id": "eval-leadership-policy",
+          "dimension": "leadership",
+          "label": "AI policy and accountable leadership are named",
+          "description": "A policy exists and leadership accountability is assigned.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "policy",
+              "leadership",
+              "commitment",
+              "management",
+              "role",
+              "responsibility",
+              "authority",
+              "sponsor",
+              "approve",
+              "sign"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-planning-risk",
+          "dimension": "planning",
+          "label": "Risk assessment and objectives are documented",
+          "description": "Risks are identified and AI objectives with treatment plans exist.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "risk",
+              "objective",
+              "plan",
+              "assess",
+              "treat",
+              "opportunity",
+              "target",
+              "measure",
+              "criteria",
+              "control"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 2
+        },
+        {
+          "id": "eval-operation-process",
+          "dimension": "operation",
+          "label": "Operational processes are documented and controlled",
+          "description": "AI development and deployment follows documented, controlled processes.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "process",
+              "procedure",
+              "document",
+              "control",
+              "implement",
+              "deploy",
+              "execute",
+              "record",
+              "evidence",
+              "operate"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-performance-review",
+          "dimension": "performance",
+          "label": "Monitoring, audit, or management review is scheduled",
+          "description": "A review or audit mechanism exists to assess AIMS effectiveness.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "monitor",
+              "audit",
+              "review",
+              "measure",
+              "evaluate",
+              "improve",
+              "nonconformity",
+              "corrective",
+              "performance",
+              "assess"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        }
+      ]
+    },
+    {
+      "id": "nist-ai-rmf",
+      "name": "NIST AI Risk Management Framework",
+      "version": "1.0.0",
+      "contributor": "NIST (National Institute of Standards and Technology)",
+      "description": "A voluntary framework for managing risks related to the design, development, deployment, and use of AI products and services. Organized around four core functions — GOVERN, MAP, MEASURE, and MANAGE — it helps organizations integrate AI risk management into broader enterprise risk practices and build trustworthy AI.\n",
+      "dimensions": [
+        {
+          "key": "govern",
+          "label": "Govern",
+          "description": "Establish organizational policies, accountability structures, roles, and culture for AI risk management across the enterprise.\n",
+          "canonical_order": 1
+        },
+        {
+          "key": "map",
+          "label": "Map",
+          "description": "Identify and categorize AI risks in context — who is affected, what can go wrong, where risks originate, and what the system is designed to do.\n",
+          "canonical_order": 2
+        },
+        {
+          "key": "measure",
+          "label": "Measure",
+          "description": "Analyze and assess identified risks using quantitative and qualitative methods; evaluate likelihood, impact, and existing controls.\n",
+          "canonical_order": 3
+        },
+        {
+          "key": "manage",
+          "label": "Manage",
+          "description": "Prioritize and implement responses to AI risks; monitor outcomes, track residual risks, and improve controls over time.\n",
+          "canonical_order": 4
+        }
+      ],
+      "tags": [
+        "risk-management",
+        "ai-governance",
+        "enterprise",
+        "nist"
+      ],
+      "reference": "https://airc.nist.gov/",
+      "level": "Enterprise",
+      "binding": "No",
+      "dimension_combinations": [
+        {
+          "id": "govern-map-prerequisite",
+          "dimensions": [
+            "govern",
+            "map"
+          ],
+          "type": "prerequisite",
+          "label": "Governance enables scoped risk mapping",
+          "description": "Without governance structures in place — roles, policies, and accountability lines — risk mapping becomes ad hoc and unowned. Govern creates the organizational context that makes Map systematic and repeatable.\n",
+          "guidance": "Before mapping AI risks, confirm that ownership is assigned and a risk appetite statement exists. If governance is absent, start with Govern even for a small pilot.\n"
+        },
+        {
+          "id": "map-measure-synergy",
+          "dimensions": [
+            "map",
+            "measure"
+          ],
+          "type": "synergy",
+          "label": "Scope drives measurement rigor",
+          "description": "A well-scoped risk map determines what to measure. When mapping is shallow, measurement misses material risks; when measurement is richer than mapping, effort is wasted on low-priority concerns.\n",
+          "guidance": "Use the risk map as the input to your measurement plan — measure what was mapped, and extend the map whenever measurement surfaces unmapped risks.\n"
+        },
+        {
+          "id": "measure-manage-prerequisite",
+          "dimensions": [
+            "measure",
+            "manage"
+          ],
+          "type": "prerequisite",
+          "label": "Measurement justifies management actions",
+          "description": "Risk responses must be grounded in measured evidence. Skipping measurement leads to gut-feel prioritization and resources allocated to the wrong risks.\n",
+          "guidance": "Do not move to manage until at least a qualitative assessment of likelihood and impact exists for each mapped risk. Management decisions should cite measurement findings.\n"
+        },
+        {
+          "id": "govern-manage-tension",
+          "dimensions": [
+            "govern",
+            "manage"
+          ],
+          "type": "tension",
+          "label": "Policy breadth vs. operational speed",
+          "description": "Broad governance policies can slow management response when AI incidents require fast action. Organizations must balance comprehensive oversight with the agility needed to address live AI risks.\n",
+          "guidance": "Define pre-authorized response playbooks within governance so that Manage can act quickly for known risk types without requiring fresh governance approval each time.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-govern-policy-first",
+          "title": "Establish AI risk policy before deploying AI",
+          "dimension": "govern",
+          "description": "Define the organization's AI risk appetite, accountability structure, and minimum acceptable standards before any AI system goes to production.\n",
+          "antipattern": "Deploying AI systems and writing governance policy retroactively — leaving a gap where real risks exist but no owner is accountable for them.\n",
+          "signal": "Opening prompt or brief contains a named AI risk owner, a risk appetite statement, or references an existing enterprise risk management program.\n"
+        },
+        {
+          "id": "bp-map-stakeholders",
+          "title": "Map risk from all affected stakeholder perspectives",
+          "dimension": "map",
+          "description": "Include end-users, impacted communities, operators, and regulators in the risk mapping process — not just the development team.\n",
+          "antipattern": "Risk maps built exclusively by engineers that miss societal, legal, or operational risks visible only to non-technical stakeholders.\n",
+          "signal": "Risk mapping session includes or references user research, legal review, or community impact assessment.\n"
+        },
+        {
+          "id": "bp-measure-baselines",
+          "title": "Establish baselines before comparing measurements",
+          "dimension": "measure",
+          "description": "Measure AI risk metrics at system launch to create baselines. All future measurements are meaningful only relative to a known starting state.\n",
+          "antipattern": "Measuring AI performance or risk after an incident and retrospectively claiming this is the baseline — masking deterioration over time.\n",
+          "signal": "Measurement plan references initial baseline capture date and comparison methodology.\n"
+        },
+        {
+          "id": "bp-manage-residual",
+          "title": "Document residual risk after every management action",
+          "dimension": "manage",
+          "description": "After implementing a risk control, explicitly record what residual risk remains and whether it is within the organization's risk appetite.\n",
+          "antipattern": "Closing a risk item after a control is deployed without assessing whether the control was sufficient — leading to false confidence.\n",
+          "signal": "Risk register entries include a residual risk field and an acceptance signature from the accountable owner.\n"
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-govern-ownership",
+          "dimension": "govern",
+          "label": "Accountable AI risk owner is named",
+          "description": "A specific role or individual is designated as accountable for the AI risk.",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "owner",
+              "accountable",
+              "responsible",
+              "governance",
+              "policy",
+              "oversight",
+              "risk-owner",
+              "sponsor"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-map-scope",
+          "dimension": "map",
+          "label": "Risk scope and affected parties are identified",
+          "description": "The risk mapping activity names the system, its use case, and who is affected.",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "scope",
+              "affected",
+              "stakeholder",
+              "impact",
+              "use-case",
+              "system",
+              "risk",
+              "harm",
+              "context"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 2
+        },
+        {
+          "id": "eval-measure-evidence",
+          "dimension": "measure",
+          "label": "Risk assessment uses evidence or measurement",
+          "description": "Risk conclusions are supported by data, testing results, or structured analysis.",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "measure",
+              "assess",
+              "evaluate",
+              "test",
+              "metric",
+              "score",
+              "likelihood",
+              "impact",
+              "evidence",
+              "analysis"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-manage-action",
+          "dimension": "manage",
+          "label": "Risk response action is defined and owned",
+          "description": "A concrete action to address the risk is identified with an owner and timeline.",
+          "weight": 0.25,
+          "signals": {
+            "present": [
+              "mitigate",
+              "respond",
+              "control",
+              "action",
+              "remediate",
+              "monitor",
+              "track",
+              "owner",
+              "deadline",
+              "plan"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 2
+        }
+      ]
+    },
+    {
+      "id": "oecd-ai-principles",
+      "name": "OECD AI Principles",
+      "version": "1.0.0",
+      "contributor": "OECD (Organisation for Economic Co-operation and Development)",
+      "description": "The OECD Principles on Artificial Intelligence (2019, updated 2024) provide rights-based policy guidance adopted by 46+ countries. Five principles — inclusive growth, human-centred values, transparency, robustness, and accountability — define the foundation for trustworthy AI across government, enterprise, and civil society.\n",
+      "dimensions": [
+        {
+          "key": "inclusive-growth",
+          "label": "Inclusive Growth",
+          "description": "Ensure AI benefits are broadly shared across society, economies, and the environment — not concentrated in the hands of a few actors.\n",
+          "canonical_order": 1
+        },
+        {
+          "key": "human-centred",
+          "label": "Human-Centred Values",
+          "description": "Respect rule of law, human rights, democratic values, diversity, and non-discrimination throughout the AI lifecycle.\n",
+          "canonical_order": 2
+        },
+        {
+          "key": "transparency",
+          "label": "Transparency & Explainability",
+          "description": "Make AI systems explainable and understandable to relevant stakeholders; disclose when people are interacting with AI.\n",
+          "canonical_order": 3
+        },
+        {
+          "key": "robustness",
+          "label": "Robustness, Security & Safety",
+          "description": "Ensure AI is technically secure, safe, and resilient across its full lifecycle, including under adversarial conditions.\n",
+          "canonical_order": 4
+        },
+        {
+          "key": "accountability",
+          "label": "Accountability",
+          "description": "Define clear responsibility for AI outcomes and enable effective oversight mechanisms for redress and correction.\n",
+          "canonical_order": 5
+        }
+      ],
+      "tags": [
+        "ai-policy",
+        "rights-based",
+        "government",
+        "oecd",
+        "multilateral"
+      ],
+      "reference": "https://oecd.ai/en/ai-principles",
+      "level": "Government",
+      "binding": "No",
+      "dimension_combinations": [
+        {
+          "id": "inclusive-human-synergy",
+          "dimensions": [
+            "inclusive-growth",
+            "human-centred"
+          ],
+          "type": "synergy",
+          "label": "Shared benefit requires rights protection",
+          "description": "Inclusive growth is hollow if AI benefits are distributed in ways that violate rights or entrench discrimination. The two principles reinforce each other: growth must be inclusive of human dignity, not just economic.\n",
+          "guidance": "When designing AI for broad access, simultaneously audit whether the system treats all beneficiaries with equal dignity and without discrimination — growth metrics alone are insufficient.\n"
+        },
+        {
+          "id": "transparency-accountability-prerequisite",
+          "dimensions": [
+            "transparency",
+            "accountability"
+          ],
+          "type": "prerequisite",
+          "label": "Transparency enables accountability",
+          "description": "Accountability for AI outcomes requires that decision processes are visible enough to be audited and challenged. Opaque systems make meaningful accountability impossible.\n",
+          "guidance": "Before assigning accountability for an AI system, verify that its decision logic is documented sufficiently to support audit and redress. If transparency is insufficient, prioritize explainability improvements.\n"
+        },
+        {
+          "id": "robustness-accountability-tension",
+          "dimensions": [
+            "robustness",
+            "accountability"
+          ],
+          "type": "tension",
+          "label": "Security boundaries vs. audit access",
+          "description": "Security measures that protect AI systems from attack can also limit the access needed for independent audits and accountability verification.\n",
+          "guidance": "Design audit access paths that satisfy accountability requirements without exposing security-critical internals. Use trusted third-party auditors operating under confidentiality agreements as a bridge.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-inclusive-impact-assessment",
+          "title": "Conduct societal impact assessment before deployment",
+          "dimension": "inclusive-growth",
+          "description": "Before deploying any AI system, assess who benefits, who bears risk, and whether outcomes are equitably distributed across populations.\n",
+          "antipattern": "Measuring success solely by aggregate efficiency gains while ignoring whether specific communities are excluded or harmed.\n",
+          "signal": "Project brief includes an equity or impact assessment, or references affected communities beyond the primary user base.\n"
+        },
+        {
+          "id": "bp-human-rights-baseline",
+          "title": "Map human rights implications before AI design begins",
+          "dimension": "human-centred",
+          "description": "Identify which human rights are at stake for the AI system and document how the design will protect them.\n",
+          "antipattern": "Treating human rights as a legal checkbox rather than a design constraint — reviewing them only after the system is built.\n",
+          "signal": "Design phase includes a human rights mapping exercise referencing recognized rights frameworks (UDHR, ECHR, etc.).\n"
+        },
+        {
+          "id": "bp-transparency-disclosure",
+          "title": "Disclose AI involvement to affected individuals",
+          "dimension": "transparency",
+          "description": "Individuals who interact with or are affected by AI decisions must be informed that AI is involved and understand the basis for outcomes.\n",
+          "antipattern": "Using AI to make consequential decisions (hiring, lending, medical) without disclosing its role or providing any explanation to the affected person.\n",
+          "signal": "System design includes user-facing disclosure mechanism and an explanation pathway for consequential decisions.\n"
+        },
+        {
+          "id": "bp-robustness-adversarial",
+          "title": "Test AI systems under adversarial and edge conditions",
+          "dimension": "robustness",
+          "description": "Safety and security validation must include adversarial testing — not just happy-path performance benchmarks.\n",
+          "antipattern": "Declaring a system safe based solely on accuracy metrics from a held-out test set without adversarial or stress testing.\n",
+          "signal": "Validation plan includes adversarial scenarios, edge cases, or red-team testing results.\n"
+        },
+        {
+          "id": "bp-accountability-redress",
+          "title": "Establish a redress mechanism for AI-caused harm",
+          "dimension": "accountability",
+          "description": "Every AI system with consequential impact must have a defined path for individuals to challenge decisions and obtain human review.\n",
+          "antipattern": "Deploying consequential AI without a complaints or appeal mechanism, leaving affected individuals with no recourse.\n",
+          "signal": "Deployment plan includes a named redress pathway, appeals process, or human review escalation for AI decisions.\n"
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-inclusive-scope",
+          "dimension": "inclusive-growth",
+          "label": "Broad beneficiary scope is considered",
+          "description": "The work explicitly considers who benefits and whether access is equitable.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "inclusive",
+              "equitable",
+              "access",
+              "benefit",
+              "society",
+              "community",
+              "population",
+              "distribution",
+              "gap",
+              "underserved"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-human-rights",
+          "dimension": "human-centred",
+          "label": "Human rights or values are referenced",
+          "description": "The work identifies relevant human rights, dignity, or democratic values at stake.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "rights",
+              "dignity",
+              "fairness",
+              "discrimination",
+              "diversity",
+              "inclusion",
+              "autonomy",
+              "freedom",
+              "democratic",
+              "values"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-transparency-disclosure",
+          "dimension": "transparency",
+          "label": "Explainability or disclosure mechanism is present",
+          "description": "The work includes a mechanism for explanation or disclosure to affected parties.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "explain",
+              "disclose",
+              "transparent",
+              "interpretable",
+              "audit",
+              "visible",
+              "understandable",
+              "communicate",
+              "inform",
+              "notify"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-robustness-testing",
+          "dimension": "robustness",
+          "label": "Safety or security validation is planned",
+          "description": "The work includes a testing or validation step for safety, security, or reliability.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "test",
+              "validate",
+              "secure",
+              "safe",
+              "resilient",
+              "adversarial",
+              "robust",
+              "reliable",
+              "stress",
+              "verify"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-accountability-owner",
+          "dimension": "accountability",
+          "label": "Accountability and redress mechanism are defined",
+          "description": "A responsible party and a path for redress or challenge are named.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "accountable",
+              "responsible",
+              "redress",
+              "appeal",
+              "review",
+              "oversight",
+              "challenge",
+              "owner",
+              "escalate",
+              "remedy"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        }
+      ]
+    },
+    {
+      "id": "unesco-ai-ethics",
+      "name": "UNESCO Recommendation on the Ethics of AI",
+      "version": "1.0.0",
+      "contributor": "UNESCO (United Nations Educational, Scientific and Cultural Organization)",
+      "description": "The UNESCO Recommendation on the Ethics of Artificial Intelligence (2021) is the first global standard-setting instrument on AI ethics, adopted by all 193 Member States. It operationalizes human dignity, environmental sustainability, privacy, transparency, and accountability as the five pillars for ethical AI governance at every level — from global policy to individual deployment decisions.\n",
+      "dimensions": [
+        {
+          "key": "human-dignity",
+          "label": "Human Dignity & Rights",
+          "description": "Protect fundamental human rights, dignity, freedom, and non-discrimination in all AI design, deployment, and governance decisions.\n",
+          "canonical_order": 1
+        },
+        {
+          "key": "environment",
+          "label": "Environment & Sustainability",
+          "description": "Consider ecological impact, planetary boundaries, energy use, and long-term societal sustainability of AI systems.\n",
+          "canonical_order": 2
+        },
+        {
+          "key": "privacy",
+          "label": "Privacy & Data Governance",
+          "description": "Safeguard personal data, individual autonomy, and the right to data protection throughout the AI lifecycle.\n",
+          "canonical_order": 3
+        },
+        {
+          "key": "transparency",
+          "label": "Transparency & Explainability",
+          "description": "Ensure AI decision-making is understandable, culturally sensitive, auditable, and accessible to affected communities.\n",
+          "canonical_order": 4
+        },
+        {
+          "key": "accountability",
+          "label": "Accountability & Multi-Stakeholder Oversight",
+          "description": "Establish clear chains of responsibility and inclusive multi-stakeholder oversight for AI outcomes across public and private actors.\n",
+          "canonical_order": 5
+        }
+      ],
+      "tags": [
+        "ai-ethics",
+        "human-rights",
+        "global-governance",
+        "unesco",
+        "sustainability"
+      ],
+      "reference": "https://www.unesco.org/en/artificial-intelligence/recommendation-ethics",
+      "level": "Global/State",
+      "binding": "No",
+      "dimension_combinations": [
+        {
+          "id": "dignity-privacy-synergy",
+          "dimensions": [
+            "human-dignity",
+            "privacy"
+          ],
+          "type": "synergy",
+          "label": "Dignity requires data sovereignty",
+          "description": "Human dignity in the AI era is inseparable from control over one's own data. Systems that commodify personal data without consent undermine dignity even when technically legal under weaker privacy regimes.\n",
+          "guidance": "When assessing dignity impacts, include a data sovereignty review: do individuals have meaningful control over how their data is used, shared, and retained by AI systems?\n"
+        },
+        {
+          "id": "environment-transparency-synergy",
+          "dimensions": [
+            "environment",
+            "transparency"
+          ],
+          "type": "synergy",
+          "label": "Sustainability requires disclosure of environmental costs",
+          "description": "Environmental responsibility demands that the ecological footprint of AI — energy, water, hardware — is disclosed to decision-makers and the public. Sustainability claims without transparency are greenwashing.\n",
+          "guidance": "Include environmental impact disclosures in AI system documentation. Report training compute, inference energy, and hardware lifecycle alongside traditional performance metrics.\n"
+        },
+        {
+          "id": "transparency-accountability-prerequisite",
+          "dimensions": [
+            "transparency",
+            "accountability"
+          ],
+          "type": "prerequisite",
+          "label": "Accountability requires visible decision processes",
+          "description": "Multi-stakeholder oversight cannot function without access to how AI systems make decisions. Accountability without transparency is nominal, not real.\n",
+          "guidance": "Before assigning accountability, verify that the oversight body has access to decision logs, model documentation, and impact assessments.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-dignity-non-discrimination",
+          "title": "Audit AI outputs for discriminatory patterns before deployment",
+          "dimension": "human-dignity",
+          "description": "Actively test AI systems for outputs that demean, stereotype, or disadvantage individuals based on protected characteristics.\n",
+          "antipattern": "Relying on training data diversity alone as a proxy for non-discrimination without running explicit bias or disparity audits on outputs.\n",
+          "signal": "Deployment checklist includes a bias audit, fairness evaluation, or protected-attribute disparity analysis.\n"
+        },
+        {
+          "id": "bp-environment-footprint",
+          "title": "Measure and disclose AI environmental footprint",
+          "dimension": "environment",
+          "description": "Quantify the energy, water, and hardware impact of training and running AI systems and disclose these figures to stakeholders.\n",
+          "antipattern": "Reporting AI benefits (efficiency gains, automation) without accounting for the environmental cost of compute resources.\n",
+          "signal": "Project documentation includes energy consumption estimates, carbon footprint, or references to sustainable compute practices.\n"
+        },
+        {
+          "id": "bp-privacy-minimization",
+          "title": "Apply data minimization by design",
+          "dimension": "privacy",
+          "description": "Collect and retain only the personal data strictly necessary for the AI system's stated purpose. Build minimization into the architecture, not as an afterthought.\n",
+          "antipattern": "Collecting broad datasets on the assumption that \"more data is better\" without assessing necessity, proportionality, or consent.\n",
+          "signal": "Data architecture documentation includes a minimization rationale, retention schedule, and consent or legal basis for each data category.\n"
+        },
+        {
+          "id": "bp-transparency-culture",
+          "title": "Provide culturally adapted explanations to affected communities",
+          "dimension": "transparency",
+          "description": "Explainability must account for cultural context, language, and literacy — a technically accurate explanation that is inaccessible to the affected community fails the transparency principle.\n",
+          "antipattern": "Providing technical API documentation as the primary explanation mechanism for communities with limited technical literacy.\n",
+          "signal": "Communication plan includes community-appropriate formats (local language, oral explanation, visual aids) alongside technical docs.\n"
+        },
+        {
+          "id": "bp-accountability-multistakeholder",
+          "title": "Include civil society in AI governance oversight",
+          "dimension": "accountability",
+          "description": "Governance bodies for consequential AI systems must include affected communities and civil society — not just developers and deployers.\n",
+          "antipattern": "AI ethics boards composed exclusively of industry representatives without independent civil society or community voices.\n",
+          "signal": "Governance structure documentation names civil society or community representatives with defined roles and real decision-making power.\n"
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-dignity-audit",
+          "dimension": "human-dignity",
+          "label": "Discrimination or dignity risk is assessed",
+          "description": "The work includes an explicit check for discriminatory or dignity-undermining outcomes.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "bias",
+              "discrimination",
+              "dignity",
+              "rights",
+              "fairness",
+              "protect",
+              "non-discrimination",
+              "vulnerable",
+              "harm",
+              "equitable"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-environment-impact",
+          "dimension": "environment",
+          "label": "Environmental impact is considered",
+          "description": "The work references energy use, carbon, sustainability, or ecological impact.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "energy",
+              "carbon",
+              "environment",
+              "sustainable",
+              "footprint",
+              "ecological",
+              "compute",
+              "resource",
+              "climate",
+              "consumption"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-privacy-basis",
+          "dimension": "privacy",
+          "label": "Data handling and legal basis are addressed",
+          "description": "The work addresses consent, data minimization, or legal basis for data use.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "privacy",
+              "consent",
+              "data",
+              "minimization",
+              "retention",
+              "protection",
+              "gdpr",
+              "personal",
+              "confidential",
+              "sovereign"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-transparency-explanation",
+          "dimension": "transparency",
+          "label": "Explanation mechanism is present and accessible",
+          "description": "An explanation or disclosure mechanism accessible to affected parties exists.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "explain",
+              "disclose",
+              "understandable",
+              "accessible",
+              "communicate",
+              "interpret",
+              "visible",
+              "audit",
+              "language",
+              "community"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-accountability-oversight",
+          "dimension": "accountability",
+          "label": "Multi-stakeholder oversight is defined",
+          "description": "Governance includes more than a single actor; oversight roles are defined.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "oversight",
+              "governance",
+              "stakeholder",
+              "civil-society",
+              "accountability",
+              "responsible",
+              "board",
+              "review",
+              "redress",
+              "multi"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        }
+      ]
+    },
+    {
+      "id": "wef-responsible-ai",
+      "name": "WEF Responsible AI Playbook",
+      "version": "1.0.0",
+      "contributor": "World Economic Forum",
+      "description": "The World Economic Forum Responsible AI Playbook provides practical operationalization guidance for enterprises and governments seeking to deploy AI responsibly. It structures responsible AI work across five interconnected pillars: strategy alignment, governance design, risk and ethics assessment, implementation, and outcome accountability — bridging the gap between ethical principles and operational reality.\n",
+      "dimensions": [
+        {
+          "key": "strategy",
+          "label": "Strategy",
+          "description": "Align AI initiatives with organizational purpose, values, and societal goals — ensuring AI serves the mission rather than driving it.\n",
+          "canonical_order": 1
+        },
+        {
+          "key": "governance",
+          "label": "Governance",
+          "description": "Establish oversight structures, ethics bodies, decision-making processes, and escalation paths for responsible AI across the organization.\n",
+          "canonical_order": 2
+        },
+        {
+          "key": "risk-ethics",
+          "label": "Risk & Ethics",
+          "description": "Identify, assess, and prioritize ethical risks and potential harms from AI systems before and during deployment.\n",
+          "canonical_order": 3
+        },
+        {
+          "key": "implementation",
+          "label": "Implementation",
+          "description": "Deploy responsible AI practices into teams, tools, workflows, and procurement — making ethics operational rather than aspirational.\n",
+          "canonical_order": 4
+        },
+        {
+          "key": "accountability",
+          "label": "Accountability",
+          "description": "Track outcomes, report transparently on AI impact, and drive continuous improvement through evidence rather than assertion.\n",
+          "canonical_order": 5
+        }
+      ],
+      "tags": [
+        "responsible-ai",
+        "enterprise-governance",
+        "wef",
+        "operationalization",
+        "playbook"
+      ],
+      "reference": "https://www.weforum.org/publications/responsible-ai-playbook/",
+      "level": "Enterprise/Gov",
+      "binding": "No",
+      "dimension_combinations": [
+        {
+          "id": "strategy-governance-prerequisite",
+          "dimensions": [
+            "strategy",
+            "governance"
+          ],
+          "type": "prerequisite",
+          "label": "Strategy defines what governance must protect",
+          "description": "Governance structures are only effective when they are scoped to a clear strategic mandate. Without strategy, governance becomes bureaucracy with no direction; without governance, strategy becomes aspiration with no enforcement.\n",
+          "guidance": "Before designing governance structures, confirm the AI strategy document is approved and names the values and boundaries governance must enforce.\n"
+        },
+        {
+          "id": "risk-ethics-implementation-prerequisite",
+          "dimensions": [
+            "risk-ethics",
+            "implementation"
+          ],
+          "type": "prerequisite",
+          "label": "Ethics assessment gates implementation",
+          "description": "Responsible implementation requires that ethical risks are assessed before deployment decisions are made — not retrofitted after problems emerge.\n",
+          "guidance": "Treat the ethics assessment as a pre-deployment gate, not a parallel track. No implementation should proceed for high-stakes AI without a completed risk-ethics review.\n"
+        },
+        {
+          "id": "implementation-accountability-synergy",
+          "dimensions": [
+            "implementation",
+            "accountability"
+          ],
+          "type": "synergy",
+          "label": "Operational evidence supports accountability claims",
+          "description": "Accountability for AI outcomes is credible only when it is backed by operational records — decision logs, audit trails, outcome metrics. Implementation that generates evidence makes accountability genuine.\n",
+          "guidance": "Build accountability-ready record-keeping into implementation from day one. Retroactive record reconstruction is expensive and legally fragile.\n"
+        },
+        {
+          "id": "governance-accountability-tension",
+          "dimensions": [
+            "governance",
+            "accountability"
+          ],
+          "type": "tension",
+          "label": "Committee speed vs. reporting cadence",
+          "description": "Governance bodies that meet infrequently can create accountability gaps between decision points. Fast-moving AI deployments require accountability mechanisms that operate at operational speed, not board-meeting cadence.\n",
+          "guidance": "Supplement board-level governance with operational accountability mechanisms (automated monitoring, team-level review cycles) that provide real-time signals between governance meetings.\n"
+        }
+      ],
+      "best_practices": [
+        {
+          "id": "bp-strategy-purpose-test",
+          "title": "Apply the purpose test before approving AI initiatives",
+          "dimension": "strategy",
+          "description": "Every proposed AI initiative must answer: does this serve our stated purpose and values, or does it serve operational convenience at the expense of mission?\n",
+          "antipattern": "Approving AI projects based on cost-efficiency projections alone, without checking alignment with organizational values or societal goals.\n",
+          "signal": "Project approval documentation includes a purpose alignment statement signed off by a senior leader beyond the project sponsor.\n"
+        },
+        {
+          "id": "bp-governance-ethics-body",
+          "title": "Establish an AI ethics body with real decision authority",
+          "dimension": "governance",
+          "description": "An AI ethics committee must have the authority to pause or block deployments — not merely issue non-binding recommendations.\n",
+          "antipattern": "Creating an ethics advisory committee that can only recommend, while deployment decisions are made exclusively by business units with no obligation to follow ethics guidance.\n",
+          "signal": "Governance charter explicitly grants the ethics body pause or veto authority for deployments that fail ethics review.\n"
+        },
+        {
+          "id": "bp-risk-ethics-red-team",
+          "title": "Run adversarial ethics reviews before deployment",
+          "dimension": "risk-ethics",
+          "description": "Assign a team to actively find ethical failure modes, misuse scenarios, and unintended harms — not just review whether stated requirements are met.\n",
+          "antipattern": "Conducting ethics review as a self-assessment checklist completed by the project team that built the system being reviewed.\n",
+          "signal": "Ethics review is conducted by a team independent of the project, with a mandate to find problems, not confirm compliance.\n"
+        },
+        {
+          "id": "bp-implementation-tooling",
+          "title": "Embed responsible AI practices into developer tooling",
+          "dimension": "implementation",
+          "description": "Responsible AI requirements must be built into the development workflow — model cards, bias checks, documentation requirements — not left to individual discretion.\n",
+          "antipattern": "Publishing an AI ethics policy and expecting developers to self-apply it without tooling, templates, or automated checks integrated into the development pipeline.\n",
+          "signal": "Development pipeline includes at least one automated responsible AI check (bias detection, documentation gate, model card requirement).\n"
+        },
+        {
+          "id": "bp-accountability-public-reporting",
+          "title": "Publish an annual responsible AI progress report",
+          "dimension": "accountability",
+          "description": "Responsible AI accountability requires external visibility — internal reporting alone is insufficient for organizations with public AI impact.\n",
+          "antipattern": "Treating responsible AI reporting as internal-only and refusing to disclose outcomes, incidents, or improvement actions to the public.\n",
+          "signal": "Organization has published at least one external report on responsible AI outcomes, or has committed to a publication schedule.\n"
+        }
+      ],
+      "evaluation_criteria": [
+        {
+          "id": "eval-strategy-alignment",
+          "dimension": "strategy",
+          "label": "AI initiative is aligned with organizational purpose",
+          "description": "The work demonstrates connection between AI use and the organization's stated values or mission.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "strategy",
+              "purpose",
+              "mission",
+              "values",
+              "alignment",
+              "goal",
+              "vision",
+              "objective",
+              "organizational",
+              "mandate"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-governance-structure",
+          "dimension": "governance",
+          "label": "Oversight structure or ethics body is defined",
+          "description": "A governance body or process exists with named decision authority for AI.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "governance",
+              "oversight",
+              "ethics",
+              "committee",
+              "board",
+              "authority",
+              "escalation",
+              "process",
+              "decision",
+              "review"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-risk-ethics-assessment",
+          "dimension": "risk-ethics",
+          "label": "Ethical risk assessment is completed",
+          "description": "Potential harms and ethical risks are identified and assessed before deployment.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "risk",
+              "ethics",
+              "harm",
+              "assess",
+              "impact",
+              "fairness",
+              "bias",
+              "misuse",
+              "adverse",
+              "review"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 2
+        },
+        {
+          "id": "eval-implementation-practice",
+          "dimension": "implementation",
+          "label": "Responsible AI practice is embedded in operations",
+          "description": "At least one responsible AI practice is built into the operational workflow.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "implement",
+              "embed",
+              "deploy",
+              "practice",
+              "tool",
+              "checklist",
+              "pipeline",
+              "process",
+              "template",
+              "workflow"
+            ],
+            "absent": []
+          },
+          "pass_threshold": 1
+        },
+        {
+          "id": "eval-accountability-reporting",
+          "dimension": "accountability",
+          "label": "Outcome tracking and reporting mechanism exists",
+          "description": "A mechanism for tracking and reporting AI outcomes is defined.",
+          "weight": 0.2,
+          "signals": {
+            "present": [
+              "track",
+              "report",
+              "outcome",
+              "monitor",
+              "metric",
+              "disclose",
+              "publish",
+              "audit",
+              "evidence",
+              "measure"
+            ],
+            "absent": []
           },
           "pass_threshold": 1
         }

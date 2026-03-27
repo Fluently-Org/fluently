@@ -1,0 +1,178 @@
+id: ai-incident-response
+framework_id: nist-ai-rmf
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Incident Response
+domain: enterprise
+
+summary: >
+  An enterprise team uses the NIST AI RMF to respond to a live AI incident —
+  an unexpected AI output causing operational or reputational harm. The cycle
+  activates governance protocols, maps the incident scope, measures impact, and
+  manages response and remediation with documented lessons learned.
+
+dimensions:
+  govern:
+    description: >
+      The incident response governance structure is activated: the incident
+      commander is identified, escalation thresholds are applied, and the
+      AI system's risk owner is notified and engaged within the defined SLA.
+    example: >
+      Incident commander: "The AI-generated customer communication contained
+      incorrect legal information sent to 2,300 customers. I'm activating
+      our AI incident protocol. Risk owner and legal are notified.
+      Severity is High — system is paused pending investigation."
+    antipattern: >
+      Treating an AI incident as a software bug fix without activating risk
+      governance — allowing the response to be owned by engineering alone,
+      without legal, compliance, or leadership involvement.
+
+  map:
+    description: >
+      The team maps the incident: what the AI did, which customers or
+      systems were affected, what data was involved, whether regulatory
+      notification is triggered, and what caused the failure.
+    example: >
+      AI: "Based on the incident log, I can help map four dimensions:
+      (1) Output scope — what was generated and sent. (2) Affected population —
+      who received it and any vulnerable groups. (3) Root cause candidates —
+      model error, prompt injection, data pipeline issue, or deployment
+      configuration. (4) Regulatory triggers — do breach notification or
+      AI incident reporting obligations apply? Which do you want to map first?"
+    antipattern: >
+      Jumping to root cause analysis before scoping who was affected —
+      fixing the technical problem while customers remain harmed and
+      notifications are delayed.
+
+  measure:
+    description: >
+      The team quantifies the incident's impact: number of affected parties,
+      severity of harm, legal exposure, reputational damage potential, and
+      the likelihood of recurrence without remediation.
+    example: >
+      Human: "Legal says the incorrect information could expose us to
+      consumer protection complaints. How do we measure the legal risk?"
+      AI: "Measure it along two axes: (1) Volume — 2,300 affected customers
+      is above most jurisdictions' mandatory notification thresholds. (2)
+      Materiality — if any customer acted on the incorrect information
+      (e.g., missed a deadline), individual harm is material. Pull a
+      sample of 50 customers for a harm survey before filing the
+      incident report."
+    antipattern: >
+      Reporting an incident as "low impact" based on the volume alone
+      without assessing whether individual harm occurred — underestimating
+      legal exposure.
+
+  manage:
+    description: >
+      The team executes the response: customer remediation, regulatory
+      notification if required, root cause fix, system restart protocol,
+      and a post-incident review that updates the risk register and
+      governance policy.
+    example: >
+      AI closes the response: "Here is the remediation matrix:
+      (1) Customer remediation — correction notice sent within 24 hours,
+      owner: customer success. (2) Regulatory notification — filed within
+      72 hours if notification is triggered, owner: legal. (3) Root cause fix —
+      output validation layer added to the prompt pipeline, owner: engineering.
+      (4) Post-incident review — scheduled for next week, output feeds back
+      into the risk register, owner: risk lead."
+    antipattern: >
+      Closing the incident after the technical fix without conducting a
+      post-incident review — missing the governance improvement loop and
+      allowing the same failure to recur.
+
+score_hints:
+  govern: 0.30
+  map: 0.25
+  measure: 0.20
+  manage: 0.25
+
+tags:
+  - incident-response
+  - enterprise
+  - ai-governance
+  - risk-management
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Governance activates the incident protocol and escalates within SLA →
+    the team maps affected scope, root cause candidates, and regulatory
+    triggers → impact is measured across volume, severity, and legal dimensions
+    → remediation is executed with owners and timelines, and a post-incident
+    review closes the loop back into governance. Loops back to Map if new
+    affected parties are discovered during measurement.
+
+  sequence:
+    - step: 1
+      d: govern
+      label: "Activate incident governance and escalate"
+      example_prompts:
+        - speaker: human
+          text: "Our AI recommendation engine served a batch of incorrect outputs to users this morning. We're seeing complaints. What's the first step?"
+        - speaker: ai
+          text: "First, activate your AI incident protocol: (1) Name an incident commander now — this can't be the engineer who runs the system. (2) Pause the AI system if you can't immediately determine the scope of incorrect outputs. (3) Notify the AI risk owner within your defined SLA — if you don't have one, escalate to the most senior accountable leader immediately. (4) Open an incident ticket with timestamp. Who is the named incident commander?"
+        - speaker: human
+          text: "I'm taking incident command. Risk owner is the Head of Product. System is paused. Ticket opened at 09:14."
+      triggers_next: "Incident command activated, system paused, risk owner notified."
+
+    - step: 2
+      d: map
+      label: "Map scope, affected parties, and root cause candidates"
+      example_prompts:
+        - speaker: human
+          text: "Logs show the model returned outputs outside its expected range for about 400 users between 08:00 and 09:14. Help me map the full scope."
+        - speaker: ai
+          text: "Scope map: (1) Affected users — 400 users received anomalous outputs. Check whether any are in protected categories (minors, healthcare, financial decisions). (2) Data involved — what personal data did the model process for these users? (3) Root cause candidates — a/b test misconfiguration, upstream data pipeline failure, model update without validation, or prompt injection. (4) Regulatory triggers — does your jurisdiction require notification for AI incidents involving personal data? I'd check GDPR Art. 33 and any sector-specific AI incident rules."
+        - speaker: human
+          text: "Some users are in the healthcare domain. That changes the severity."
+      triggers_next: "Affected scope, data categories, and regulatory triggers mapped."
+      loop_back:
+        to: map
+        condition: "Measurement reveals additional affected users or data categories not in the initial map."
+        reason: "Scope must be updated before regulatory notifications are filed."
+
+    - step: 3
+      d: measure
+      label: "Measure impact severity and legal exposure"
+      example_prompts:
+        - speaker: human
+          text: "400 users, healthcare domain, some may have received treatment recommendations. How do we measure this?"
+        - speaker: ai
+          text: "Measure along three axes: (1) Clinical harm potential — did any user receive a recommendation they could have acted on? Pull a sample of 20 outputs and have a clinician review. (2) Legal exposure — healthcare AI incidents in most EU and US jurisdictions trigger mandatory incident reporting. Check your sector regulator. (3) Reputational impact — if this becomes public, what is the narrative risk? Prepare a holding statement now, before any media inquiry. Severity: Critical pending clinical review."
+        - speaker: human
+          text: "Clinical review in progress. Legal filing timeline confirmed: 72 hours."
+      triggers_next: "Impact severity quantified, legal exposure assessed, notification timeline set."
+
+    - step: 4
+      d: manage
+      label: "Execute remediation and close with post-incident review"
+      example_prompts:
+        - speaker: human
+          text: "Clinical review found no actionable harm, but we're notifying all 400 users. Root cause was a misconfigured A/B test. How do we close?"
+        - speaker: ai
+          text: "Remediation matrix: (1) User notification — send within 24 hours, include what happened and what to do if they acted on the output. Owner: customer success. (2) Regulatory — file incident report to sector regulator within 72-hour window. Owner: legal. (3) Technical fix — disable A/B test framework for AI systems until validation gates are added. Owner: engineering, target: today. (4) Post-incident review — scheduled for 5 business days, outputs update the risk register and A/B test governance policy. Owner: you as incident commander. This cycle restarts at the next AI system launch or quarterly AI risk review."
+        - speaker: human
+          text: "Agreed. All four owners confirmed."
+      triggers_next: "Remediation complete, regulatory filed, post-incident review scheduled."
+      can_restart: true
+
+  transitions:
+    - from: govern
+      to: map
+      trigger: "Incident command activated and system paused."
+    - from: map
+      to: measure
+      trigger: "Scope, affected parties, and regulatory triggers mapped."
+    - from: measure
+      to: map
+      trigger: "New affected parties or data categories discovered."
+      is_loop_back: true
+    - from: measure
+      to: manage
+      trigger: "Impact severity and legal exposure assessed."
+    - from: manage
+      to: govern
+      trigger: "Post-incident review triggers governance policy update — cycle restarts."
+      is_cycle_restart: true

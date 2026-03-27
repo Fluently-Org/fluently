@@ -1,0 +1,206 @@
+id: oecd-ai-principles
+name: OECD AI Principles
+version: "1.0.0"
+contributor: OECD (Organisation for Economic Co-operation and Development)
+description: >
+  The OECD Principles on Artificial Intelligence (2019, updated 2024) provide
+  rights-based policy guidance adopted by 46+ countries. Five principles —
+  inclusive growth, human-centred values, transparency, robustness, and
+  accountability — define the foundation for trustworthy AI across government,
+  enterprise, and civil society.
+dimensions:
+  - key: inclusive-growth
+    label: Inclusive Growth
+    description: >
+      Ensure AI benefits are broadly shared across society, economies, and the
+      environment — not concentrated in the hands of a few actors.
+    canonical_order: 1
+  - key: human-centred
+    label: Human-Centred Values
+    description: >
+      Respect rule of law, human rights, democratic values, diversity, and
+      non-discrimination throughout the AI lifecycle.
+    canonical_order: 2
+  - key: transparency
+    label: Transparency & Explainability
+    description: >
+      Make AI systems explainable and understandable to relevant stakeholders;
+      disclose when people are interacting with AI.
+    canonical_order: 3
+  - key: robustness
+    label: Robustness, Security & Safety
+    description: >
+      Ensure AI is technically secure, safe, and resilient across its full
+      lifecycle, including under adversarial conditions.
+    canonical_order: 4
+  - key: accountability
+    label: Accountability
+    description: >
+      Define clear responsibility for AI outcomes and enable effective
+      oversight mechanisms for redress and correction.
+    canonical_order: 5
+level: Government
+binding: "No"
+tags:
+  - ai-policy
+  - rights-based
+  - government
+  - oecd
+  - multilateral
+reference: https://oecd.ai/en/ai-principles
+
+dimension_combinations:
+  - id: inclusive-human-synergy
+    dimensions: [inclusive-growth, human-centred]
+    type: synergy
+    label: Shared benefit requires rights protection
+    description: >
+      Inclusive growth is hollow if AI benefits are distributed in ways that
+      violate rights or entrench discrimination. The two principles reinforce
+      each other: growth must be inclusive of human dignity, not just economic.
+    guidance: >
+      When designing AI for broad access, simultaneously audit whether the
+      system treats all beneficiaries with equal dignity and without
+      discrimination — growth metrics alone are insufficient.
+
+  - id: transparency-accountability-prerequisite
+    dimensions: [transparency, accountability]
+    type: prerequisite
+    label: Transparency enables accountability
+    description: >
+      Accountability for AI outcomes requires that decision processes are
+      visible enough to be audited and challenged. Opaque systems make
+      meaningful accountability impossible.
+    guidance: >
+      Before assigning accountability for an AI system, verify that its
+      decision logic is documented sufficiently to support audit and redress.
+      If transparency is insufficient, prioritize explainability improvements.
+
+  - id: robustness-accountability-tension
+    dimensions: [robustness, accountability]
+    type: tension
+    label: Security boundaries vs. audit access
+    description: >
+      Security measures that protect AI systems from attack can also limit
+      the access needed for independent audits and accountability verification.
+    guidance: >
+      Design audit access paths that satisfy accountability requirements without
+      exposing security-critical internals. Use trusted third-party auditors
+      operating under confidentiality agreements as a bridge.
+
+best_practices:
+  - id: bp-inclusive-impact-assessment
+    title: Conduct societal impact assessment before deployment
+    dimension: inclusive-growth
+    description: >
+      Before deploying any AI system, assess who benefits, who bears risk,
+      and whether outcomes are equitably distributed across populations.
+    antipattern: >
+      Measuring success solely by aggregate efficiency gains while ignoring
+      whether specific communities are excluded or harmed.
+    signal: >
+      Project brief includes an equity or impact assessment, or references
+      affected communities beyond the primary user base.
+
+  - id: bp-human-rights-baseline
+    title: Map human rights implications before AI design begins
+    dimension: human-centred
+    description: >
+      Identify which human rights are at stake for the AI system and
+      document how the design will protect them.
+    antipattern: >
+      Treating human rights as a legal checkbox rather than a design
+      constraint — reviewing them only after the system is built.
+    signal: >
+      Design phase includes a human rights mapping exercise referencing
+      recognized rights frameworks (UDHR, ECHR, etc.).
+
+  - id: bp-transparency-disclosure
+    title: Disclose AI involvement to affected individuals
+    dimension: transparency
+    description: >
+      Individuals who interact with or are affected by AI decisions must be
+      informed that AI is involved and understand the basis for outcomes.
+    antipattern: >
+      Using AI to make consequential decisions (hiring, lending, medical) without
+      disclosing its role or providing any explanation to the affected person.
+    signal: >
+      System design includes user-facing disclosure mechanism and an
+      explanation pathway for consequential decisions.
+
+  - id: bp-robustness-adversarial
+    title: Test AI systems under adversarial and edge conditions
+    dimension: robustness
+    description: >
+      Safety and security validation must include adversarial testing —
+      not just happy-path performance benchmarks.
+    antipattern: >
+      Declaring a system safe based solely on accuracy metrics from a
+      held-out test set without adversarial or stress testing.
+    signal: >
+      Validation plan includes adversarial scenarios, edge cases,
+      or red-team testing results.
+
+  - id: bp-accountability-redress
+    title: Establish a redress mechanism for AI-caused harm
+    dimension: accountability
+    description: >
+      Every AI system with consequential impact must have a defined path for
+      individuals to challenge decisions and obtain human review.
+    antipattern: >
+      Deploying consequential AI without a complaints or appeal mechanism,
+      leaving affected individuals with no recourse.
+    signal: >
+      Deployment plan includes a named redress pathway, appeals process,
+      or human review escalation for AI decisions.
+
+evaluation_criteria:
+  - id: eval-inclusive-scope
+    dimension: inclusive-growth
+    label: Broad beneficiary scope is considered
+    description: The work explicitly considers who benefits and whether access is equitable.
+    weight: 0.20
+    signals:
+      present: [inclusive, equitable, access, benefit, society, community, population, distribution, gap, underserved]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-human-rights
+    dimension: human-centred
+    label: Human rights or values are referenced
+    description: The work identifies relevant human rights, dignity, or democratic values at stake.
+    weight: 0.20
+    signals:
+      present: [rights, dignity, fairness, discrimination, diversity, inclusion, autonomy, freedom, democratic, values]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-transparency-disclosure
+    dimension: transparency
+    label: Explainability or disclosure mechanism is present
+    description: The work includes a mechanism for explanation or disclosure to affected parties.
+    weight: 0.20
+    signals:
+      present: [explain, disclose, transparent, interpretable, audit, visible, understandable, communicate, inform, notify]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-robustness-testing
+    dimension: robustness
+    label: Safety or security validation is planned
+    description: The work includes a testing or validation step for safety, security, or reliability.
+    weight: 0.20
+    signals:
+      present: [test, validate, secure, safe, resilient, adversarial, robust, reliable, stress, verify]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-accountability-owner
+    dimension: accountability
+    label: Accountability and redress mechanism are defined
+    description: A responsible party and a path for redress or challenge are named.
+    weight: 0.20
+    signals:
+      present: [accountable, responsible, redress, appeal, review, oversight, challenge, owner, escalate, remedy]
+      absent: []
+    pass_threshold: 1

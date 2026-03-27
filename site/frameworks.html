@@ -488,6 +488,11 @@ Do not open the PR without my explicit approval.</pre>
 
                 <div class="flex flex-wrap gap-1.5 mb-4">${tags}</div>
 
+                <div class="flex flex-wrap gap-1.5 mb-3">
+                    ${fw.level ? `<span class="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-medium"><i class="fas fa-layer-group text-blue-400" style="font-size:0.6rem"></i>${escapeHtml(fw.level)}</span>` : ''}
+                    ${fw.binding ? `<span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium border ${fw.binding === 'Yes' ? 'bg-red-50 text-red-700 border-red-200' : fw.binding === 'Voluntary cert.' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-gray-50 text-gray-500 border-gray-200'}"><i class="fas fa-${fw.binding === 'Yes' ? 'gavel' : fw.binding === 'Voluntary cert.' ? 'certificate' : 'check-circle'}" style="font-size:0.6rem"></i>${escapeHtml(fw.binding === 'Yes' ? 'Legally binding' : fw.binding === 'Voluntary cert.' ? 'Voluntary cert.' : 'Voluntary')}</span>` : ''}
+                </div>
+
                 <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-100 pt-3">
                     <span><i class="fas fa-user mr-1"></i>${escapeHtml(fw.contributor)}</span>
                     <span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-medium">
@@ -571,9 +576,13 @@ Do not open the PR without my explicit approval.</pre>
 
             return `
             <div class="compare-col">
-                <div class="flex items-center gap-2 mb-3">
+                <div class="flex items-center gap-2 mb-2 flex-wrap">
                     <h3 class="font-bold text-gray-900 text-sm">${escapeHtml(fw.name)}</h3>
                     <span class="text-xs text-gray-400 font-mono">${escapeHtml(fw.id)}</span>
+                </div>
+                <div class="flex flex-wrap gap-1 mb-2">
+                    ${fw.level ? `<span class="text-xs bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded-full">${escapeHtml(fw.level)}</span>` : ''}
+                    ${fw.binding ? `<span class="text-xs px-1.5 py-0.5 rounded-full border ${fw.binding === 'Yes' ? 'bg-red-50 text-red-600 border-red-200' : fw.binding === 'Voluntary cert.' ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-gray-50 text-gray-500 border-gray-200'}">${escapeHtml(fw.binding === 'Yes' ? 'Legally binding' : fw.binding)}</span>` : ''}
                 </div>
                 <div class="flex flex-wrap gap-1 mb-3">
                     ${dimOrder.map((k, idx) => {

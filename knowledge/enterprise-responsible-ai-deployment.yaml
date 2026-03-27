@@ -1,0 +1,241 @@
+id: responsible-ai-deployment
+framework_id: wef-responsible-ai
+version: "1.0.0"
+contributor: Fluently Community
+title: Responsible AI Deployment
+domain: enterprise
+
+summary: >
+  An enterprise uses the WEF Responsible AI Playbook to deploy a new AI
+  feature responsibly — from strategy alignment through governance sign-off,
+  ethical risk assessment, operational embedding of responsible practices,
+  and post-deployment accountability tracking. The cycle turns responsible AI
+  principles into a deployment checklist with named owners at every step.
+
+dimensions:
+  strategy:
+    description: >
+      Before engineering begins, the deployment is evaluated against the
+      organization's AI strategy — confirming it serves the mission, is
+      consistent with stated values, and would pass the organization's
+      own purpose test.
+    example: >
+      Product manager: "We want to add an AI feature that recommends
+      premium subscription upgrades to users based on their engagement patterns.
+      Does this pass the purpose test?"
+      AI: "Apply the purpose test: (1) Who is the primary beneficiary —
+      the user getting a relevant recommendation, or the organization
+      increasing revenue? If the recommendation is optimized for conversion
+      rather than user value, the primary beneficiary is the organization.
+      (2) Is this consistent with your stated AI values? Pull your AI policy
+      and check. (3) If this feature were reported in a consumer protection
+      context tomorrow, would it be defensible? A recommendation engine that
+      targets high-engagement users for upselling — particularly if those
+      users are in vulnerable demographics — may not be. Flag for ethics review."
+    antipattern: >
+      Beginning engineering work on an AI feature before evaluating whether
+      it serves the organization's stated purpose — discovering mission
+      alignment issues when the feature is already built and deployment pressure is high.
+
+  governance:
+    description: >
+      The deployment passes through the organization's ethics review gate —
+      with a completed intake form, a board decision, and any conditions
+      documented in the deployment plan before a single line of production
+      code is written.
+    example: >
+      AI: "Governance checklist for this deployment: (1) Ethics intake form
+      completed — does the feature trigger mandatory review criteria?
+      If it targets behavior patterns linked to engagement (potentially
+      addictive behavior), it may trigger the 'individual impact in a
+      sensitive context' criterion. (2) Ethics board review — if triggered,
+      submit the intake form before engineering sprint planning. (3) Conditions
+      documented — if the board approves with conditions (e.g., exclude
+      users below a usage frequency threshold), those conditions are written
+      into the product spec as non-negotiable requirements, not post-launch
+      enhancements."
+    antipattern: >
+      Submitting to ethics review after the feature is built — when conditions
+      imposed by the board require architectural changes that are expensive to
+      implement, creating pressure to water down or ignore the conditions.
+
+  risk-ethics:
+    description: >
+      The product team conducts a focused ethical risk assessment before
+      the ethics board review — identifying the three most significant
+      ethical risks and proposed mitigations, so the board can focus on
+      evaluation rather than discovery.
+    example: >
+      Human: "The ethics intake form asks for our three biggest ethical risks.
+      What are they for a subscription upsell AI?"
+      AI: "Three material ethical risks: (1) Targeting vulnerability —
+      if high engagement correlates with addictive behavior patterns, targeting
+      these users for upselling raises a harm question. Mitigation: exclude
+      users flagged by the safety or wellness team. (2) Dark patterns —
+      if the recommendation is displayed in a way that makes it hard to dismiss,
+      it may cross into manipulative design. Mitigation: design review with
+      UX ethics checklist. (3) Data use beyond original consent — were users
+      told their engagement data would be used for upsell targeting?
+      Mitigation: check consent terms; add explicit disclosure if not covered."
+    antipattern: >
+      Listing only compliance risks (GDPR, data minimization) in the ethics
+      assessment while omitting behavioral and mission alignment risks —
+      producing a legally safe product that is ethically questionable.
+
+  implementation:
+    description: >
+      Ethics board conditions are implemented as engineering requirements —
+      not as optional enhancements — and the deployment includes responsible
+      AI operational controls: fairness checks, bias testing, and a
+      documented override pathway for the ethics conditions.
+    example: >
+      AI: "Ethics conditions to engineering requirements: (1) Exclusion list —
+      'Exclude users in the safety flag category from recommendation targeting'
+      becomes: a safety_flag boolean check in the recommendation service,
+      tested in CI, and verified in the deployment QA checklist. (2) Disclosure —
+      'Add explicit disclosure that engagement data is used for recommendations'
+      becomes: a UI string approved by legal and product, required on the
+      recommendation card before launch. (3) Override monitoring — set up
+      a dashboard tracking exclusion list coverage and disclosure click-through
+      rate. Any deviation from expected metrics triggers a responsible AI
+      incident."
+    antipattern: >
+      Documenting ethics board conditions in a decision log but not converting
+      them into engineering tickets with acceptance criteria — allowing
+      conditions to be 'completed' without verification that they were
+      actually implemented.
+
+  accountability:
+    description: >
+      Ninety days post-launch, the product team reports back to the ethics
+      board with outcome data — verifying that conditions were met, that
+      no unexpected ethical harms emerged, and that the feature is performing
+      consistently with the responsible AI commitments made before deployment.
+    example: >
+      AI closes the cycle: "90-day accountability report structure:
+      (1) Condition verification — for each ethics board condition, provide
+      evidence of implementation: exclusion list coverage rate, disclosure
+      display rate. (2) Outcome metrics — what happened? Conversion rate,
+      exclusion rate, and any complaints or escalations related to the feature.
+      (3) Unexpected harms — were any ethical issues identified post-launch
+      that were not anticipated in the risk assessment? If yes, what action
+      was taken? (4) Forward plan — is the feature performing within the
+      ethical parameters approved? Any changes planned that would require
+      a new ethics review? The 90-day report is the accountability
+      mechanism that closes the loop — without it, deployment is a one-way gate."
+    antipattern: >
+      Treating the ethics board approval as permanent and never reporting back —
+      allowing a feature to evolve post-launch in ways that move it outside the
+      ethical parameters it was approved under, with no governance visibility.
+
+score_hints:
+  strategy: 0.20
+  governance: 0.25
+  risk-ethics: 0.20
+  implementation: 0.25
+  accountability: 0.10
+
+tags:
+  - responsible-ai
+  - deployment
+  - enterprise
+  - wef
+  - product
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Deployment passes purpose test before engineering begins → ethics intake
+    form and board review completed before sprint planning → product team
+    conducts focused ethical risk assessment as board input → ethics conditions
+    are converted to engineering requirements → 90-day post-launch accountability
+    report closes the loop. Loops back to governance if risk assessment reveals
+    risks requiring board guidance before conditions can be specified.
+
+  sequence:
+    - step: 1
+      d: strategy
+      label: "Apply purpose test before engineering begins"
+      example_prompts:
+        - speaker: human
+          text: "We're planning an AI feature for the next sprint. What's the responsible AI process?"
+        - speaker: ai
+          text: "Before any sprint planning: apply the purpose test to the feature. Three questions: (1) Does this feature primarily serve the user or primarily serve the organization's financial metrics? If the answer is unclear or mixed, that is a flag. (2) Is this feature consistent with the organization's AI policy commitments — specifically the values and prohibited use cases listed? (3) If a journalist covered this feature in the context of 'AI companies manipulating users,' would we be comfortable with how it is described? If the answer to any of these is 'no' or 'uncertain,' the feature requires ethics board review before sprint planning. Document the purpose test result in the feature spec."
+        - speaker: human
+          text: "Purpose test result: primary beneficiary is mixed — some user value, some upsell optimization. Flagged for ethics review before sprint."
+      triggers_next: "Purpose test completed; feature flagged for ethics review."
+
+    - step: 2
+      d: governance
+      label: "Complete ethics intake and obtain board decision"
+      example_prompts:
+        - speaker: human
+          text: "We need to submit to the ethics board. What does the intake form need?"
+        - speaker: ai
+          text: "One-page intake form: (1) Feature description — what does the AI do, what data does it use, who are the users? (2) Mandatory review trigger — which criterion triggered review? (3) Three ethical risks — the product team's own assessment of the top three risks. (4) Proposed mitigations — what has the product team already designed to address each risk? (5) Timeline — when is the feature planned for launch? The board needs 72 hours minimum for async review; 5 business days for a full session. Submit now — before sprint planning, not after the sprint is 80% complete."
+        - speaker: human
+          text: "Intake form submitted. Board async review requested. 72-hour window started."
+      triggers_next: "Ethics intake submitted; board review in progress."
+      loop_back:
+        to: risk-ethics
+        condition: "Board requests additional risk analysis before issuing a decision."
+        reason: "Board guidance on specific risk dimensions must inform the risk assessment before conditions can be set."
+
+    - step: 3
+      d: risk-ethics
+      label: "Conduct focused ethical risk assessment as board input"
+      example_prompts:
+        - speaker: human
+          text: "The board wants a deeper risk analysis on the targeting and data consent risks. What do we provide?"
+        - speaker: ai
+          text: "For targeting risk: (1) Pull engagement distribution data — what percentage of targeted users are in the top 10% of engagement? Is that distribution correlated with any demographic variables? (2) Define 'high engagement' operationally — is it time spent, frequency, or a behavioral pattern? If time spent, is there a threshold above which targeting becomes potentially exploitative? (3) For data consent: pull the current consent terms — what did users consent to when they signed up? Provide the exact text to the board. If engagement data for targeting is not covered, identify when the next consent refresh is scheduled. The board needs evidence, not narrative."
+        - speaker: human
+          text: "Engagement data: top 10% skews younger, 18-24 demographic. Consent terms: engagement data for targeting not explicitly covered. Both findings submitted to board."
+      triggers_next: "Risk analysis with evidence submitted to board."
+
+    - step: 4
+      d: implementation
+      label: "Convert ethics conditions to engineering requirements"
+      example_prompts:
+        - speaker: human
+          text: "The board approved with three conditions. How do we make sure they are implemented?"
+        - speaker: ai
+          text: "Convert each condition to an engineering ticket with an acceptance criterion: (1) Condition: 'Exclude users under 21 from targeting.' Ticket: Add age_gate check (age < 21 → exclude from recommendation cohort). Acceptance: unit test passes; QA verifies exclusion in staging with test accounts. (2) Condition: 'Update consent terms before launch.' Ticket: Legal drafts consent update; product adds consent re-affirmation flow for existing users. Acceptance: legal sign-off and consent re-affirmation completion rate >80% before feature activates. (3) Condition: 'Add responsible AI monitoring dashboard.' Ticket: Dashboard showing exclusion coverage rate and consent completion rate. Acceptance: dashboard live in production with alert thresholds set. No deployment gate closes until all three acceptance criteria are verified."
+        - speaker: human
+          text: "Three engineering tickets created with acceptance criteria. Added to sprint as blocking requirements."
+      triggers_next: "Ethics conditions converted to blocking engineering requirements."
+
+    - step: 5
+      d: accountability
+      label: "Submit 90-day post-launch accountability report"
+      example_prompts:
+        - speaker: human
+          text: "It's been 90 days since launch. What does the ethics board report need?"
+        - speaker: ai
+          text: "90-day report: (1) Condition verification — exclusion rate: X% of users excluded via age gate (expected >5% for 18-24 skewed user base). Consent re-affirmation rate: 87% (above 80% threshold). Monitoring dashboard: live with zero alert triggers. (2) Outcome metrics — conversion rate among targeted users: +12%. No complaints or escalations related to the feature in support tickets or social media. (3) Unexpected issues — the exclusion logic had a bug for 3 days post-launch; 340 users under 21 were incorrectly included. Bug fixed within 72 hours; incident logged. (4) Forward plan — no planned changes that would require new ethics review. Feature performing within approved parameters. This report is submitted to the board chair and logged in the decision record."
+        - speaker: human
+          text: "Report submitted. Board acknowledges and closes the review cycle."
+      triggers_next: "90-day report submitted; ethics review cycle closed."
+      can_restart: true
+
+  transitions:
+    - from: strategy
+      to: governance
+      trigger: "Purpose test flags feature for ethics review."
+    - from: governance
+      to: risk-ethics
+      trigger: "Board requests additional risk analysis."
+      is_loop_back: true
+    - from: governance
+      to: implementation
+      trigger: "Board approves with conditions."
+    - from: risk-ethics
+      to: governance
+      trigger: "Risk analysis with evidence submitted to board."
+    - from: implementation
+      to: accountability
+      trigger: "All ethics conditions implemented and verified."
+    - from: accountability
+      to: strategy
+      trigger: "Feature changes or new AI deployment trigger new cycle."
+      is_cycle_restart: true

@@ -1,0 +1,171 @@
+id: ai-risk-assessment
+framework_id: nist-ai-rmf
+version: "1.0.0"
+contributor: Fluently Community
+title: Enterprise AI Risk Assessment
+domain: enterprise
+
+summary: >
+  An enterprise team uses the NIST AI RMF to conduct a structured risk
+  assessment for a new AI system before deployment. The cycle establishes
+  governance readiness, maps risks and affected parties, measures likelihood
+  and impact, and produces a risk treatment plan with named owners.
+
+dimensions:
+  govern:
+    description: >
+      Before assessing any risk, the team confirms that governance structures
+      are in place: a named AI risk owner, a defined risk appetite, and a
+      clear mandate for who can accept residual risk.
+    example: >
+      Risk governance lead: "Before we map any risks, I need us to confirm
+      three things: who owns this AI system's risk posture, what our risk
+      appetite is for automated decisions in this domain, and what sign-off
+      is required before deployment."
+    antipattern: >
+      Starting a risk assessment without an owner — producing a risk register
+      that no one is accountable for acting on.
+
+  map:
+    description: >
+      The team systematically identifies what the AI system does, who is
+      affected (including non-users), what can go wrong, and where risks
+      originate — distinguishing technical, operational, and societal risks.
+    example: >
+      AI: "Based on the system description, I can identify six risk categories:
+      data quality risks affecting prediction accuracy, fairness risks for
+      the demographic groups in scope, security risks from adversarial inputs,
+      operational risks from model drift, legal risks from the jurisdiction's
+      AI regulations, and reputational risks from public misperception.
+      Which of these are within scope for this assessment?"
+    antipattern: >
+      Mapping only technical risks (model accuracy, latency) and omitting
+      societal, legal, and operational risks that are harder to quantify.
+
+  measure:
+    description: >
+      Each mapped risk is scored for likelihood and impact using consistent
+      criteria. The team uses evidence from testing, historical data, and
+      stakeholder input — not gut feel — to justify scores.
+    example: >
+      Human: "The AI flags fairness risk. How do we score likelihood?"
+      AI: "I recommend using your testing data: run the model outputs
+      across demographic groups and compare disparity ratios. If the
+      disparity ratio exceeds your defined threshold, likelihood of harm
+      is high regardless of intent."
+    antipattern: >
+      Scoring risks subjectively without evidence — producing scores that
+      reflect the team's optimism rather than the system's actual behavior.
+
+  manage:
+    description: >
+      The team selects a treatment for each measured risk (accept, mitigate,
+      avoid, transfer), documents residual risk, assigns owners, and defines
+      monitoring checkpoints for post-deployment.
+    example: >
+      Risk owner: "For the fairness risk — treatment is mitigation via
+      quarterly disparity audits. Owner is the data team lead. Residual
+      risk is accepted at Low. If disparity ratio exceeds threshold,
+      the system is paused pending review."
+      AI: "I'll draft the risk register entry with those fields. Do you
+      want me to also generate the monitoring alert specification?"
+    antipattern: >
+      Closing a risk entry after selecting mitigation without documenting
+      residual risk or a monitoring trigger — leaving the risk effectively
+      untracked after deployment.
+
+score_hints:
+  govern: 0.25
+  map: 0.25
+  measure: 0.25
+  manage: 0.25
+
+tags:
+  - risk-assessment
+  - enterprise
+  - ai-governance
+  - pre-deployment
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Governance readiness is confirmed before any risk work begins → risks are
+    mapped across technical, operational, societal, and legal dimensions →
+    each risk is scored using evidence → treatment plans with owners and
+    monitoring triggers are documented. Loops back to Map if measurement
+    reveals unmapped risks.
+
+  sequence:
+    - step: 1
+      d: govern
+      label: "Confirm governance readiness and risk ownership"
+      example_prompts:
+        - speaker: human
+          text: "We're about to assess a new loan-decisioning AI. Before we start mapping risks, can you help us confirm what governance needs to be in place?"
+        - speaker: ai
+          text: "Three things need to be confirmed first: (1) Who is the named risk owner with authority to accept or reject deployment? (2) What is your organization's risk appetite for automated decisions in lending — do you have a documented threshold? (3) What approval is required before deployment proceeds? Without these, any risk register we produce will be orphaned."
+        - speaker: human
+          text: "The CRO owns lending AI risk, our appetite is Low for decisions affecting credit access, and deployment requires CRO sign-off plus legal review."
+      triggers_next: "Risk owner named, appetite defined, approval path confirmed."
+
+    - step: 2
+      d: map
+      label: "Map risks across all affected dimensions"
+      example_prompts:
+        - speaker: human
+          text: "The system uses applicant financial data and a proprietary model to automate 80% of loan decisions. Map the risk landscape."
+        - speaker: ai
+          text: "I'll map six risk categories: (1) Data quality — training data may not reflect current economic conditions. (2) Fairness — automated decisions at scale amplify demographic disparities. (3) Security — model inversion attacks could expose applicant data. (4) Operational — model drift without monitoring could degrade accuracy undetected. (5) Legal — jurisdiction-specific fair lending laws may impose explainability requirements. (6) Reputational — public perception of algorithmic lending decisions. Which require deeper mapping?"
+        - speaker: human
+          text: "Fairness and legal are top priority — map those in detail."
+      triggers_next: "Risk categories mapped with stakeholders and impact domains identified."
+      loop_back:
+        to: map
+        condition: "Measurement reveals a risk not captured in the initial map."
+        reason: "Scope must be extended before the new risk can be measured."
+
+    - step: 3
+      d: measure
+      label: "Score each risk using evidence and consistent criteria"
+      example_prompts:
+        - speaker: human
+          text: "We ran the model on a holdout set. Demographic disparity ratio is 1.34 for one protected group. How do we score this?"
+        - speaker: ai
+          text: "A ratio of 1.34 is above the 1.25 threshold used by most fair lending regulators as a trigger for adverse impact review. Likelihood of harm: High. Impact: High, given the credit access consequences and legal exposure. This scores as a Critical risk — it requires mitigation, not acceptance."
+        - speaker: human
+          text: "What evidence do we need for the legal risk score?"
+        - speaker: ai
+          text: "For legal risk, you need a jurisdiction mapping: list every jurisdiction where the system will operate and check each against applicable AI and fair lending regulation. The evidence is the legal review memo, not the model output."
+      triggers_next: "All priority risks scored with evidence citations."
+
+    - step: 4
+      d: manage
+      label: "Define treatment, residual risk, and monitoring for each risk"
+      example_prompts:
+        - speaker: human
+          text: "For the fairness risk — what treatment options do we have?"
+        - speaker: ai
+          text: "Three options: (1) Mitigate — rebalance training data and re-evaluate; target disparity ratio below 1.15. (2) Avoid — remove the demographic-correlated features from the model. (3) Transfer — purchase fairness insurance and accept current disparity with disclosed risk. Given your Low risk appetite, option 1 or 2 is required. Which do you want in the risk register?"
+        - speaker: human
+          text: "Option 1. Owner is data science lead, target date is next sprint, monitoring is monthly disparity audit. Residual risk: Medium pending re-evaluation."
+      triggers_next: "Risk register complete, all entries have treatment, owner, timeline, and residual risk."
+      can_restart: true
+
+  transitions:
+    - from: govern
+      to: map
+      trigger: "Risk owner named, appetite defined, approval path confirmed."
+    - from: map
+      to: measure
+      trigger: "Risk landscape mapped with stakeholders and impact domains."
+    - from: measure
+      to: map
+      trigger: "New risk identified during measurement — not in original map."
+      is_loop_back: true
+    - from: measure
+      to: manage
+      trigger: "All priority risks scored with evidence."
+    - from: manage
+      to: govern
+      trigger: "New AI system or material change triggers a new assessment cycle."
+      is_cycle_restart: true

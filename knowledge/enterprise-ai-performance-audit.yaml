@@ -1,0 +1,241 @@
+id: ai-performance-audit
+framework_id: iso-42001
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Management System Performance Audit
+domain: enterprise
+
+summary: >
+  An enterprise runs its annual ISO/IEC 42001 internal audit to assess
+  the AIMS performance. The cycle covers the organizational context
+  validity, leadership commitment evidence, planning objective progress,
+  operational process effectiveness, and the formal management review —
+  producing corrective actions and an AIMS improvement plan.
+
+dimensions:
+  context:
+    description: >
+      The audit verifies that the AIMS scope and organizational context
+      remain valid — checking whether changes in the organization's AI
+      footprint, regulatory environment, or stakeholder landscape
+      have rendered the current scope obsolete.
+    example: >
+      Auditor: "The AIMS was scoped to five AI systems 12 months ago.
+      We now have eight. Is the scope still valid?"
+      AI: "Scope validity check: (1) The three new AI systems must be
+      assessed for inclusion — are they within the AIMS boundary as
+      currently defined? If yes, they are a nonconformity: in-scope
+      systems not covered by the AIMS. If no, a scope update is required
+      to explicitly exclude them with documented rationale. (2) Have any
+      new regulations come into force in the past 12 months that affect
+      the AIMS scope? (3) Have any new stakeholders emerged — a new
+      regulator, a new customer segment, a new supplier — who should
+      be in the interested parties register? Document findings for each."
+    antipattern: >
+      Auditing the AIMS against the original scope document without checking
+      whether the scope is still accurate — allowing new AI systems to operate
+      outside the AIMS boundary undetected.
+
+  leadership:
+    description: >
+      The audit verifies that top management commitment is genuine and current —
+      checking whether the AI policy has been reviewed, whether the AI
+      management representative has the authority and resources needed,
+      and whether AI risk appears in executive reporting.
+    example: >
+      AI: "Leadership evidence checklist for the audit: (1) AI policy
+      review — was the AI policy reviewed in the past 12 months?
+      Who approved the review? (2) Management representative authority —
+      have there been cases where the AI management representative
+      needed to make a decision and could not due to resource or
+      authority constraints? (3) Executive reporting — pull the last
+      four board or executive reports: does AI risk appear as a standing
+      item? If AI risk only appears when there is an incident, governance
+      is reactive, not systematic."
+    antipattern: >
+      Accepting a signed AI policy as evidence of leadership commitment
+      without checking whether the policy has been reviewed, whether
+      the management representative has real authority, and whether
+      AI risk is integrated into executive reporting.
+
+  planning:
+    description: >
+      The audit assesses progress against the AIMS objectives set in
+      the previous planning cycle — verifying that risk treatments
+      were implemented on schedule, that objectives are still measurable,
+      and that the risk register is current.
+    example: >
+      Human: "Three AIMS objectives were set last year. How do we
+      audit progress?"
+      AI: "For each objective: (1) Is the objective still measurable —
+      is the metric and target still valid, or has it become obsolete
+      due to system changes? (2) What is the current performance against
+      target — provide evidence, not narrative. (3) For objectives
+      not on track — what is the root cause? Was the target unrealistic,
+      was the treatment action not implemented, or did circumstances change?
+      (4) Risk register currency — pull five risk entries at random:
+      are treatment actions implemented? Are residual risk ratings still
+      accurate given changes in the past 12 months?"
+    antipattern: >
+      Reporting AIMS objectives as 'in progress' without providing
+      quantitative evidence of current performance against target —
+      producing an audit finding that cannot distinguish between
+      genuine progress and stalled implementation.
+
+  operation:
+    description: >
+      The audit samples operational records to verify that documented
+      AIMS processes are being followed in practice — checking model
+      cards, change control logs, incident logs, and supplier documentation.
+    example: >
+      AI: "Operational sampling for the audit — pull records for
+      three AI systems deployed in the past 12 months and verify:
+      (1) Model card completeness — does the model card exist, is it
+      current (updated within 30 days of the last material change),
+      and does it contain all required fields? (2) Change control —
+      were there material AI system changes? Was a documented impact
+      assessment completed before deployment? (3) Incident log —
+      are all AI incidents logged? Sample three months and cross-reference
+      with the service desk for unreported incidents. (4) Supplier
+      documentation — are model cards or technical specifications
+      on file for all AI suppliers?"
+    antipattern: >
+      Auditing AIMS operational processes by interviewing process owners
+      rather than sampling records — hearing how processes are supposed
+      to work rather than verifying that they actually work.
+
+  performance:
+    description: >
+      The audit produces formal findings, nonconformities, and observations —
+      and feeds these into a management review that produces a written
+      AIMS effectiveness conclusion and an approved corrective action plan.
+    example: >
+      AI closes the audit cycle: "Audit summary for management review:
+      Two major nonconformities — (1) Three AI systems deployed in the
+      past 6 months have no model cards (Clause 8, Operation).
+      Root cause: new development team was not trained on AIMS
+      documentation requirements. Required action: training completed,
+      retrospective model cards drafted. (2) Risk register not updated
+      for 9 months — two risk treatments overdue (Clause 6, Planning).
+      Required action: risk register reviewed and updated within 30 days.
+      Two observations — scope does not cover three new AI systems;
+      AI policy has not been reviewed in 18 months. Management review
+      must produce a written AIMS effectiveness conclusion and approve
+      corrective action owners and deadlines."
+    antipattern: >
+      Completing the internal audit, identifying nonconformities, and
+      then allowing the management review to be cancelled or deferred —
+      leaving nonconformities without corrective actions and the AIMS
+      without a formal effectiveness determination.
+
+score_hints:
+  context: 0.15
+  leadership: 0.20
+  planning: 0.25
+  operation: 0.25
+  performance: 0.15
+
+tags:
+  - iso-42001
+  - internal-audit
+  - enterprise
+  - performance
+  - management-review
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    AIMS scope validity is verified against current AI footprint → leadership
+    commitment evidence is checked against four concrete indicators → planning
+    objective progress is assessed with quantitative evidence → operational
+    records are sampled for process conformity → audit findings feed the
+    management review which produces corrective actions and an effectiveness
+    conclusion.
+
+  sequence:
+    - step: 1
+      d: context
+      label: "Verify AIMS scope validity and context currency"
+      example_prompts:
+        - speaker: human
+          text: "We're running the annual AIMS internal audit. Start with context."
+        - speaker: ai
+          text: "Scope validity check — four questions: (1) How many AI systems are in production today versus when the scope was last updated? Any new systems must be assessed for AIMS inclusion. (2) Have any new regulations come into force affecting the AIMS scope — EU AI Act, sector-specific AI rules? (3) Are all interested parties in the register still current — any new regulators, customers, or suppliers? (4) Has the organizational context changed — mergers, acquisitions, new markets — that affects the AI risk landscape? Document findings for each; scope gaps are a likely nonconformity finding."
+        - speaker: human
+          text: "Three new AI systems not in scope. EU AI Act now applies — not reflected in the AIMS. Two interested parties added."
+      triggers_next: "Scope validity findings documented — three new systems and regulatory gap identified."
+
+    - step: 2
+      d: leadership
+      label: "Check leadership commitment evidence"
+      example_prompts:
+        - speaker: human
+          text: "How do we audit leadership commitment beyond checking the signed AI policy?"
+        - speaker: ai
+          text: "Four evidence checks: (1) AI policy review — request the review record: who reviewed it, when, who approved it? If no review in the past 12 months, that is an observation (not a major nonconformity unless the policy is materially outdated). (2) Management representative — interview them: have they had authority or resource constraints in the past 12 months that prevented AIMS decisions? If yes, document specific cases. (3) Executive reporting — review board minutes or executive reports for the past four quarters. Does AI risk appear as a standing agenda item? (4) AIMS budget — was the approved AIMS budget fully allocated? If significant budget was rescinded, that is a leadership commitment finding."
+        - speaker: human
+          text: "AI policy not reviewed in 18 months. Executive reports show AI risk only appears in incident months. Observation documented."
+      triggers_next: "Leadership commitment evidence assessed; two observations documented."
+
+    - step: 3
+      d: planning
+      label: "Assess objective progress and risk register currency"
+      example_prompts:
+        - speaker: human
+          text: "How do we audit the three AIMS objectives from last year's planning cycle?"
+        - speaker: ai
+          text: "For each objective, pull quantitative evidence: (1) 'All new AI deployments have a model card by Q3' — how many deployments occurred? How many have model cards? If three of six have cards, that is a 50% achievement rate against a 100% target — a major nonconformity. (2) 'Zero unlogged AI incidents by Q2' — cross-reference the incident log with service desk records. Any discrepancy is a nonconformity. (3) 'First internal audit completed by Q4' — we are doing it now, so this objective is met. For the risk register: pull five entries at random and check: are treatment actions implemented? Are target dates past due? Overdue treatment actions are a nonconformity finding."
+        - speaker: human
+          text: "Model card objective: 3 of 6 — major nonconformity. Risk register: two overdue treatments — major nonconformity."
+      triggers_next: "Two major nonconformities documented from planning audit."
+      loop_back:
+        to: context
+        condition: "Planning audit reveals that the risk register was not updated when new AI systems were added — scope and planning are linked nonconformities."
+        reason: "Linked nonconformities require both context and planning sections to be re-audited together."
+
+    - step: 4
+      d: operation
+      label: "Sample operational records for process conformity"
+      example_prompts:
+        - speaker: human
+          text: "Which operational records should we sample for the audit?"
+        - speaker: ai
+          text: "Sample three AI systems deployed in the past 12 months. For each, check: (1) Model card — exists, is current, contains required fields. (2) Change control — pull the change log: were there material changes? Was an impact assessment completed before deployment? (3) Incident log — pull the past 6 months. Cross-reference with the service desk: any incidents reported to the service desk but not in the AIMS incident log? (4) Supplier documentation — pull the AI supplier register: do all suppliers have model cards or technical specifications on file? Sampling is sufficient for the audit — you are not required to check every system."
+        - speaker: human
+          text: "Three systems sampled. Two have no model cards — already flagged. One change control record missing impact assessment — additional nonconformity."
+      triggers_next: "Operational sampling complete — third major nonconformity identified."
+
+    - step: 5
+      d: performance
+      label: "Conduct management review and approve corrective actions"
+      example_prompts:
+        - speaker: human
+          text: "We have three major nonconformities. How do we close the audit?"
+        - speaker: ai
+          text: "Management review agenda: (1) Audit findings summary — present all three major nonconformities with root cause analysis. Do not just list findings; explain why each occurred. (2) Corrective action approval — for each nonconformity, management approves: the corrective action, the owner, and the target date. Required: (a) Model cards for all six deployments within 30 days; training for new dev team. Owner: AIMS manager. (b) Risk register reviewed and all overdue treatments completed within 30 days. Owner: risk lead. (c) Change control process retrained and missing impact assessment documented retrospectively. Owner: engineering lead. (3) AIMS effectiveness conclusion — management must formally conclude: is the AIMS achieving its intended outcomes? Document the conclusion in the review minutes. (4) Next audit date — set the date for the next internal audit now."
+        - speaker: human
+          text: "Management review complete. Three corrective actions approved with owners. AIMS effectiveness conclusion: Partially Effective — improvement required."
+      triggers_next: "Management review complete; corrective actions approved; next audit date set."
+      can_restart: true
+
+  transitions:
+    - from: context
+      to: leadership
+      trigger: "Scope validity findings documented."
+    - from: leadership
+      to: planning
+      trigger: "Leadership commitment evidence assessed."
+    - from: planning
+      to: context
+      trigger: "Risk register gap linked to scope — re-audit context."
+      is_loop_back: true
+    - from: planning
+      to: operation
+      trigger: "Planning objective progress assessed; nonconformities documented."
+    - from: operation
+      to: performance
+      trigger: "Operational sampling complete."
+    - from: performance
+      to: context
+      trigger: "Next annual audit cycle begins."
+      is_cycle_restart: true

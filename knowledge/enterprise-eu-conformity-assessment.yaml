@@ -1,0 +1,250 @@
+id: eu-conformity-assessment
+framework_id: eu-ai-act
+version: "1.0.0"
+contributor: Fluently Community
+title: EU AI Act Conformity Assessment
+domain: enterprise
+
+summary: >
+  An enterprise compliance team uses the EU AI Act framework to conduct
+  the conformity assessment for a high-risk AI system. The cycle covers
+  the risk classification basis for the assessment, the technical transparency
+  requirements reviewed, human oversight sufficiency verification, robustness
+  standard alignment, and the governance steps to complete and register
+  conformity — enabling lawful market deployment.
+
+dimensions:
+  risk-classification:
+    description: >
+      The conformity assessment begins by confirming that the risk
+      classification is accurate and current — verifying the Annex III
+      basis, the intended purpose as actually deployed, and whether any
+      post-classification changes trigger a new assessment.
+    example: >
+      Compliance officer: "We classified the system as high-risk six months
+      ago. Do we need to re-confirm before the conformity assessment?"
+      AI: "Yes — the conformity assessment must be based on the current
+      deployed configuration, not the original classification. Three
+      re-confirmation checks: (1) Has the system's intended purpose changed
+      since classification? A widened scope may add Annex III categories.
+      (2) Has the system been materially updated — new training data, new
+      model version, new deployment geography? Material changes may require
+      a new conformity assessment. (3) Has the regulatory environment changed?
+      New harmonized standards or Commission guidance may affect which
+      conformity pathway applies. Document each check with a 'confirmed'
+      or 'change identified' status."
+    antipattern: >
+      Running the conformity assessment against the original classification
+      document without re-confirming that the system has not changed materially
+      in the intervening months — producing a conformity assessment that does
+      not match the deployed system.
+
+  transparency:
+    description: >
+      The conformity assessment audits the technical documentation package —
+      technical file, instructions for use, logging specification, and
+      user notification — for completeness, accuracy, and currency against
+      the currently deployed system.
+    example: >
+      AI: "Technical file audit checklist for the conformity assessment:
+      (1) Completeness — does the file contain all required sections under
+      Article 11? Check against the annex listing. (2) Currency — is every
+      section current with the deployed system version? Compare the file's
+      version timestamps against the deployment changelog. (3) Performance
+      metrics accuracy — do the metrics in the file match the most recent
+      production evaluation results? Pull the current production metrics
+      and compare. (4) Instructions for use — are they in plain language
+      accessible to the deployer's operational staff? Have deployers reviewed
+      them? (5) User notification — is the notification mechanism live in
+      production? Test it."
+    antipattern: >
+      Accepting the technical file at face value without auditing it against
+      the deployed system — certifying documentation that describes a system
+      that no longer exists in its original form.
+
+  human-oversight:
+    description: >
+      The conformity assessment verifies that the human oversight mechanism
+      meets Article 14's effectiveness standard — checking design, training,
+      override capability, and production override rate evidence.
+    example: >
+      Human: "Our conformity assessment auditor asked for evidence that human
+      oversight is 'effective' under Article 14. What do we provide?"
+      AI: "Four evidence items for Article 14 effectiveness: (1) Override
+      capability — demonstrate the override function in a screen recording
+      of the production system; show that an operator can pause or override
+      the AI output without technical barriers. (2) Training records —
+      provide completion records for all current operators showing they
+      completed the oversight training program, including the module on
+      the system's known failure modes. (3) Production override data —
+      pull the past 90 days of override events: count, rate, and a sample
+      of 5 documented override decisions with their documented reason.
+      (4) Operator survey — a brief survey asking operators: do they feel
+      they understand the system's limitations well enough to know when
+      to override? Score of less than 70% confident is a red flag."
+    antipattern: >
+      Providing only the written oversight procedure as Article 14 evidence —
+      demonstrating how oversight is supposed to work rather than evidence
+      that it actually works in production.
+
+  robustness:
+    description: >
+      The conformity assessment verifies that the robustness evidence meets
+      the technical standards applicable to the system — checking whether
+      harmonized standards were applied, what the current production
+      performance metrics show, and whether cybersecurity is current.
+    example: >
+      AI: "Robustness conformity check: (1) Harmonized standards — which
+      harmonized European standard or common specification was applied?
+      If no harmonized standard exists for the specific domain, document
+      the alternative technical solution and its equivalence justification.
+      (2) Performance currency — pull current production metrics, not just
+      pre-deployment test results. High-risk systems must demonstrate
+      continued accuracy in production, not just at launch. (3) Cybersecurity
+      currency — is the penetration test result still valid (less than 12 months)?
+      If not, commission a new test before the conformity assessment is closed.
+      (4) Fairness metrics — are subgroup performance metrics still within
+      the acceptable range in production? Model drift can widen disparity
+      gaps post-deployment."
+    antipattern: >
+      Submitting pre-deployment robustness evidence for a conformity assessment
+      of a system that has been in production for months — missing the
+      possibility that model drift or production conditions have degraded
+      performance below conformity thresholds.
+
+  governance:
+    description: >
+      The conformity assessment produces the formal outputs required for
+      lawful market deployment: the completed assessment record, the
+      Declaration of Conformity, EU database registration confirmation,
+      and the operational post-market monitoring system.
+    example: >
+      AI closes the conformity cycle: "Conformity assessment closure:
+      (1) Assessment record — document the assessment process: who conducted it,
+      what was reviewed, what findings were identified and how resolved,
+      and the final conformity conclusion. Retain for 10 years.
+      (2) Declaration of Conformity — signed by the provider's authorized
+      representative; includes system identification, conformity assessment
+      basis, and applied standards. (3) EU database entry — verify the
+      registration is current and complete; update if system details have
+      changed since initial registration. (4) Post-market monitoring
+      activation — confirm the monitoring system is live, the first review
+      is scheduled, and the incident reporting escalation path has been
+      tested end-to-end. Deployment is lawful when all four are complete."
+    antipattern: >
+      Signing the Declaration of Conformity before all assessment findings
+      are resolved — treating the declaration as the last step in a
+      checklist rather than the formal attestation that all requirements
+      are met.
+
+score_hints:
+  risk-classification: 0.15
+  transparency: 0.25
+  human-oversight: 0.25
+  robustness: 0.20
+  governance: 0.15
+
+tags:
+  - eu-ai-act
+  - conformity-assessment
+  - enterprise
+  - compliance
+  - high-risk
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Classification currency is re-confirmed before assessment begins →
+    technical documentation is audited for completeness and currency →
+    human oversight effectiveness is verified with production evidence →
+    robustness evidence is checked for currency and standard alignment →
+    assessment record, Declaration of Conformity, and database registration
+    complete the governance closure.
+
+  sequence:
+    - step: 1
+      d: risk-classification
+      label: "Re-confirm classification currency before assessment"
+      example_prompts:
+        - speaker: human
+          text: "We're starting the conformity assessment for our hiring AI. Where do we begin?"
+        - speaker: ai
+          text: "Before any assessment work: re-confirm the classification is still accurate. Three checks: (1) System changes — pull the change log since the original classification. Any material change (new training data, new model version, new deployment geography) requires a classification review before the assessment proceeds. (2) Scope changes — has the system been used for purposes beyond the originally classified use? If yes, additional Annex III entries may apply. (3) Regulatory updates — have any Commission delegated acts or guidance documents been issued since the original classification that affect the Annex III interpretation for employment AI? Document each check with a status."
+        - speaker: human
+          text: "Classification confirmed current. One model update in the past 6 months — assessed as non-material. No scope changes. EU AI Office issued guidance on employment AI — reviewed and classification unaffected."
+      triggers_next: "Classification currency confirmed; non-material change documented."
+
+    - step: 2
+      d: transparency
+      label: "Audit technical documentation for completeness and currency"
+      example_prompts:
+        - speaker: human
+          text: "We have a technical file from the initial deployment. What do we audit?"
+        - speaker: ai
+          text: "Technical file audit — four checks: (1) Section completeness — walk through Article 11 Annex IV: does each required section exist? Flag missing sections as major findings. (2) Version currency — for each section, compare the document version date to the deployment changelog. Any section not updated since the last material change is a currency finding. (3) Performance metrics — pull current production evaluation results and compare to the metrics in the technical file. If production metrics have degraded more than 5% from the file's figures, update required. (4) User notification — test the notification mechanism in production: do applicants receive notification that AI is used in screening? Provide a test log as evidence."
+        - speaker: human
+          text: "Section completeness: all sections present. Currency issue: performance metrics section last updated 8 months ago. Notification: live and tested."
+      triggers_next: "Technical file audit complete — performance metrics section requires update."
+
+    - step: 3
+      d: human-oversight
+      label: "Verify oversight effectiveness with production evidence"
+      example_prompts:
+        - speaker: human
+          text: "The auditor wants Article 14 effectiveness evidence. What do we produce?"
+        - speaker: ai
+          text: "Four evidence items: (1) Override function demonstration — screen recording of an operator using the override in the production system (with test data). Duration: under 3 minutes. Shows: how the override is accessed, what information the operator sees, and what happens after override. (2) Training completion records — list of all current operators with training completion date and assessment score. Flag any operator with completion more than 18 months ago — refresher training may be required. (3) Override rate data — past 90 days: total AI recommendations, total overrides, override rate. Provide a table broken down by operator and week. (4) Operator survey results — what percentage of operators report confidence in knowing when to override? If below 70%, this is an Article 14 finding."
+        - speaker: human
+          text: "Override rate: 11%. Operator confidence: 82%. Training records current for all 12 operators."
+      triggers_next: "Human oversight effectiveness evidenced — all four items compiled."
+      loop_back:
+        to: risk-classification
+        condition: "Oversight evidence reveals the system is being used in additional deployment contexts not covered by the current classification."
+        reason: "New deployment contexts require classification re-review before the assessment can be completed."
+
+    - step: 4
+      d: robustness
+      label: "Verify robustness evidence currency and standard alignment"
+      example_prompts:
+        - speaker: human
+          text: "Our pre-deployment bias audit is 14 months old. Is it still valid for the conformity assessment?"
+        - speaker: ai
+          text: "A 14-month-old bias audit has two issues: (1) Currency — 12 months is the practical freshness threshold for employment AI bias audits; 14 months is borderline. Check if there have been model updates or population shifts in the past 14 months that could have changed the disparity profile. (2) Standard alignment — does the audit methodology align with any harmonized standard or Commission guidance issued in the past 14 months? If new guidance specifies a different disparity metric, the old audit may not satisfy it. Recommendation: commission a refresh audit scoped to the current production model version; it will be faster than the original since the methodology is established. The 14-month gap is a manageable finding, not a blocker, if you can show it was reviewed and no material change is expected."
+        - speaker: human
+          text: "Refresh bias audit commissioned. Cybersecurity penetration test: 9 months old — still valid."
+      triggers_next: "Robustness evidence plan in place; refresh audit underway."
+
+    - step: 5
+      d: governance
+      label: "Complete assessment record and conformity declaration"
+      example_prompts:
+        - speaker: human
+          text: "All findings are resolved. How do we close the conformity assessment?"
+        - speaker: ai
+          text: "Four closure actions: (1) Assessment record — document: assessment scope, methodology, all findings identified, evidence reviewed for each finding, resolution status. The record must be signed by the assessment lead and retained for 10 years. (2) Open findings — confirm all findings from steps 2-4 are resolved: technical file performance metrics updated, refresh bias audit complete and results acceptable, operator training refresh scheduled. No Declaration of Conformity until all major findings are closed. (3) Declaration of Conformity — signed by the provider's authorized representative. Contains: system name and version, Annex III basis, conformity assessment route, applied standards, assessment date, and authorized representative name and address. (4) EU database update — if any system details changed since initial registration (version, deployment scope), update the database entry. Confirm registration is current."
+        - speaker: human
+          text: "All findings closed. Declaration signed. EU database updated. Post-market monitoring active."
+      triggers_next: "Conformity assessment complete; deployment lawful."
+      can_restart: true
+
+  transitions:
+    - from: risk-classification
+      to: transparency
+      trigger: "Classification currency confirmed."
+    - from: transparency
+      to: human-oversight
+      trigger: "Technical documentation audit complete."
+    - from: human-oversight
+      to: risk-classification
+      trigger: "New deployment contexts discovered — classification re-review required."
+      is_loop_back: true
+    - from: human-oversight
+      to: robustness
+      trigger: "Oversight effectiveness evidenced."
+    - from: robustness
+      to: governance
+      trigger: "Robustness evidence plan in place."
+    - from: governance
+      to: risk-classification
+      trigger: "Material system change triggers new conformity assessment cycle."
+      is_cycle_restart: true

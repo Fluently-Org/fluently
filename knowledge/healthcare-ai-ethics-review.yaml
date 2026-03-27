@@ -1,0 +1,239 @@
+id: healthcare-ai-ethics-review
+framework_id: unesco-ai-ethics
+version: "1.0.0"
+contributor: Fluently Community
+title: Healthcare AI Ethics Review
+domain: healthcare
+
+summary: >
+  A hospital ethics committee uses the UNESCO AI Ethics Recommendation to
+  review a proposed clinical AI system before deployment. The cycle evaluates
+  the system against human dignity, environmental sustainability, patient
+  privacy, transparency to clinicians and patients, and multi-stakeholder
+  accountability — ensuring ethical readiness beyond regulatory compliance.
+
+dimensions:
+  human-dignity:
+    description: >
+      The review assesses whether the AI system treats all patients with
+      equal dignity — examining whether the system produces disparate
+      outcomes for vulnerable populations, whether consent is meaningful,
+      and whether the system's use is consistent with patient autonomy.
+    example: >
+      Ethics committee chair: "The proposed AI triage system ranks patients
+      by 'predicted survival probability.' What dignity issues does that raise?"
+      AI: "Three dignity concerns: (1) Algorithmic rationing — if the score
+      is used to deprioritize patients, it must be validated on populations
+      matching your hospital's demographic mix, not just the training dataset.
+      Historical survival data often encodes systemic inequities. (2) Consent —
+      do patients know their triage priority may be influenced by an AI score?
+      Informed consent in AI-assisted triage is an emerging but real obligation.
+      (3) Autonomy — is there a pathway for a patient or family member to
+      request human-only triage? If not, the system overrides patient autonomy
+      by default."
+    antipattern: >
+      Approving a clinical AI system based on aggregate accuracy metrics
+      without assessing whether the system produces disparate outcomes for
+      elderly, disabled, or minority patients — groups frequently under-represented
+      in training datasets.
+
+  environment:
+    description: >
+      The review considers the environmental footprint of the clinical AI
+      system — energy consumption for training and inference — and whether
+      the hospital has chosen the most resource-efficient option that meets
+      clinical requirements.
+    example: >
+      AI: "For a clinical AI system running continuous inference on patient
+      data, estimate the annual compute cost: (1) How many inferences per
+      day? (2) What is the model size — a distilled clinical model uses
+      significantly less energy than a general-purpose large model.
+      (3) Is the compute on-premise or cloud-based — and is the cloud
+      provider on a renewable energy commitment? For a hospital with
+      sustainability commitments, the choice between a 7B and 70B
+      parameter model for the same clinical task is an environmental
+      decision, not just a performance one."
+    antipattern: >
+      Selecting the largest available AI model for a clinical task because
+      it scores marginally higher on benchmarks, without assessing whether
+      a smaller, more efficient model meets the clinical threshold —
+      ignoring the environmental cost difference.
+
+  privacy:
+    description: >
+      The review verifies that the AI system handles patient data according
+      to the strictest applicable privacy standards — covering data minimization,
+      retention, cross-border transfer restrictions, and secondary use
+      prohibitions on clinical data.
+    example: >
+      Human: "The vendor's AI trains on patient data from multiple hospitals.
+      Do our patients' data stay within our system?"
+      AI: "Critical questions for the vendor: (1) Is patient data used to
+      retrain or improve the model after deployment? If yes, is patient
+      consent for this use in place? (2) Is patient data processed outside
+      your jurisdiction — triggering cross-border transfer obligations?
+      (3) Is the model's inference output (e.g., a risk score) itself
+      personal data requiring protection? In most EU jurisdictions, an
+      AI-generated health score linked to a patient is personal data under
+      GDPR. (4) What is the data deletion protocol when the contract ends?
+      Get all four answers in writing before contracting."
+    antipattern: >
+      Accepting a vendor's statement that 'patient data is secure' without
+      obtaining written answers to data residency, secondary use, and
+      deletion protocol questions — leaving the hospital with contractual
+      exposure if a privacy incident occurs.
+
+  transparency:
+    description: >
+      The review ensures that the AI system's outputs are explainable to
+      the clinicians using it and, where appropriate, to the patients it
+      affects — with particular attention to whether clinicians can identify
+      when to distrust the system's recommendations.
+    example: >
+      AI: "Clinician transparency for a triage AI requires three things:
+      (1) The clinician must see the key factors driving the score for
+      each patient — not just a number. (2) The clinician must be trained
+      on the system's known failure modes: which patient profiles produce
+      unreliable scores? (3) There must be a documented 'when to override'
+      protocol — specific clinical signals that should trigger human-only
+      judgment regardless of the AI score. Without all three, clinicians
+      cannot exercise meaningful oversight — they can only accept or reject
+      a number."
+    antipattern: >
+      Deploying a clinical AI that produces a risk score without any
+      feature attribution — giving clinicians a number they cannot interpret
+      or challenge, and no guidance on when the number is likely to be wrong.
+
+  accountability:
+    description: >
+      The review establishes who is accountable for the system's clinical
+      outcomes, how incidents are escalated, whether patients have a
+      recourse pathway, and what governance oversight applies after deployment.
+    example: >
+      AI closes the review: "Accountability structure for the triage AI:
+      (1) Clinical accountability — the attending physician retains final
+      triage authority; AI score is advisory, not determinative. Document
+      this in the clinical protocol. (2) Governance — AI systems in direct
+      patient care must be reviewed by the ethics committee annually.
+      Add this system to the annual review roster. (3) Patient recourse —
+      patients and families may request human-only triage; this must be
+      documented in the patient rights notice. (4) Incident reporting —
+      any triage outcome where the AI score is later assessed as materially
+      wrong must be logged and reviewed in monthly mortality and morbidity
+      rounds."
+    antipattern: >
+      Deploying a clinical AI with accountability assigned to the vendor —
+      'the vendor is responsible for the model's outputs.' Clinical
+      accountability cannot be contracted out; the treating institution
+      and clinician remain legally and ethically responsible.
+
+score_hints:
+  human-dignity: 0.30
+  environment: 0.10
+  privacy: 0.25
+  transparency: 0.20
+  accountability: 0.15
+
+tags:
+  - healthcare
+  - clinical-ai
+  - ethics-review
+  - patient-safety
+  - unesco
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Dignity audit examines disparate outcomes and consent implications →
+    environmental footprint is assessed against clinical efficiency thresholds →
+    privacy due diligence covers data residency, secondary use, and deletion →
+    clinician transparency requirements are specified → clinical accountability
+    and patient recourse are defined before deployment approval is granted.
+
+  sequence:
+    - step: 1
+      d: human-dignity
+      label: "Assess disparate outcomes, consent, and patient autonomy"
+      example_prompts:
+        - speaker: human
+          text: "The ethics committee is reviewing a proposed AI triage system. Start with dignity."
+        - speaker: ai
+          text: "Three dignity questions for the committee: (1) Disparate outcomes — has the system been validated on a patient population matching your hospital's demographic mix? Specifically, what are the performance metrics for elderly patients, patients with disabilities, and minority ethnic groups? (2) Consent — are patients informed that an AI score may influence their triage priority? If not, that is a consent gap. (3) Autonomy — is there a protocol for patients or families to request human-only triage? If the system provides no opt-out, it overrides patient autonomy by default. The committee should not approve deployment until all three are addressed."
+        - speaker: human
+          text: "Validation data shows lower accuracy for patients over 80. Consent notice is absent. No opt-out protocol exists."
+      triggers_next: "Dignity gaps identified: three items require remediation before approval."
+
+    - step: 2
+      d: environment
+      label: "Assess computational footprint against clinical necessity"
+      example_prompts:
+        - speaker: human
+          text: "The vendor is offering two model versions — a large high-accuracy model and a distilled model with 2% lower accuracy. Which do we choose?"
+        - speaker: ai
+          text: "This is an ethical decision, not just a performance one: (1) Is the 2% accuracy difference clinically significant for triage? If the distilled model's error rate remains within the clinically acceptable range, the larger model's marginal accuracy gain does not justify the environmental cost. (2) Estimate the energy difference at your inference volume — for continuous inference on 300 patients per day, a 10x model size difference can translate to thousands of kWh per year. (3) Does the vendor's compute run on renewable energy? Request their data center energy disclosure. Unless the larger model is clinically necessary, the distilled model is the responsible choice."
+        - speaker: human
+          text: "Clinical team confirms distilled model meets the accuracy threshold. Distilled model selected."
+      triggers_next: "Environmental assessment complete; model selection documented with rationale."
+
+    - step: 3
+      d: privacy
+      label: "Conduct privacy due diligence on patient data handling"
+      example_prompts:
+        - speaker: human
+          text: "The vendor processes patient data in the US and we are an EU hospital. What do we need?"
+        - speaker: ai
+          text: "Four written confirmations required from the vendor before contracting: (1) Data residency — patient data must not leave the EU without a valid transfer mechanism (Standard Contractual Clauses or adequacy decision). Get the specific legal basis in writing. (2) Secondary use prohibition — patient data must not be used to train or improve the model without patient consent. Require a contractual prohibition on secondary use. (3) Data deletion — at contract termination, patient data is deleted within 30 days with a deletion certificate. (4) Breach notification — vendor must notify the hospital within 24 hours of any data incident involving patient records. Without all four in the DPA, do not sign."
+        - speaker: human
+          text: "Vendor confirmed EU-based processing and secondary use prohibition. DPA under legal review."
+      triggers_next: "Privacy due diligence complete; DPA under legal review with four required clauses."
+
+    - step: 4
+      d: transparency
+      label: "Define clinician explainability and override protocol"
+      example_prompts:
+        - speaker: human
+          text: "What transparency requirements should we impose on the vendor for clinical use?"
+        - speaker: ai
+          text: "Three transparency requirements for the clinical deployment: (1) Feature attribution — the system must display the top three factors driving each patient's triage score, in clinical language accessible to the triage nurse. (2) Failure mode training — before go-live, all triage staff must complete a 90-minute training on the system's known failure modes: which patient profiles (elderly, high comorbidity, atypical presentation) produce unreliable scores. (3) Override protocol — a documented clinical decision rule specifying which situations require the triage nurse to apply human-only judgment regardless of the AI score. This protocol must be approved by the chief of emergency medicine."
+        - speaker: human
+          text: "Vendor confirms feature attribution is available. Training program designed. Override protocol drafted for clinical review."
+      triggers_next: "Clinician transparency requirements specified and vendor-confirmed."
+      loop_back:
+        to: human-dignity
+        condition: "Override protocol design reveals that the system cannot produce reliable scores for patients over 80, requiring a dignity re-assessment."
+        reason: "A system with known unreliable outputs for a demographic group requires a new dignity assessment before approval."
+
+    - step: 5
+      d: accountability
+      label: "Define clinical accountability and patient recourse"
+      example_prompts:
+        - speaker: human
+          text: "Who is accountable when the AI triage score contributes to an adverse patient outcome?"
+        - speaker: ai
+          text: "Accountability structure: (1) Clinical — the attending physician retains final triage authority. The AI score is documented as advisory in the clinical protocol; the physician's override is the authoritative clinical decision. This must be stated in writing in the clinical governance documents. (2) Ethics committee oversight — this system is added to the annual ethics review roster; the first review is 6 months post-deployment. (3) Patient rights — add to the patient rights notice: 'Our triage process may use AI decision support. You may request information about how AI is used or request human-only triage.' (4) M&M integration — any triage outcome where the AI score was later assessed as materially wrong is presented at the monthly mortality and morbidity round."
+        - speaker: human
+          text: "Clinical protocol updated. Patient rights notice amended. M&M integration confirmed."
+      triggers_next: "Accountability structure defined; deployment approved by ethics committee."
+      can_restart: true
+
+  transitions:
+    - from: human-dignity
+      to: environment
+      trigger: "Dignity gaps identified and remediation requirements documented."
+    - from: environment
+      to: privacy
+      trigger: "Environmental assessment complete and model selection documented."
+    - from: privacy
+      to: transparency
+      trigger: "Privacy due diligence complete; DPA under legal review."
+    - from: transparency
+      to: human-dignity
+      trigger: "Override protocol reveals reliability gap for specific population — re-assess dignity."
+      is_loop_back: true
+    - from: transparency
+      to: accountability
+      trigger: "Clinician transparency requirements specified."
+    - from: accountability
+      to: human-dignity
+      trigger: "Annual ethics review cycle — begin next assessment."
+      is_cycle_restart: true

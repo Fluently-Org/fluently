@@ -24,6 +24,8 @@ dimensions:
     label: Diligence
     description: What human accountability is required after AI is involved? Who signs off?
     canonical_order: 4
+level: "User/Worker"
+binding: "No"
 tags:
   - human-ai-collaboration
   - ai-fluency

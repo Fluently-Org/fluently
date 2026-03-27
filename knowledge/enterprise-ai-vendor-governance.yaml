@@ -1,0 +1,181 @@
+id: ai-vendor-governance
+framework_id: nist-ai-rmf
+version: "1.0.0"
+contributor: Fluently Community
+title: Third-Party AI Vendor Governance
+domain: enterprise
+
+summary: >
+  An enterprise procurement and risk team uses the NIST AI RMF to govern
+  a third-party AI vendor before contract signature. The cycle establishes
+  governance requirements for vendors, maps vendor-introduced risks, measures
+  vendor compliance posture, and defines contractual and operational management
+  actions to ensure ongoing accountability.
+
+dimensions:
+  govern:
+    description: >
+      The enterprise defines what governance requirements apply to third-party
+      AI vendors — minimum documentation standards, audit rights, incident
+      notification obligations, and the internal owner responsible for
+      vendor AI risk throughout the contract lifecycle.
+    example: >
+      Procurement lead: "Before we evaluate any vendor, we need to confirm
+      our minimum governance requirements: What AI documentation must
+      vendors provide? Do we have audit rights in the contract? Who internally
+      owns this vendor relationship for AI risk? Without these baselines,
+      every vendor assessment will be inconsistent."
+    antipattern: >
+      Evaluating vendors on functionality and price without establishing
+      governance baselines — signing contracts that grant no audit rights
+      and impose no AI risk notification obligations on the vendor.
+
+  map:
+    description: >
+      The team maps risks introduced by the vendor's AI: data handling
+      practices, model opacity, supply chain dependencies, jurisdictional
+      exposure, and what happens to the enterprise's risk posture if the
+      vendor is acquired, changes its model, or has an incident.
+    example: >
+      AI: "For this vendor, I can map six risk areas: (1) Data residency —
+      where is your data processed and stored? (2) Model transparency —
+      can you inspect or audit the model? (3) Vendor concentration risk —
+      how dependent would you be on this single supplier? (4) Supply chain —
+      what third parties does the vendor rely on? (5) Regulatory exposure —
+      does using this vendor trigger AI regulation obligations for you?
+      (6) Continuity risk — what happens if the vendor exits this product?
+      Which are in scope?"
+    antipattern: >
+      Mapping only the vendor's feature set and price, and ignoring
+      the risk that the vendor's AI practices introduce into the buyer's
+      own risk and compliance posture.
+
+  measure:
+    description: >
+      The team scores each vendor risk area using evidence from the vendor's
+      documentation, security questionnaire, third-party audits, and reference
+      checks — not marketing materials or verbal assurances.
+    example: >
+      Human: "Vendor claims their model is 'fair and unbiased.' How do we
+      score the fairness risk?"
+      AI: "A claim is not evidence. Ask for: (1) A third-party bias audit
+      report, not older than 12 months. (2) Disparity metrics across
+      the demographic groups relevant to your use case. (3) Their process
+      for updating the model when disparity is detected. If they cannot
+      provide these, score fairness risk as High and unknown — which is
+      worse than a known High."
+    antipattern: >
+      Accepting vendor self-attestation as evidence for risk scoring,
+      especially for fairness, security, and regulatory compliance claims.
+
+  manage:
+    description: >
+      The team converts risk assessment outcomes into contractual obligations,
+      operational controls, and ongoing monitoring requirements — including
+      the right to audit, incident notification windows, and exit provisions.
+    example: >
+      AI: "Based on the risk scores, here are the contract provisions I
+      recommend: (1) Data residency — explicitly named jurisdictions in
+      the DPA. (2) Audit rights — annual audit right with 30-day notice.
+      (3) Incident notification — 48-hour notification SLA for any AI
+      incident affecting your data or outputs. (4) Model change notification —
+      30-day notice before any material model update. (5) Exit provision —
+      data portability and 90-day transition support."
+    antipattern: >
+      Completing the vendor risk assessment and then handing off to legal
+      with no specific contract requirements derived from the risk findings —
+      allowing standard contract terms to override the assessed risks.
+
+score_hints:
+  govern: 0.20
+  map: 0.30
+  measure: 0.30
+  manage: 0.20
+
+tags:
+  - vendor-governance
+  - procurement
+  - enterprise
+  - third-party-risk
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Enterprise governance baselines are set before any vendor contact →
+    vendor-introduced risks are mapped systematically → risks are scored
+    using evidence, not self-attestation → risk findings are converted into
+    contract provisions and ongoing monitoring requirements. Loops back to
+    Map if due diligence reveals undisclosed vendor dependencies.
+
+  sequence:
+    - step: 1
+      d: govern
+      label: "Set enterprise AI vendor governance baselines"
+      example_prompts:
+        - speaker: human
+          text: "We're evaluating three AI vendors for our HR screening tool. Before we start, what governance baselines do we need?"
+        - speaker: ai
+          text: "Three baselines before any vendor contact: (1) Minimum documentation requirements — what must every vendor provide? At minimum: model card or equivalent, data handling practices, most recent security audit. (2) Contract non-negotiables — audit rights, incident notification SLA, data deletion on contract termination. (3) Internal ownership — who owns this vendor relationship for AI risk throughout the 3-year contract lifecycle? Name the person now, not after signature."
+        - speaker: human
+          text: "HR tech risk owner is the CHRO's office. Baselines agreed: model card required, 48-hour incident SLA, annual audit right."
+      triggers_next: "Governance baselines defined and internal owner named."
+
+    - step: 2
+      d: map
+      label: "Map risks introduced by the vendor's AI"
+      example_prompts:
+        - speaker: human
+          text: "Vendor A is US-based, uses a proprietary LLM, and will process EU applicant data. Map the risks."
+        - speaker: ai
+          text: "Risk map for Vendor A: (1) Data residency — EU applicant data processed by a US company triggers GDPR Chapter V (international transfers). Is a Standard Contractual Clause or adequacy decision in place? (2) Model opacity — proprietary LLM with no published model card means fairness risk is unmeasurable without a vendor disclosure. (3) Regulatory exposure — the EU AI Act classifies AI used in employment screening as high-risk. You inherit compliance obligations as the deployer. (4) Concentration risk — single vendor for a compliance-critical process. (5) Continuity — what is their exit policy?"
+        - speaker: human
+          text: "EU AI Act high-risk classification changes our obligations significantly. We need to add that to the assessment scope."
+      triggers_next: "Vendor risk landscape fully mapped including regulatory exposure."
+      loop_back:
+        to: map
+        condition: "Due diligence reveals undisclosed vendor sub-processors or supply chain dependencies."
+        reason: "Sub-processor risks must be mapped before scoring can be accurate."
+
+    - step: 3
+      d: measure
+      label: "Score each vendor risk using evidence"
+      example_prompts:
+        - speaker: human
+          text: "Vendor A provided a one-page 'AI ethics statement.' Is that sufficient for our fairness risk score?"
+        - speaker: ai
+          text: "No. For an HR AI classified as high-risk under the EU AI Act, you need: (1) A third-party bias audit against your jurisdiction's protected characteristics — not an internal statement. (2) Disparity metrics for gender, age, and ethnicity for the role types you'll screen. (3) Their re-training process when disparity is detected. A one-page statement scores as: evidence quality — Insufficient. Fairness risk — High and unknown. That is a disqualifying finding unless they provide substantive documentation within your due diligence window."
+        - speaker: human
+          text: "We'll issue a formal evidence request with a 10-business-day deadline."
+      triggers_next: "All priority risks scored with evidence ratings and gaps documented."
+
+    - step: 4
+      d: manage
+      label: "Convert risk findings into contract terms and monitoring plan"
+      example_prompts:
+        - speaker: human
+          text: "Risk assessment complete. Vendor A has high fairness risk and data residency gaps. What contract terms do we need?"
+        - speaker: ai
+          text: "Contract requirements derived from risk findings: (1) Data residency — Standard Contractual Clauses with named processing locations, no sub-processor changes without 30-day notice. (2) Fairness — annual third-party bias audit provided to buyer within 30 days of completion; material disparity findings trigger a 60-day remediation obligation. (3) EU AI Act compliance — vendor certifies conformity assessment status at contract signature and at each annual renewal. (4) Incident — 48-hour notification of any AI incident affecting buyer's data or outputs. (5) Exit — 90-day transition support, data deletion certificate within 30 days of termination. Monitoring: quarterly vendor review cadence with CHRO office."
+        - speaker: human
+          text: "These terms go to legal for contract drafting."
+      triggers_next: "Contract provisions drafted, monitoring cadence defined, vendor risk register created."
+      can_restart: true
+
+  transitions:
+    - from: govern
+      to: map
+      trigger: "Governance baselines and internal owner confirmed."
+    - from: map
+      to: measure
+      trigger: "Vendor risk landscape fully mapped."
+    - from: measure
+      to: map
+      trigger: "Due diligence reveals undisclosed sub-processors or dependencies."
+      is_loop_back: true
+    - from: measure
+      to: manage
+      trigger: "All priority risks scored with evidence."
+    - from: manage
+      to: govern
+      trigger: "Contract renewal or new vendor triggers a new assessment cycle."
+      is_cycle_restart: true

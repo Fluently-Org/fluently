@@ -1,0 +1,234 @@
+id: ai-supplier-assessment
+framework_id: iso-42001
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Supplier Assessment
+domain: enterprise
+
+summary: >
+  An enterprise using ISO/IEC 42001 assesses a new AI software supplier
+  before onboarding them into the AI management system. The cycle covers
+  supplier context evaluation, leadership accountability expectations,
+  planning for supplier-introduced risks, operational due diligence, and
+  ongoing performance monitoring requirements.
+
+dimensions:
+  context:
+    description: >
+      The organization maps the supplier's role within the AIMS scope —
+      whether the supplier develops, deploys, or provides AI infrastructure —
+      and identifies the specific regulatory and contractual context that
+      governs the supplier relationship.
+    example: >
+      AIMS manager: "We are evaluating a cloud AI platform provider.
+      How do we define their role in our AIMS?"
+      AI: "For ISO 42001, supplier classification determines what is required.
+      Three roles to assess: (1) AI system developer — do they develop the
+      AI model itself? If yes, they are a critical AIMS supplier and must
+      meet your AI policy minimums. (2) AI infrastructure provider — do they
+      provide compute, storage, or APIs without developing the model? Different
+      obligations apply. (3) AI-enabled service provider — do they use AI
+      internally in services they provide to you? The most common and often
+      overlooked category. Document the supplier's role before setting
+      assessment requirements."
+    antipattern: >
+      Applying the same supplier assessment template to all AI-related
+      vendors regardless of their role — over-burdening infrastructure
+      providers while under-assessing AI developers with more material risk.
+
+  leadership:
+    description: >
+      The organization evaluates the supplier's own AI governance maturity —
+      whether they have an AI policy, named accountability, and a governance
+      structure that can back the commitments they make in the contract.
+    example: >
+      AI: "Four leadership maturity questions for the supplier:
+      (1) Do they have a published AI policy? Ask for it — a policy that
+      exists only for sales conversations is not evidence of governance.
+      (2) Is there a named executive accountable for AI risk? Not a
+      'responsible AI team' — a named individual with a title and reporting line.
+      (3) Have they completed any AI management system certification
+      (ISO 42001, NIST AI RMF alignment)? Third-party evidence is more
+      reliable than self-attestation. (4) What is their incident notification
+      track record — have they disclosed AI incidents to clients previously?
+      Ask references."
+    antipattern: >
+      Accepting a supplier's AI ethics statement as evidence of governance
+      maturity without asking for the four concrete evidence items above —
+      assessing values rather than systems.
+
+  planning:
+    description: >
+      The organization documents the specific AI risks the supplier introduces
+      into the AIMS risk register and plans treatment actions — including
+      contractual mitigations, technical controls, and monitoring requirements.
+    example: >
+      Human: "The supplier's AI platform processes our customer data.
+      What risks do they introduce to our AIMS?"
+      AI: "Four supplier-introduced risks to add to the AIMS risk register:
+      (1) Data sovereignty — where is customer data processed? If outside
+      your jurisdiction, transfer mechanisms must be in the DPA. Risk: High.
+      (2) Model change without notice — if the supplier updates their AI model,
+      it could change outputs affecting your products. Require 30-day advance
+      notice of material model changes. Risk: Medium. (3) Supplier AI incident —
+      if the supplier has an AI incident, how quickly are you notified and
+      what are your obligations? Require 48-hour notification SLA. Risk: High.
+      (4) Concentration risk — are you dependent on a single AI platform provider?
+      Risk: Medium. Document treatment for each."
+    antipattern: >
+      Adding a supplier to the AIMS without updating the risk register —
+      treating supplier onboarding as a procurement task rather than an
+      AIMS risk management event.
+
+  operation:
+    description: >
+      The organization defines the operational controls that govern the
+      supplier relationship throughout the contract lifecycle — audit rights,
+      documentation requirements, change management, and incident handling.
+    example: >
+      AI: "Operational controls for the supplier agreement: (1) AI documentation
+      requirement — supplier must provide a model card or technical specification
+      for each AI component within the scope of your AIMS. (2) Audit right —
+      annual audit right with 30-day notice; supplier must make AI risk
+      documentation available. (3) Change management — material AI model changes
+      trigger a 30-day notice period and a change impact assessment before
+      your organization accepts the change. (4) Incident integration — supplier
+      AI incidents are integrated into your AIMS incident log within 24 hours
+      of supplier notification. All four must be in the contract before signature."
+    antipattern: >
+      Signing a supplier contract with standard SaaS terms that make no
+      provision for AI-specific documentation, audit rights, or AI incident
+      notification — leaving the AIMS with no operational visibility into
+      supplier AI behavior.
+
+  performance:
+    description: >
+      The organization monitors supplier AI performance against agreed metrics
+      throughout the contract, conducts periodic assessments, and includes
+      supplier performance in the annual AIMS management review.
+    example: >
+      AI closes the assessment cycle: "Supplier performance monitoring plan:
+      (1) Quarterly review — track: AI incident count, model change notifications
+      received, documentation currency (is the model card up to date?). (2) Annual
+      assessment — re-run the supplier risk assessment; has the supplier's
+      governance maturity improved or degraded? (3) AIMS management review
+      input — include supplier performance in the annual management review
+      as a standing agenda item. (4) Corrective action trigger — if the supplier
+      fails two consecutive quarterly reviews, issue a formal corrective action
+      request with a 60-day remediation deadline. Failure to remediate triggers
+      contract review."
+    antipattern: >
+      Completing the initial supplier assessment at onboarding and conducting
+      no further performance monitoring — treating supplier AI governance as
+      a one-time due diligence event rather than an ongoing AIMS obligation.
+
+score_hints:
+  context: 0.15
+  leadership: 0.20
+  planning: 0.25
+  operation: 0.25
+  performance: 0.15
+
+tags:
+  - supplier-assessment
+  - enterprise
+  - iso-42001
+  - third-party
+  - procurement
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Supplier role in the AIMS is classified → supplier governance maturity
+    is assessed against four evidence criteria → supplier-introduced risks
+    are added to the AIMS risk register with treatments → operational controls
+    are embedded in the contract → ongoing performance monitoring is defined
+    for the contract lifecycle.
+
+  sequence:
+    - step: 1
+      d: context
+      label: "Classify supplier role within the AIMS"
+      example_prompts:
+        - speaker: human
+          text: "We're onboarding a new AI platform vendor. How do we integrate them into our AIMS?"
+        - speaker: ai
+          text: "Start by classifying the supplier's role: (1) Are they developing the AI model — the algorithm itself? (2) Are they providing AI infrastructure — compute, APIs, data pipelines — without model development? (3) Are they delivering an AI-enabled service where AI is embedded in what they provide? The classification determines the assessment depth and contract requirements. A model developer carries the most AIMS risk; an infrastructure provider carries less but is often overlooked. What does this supplier do?"
+        - speaker: human
+          text: "They provide an AI-powered customer analytics platform — role 3, AI-enabled service."
+      triggers_next: "Supplier classified as AI-enabled service provider; assessment scope defined."
+
+    - step: 2
+      d: leadership
+      label: "Assess supplier AI governance maturity"
+      example_prompts:
+        - speaker: human
+          text: "What evidence should we request to assess their AI governance?"
+        - speaker: ai
+          text: "Four evidence requests: (1) Published AI policy — ask for their public or shareable AI policy document. A policy that exists only for sales is not governance. (2) Named AI accountability — who is the named executive accountable for AI risk? Request name, title, and reporting line. (3) Third-party certification or alignment — have they completed ISO 42001 certification, NIST AI RMF alignment, or an equivalent independent assessment? Self-attestation is not sufficient. (4) Incident disclosure track record — have they disclosed AI incidents to clients? Ask two reference customers. Score governance maturity as Mature, Developing, or Absent based on evidence received."
+        - speaker: human
+          text: "Supplier has a published AI policy and a named Head of AI Ethics. No third-party certification. References report one disclosed incident handled well. Score: Developing."
+      triggers_next: "Supplier governance maturity scored as Developing; gaps documented."
+      loop_back:
+        to: context
+        condition: "Governance assessment reveals the supplier also develops the underlying AI model — role reclassification required."
+        reason: "AI model developers require a more rigorous assessment scope than AI-enabled service providers."
+
+    - step: 3
+      d: planning
+      label: "Add supplier-introduced risks to the AIMS risk register"
+      example_prompts:
+        - speaker: human
+          text: "What AIMS risks does this supplier introduce?"
+        - speaker: ai
+          text: "Four risks for the register: (1) Data residency — customer analytics data processed outside our jurisdiction. Likelihood: High (US-based supplier). Impact: High (GDPR exposure). Treatment: Mitigate via Standard Contractual Clauses in DPA. Owner: Legal. (2) Model opacity — proprietary analytics model with no published model card. Likelihood: High. Impact: Medium (limits our ability to explain outputs to customers). Treatment: Require model card as contract condition. Owner: AIMS manager. (3) Supplier AI incident — 48-hour notification SLA not currently in standard contract terms. Likelihood: Low. Impact: High. Treatment: Contractual SLA. Owner: Legal. (4) Concentration risk — no alternative analytics provider evaluated. Risk: Medium. Treatment: Evaluate one alternative provider annually."
+        - speaker: human
+          text: "All four risks added to the AIMS risk register with owners and target dates."
+      triggers_next: "Supplier risks registered with treatments and owners."
+
+    - step: 4
+      d: operation
+      label: "Define operational controls and embed in the contract"
+      example_prompts:
+        - speaker: human
+          text: "What contract clauses do we need for AI-specific operational control?"
+        - speaker: ai
+          text: "Four contract clauses beyond standard SaaS terms: (1) Model documentation — supplier provides a model card or technical specification for the analytics AI within 30 days of contract signature and updates it within 30 days of any material model change. (2) Change notification — 30-day advance notice of material AI model changes; buyer may request a change impact assessment period before accepting. (3) Audit right — annual audit right; supplier provides AI risk documentation on request with 30-day notice. (4) AI incident notification — supplier notifies buyer within 48 hours of any AI incident affecting buyer's data or analytics outputs. All four to be included in the main agreement or an AI schedule appended to the contract."
+        - speaker: human
+          text: "All four clauses accepted by supplier. Contract signed with AI schedule attached."
+      triggers_next: "Operational controls embedded in contract; supplier onboarded into AIMS."
+
+    - step: 5
+      d: performance
+      label: "Define ongoing monitoring and AIMS management review input"
+      example_prompts:
+        - speaker: human
+          text: "How do we monitor this supplier's AI performance throughout the contract?"
+        - speaker: ai
+          text: "Quarterly supplier review cadence: (1) Metrics to track: AI incident count and resolution time, model change notifications received vs. expected, model card currency (last update date). (2) Annual re-assessment: re-run the governance maturity assessment; has the supplier moved from Developing to Mature? (3) AIMS management review: include a supplier AI performance summary as a standing agenda item; flag any corrective actions open. (4) Corrective action trigger: two consecutive quarterly reviews with performance below agreed thresholds triggers a formal corrective action request. Non-resolution within 60 days triggers contract review. Add the first quarterly review date to the AIMS calendar."
+        - speaker: human
+          text: "First quarterly review scheduled. Supplier added to AIMS management review agenda."
+      triggers_next: "Supplier performance monitoring operational; integrated into AIMS calendar."
+      can_restart: true
+
+  transitions:
+    - from: context
+      to: leadership
+      trigger: "Supplier role classified and assessment scope defined."
+    - from: leadership
+      to: context
+      trigger: "Governance assessment reveals role reclassification needed."
+      is_loop_back: true
+    - from: leadership
+      to: planning
+      trigger: "Supplier governance maturity scored and gaps documented."
+    - from: planning
+      to: operation
+      trigger: "Supplier risks added to AIMS risk register."
+    - from: operation
+      to: performance
+      trigger: "Operational controls embedded in contract."
+    - from: performance
+      to: context
+      trigger: "Annual re-assessment cycle — re-classify and re-assess."
+      is_cycle_restart: true

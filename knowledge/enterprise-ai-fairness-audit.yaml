@@ -1,0 +1,218 @@
+id: ai-fairness-audit
+framework_id: oecd-ai-principles
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Fairness Audit
+domain: enterprise
+
+summary: >
+  An enterprise team uses the OECD AI Principles to conduct an AI fairness
+  audit for a deployed system. The cycle ensures the audit addresses equitable
+  access to benefits, human rights protections, explainability of findings,
+  robustness of the audit methodology, and accountability for remediation.
+
+dimensions:
+  inclusive-growth:
+    description: >
+      The audit assesses whether the AI system distributes its benefits
+      and burdens equitably across demographic groups — identifying which
+      groups are systematically advantaged or disadvantaged by the system's
+      outputs.
+    example: >
+      Audit lead: "Our hiring AI has been in production for 18 months.
+      The audit starts with distribution: are qualified candidates from
+      all demographic groups advancing through the funnel at equivalent rates?"
+      AI: "To measure equitable distribution, I need three datasets:
+      application pool demographics, advancement rates at each stage,
+      and baseline qualification rates by group. With these, I can compute
+      disparity ratios and identify where in the funnel disparities concentrate."
+    antipattern: >
+      Auditing only aggregate accuracy metrics (overall precision, recall)
+      without disaggregating results by protected group — missing systematic
+      disparities that are invisible in aggregate statistics.
+
+  human-centred:
+    description: >
+      The audit verifies that the system respects fundamental rights —
+      particularly non-discrimination — and that its design choices
+      are consistent with democratic values and human dignity.
+    example: >
+      AI: "Beyond disparity metrics, the human-centred audit should check:
+      (1) What proxy variables does the model use that correlate with
+      protected characteristics? (2) Is there a mechanism for candidates
+      to challenge AI-assisted decisions? (3) Are decision criteria
+      consistent with applicable non-discrimination law in every
+      deployment jurisdiction?"
+    antipattern: >
+      Treating the fairness audit as purely statistical, without examining
+      whether the system's design choices (features selected, objectives
+      optimized) are themselves ethically justified.
+
+  transparency:
+    description: >
+      The audit produces findings that are explainable to affected
+      individuals and decision-makers — not just technical reports
+      for data scientists. Affected candidates should be able to
+      understand how the AI influenced their outcome.
+    example: >
+      Human: "The audit found that 'years of continuous employment' is
+      a top predictive feature. Is that explainable to affected candidates?"
+      AI: "That feature has a disparate impact on candidates who took
+      career breaks for caregiving — disproportionately women. It may
+      also violate applicable employment law. The explanation to a
+      candidate should not just be 'this feature was used' but 'here
+      is how it affected your score and here is how to request a
+      human review.' That requires an explanation interface, not just
+      a technical finding."
+    antipattern: >
+      Publishing an audit report in technical language inaccessible to
+      the affected individuals, HR teams, or regulators — producing
+      compliance theater without genuine transparency.
+
+  robustness:
+    description: >
+      The audit methodology is itself validated — checking for data
+      quality issues, sample size sufficiency, methodology limitations,
+      and whether findings are stable across reasonable parameter variations.
+    example: >
+      AI: "Before finalizing the disparity findings, validate the audit
+      methodology: (1) Is the sample size sufficient for statistical
+      significance at the reported group level? (2) Are the demographic
+      labels in the dataset accurate and self-reported? (3) Does the
+      disparity ratio change materially if you use a different fairness
+      metric (demographic parity vs. equalized odds)? Audit findings
+      that are sensitive to metric choice need explicit qualification."
+    antipattern: >
+      Presenting audit findings as definitive without assessing the
+      statistical reliability of the methodology — especially for
+      small subgroup populations where sample sizes may be insufficient.
+
+  accountability:
+    description: >
+      The audit produces a remediation plan with named owners, timelines,
+      and success criteria — not just findings. Accountability extends
+      to disclosing the audit to relevant stakeholders and regulators.
+    example: >
+      AI closes the audit: "Remediation accountability matrix:
+      (1) Feature removal — 'years of continuous employment' replaced
+      with validated alternative. Owner: ML team. Target: 60 days.
+      (2) Candidate appeals mechanism — human review pathway added
+      to hiring platform. Owner: HR tech. Target: 90 days.
+      (3) Regulatory disclosure — audit report filed with the labor
+      regulator. Owner: legal. Target: 30 days. (4) Re-audit —
+      scheduled 6 months after remediation. Owner: audit lead."
+    antipattern: >
+      Completing the audit and circulating the report internally without
+      a remediation plan, owner assignments, or a commitment to
+      re-audit after changes are made.
+
+score_hints:
+  inclusive-growth: 0.25
+  human-centred: 0.20
+  transparency: 0.20
+  robustness: 0.20
+  accountability: 0.15
+
+tags:
+  - fairness-audit
+  - enterprise
+  - hiring-ai
+  - oecd
+  - compliance
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    Equitable distribution analysis identifies disparity patterns by group →
+    human-centred review checks feature choices and rights compliance →
+    findings are translated into explanations accessible to affected parties →
+    audit methodology is validated for robustness → remediation plan with
+    owners and re-audit commitment closes the cycle.
+
+  sequence:
+    - step: 1
+      d: inclusive-growth
+      label: "Analyze benefit and burden distribution across groups"
+      example_prompts:
+        - speaker: human
+          text: "Run a fairness audit on our AI hiring tool. Start with distribution."
+        - speaker: ai
+          text: "To compute equitable distribution, I'll need: application pool demographics for the past 12 months, stage-by-stage advancement rates broken out by gender, age band, and ethnicity, and baseline qualification rates by group for external benchmarking. With these three datasets, I can produce disparity ratios at each funnel stage and identify where the AI's influence is concentrated. Can you provide the data or access to the analytics system?"
+        - speaker: human
+          text: "Data is available. Disparity ratios show a 1.4 ratio for women at the technical screen stage."
+      triggers_next: "Disparity ratios computed; high-disparity stages identified."
+
+    - step: 2
+      d: human-centred
+      label: "Review feature design and rights compliance"
+      example_prompts:
+        - speaker: human
+          text: "The technical screen disparity is concentrated in two features: 'GitHub activity' and 'years of continuous employment.' Is this a rights issue?"
+        - speaker: ai
+          text: "Yes — both features have documented disparate impact on women and caregivers. GitHub activity correlates with unpaid open-source contribution time — structurally unequal across gender and socioeconomic groups. 'Years of continuous employment' penalizes career breaks. In the EU and many US states, using these features without validation of their job-relatedness creates legal exposure under non-discrimination law. Recommendation: immediately flag both features for replacement and document the legal risk finding in the audit report."
+        - speaker: human
+          text: "Legal is reviewing. Flag both features as high-risk in the audit."
+      triggers_next: "Rights and feature compliance findings documented."
+      loop_back:
+        to: inclusive-growth
+        condition: "Feature replacement changes the disparity pattern — distribution must be re-measured."
+        reason: "Removing a feature can shift disparities to other groups; re-measurement validates the fix."
+
+    - step: 3
+      d: transparency
+      label: "Translate findings into explanations for affected individuals"
+      example_prompts:
+        - speaker: human
+          text: "How do we explain the audit findings to the 340 candidates affected in the audit period?"
+        - speaker: ai
+          text: "Three communication levels: (1) Affected candidates — a plain-language notice: 'Our AI screening tool has been audited and found to use criteria that may have disadvantaged some candidates. If you applied in the past 12 months and were rejected at the technical screen, you may request a human review.' (2) HR leadership — the disparity ratio findings with feature attribution. (3) Regulators — full technical audit report with methodology. Draft the candidate notice first — that is the most time-sensitive accountability action."
+        - speaker: human
+          text: "Agreed. Draft the candidate notice for HR review."
+      triggers_next: "Candidate communication drafted; regulatory report scoped."
+
+    - step: 4
+      d: robustness
+      label: "Validate audit methodology and qualify findings"
+      example_prompts:
+        - speaker: human
+          text: "Is our sample size sufficient? We had 340 cases but some subgroups are small."
+        - speaker: ai
+          text: "For the disparity ratio to be statistically reliable at the 95% confidence level, you need at least 30 cases per subgroup. Check: (1) Women at technical screen — if n < 30, qualify the finding as directional rather than definitive. (2) Intersectional groups (e.g., women of color) may have n < 10 — do not report disparity ratios for these subgroups; note the gap as a data limitation requiring a larger longitudinal study. This qualification protects the audit from being challenged on statistical grounds."
+        - speaker: human
+          text: "Women n=68 — sufficient. Intersectional groups n=12 — will qualify."
+      triggers_next: "Methodology validated; findings qualified where necessary."
+
+    - step: 5
+      d: accountability
+      label: "Issue remediation plan with owners and re-audit commitment"
+      example_prompts:
+        - speaker: human
+          text: "How do we close the audit with clear accountability?"
+        - speaker: ai
+          text: "Audit close accountability matrix: (1) Feature replacement — ML team removes 'GitHub activity' and 'continuous employment' and runs validation test before re-deployment. Target: 60 days. (2) Candidate appeals — HR tech adds human review pathway to rejected candidates. Target: 90 days. (3) Candidate notice — sent within 14 days of audit approval. (4) Regulatory disclosure — full report filed with relevant labor authority within 30 days. (5) Re-audit — scheduled 6 months after feature changes are deployed. All items require sign-off from CHRO before the audit is closed."
+        - speaker: human
+          text: "CHRO signed off. Audit closed with remediation plan."
+      triggers_next: "Audit closed with remediation plan, regulatory disclosure, and re-audit date."
+      can_restart: true
+
+  transitions:
+    - from: inclusive-growth
+      to: human-centred
+      trigger: "Disparity ratios computed and high-disparity stages identified."
+    - from: human-centred
+      to: inclusive-growth
+      trigger: "Feature replacement changes disparity pattern — re-measure."
+      is_loop_back: true
+    - from: human-centred
+      to: transparency
+      trigger: "Rights and feature compliance findings documented."
+    - from: transparency
+      to: robustness
+      trigger: "Candidate communication drafted; regulatory report scoped."
+    - from: robustness
+      to: accountability
+      trigger: "Methodology validated and findings qualified."
+    - from: accountability
+      to: inclusive-growth
+      trigger: "Re-audit cycle begins 6 months after remediation."
+      is_cycle_restart: true

@@ -1,0 +1,224 @@
+id: aims-implementation
+framework_id: iso-42001
+version: "1.0.0"
+contributor: Fluently Community
+title: AI Management System Implementation
+domain: enterprise
+
+summary: >
+  An enterprise uses ISO/IEC 42001 to implement an AI Management System (AIMS)
+  from scratch. The cycle moves through context scoping, leadership commitment,
+  risk-based planning, operational implementation, and the first internal audit —
+  building toward initial certification readiness.
+
+dimensions:
+  context:
+    description: >
+      The organization defines the internal and external context for the AIMS:
+      which AI systems are in scope, who the relevant stakeholders are, what
+      legal and regulatory obligations apply, and where the organization's
+      current AI practices stand relative to the standard's requirements.
+    example: >
+      Project lead: "We run five AI systems in production. How do we determine
+      which are in scope for the AIMS?"
+      AI: "ISO 42001 scoping requires you to assess three factors: (1) Which
+      AI systems are you responsible for as the developer or deployer?
+      (2) What is the potential impact of each system — high-impact systems
+      (those affecting employment, credit, healthcare) should be in scope
+      regardless of size. (3) What are your legal obligations — does any
+      jurisdiction require you to have an AI management system? Start with
+      a gap assessment: map each of the five systems against these criteria."
+    antipattern: >
+      Scoping the AIMS to only the systems that are easiest to document,
+      while excluding higher-risk systems that require more effort — producing
+      a certified AIMS that does not cover the organization's material AI risks.
+
+  leadership:
+    description: >
+      Top management demonstrates commitment to the AIMS by approving an
+      AI policy, assigning roles and responsibilities, providing resources,
+      and integrating the AIMS into the organization's existing management
+      system structure.
+    example: >
+      AI: "For the ISO 42001 leadership requirements, the CEO or equivalent
+      must: (1) Approve the AI policy in writing — not delegate approval.
+      (2) Name an AI management representative with the authority to make
+      AIMS decisions without seeking approval for each action. (3) Allocate
+      a budget for AIMS implementation, maintenance, and certification.
+      (4) Integrate AI risk into the existing enterprise risk management
+      reporting cadence. Has leadership explicitly committed to these four?"
+    antipattern: >
+      Delegating AIMS implementation entirely to a technical team without
+      top management commitment — producing an AIMS that has no authority
+      to enforce AI policy across business units.
+
+  planning:
+    description: >
+      The organization conducts an AI risk and opportunity assessment scoped
+      to all in-scope AI systems, sets measurable AI objectives, and produces
+      treatment plans for identified risks — all documented as formal inputs
+      to the AIMS operational stage.
+    example: >
+      Human: "We've scoped five systems and have leadership commitment.
+      What does the risk assessment look like for ISO 42001?"
+      AI: "ISO 42001 risk assessment has two layers: (1) AIMS-level risks —
+      what could prevent the management system itself from working? (e.g.,
+      inadequate documentation, key-person dependency, regulatory change.)
+      (2) AI system-level risks — what risks does each AI system pose to
+      the organization and to affected parties? For each AI system, document:
+      system purpose, affected parties, risk categories (fairness, safety,
+      privacy, operational), likelihood, impact, and treatment option."
+    antipattern: >
+      Producing an AIMS risk register that describes risks in general terms
+      without linking each risk to a specific AI system and a specific treatment
+      action — creating a compliance document rather than a decision tool.
+
+  operation:
+    description: >
+      The organization implements controlled processes for AI development
+      and deployment, including documentation requirements, change management,
+      supplier AI requirements, and incident handling — all within the AIMS
+      governance structure.
+    example: >
+      AI: "For AIMS operation, I recommend implementing four process controls
+      in the first 90 days: (1) AI system lifecycle documentation — model
+      card or equivalent required before any AI system is deployed to production.
+      (2) Change control — material AI system changes require a documented
+      impact assessment before deployment. (3) Supplier AI requirements —
+      third-party AI vendors must meet your AI policy minimums as a contract
+      condition. (4) Incident logging — all AI incidents are logged and
+      reviewed monthly by the AI management representative."
+    antipattern: >
+      Implementing AIMS documentation requirements without change control —
+      allowing AI systems to be updated post-documentation without triggering
+      a documentation update, leaving the AIMS records diverged from reality.
+
+  performance:
+    description: >
+      The organization monitors AIMS effectiveness through KPIs, conducts
+      the first internal audit within the implementation timeline, holds
+      a management review that formally assesses AIMS performance, and
+      identifies nonconformities for corrective action.
+    example: >
+      AI closes the implementation cycle: "For the first internal audit,
+      audit three areas: (1) Clause conformity — are all required AIMS
+      elements implemented? (2) Operational effectiveness — are the process
+      controls working as designed? Pull three AI system records and verify
+      they meet the documentation requirements. (3) Risk register currency —
+      are the risk entries up to date? Have treatments been implemented on
+      schedule? Audit findings feed the first management review, which must
+      produce a formal AIMS effectiveness decision from top management."
+    antipattern: >
+      Scheduling the first internal audit only in the week before the
+      external certification assessment — treating it as a rehearsal
+      rather than a genuine performance check.
+
+score_hints:
+  context: 0.20
+  leadership: 0.20
+  planning: 0.25
+  operation: 0.25
+  performance: 0.10
+
+tags:
+  - iso-42001
+  - aims
+  - enterprise
+  - certification
+  - management-system
+
+collaboration:
+  pattern: linear_with_loops
+  description: >
+    AIMS scope and gap assessment completed → leadership commitment and AI
+    policy approved → risk assessment and objectives set → operational controls
+    implemented → first internal audit conducted and management review held.
+    Loops back to planning if operational implementation reveals unscoped risks.
+
+  sequence:
+    - step: 1
+      d: context
+      label: "Define AIMS scope and conduct gap assessment"
+      example_prompts:
+        - speaker: human
+          text: "We want to implement ISO 42001. Where do we start?"
+        - speaker: ai
+          text: "Start with a context and gap assessment before any documentation work. Three outputs needed: (1) AIMS scope document — which AI systems, which organizational units, which jurisdictions are in scope. (2) Interested parties register — who has a stake in the organization's AI activities? Include regulators, customers, employees, and AI suppliers. (3) Gap assessment — for each ISO 42001 clause, what currently exists and what is missing? This gives you a prioritized implementation roadmap rather than a generic project plan."
+        - speaker: human
+          text: "Scope: five production AI systems, EU and US operations, financial services sector. Gap assessment: no formal AI policy, no AI risk register, no incident logging."
+      triggers_next: "AIMS scope defined; gap assessment complete with prioritized gaps."
+
+    - step: 2
+      d: leadership
+      label: "Secure top management commitment and AI policy approval"
+      example_prompts:
+        - speaker: human
+          text: "How do we get the right leadership commitment for ISO 42001?"
+        - speaker: ai
+          text: "ISO 42001 requires documented top management commitment — not just verbal support. Deliverables: (1) AI policy document approved and signed by CEO. Policy must include: organizational commitment to responsible AI, key AI values and prohibited uses, and a commitment to continual improvement of the AIMS. (2) AI management representative named with formal authority. (3) AIMS budget approved in the current fiscal cycle. (4) AI risk added to the board/executive risk reporting cadence. I can draft the AI policy for CEO review — do you want a one-page or full policy document?"
+        - speaker: human
+          text: "Full policy document please. CEO review is next week."
+      triggers_next: "AI policy approved; AI management representative named; budget allocated."
+
+    - step: 3
+      d: planning
+      label: "Conduct AI risk assessment and set measurable objectives"
+      example_prompts:
+        - speaker: human
+          text: "How do we structure the risk assessment for all five AI systems?"
+        - speaker: ai
+          text: "Use a structured risk register with six columns per system: (1) System name and purpose. (2) Affected parties — who is impacted by this system's outputs? (3) Risk categories — fairness, privacy, safety, operational, legal. (4) Likelihood and impact score (1-5 scale). (5) Treatment option — accept, mitigate, avoid, or transfer. (6) Owner and target date. For objectives: set at least three AIMS-level objectives (e.g., 100% of new AI deployments have a model card by Q3; zero unlogged AI incidents by Q2; first internal audit completed by Q4). I'll draft the risk register template."
+        - speaker: human
+          text: "Risk register drafted. Three AIMS objectives approved by AI management rep."
+      triggers_next: "Risk register complete; measurable AIMS objectives approved."
+      loop_back:
+        to: planning
+        condition: "Operational implementation reveals AI systems or risk categories not captured in the initial assessment."
+        reason: "Planning documents must be updated before operational records can be accurate."
+
+    - step: 4
+      d: operation
+      label: "Implement operational process controls"
+      example_prompts:
+        - speaker: human
+          text: "Which operational controls should we implement first?"
+        - speaker: ai
+          text: "Prioritize by risk: (1) Model card requirement — implement within 30 days; all five existing systems need retrospective cards within 60 days. (2) Change control — any material AI system change requires a documented impact assessment before deployment; implement in the CI/CD pipeline. (3) Incident log — create a shared log, set a monthly review meeting with the AI management rep. (4) Supplier AI requirements — add an AI policy conformance clause to all new AI vendor contracts. These four controls address the most common ISO 42001 nonconformity findings in initial certification audits."
+        - speaker: human
+          text: "All four controls implemented. Model cards complete for four of five systems."
+      triggers_next: "Operational controls implemented and documented."
+
+    - step: 5
+      d: performance
+      label: "Conduct first internal audit and management review"
+      example_prompts:
+        - speaker: human
+          text: "We're approaching the first internal audit. What should it cover?"
+        - speaker: ai
+          text: "First internal audit scope: (1) Clause conformity check — walk through all ISO 42001 clauses and verify documented evidence exists for each. (2) Operational effectiveness sample — pull three AI system records (model card, change control log, incident log) and verify they meet the documented requirements. (3) Objective progress — are the three AIMS objectives on track? (4) Risk register currency — are treatments being implemented on schedule? Audit report goes to top management for the first formal management review. The review must produce a written AIMS effectiveness conclusion — not just minutes."
+        - speaker: human
+          text: "Internal audit complete. Two minor nonconformities found. Management review scheduled."
+      triggers_next: "Internal audit complete; management review held; corrective actions assigned."
+      can_restart: true
+
+  transitions:
+    - from: context
+      to: leadership
+      trigger: "AIMS scope defined and gap assessment completed."
+    - from: leadership
+      to: planning
+      trigger: "AI policy approved and AI management representative named."
+    - from: planning
+      to: operation
+      trigger: "Risk register complete and AIMS objectives approved."
+    - from: operation
+      to: planning
+      trigger: "New AI systems or risk categories discovered during implementation."
+      is_loop_back: true
+    - from: operation
+      to: performance
+      trigger: "Operational controls implemented and documented."
+    - from: performance
+      to: context
+      trigger: "Annual AIMS review cycle — reassess context and scope."
+      is_cycle_restart: true

@@ -1,0 +1,209 @@
+id: unesco-ai-ethics
+name: UNESCO Recommendation on the Ethics of AI
+version: "1.0.0"
+contributor: UNESCO (United Nations Educational, Scientific and Cultural Organization)
+description: >
+  The UNESCO Recommendation on the Ethics of Artificial Intelligence (2021)
+  is the first global standard-setting instrument on AI ethics, adopted by
+  all 193 Member States. It operationalizes human dignity, environmental
+  sustainability, privacy, transparency, and accountability as the five
+  pillars for ethical AI governance at every level — from global policy
+  to individual deployment decisions.
+dimensions:
+  - key: human-dignity
+    label: Human Dignity & Rights
+    description: >
+      Protect fundamental human rights, dignity, freedom, and non-discrimination
+      in all AI design, deployment, and governance decisions.
+    canonical_order: 1
+  - key: environment
+    label: Environment & Sustainability
+    description: >
+      Consider ecological impact, planetary boundaries, energy use, and
+      long-term societal sustainability of AI systems.
+    canonical_order: 2
+  - key: privacy
+    label: Privacy & Data Governance
+    description: >
+      Safeguard personal data, individual autonomy, and the right to data
+      protection throughout the AI lifecycle.
+    canonical_order: 3
+  - key: transparency
+    label: Transparency & Explainability
+    description: >
+      Ensure AI decision-making is understandable, culturally sensitive,
+      auditable, and accessible to affected communities.
+    canonical_order: 4
+  - key: accountability
+    label: Accountability & Multi-Stakeholder Oversight
+    description: >
+      Establish clear chains of responsibility and inclusive multi-stakeholder
+      oversight for AI outcomes across public and private actors.
+    canonical_order: 5
+level: "Global/State"
+binding: "No"
+tags:
+  - ai-ethics
+  - human-rights
+  - global-governance
+  - unesco
+  - sustainability
+reference: https://www.unesco.org/en/artificial-intelligence/recommendation-ethics
+
+dimension_combinations:
+  - id: dignity-privacy-synergy
+    dimensions: [human-dignity, privacy]
+    type: synergy
+    label: Dignity requires data sovereignty
+    description: >
+      Human dignity in the AI era is inseparable from control over one's own data.
+      Systems that commodify personal data without consent undermine dignity
+      even when technically legal under weaker privacy regimes.
+    guidance: >
+      When assessing dignity impacts, include a data sovereignty review:
+      do individuals have meaningful control over how their data is used,
+      shared, and retained by AI systems?
+
+  - id: environment-transparency-synergy
+    dimensions: [environment, transparency]
+    type: synergy
+    label: Sustainability requires disclosure of environmental costs
+    description: >
+      Environmental responsibility demands that the ecological footprint of AI —
+      energy, water, hardware — is disclosed to decision-makers and the public.
+      Sustainability claims without transparency are greenwashing.
+    guidance: >
+      Include environmental impact disclosures in AI system documentation.
+      Report training compute, inference energy, and hardware lifecycle
+      alongside traditional performance metrics.
+
+  - id: transparency-accountability-prerequisite
+    dimensions: [transparency, accountability]
+    type: prerequisite
+    label: Accountability requires visible decision processes
+    description: >
+      Multi-stakeholder oversight cannot function without access to how AI
+      systems make decisions. Accountability without transparency is nominal,
+      not real.
+    guidance: >
+      Before assigning accountability, verify that the oversight body has
+      access to decision logs, model documentation, and impact assessments.
+
+best_practices:
+  - id: bp-dignity-non-discrimination
+    title: Audit AI outputs for discriminatory patterns before deployment
+    dimension: human-dignity
+    description: >
+      Actively test AI systems for outputs that demean, stereotype, or
+      disadvantage individuals based on protected characteristics.
+    antipattern: >
+      Relying on training data diversity alone as a proxy for non-discrimination
+      without running explicit bias or disparity audits on outputs.
+    signal: >
+      Deployment checklist includes a bias audit, fairness evaluation,
+      or protected-attribute disparity analysis.
+
+  - id: bp-environment-footprint
+    title: Measure and disclose AI environmental footprint
+    dimension: environment
+    description: >
+      Quantify the energy, water, and hardware impact of training and running
+      AI systems and disclose these figures to stakeholders.
+    antipattern: >
+      Reporting AI benefits (efficiency gains, automation) without accounting
+      for the environmental cost of compute resources.
+    signal: >
+      Project documentation includes energy consumption estimates, carbon
+      footprint, or references to sustainable compute practices.
+
+  - id: bp-privacy-minimization
+    title: Apply data minimization by design
+    dimension: privacy
+    description: >
+      Collect and retain only the personal data strictly necessary for the
+      AI system's stated purpose. Build minimization into the architecture,
+      not as an afterthought.
+    antipattern: >
+      Collecting broad datasets on the assumption that "more data is better"
+      without assessing necessity, proportionality, or consent.
+    signal: >
+      Data architecture documentation includes a minimization rationale,
+      retention schedule, and consent or legal basis for each data category.
+
+  - id: bp-transparency-culture
+    title: Provide culturally adapted explanations to affected communities
+    dimension: transparency
+    description: >
+      Explainability must account for cultural context, language, and
+      literacy — a technically accurate explanation that is inaccessible
+      to the affected community fails the transparency principle.
+    antipattern: >
+      Providing technical API documentation as the primary explanation
+      mechanism for communities with limited technical literacy.
+    signal: >
+      Communication plan includes community-appropriate formats (local
+      language, oral explanation, visual aids) alongside technical docs.
+
+  - id: bp-accountability-multistakeholder
+    title: Include civil society in AI governance oversight
+    dimension: accountability
+    description: >
+      Governance bodies for consequential AI systems must include affected
+      communities and civil society — not just developers and deployers.
+    antipattern: >
+      AI ethics boards composed exclusively of industry representatives
+      without independent civil society or community voices.
+    signal: >
+      Governance structure documentation names civil society or community
+      representatives with defined roles and real decision-making power.
+
+evaluation_criteria:
+  - id: eval-dignity-audit
+    dimension: human-dignity
+    label: Discrimination or dignity risk is assessed
+    description: The work includes an explicit check for discriminatory or dignity-undermining outcomes.
+    weight: 0.20
+    signals:
+      present: [bias, discrimination, dignity, rights, fairness, protect, non-discrimination, vulnerable, harm, equitable]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-environment-impact
+    dimension: environment
+    label: Environmental impact is considered
+    description: The work references energy use, carbon, sustainability, or ecological impact.
+    weight: 0.20
+    signals:
+      present: [energy, carbon, environment, sustainable, footprint, ecological, compute, resource, climate, consumption]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-privacy-basis
+    dimension: privacy
+    label: Data handling and legal basis are addressed
+    description: The work addresses consent, data minimization, or legal basis for data use.
+    weight: 0.20
+    signals:
+      present: [privacy, consent, data, minimization, retention, protection, gdpr, personal, confidential, sovereign]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-transparency-explanation
+    dimension: transparency
+    label: Explanation mechanism is present and accessible
+    description: An explanation or disclosure mechanism accessible to affected parties exists.
+    weight: 0.20
+    signals:
+      present: [explain, disclose, understandable, accessible, communicate, interpret, visible, audit, language, community]
+      absent: []
+    pass_threshold: 1
+
+  - id: eval-accountability-oversight
+    dimension: accountability
+    label: Multi-stakeholder oversight is defined
+    description: Governance includes more than a single actor; oversight roles are defined.
+    weight: 0.20
+    signals:
+      present: [oversight, governance, stakeholder, civil-society, accountability, responsible, board, review, redress, multi]
+      absent: []
+    pass_threshold: 1
