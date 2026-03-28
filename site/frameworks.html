@@ -96,13 +96,16 @@
         z-index: 300;
     }
     .nav-dd:hover .nav-dd-panel,
-    .nav-dd-panel:hover { display: block; }
+    .nav-dd.open .nav-dd-panel { display: block; }
+    .nav-dd-btn { outline: none; line-height: 1; }
+    .nav-dd-btn:focus { outline: none; }
     .nav-dd-btn.active { color: var(--orange); font-weight: 700; }
     .nav-dd-btn .dd-chevron {
         font-size: 0.65rem; transition: transform 0.15s;
         display: inline-block;
     }
-    .nav-dd:hover .dd-chevron { transform: rotate(180deg); }
+    .nav-dd:hover .dd-chevron,
+    .nav-dd.open .dd-chevron { transform: rotate(180deg); }
     .nav-dd-panel a {
         display: flex; align-items: center; gap: 8px;
         padding: 8px 12px; border-radius: 7px;
@@ -541,7 +544,7 @@
             <li><a href="/knowledge.html">Knowledge Base</a></li>
             <!-- Frameworks dropdown — active on this page -->
             <li class="nav-dd">
-                <button class="nav-dd-btn active" aria-haspopup="true" aria-expanded="false" id="fw-dd-btn">
+                <button type="button" class="nav-dd-btn active" aria-haspopup="true" aria-expanded="false" id="fw-dd-btn">
                     Frameworks
                     <svg class="dd-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3.5l3 3 3-3"/></svg>
                 </button>
@@ -1135,20 +1138,17 @@ function initHamburger() {
 // ── Frameworks dropdown (click fallback for touch) ────────────────────────
 
 function initFrameworksDropdown() {
-    const dd    = document.querySelector('.nav-dd');
-    const btn   = document.getElementById('fw-dd-btn');
-    const panel = document.getElementById('fw-dd-panel');
-    if (!dd || !btn || !panel) return;
+    const dd  = document.querySelector('.nav-dd');
+    const btn = document.getElementById('fw-dd-btn');
+    if (!dd || !btn) return;
 
-    // Click toggle (supplements CSS :hover)
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const visible = panel.style.display === 'block';
-        panel.style.display = visible ? '' : 'block';
-        btn.setAttribute('aria-expanded', !visible);
+        const open = dd.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
     });
     document.addEventListener('click', () => {
-        panel.style.display = '';
+        dd.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
     });
 }
