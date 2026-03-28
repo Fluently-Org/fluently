@@ -290,9 +290,14 @@
 
     .fw-card-footer {
         display: flex; align-items: center; justify-content: space-between;
+        gap: 8px;
         border-top: 1px solid var(--border);
         padding-top: 12px; margin-top: 12px;
         font-size: 0.77rem; color: var(--fg-subtle);
+    }
+    .fw-card-footer-contributor {
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        min-width: 0;
     }
     .fw-cycle-badge {
         background: rgba(63,185,80,0.12);
@@ -300,6 +305,7 @@
         color: var(--green);
         font-size: 0.72rem; font-weight: 700;
         padding: 2px 8px; border-radius: 999px;
+        white-space: nowrap; flex-shrink: 0;
     }
     .fw-tag {
         font-size: 0.7rem; color: var(--fg-subtle);
@@ -986,7 +992,7 @@ function renderFrameworkCards() {
             ${tags ? `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">${tags}</div>` : ''}
 
             <div class="fw-card-footer">
-                <span style="font-size:0.77rem;color:var(--fg-subtle);">
+                <span class="fw-card-footer-contributor">
                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-1px;margin-right:3px"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
                     ${escapeHtml(fw.contributor)}
                 </span>
