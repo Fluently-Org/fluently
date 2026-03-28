@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital@1&display=swap" rel="stylesheet">
     <title>Knowledge Base | Fluently</title>
     <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
     <script src="config.js"></script>
@@ -141,6 +143,96 @@
             .filter-sidebar { position: sticky; top: 5rem; }
         }
     </style>
+    <style>
+/* ── Unified dark nav ── */
+:root {
+    --border:       rgba(48, 54, 61, 1);
+    --fg:           #e6edf3;
+    --fg-muted:     #8b949e;
+    --canvas-soft:  #161b22;
+    --orange:       #D4602A;
+    --orange-light: #E07848;
+}
+.nav {
+    position: sticky; top: 0; z-index: 200;
+    background: rgba(13,17,23,0.92);
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    border-bottom: 1px solid var(--border);
+    height: 64px; display: flex; align-items: center;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+.nav-inner {
+    max-width: 1280px; width: 100%; margin: 0 auto;
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+}
+.nav-logo { display: flex; align-items: center; text-decoration: none; flex-shrink: 0; }
+.nav-logo-svg { height: 30px; width: 137px; display: block; }
+.nav-links { display: flex; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+.nav-links a, .nav-links .nav-dd-btn {
+    color: var(--fg-muted); text-decoration: none;
+    font-size: 0.875rem; font-weight: 500;
+    padding: 6px 12px; border-radius: 6px;
+    transition: color 0.15s, background 0.15s;
+    background: none; border: none; cursor: pointer;
+    font-family: 'Inter', inherit; line-height: 1; outline: none;
+    display: flex; align-items: center; gap: 5px;
+}
+.nav-links a:hover, .nav-links .nav-dd-btn:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+.nav-dd { position: relative; }
+.nav-dd-panel {
+    display: none; position: absolute; top: calc(100% + 8px); left: 0;
+    min-width: 220px; background: var(--canvas-soft);
+    border: 1px solid var(--border); border-radius: 10px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.5); padding: 6px; z-index: 300;
+}
+.nav-dd.open .nav-dd-panel { display: block; }
+.nav-dd-panel a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 12px; border-radius: 7px;
+    font-size: 0.83rem; font-weight: 500;
+    color: var(--fg-muted); text-decoration: none;
+    transition: background 0.12s, color 0.12s;
+}
+.nav-dd-panel a:hover { background: rgba(255,255,255,0.06); color: var(--fg); }
+.nav-dd-sep { height: 1px; background: var(--border); margin: 4px 0; }
+.dd-chevron { font-size: 0.65rem; display: inline-block; transition: transform 0.15s; }
+.nav-dd.open .dd-chevron { transform: rotate(180deg); }
+.nav-cta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-btn-gh {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 6px 14px; border-radius: 6px; font-size: 0.83rem; font-weight: 500;
+    cursor: pointer; border: 1px solid var(--border);
+    background: transparent; color: var(--fg); text-decoration: none;
+    transition: all 0.15s; white-space: nowrap; font-family: inherit;
+}
+.nav-btn-gh:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+.nav-hamburger {
+    display: none; background: none; border: none;
+    color: var(--fg-muted); cursor: pointer; padding: 8px; border-radius: 6px;
+    transition: background 0.15s, color 0.15s;
+}
+.nav-hamburger:hover { background: rgba(255,255,255,0.06); color: var(--fg); }
+@media (max-width: 767px) {
+    .nav-links, .nav-cta { display: none; }
+    .nav-hamburger { display: flex; align-items: center; }
+}
+.nav-mobile {
+    display: none; background: #161b22;
+    border-bottom: 1px solid rgba(48,54,61,1); padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+}
+.nav-mobile.open { display: block; }
+.nav-mobile a {
+    display: block; padding: 10px 12px; border-radius: 7px;
+    color: #8b949e; text-decoration: none;
+    font-size: 0.9rem; font-weight: 500;
+    transition: background 0.12s, color 0.12s;
+}
+.nav-mobile a:hover { background: rgba(255,255,255,0.06); color: #e6edf3; }
+.nav-mobile-sub { padding-left: 20px; }
+.nav-mobile-sub a { font-size: 0.83rem; color: #484f58; padding: 7px 12px; }
+    </style>
 </head>
 <body class="bg-gray-50">
 
@@ -148,61 +240,78 @@
          NAVIGATION
          Responsive: full links on md+, hamburger + slide-down panel on mobile.
     ════════════════════════════════════════════════════════════════════════ -->
-    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
-                    <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
-                </div>
-                <!-- Desktop links -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="/knowledge.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Knowledge Base</a>
-                    <!-- Frameworks dropdown -->
-                    <div class="relative" id="fw-nav-dd">
-                        <button id="fw-dd-btn" class="flex items-center gap-1 text-gray-700 hover:text-blue-600 font-medium focus:outline-none" aria-haspopup="true" aria-expanded="false">
-                            Frameworks <i class="fas fa-chevron-down text-xs mt-0.5"></i>
-                        </button>
-                        <div id="fw-dd-panel" class="hidden absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-50">
-                            <a href="/frameworks.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600">Browse All Frameworks</a>
-                            <a href="/frameworks.html#compare" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600">Compare Frameworks</a>
-                            <div class="border-t border-gray-100 my-1"></div>
-                            <a href="/frameworks.html#contribute" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600">Contribute a Framework</a>
-                        </div>
-                    </div>
-                    <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
-                    <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
-                    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
-                        <i class="fab fa-github"></i> GitHub
+    <nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">
+            <svg class="nav-logo-svg" viewBox="0 0 200 44" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="nav-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#D4602A"/>
+                        <stop offset="55%"  stop-color="#A85870"/>
+                        <stop offset="100%" stop-color="#6B6CB5"/>
+                    </linearGradient>
+                </defs>
+                <text x="4" y="34" font-family="Lora, Georgia, serif" font-style="italic" font-size="32" fill="url(#nav-g)" letter-spacing="-0.5">fluent·ly</text>
+            </svg>
+        </a>
+        <ul class="nav-links">
+            <li><a href="/#how-it-works">How it works</a></li>
+            <li><a href="/#try-it">Try it live</a></li>
+            <li class="nav-dd" id="fw-nav-dd">
+                <button type="button" class="nav-dd-btn" id="fw-dd-btn" aria-haspopup="true" aria-expanded="false">
+                    Frameworks
+                    <svg class="dd-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3.5l3 3 3-3"/></svg>
+                </button>
+                <div class="nav-dd-panel" id="fw-dd-panel">
+                    <a href="/frameworks.html">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Browse All Frameworks
+                    </a>
+                    <a href="/frameworks.html#compare">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+                        Compare Frameworks
+                    </a>
+                    <div class="nav-dd-sep"></div>
+                    <a href="/frameworks.html#contribute">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                        Contribute a Framework
                     </a>
                 </div>
-                <!-- Hamburger (mobile only) -->
-                <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
-                    <i id="menu-icon" class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
+            </li>
+            <li><a href="/#get-started">Get started</a></li>
+            <li><a href="/#carbon">Carbon</a></li>
+            <li><a href="/#agent-protocol">Agent Protocol</a></li>
+            <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" style="display:inline;vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                GitHub
+            </a></li>
+        </ul>
+        <div class="nav-cta">
+            <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" class="nav-btn-gh" target="_blank">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                View on GitHub
+            </a>
         </div>
-        <!-- Mobile slide-down panel -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white shadow-md">
-            <div class="px-4 py-3 space-y-1">
-                <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
-                <a href="/knowledge.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Knowledge Base</a>
-                <div>
-                    <a href="/frameworks.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Frameworks</a>
-                    <div class="pl-5 mt-0.5 space-y-0.5">
-                        <a href="/frameworks.html#compare" class="block py-1.5 px-3 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-blue-600 text-sm">Compare</a>
-                        <a href="/frameworks.html#contribute" class="block py-1.5 px-3 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-blue-600 text-sm">Contribute</a>
-                    </div>
-                </div>
-                <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
-                <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
-                <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
-                    <i class="fab fa-github mr-1"></i> GitHub
-                </a>
-            </div>
-        </div>
-    </nav>
+        <button type="button" class="nav-hamburger" id="nav-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <svg id="nav-icon-bars" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <svg id="nav-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+</nav>
+<div class="nav-mobile" id="nav-mobile-menu">
+    <a href="/#how-it-works">How it works</a>
+    <a href="/#try-it">Try it live</a>
+    <a href="/frameworks.html">Frameworks</a>
+    <div class="nav-mobile-sub">
+        <a href="/frameworks.html">Browse All</a>
+        <a href="/frameworks.html#compare">Compare</a>
+        <a href="/frameworks.html#contribute">Contribute a Framework</a>
+    </div>
+    <a href="/#get-started">Get started</a>
+    <a href="/#carbon">Carbon</a>
+    <a href="/#agent-protocol">Agent Protocol</a>
+    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a>
+</div>
 
     <!-- ═══════════════════════════════════════════════════════════════════════
          PAGE HEADER
@@ -1331,5 +1440,38 @@
     }
 
     </script>
+<script>
+(function() {
+    // Frameworks dropdown
+    var dd = document.getElementById('fw-nav-dd');
+    var btn = document.getElementById('fw-dd-btn');
+    var panel = document.getElementById('fw-dd-panel');
+    if (dd && btn && panel) {
+        var t;
+        function openDD()  { clearTimeout(t); dd.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+        function closeDD() { dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+        function defer()   { t = setTimeout(closeDD, 150); }
+        dd.addEventListener('mouseenter', openDD);
+        dd.addEventListener('mouseleave', defer);
+        panel.addEventListener('mouseenter', function(){ clearTimeout(t); });
+        panel.addEventListener('mouseleave', defer);
+        btn.addEventListener('click', function(e){ e.stopPropagation(); dd.classList.contains('open') ? closeDD() : openDD(); });
+        document.addEventListener('click', closeDD);
+    }
+    // Mobile hamburger
+    var hbtn = document.getElementById('nav-menu-btn');
+    var hmenu = document.getElementById('nav-mobile-menu');
+    var hbars = document.getElementById('nav-icon-bars');
+    var hx = document.getElementById('nav-icon-x');
+    if (hbtn && hmenu) {
+        hbtn.addEventListener('click', function() {
+            var open = hmenu.classList.toggle('open');
+            hbtn.setAttribute('aria-expanded', open);
+            if (hbars) hbars.style.display = open ? 'none' : '';
+            if (hx) hx.style.display = open ? '' : 'none';
+        });
+    }
+})();
+</script>
 </body>
 </html>

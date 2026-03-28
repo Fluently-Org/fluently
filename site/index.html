@@ -79,6 +79,35 @@
       transition: color 0.15s, background 0.15s;
     }
     .nav-links a:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+    /* ── Frameworks dropdown ── */
+    .nav-dd { position: relative; list-style: none; }
+    .nav-dd-btn {
+      color: var(--fg-muted); background: none; border: none; cursor: pointer;
+      font-size: 0.875rem; font-weight: 500; font-family: inherit;
+      padding: 6px 12px; border-radius: 6px; outline: none; line-height: 1;
+      display: flex; align-items: center; gap: 5px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .nav-dd-btn:hover { color: var(--fg); background: rgba(255,255,255,0.06); }
+    .nav-dd-btn:focus { outline: none; }
+    .nav-dd-panel {
+      display: none; position: absolute; top: calc(100% + 8px); left: 0;
+      min-width: 220px; background: var(--canvas-soft);
+      border: 1px solid var(--border); border-radius: 10px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5); padding: 6px; z-index: 300;
+    }
+    .nav-dd.open .nav-dd-panel { display: block; }
+    .nav-dd-panel a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-radius: 7px;
+      font-size: 0.83rem; font-weight: 500;
+      color: var(--fg-muted); text-decoration: none;
+      transition: background 0.12s, color 0.12s;
+    }
+    .nav-dd-panel a:hover { background: rgba(255,255,255,0.06); color: var(--fg); }
+    .nav-dd-sep { height: 1px; background: var(--border); margin: 4px 0; }
+    .nav-dd-chevron { font-size: 0.65rem; display: inline-block; transition: transform 0.15s; }
+    .nav-dd.open .nav-dd-chevron { transform: rotate(180deg); }
     .nav-cta {
       display: flex; align-items: center; gap: 10px; flex-shrink: 0;
     }
@@ -868,7 +897,27 @@
     <ul class="nav-links">
       <li><a href="#how-it-works">How it works</a></li>
       <li><a href="#try-it">Try it live</a></li>
-      <li><a href="frameworks.html">Frameworks</a></li>
+      <li class="nav-dd" id="fw-nav-dd">
+        <button type="button" class="nav-dd-btn" id="fw-dd-btn" aria-haspopup="true" aria-expanded="false">
+          Frameworks
+          <svg class="nav-dd-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3.5l3 3 3-3"/></svg>
+        </button>
+        <div class="nav-dd-panel" id="fw-dd-panel">
+          <a href="frameworks.html">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Browse All Frameworks
+          </a>
+          <a href="frameworks.html#compare">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+            Compare Frameworks
+          </a>
+          <div class="nav-dd-sep"></div>
+          <a href="frameworks.html#contribute">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+            Contribute a Framework
+          </a>
+        </div>
+      </li>
       <li><a href="#get-started">Get started</a></li>
       <li><a href="#carbon">Carbon</a></li>
       <li><a href="#agent-protocol">Agent Protocol</a></li>
@@ -2895,6 +2944,24 @@ Be concise, 4 to 6 sentences. No numeric scores.`;
     btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg> Run with GitHub MCP + ${p.name}`;
   }
 }
+
+// ── Frameworks nav dropdown ───────────────────────────────────────────────
+(function() {
+  const dd    = document.getElementById('fw-nav-dd');
+  const btn   = document.getElementById('fw-dd-btn');
+  const panel = document.getElementById('fw-dd-panel');
+  if (!dd || !btn || !panel) return;
+  let t;
+  function openDD()  { clearTimeout(t); dd.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
+  function closeDD() { dd.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
+  function defer()   { t = setTimeout(closeDD, 150); }
+  dd.addEventListener('mouseenter', openDD);
+  dd.addEventListener('mouseleave', defer);
+  panel.addEventListener('mouseenter', () => clearTimeout(t));
+  panel.addEventListener('mouseleave', defer);
+  btn.addEventListener('click', e => { e.stopPropagation(); dd.classList.contains('open') ? closeDD() : openDD(); });
+  document.addEventListener('click', closeDD);
+})();
 </script>
 </body>
 </html>
