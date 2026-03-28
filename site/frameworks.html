@@ -61,7 +61,7 @@
         display: flex; align-items: center; gap: 0;
         text-decoration: none; flex-shrink: 0;
     }
-    .nav-logo-svg { height: 30px; width: auto; }
+    .nav-logo-svg { height: 30px; width: 137px; display: block; }
     .nav-links {
         display: flex; align-items: center; gap: 4px;
         list-style: none;
@@ -95,7 +95,6 @@
         padding: 6px;
         z-index: 300;
     }
-    .nav-dd:hover .nav-dd-panel,
     .nav-dd.open .nav-dd-panel { display: block; }
     .nav-dd-btn { outline: none; line-height: 1; }
     .nav-dd-btn:focus { outline: none; }
@@ -104,7 +103,6 @@
         font-size: 0.65rem; transition: transform 0.15s;
         display: inline-block;
     }
-    .nav-dd:hover .dd-chevron,
     .nav-dd.open .dd-chevron { transform: rotate(180deg); }
     .nav-dd-panel a {
         display: flex; align-items: center; gap: 8px;
@@ -1138,19 +1136,40 @@ function initHamburger() {
 // ── Frameworks dropdown (click fallback for touch) ────────────────────────
 
 function initFrameworksDropdown() {
-    const dd  = document.querySelector('.nav-dd');
-    const btn = document.getElementById('fw-dd-btn');
-    if (!dd || !btn) return;
+    const dd    = document.querySelector('.nav-dd');
+    const btn   = document.getElementById('fw-dd-btn');
+    const panel = document.getElementById('fw-dd-panel');
+    if (!dd || !btn || !panel) return;
 
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const open = dd.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open);
-    });
-    document.addEventListener('click', () => {
+    let closeTimer;
+
+    function open() {
+        clearTimeout(closeTimer);
+        dd.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+    }
+    function close() {
         dd.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
+    }
+    function scheduleClose() {
+        closeTimer = setTimeout(close, 150);
+    }
+
+    // Hover open/close
+    dd.addEventListener('mouseenter', open);
+    dd.addEventListener('mouseleave', scheduleClose);
+    panel.addEventListener('mouseenter', () => clearTimeout(closeTimer));
+    panel.addEventListener('mouseleave', scheduleClose);
+
+    // Click toggle (touch/keyboard)
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dd.classList.contains('open') ? close() : open();
     });
+
+    // Click outside closes
+    document.addEventListener('click', close);
 }
 
 // ── Config links ──────────────────────────────────────────────────────────
