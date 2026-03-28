@@ -4,229 +4,724 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Frameworks | Fluently</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
     <!-- config.js must load first — provides window.FLUENTLY for all page scripts -->
     <script src="config.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Lora:ital@1&display=swap" rel="stylesheet">
     <style>
-        /* ── Framework card ────────────────────────────────────────────── */
-        .fw-card {
-            background: #fff;
-            border-radius: 0.75rem;
-            box-shadow: 0 1px 4px rgba(0,0,0,.08);
-            transition: box-shadow 0.15s, transform 0.15s;
-            border: 1px solid #e5e7eb;
-        }
-        .fw-card:hover {
-            box-shadow: 0 6px 18px rgba(0,0,0,.12);
-            transform: translateY(-1px);
-        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; overflow-x: hidden; }
 
-        /* ── Dimension pill ─────────────────────────────────────────────── */
-        .dim-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 999px;
-            letter-spacing: 0.03em;
-            white-space: nowrap;
-        }
+    :root {
+        --canvas:       #0d1117;
+        --canvas-soft:  #161b22;
+        --canvas-inset: #010409;
+        --border:       rgba(48, 54, 61, 1);
+        --border-soft:  rgba(48, 54, 61, 0.6);
+        --fg:           #e6edf3;
+        --fg-muted:     #8b949e;
+        --fg-subtle:    #484f58;
+        --orange:       #D4602A;
+        --orange-dark:  #B8501E;
+        --orange-light: #E07848;
+        --indigo:       #6B6CB5;
+        --indigo-dark:  #5558A0;
+        --green:        #3fb950;
+        --amber:        #d29922;
+        --red:          #f85149;
+    }
 
-        /* ── Framework card grid ────────────────────────────────────────── */
-        #frameworks-grid {
-            display: grid;
-            gap: 1.5rem;
-            grid-template-columns: 1fr;
-        }
-        @media (min-width: 640px) {
-            #frameworks-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (min-width: 1024px) {
-            #frameworks-grid { grid-template-columns: repeat(3, 1fr); }
-        }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: var(--canvas);
+        color: var(--fg);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+    }
 
-        /* ── Compare section ────────────────────────────────────────────── */
-        .compare-col {
-            flex: 1;
-            min-width: 0;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 0.5rem;
-            padding: 1rem;
-        }
+    /* ── Nav ───────────────────────────────────────────────────────────────── */
+    .nav {
+        position: sticky; top: 0; z-index: 200;
+        background: rgba(13,17,23,0.90);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border-bottom: 1px solid var(--border);
+        height: 64px;
+        display: flex; align-items: center;
+    }
+    .nav-inner {
+        max-width: 1280px; width: 100%; margin: 0 auto;
+        padding: 0 24px;
+        display: flex; align-items: center; justify-content: space-between;
+        gap: 24px;
+    }
+    .nav-logo {
+        display: flex; align-items: center; gap: 0;
+        text-decoration: none; flex-shrink: 0;
+    }
+    .nav-logo-svg { height: 30px; width: auto; }
+    .nav-links {
+        display: flex; align-items: center; gap: 4px;
+        list-style: none;
+    }
+    .nav-links a, .nav-links button {
+        color: var(--fg-muted); text-decoration: none;
+        font-size: 0.875rem; font-weight: 500;
+        padding: 6px 12px; border-radius: 6px;
+        transition: color 0.15s, background 0.15s;
+        background: none; border: none; cursor: pointer;
+        font-family: inherit;
+        display: flex; align-items: center; gap: 5px;
+    }
+    .nav-links a:hover, .nav-links button:hover {
+        color: var(--fg); background: rgba(255,255,255,0.06);
+    }
+    .nav-links a.active {
+        color: var(--orange); font-weight: 700;
+    }
 
-        /* ── Loading skeleton ───────────────────────────────────────────── */
-        .skeleton {
-            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.4s infinite;
-            border-radius: 0.375rem;
-        }
-        @keyframes shimmer {
-            0%   { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
+    /* Frameworks dropdown in nav */
+    .nav-dd { position: relative; }
+    .nav-dd-panel {
+        display: none;
+        position: absolute; top: calc(100% + 8px); left: 0;
+        min-width: 220px;
+        background: var(--canvas-soft);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+        padding: 6px;
+        z-index: 300;
+    }
+    .nav-dd:hover .nav-dd-panel,
+    .nav-dd-panel:hover { display: block; }
+    .nav-dd-btn.active { color: var(--orange); font-weight: 700; }
+    .nav-dd-btn .dd-chevron {
+        font-size: 0.65rem; transition: transform 0.15s;
+        display: inline-block;
+    }
+    .nav-dd:hover .dd-chevron { transform: rotate(180deg); }
+    .nav-dd-panel a {
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 12px; border-radius: 7px;
+        font-size: 0.83rem; font-weight: 500;
+        color: var(--fg-muted); text-decoration: none;
+        transition: background 0.12s, color 0.12s;
+    }
+    .nav-dd-panel a:hover { background: rgba(255,255,255,0.06); color: var(--fg); }
+    .nav-dd-panel a.panel-active { color: var(--orange); }
+    .nav-dd-sep { height: 1px; background: var(--border); margin: 4px 0; }
+    .nav-dd-panel a .dd-icon { font-size: 0.75rem; width: 14px; text-align: center; opacity: 0.7; }
+
+    /* ── Nav CTA ─────────────────────────────────────────────────────────── */
+    .nav-cta {
+        display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+    }
+    .btn {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 7px 16px; border-radius: 6px;
+        font-size: 0.875rem; font-weight: 500;
+        cursor: pointer; border: none; text-decoration: none;
+        transition: all 0.15s ease; white-space: nowrap;
+        font-family: inherit;
+    }
+    .btn-outline {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--fg);
+    }
+    .btn-outline:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+    .btn-orange {
+        background: var(--orange);
+        color: #fff;
+        border: 1px solid rgba(212,96,42,0.4);
+    }
+    .btn-orange:hover { background: var(--orange-light); box-shadow: 0 4px 20px rgba(212,96,42,0.35); }
+
+    /* ── Mobile hamburger ─────────────────────────────────────────────────── */
+    .hamburger-btn {
+        display: none; background: none; border: none;
+        color: var(--fg-muted); cursor: pointer; padding: 8px;
+        border-radius: 6px; transition: background 0.15s, color 0.15s;
+    }
+    .hamburger-btn:hover { background: rgba(255,255,255,0.06); color: var(--fg); }
+    @media (max-width: 767px) {
+        .nav-links, .nav-cta { display: none; }
+        .hamburger-btn { display: flex; align-items: center; }
+    }
+    .mobile-menu {
+        display: none;
+        background: var(--canvas-soft);
+        border-bottom: 1px solid var(--border);
+        padding: 12px 16px;
+    }
+    .mobile-menu.open { display: block; }
+    .mobile-menu a {
+        display: block; padding: 10px 12px; border-radius: 7px;
+        color: var(--fg-muted); text-decoration: none;
+        font-size: 0.9rem; font-weight: 500;
+        transition: background 0.12s, color 0.12s;
+    }
+    .mobile-menu a:hover { background: rgba(255,255,255,0.06); color: var(--fg); }
+    .mobile-menu a.active { color: var(--orange); font-weight: 700; }
+    .mobile-sub { padding-left: 20px; }
+    .mobile-sub a {
+        font-size: 0.83rem; color: var(--fg-subtle); padding: 7px 12px;
+    }
+
+    /* ── Page header ─────────────────────────────────────────────────────── */
+    .page-header {
+        padding: 64px 24px 60px;
+        border-bottom: 1px solid var(--border);
+        background:
+            radial-gradient(ellipse 70% 80% at 5% 50%, rgba(212,96,42,0.08) 0%, transparent 60%),
+            radial-gradient(ellipse 50% 60% at 95% 50%, rgba(107,108,181,0.06) 0%, transparent 60%);
+        position: relative; overflow: hidden;
+    }
+    .page-header-inner {
+        max-width: 1280px; margin: 0 auto;
+    }
+    .page-eyebrow {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: rgba(212,96,42,0.1);
+        border: 1px solid rgba(212,96,42,0.25);
+        border-radius: 999px; padding: 5px 14px;
+        font-size: 0.75rem; font-weight: 600;
+        color: var(--orange); letter-spacing: 0.05em;
+        text-transform: uppercase; margin-bottom: 18px;
+    }
+    .page-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        font-weight: 800; letter-spacing: -0.03em;
+        color: var(--fg); line-height: 1.15;
+        margin-bottom: 14px;
+    }
+    .page-sub {
+        font-size: 1.05rem; color: var(--fg-muted);
+        line-height: 1.7; max-width: 600px;
+        margin-bottom: 28px;
+    }
+    .page-actions {
+        display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .btn-sm { padding: 8px 18px; font-size: 0.85rem; border-radius: 7px; }
+
+    /* ── Section wrappers ───────────────────────────────────────────────── */
+    .section { padding: 64px 24px; }
+    .section-inner { max-width: 1280px; margin: 0 auto; }
+    .section-alt { background: var(--canvas-soft); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+    .section-eyebrow {
+        font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em;
+        text-transform: uppercase; color: var(--orange);
+        margin-bottom: 10px;
+    }
+    .section-title {
+        font-size: clamp(1.5rem, 2.5vw, 2rem);
+        font-weight: 800; letter-spacing: -0.025em;
+        color: var(--fg); line-height: 1.25;
+        margin-bottom: 12px;
+    }
+    .section-sub {
+        font-size: 0.95rem; color: var(--fg-muted); line-height: 1.7;
+        max-width: 560px;
+    }
+    .section-header { margin-bottom: 44px; }
+
+    /* ── Framework cards ─────────────────────────────────────────────────── */
+    .fw-count-badge {
+        display: inline-flex; align-items: center;
+        background: rgba(212,96,42,0.12);
+        border: 1px solid rgba(212,96,42,0.25);
+        color: var(--orange); font-size: 0.75rem; font-weight: 700;
+        padding: 3px 12px; border-radius: 999px;
+    }
+
+    #frameworks-grid {
+        display: grid; gap: 20px;
+        grid-template-columns: 1fr;
+    }
+    @media (min-width: 640px)  { #frameworks-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { #frameworks-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .fw-card {
+        background: var(--canvas-soft);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        display: flex; flex-direction: column;
+        transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+    }
+    .fw-card:hover {
+        border-color: rgba(212,96,42,0.35);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        transform: translateY(-2px);
+    }
+    .fw-card-name {
+        font-size: 0.95rem; font-weight: 700; color: var(--fg);
+        margin-bottom: 2px;
+    }
+    .fw-card-id {
+        font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+        font-size: 0.72rem; color: var(--fg-subtle);
+    }
+    .fw-card-version {
+        font-size: 0.72rem; font-weight: 700;
+        background: rgba(107,108,181,0.15);
+        border: 1px solid rgba(107,108,181,0.25);
+        color: var(--indigo);
+        padding: 2px 8px; border-radius: 999px;
+        white-space: nowrap;
+    }
+    .fw-card-desc {
+        font-size: 0.85rem; color: var(--fg-muted); line-height: 1.65;
+        margin-bottom: 14px; flex: 1;
+    }
+
+    .dim-pill {
+        display: inline-flex; align-items: center; gap: 4px;
+        font-size: 0.68rem; font-weight: 700;
+        padding: 3px 8px; border-radius: 6px;
+        letter-spacing: 0.02em; white-space: nowrap;
+    }
+
+    .fw-card-footer {
+        display: flex; align-items: center; justify-content: space-between;
+        border-top: 1px solid var(--border);
+        padding-top: 12px; margin-top: 12px;
+        font-size: 0.77rem; color: var(--fg-subtle);
+    }
+    .fw-cycle-badge {
+        background: rgba(63,185,80,0.12);
+        border: 1px solid rgba(63,185,80,0.2);
+        color: var(--green);
+        font-size: 0.72rem; font-weight: 700;
+        padding: 2px 8px; border-radius: 999px;
+    }
+    .fw-tag {
+        font-size: 0.7rem; color: var(--fg-subtle);
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border);
+        padding: 2px 7px; border-radius: 5px;
+    }
+    .fw-meta-badge {
+        display: inline-flex; align-items: center; gap: 4px;
+        font-size: 0.7rem; font-weight: 600;
+        padding: 2px 7px; border-radius: 999px;
+    }
+    .fw-meta-level {
+        background: rgba(107,108,181,0.12);
+        border: 1px solid rgba(107,108,181,0.2);
+        color: var(--indigo);
+    }
+    .fw-meta-binding-yes {
+        background: rgba(248,81,73,0.12);
+        border: 1px solid rgba(248,81,73,0.2);
+        color: var(--red);
+    }
+    .fw-meta-binding-cert {
+        background: rgba(210,153,34,0.12);
+        border: 1px solid rgba(210,153,34,0.2);
+        color: var(--amber);
+    }
+    .fw-meta-binding-vol {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border);
+        color: var(--fg-muted);
+    }
+    .fw-reference {
+        font-size: 0.77rem; color: var(--orange); text-decoration: none;
+        transition: color 0.12s;
+    }
+    .fw-reference:hover { color: var(--orange-light); }
+
+    /* ── Loading skeleton ────────────────────────────────────────────────── */
+    .skeleton {
+        background: linear-gradient(90deg, var(--canvas-soft) 25%, rgba(48,54,61,0.5) 50%, var(--canvas-soft) 75%);
+        background-size: 200% 100%;
+        animation: shimmer 1.4s infinite;
+        border-radius: 6px;
+    }
+    @keyframes shimmer {
+        0%   { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
+    /* ── Compare section ─────────────────────────────────────────────────── */
+    .compare-form-wrap {
+        background: var(--canvas-inset);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+    }
+    .compare-label {
+        display: block; font-size: 0.83rem; font-weight: 600;
+        color: var(--fg-muted); margin-bottom: 8px;
+    }
+    .compare-textarea {
+        width: 100%; background: var(--canvas-soft);
+        border: 1px solid var(--border); border-radius: 8px;
+        padding: 10px 14px; font-size: 0.875rem;
+        color: var(--fg); resize: vertical;
+        font-family: inherit; line-height: 1.6;
+        transition: border-color 0.15s;
+        outline: none;
+    }
+    .compare-textarea:focus { border-color: var(--orange); }
+    .compare-textarea::placeholder { color: var(--fg-subtle); }
+    .compare-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+    .compare-loading {
+        display: none; margin-top: 12px;
+        text-align: center; font-size: 0.85rem; color: var(--fg-muted);
+    }
+    .compare-col {
+        flex: 1; min-width: 0;
+        background: var(--canvas-soft);
+        border: 1px solid var(--border);
+        border-radius: 10px; padding: 16px;
+    }
+    .compare-col-name {
+        font-size: 0.9rem; font-weight: 700; color: var(--fg); margin-bottom: 2px;
+    }
+    .compare-col-id {
+        font-family: 'SF Mono', Consolas, monospace;
+        font-size: 0.7rem; color: var(--fg-subtle);
+    }
+    .compare-seq-step {
+        font-size: 0.78rem; color: var(--fg-muted); line-height: 1.5;
+    }
+    .compare-seq-dim {
+        font-weight: 700; color: var(--orange);
+    }
+    .compare-view-link {
+        font-size: 0.77rem; color: var(--orange); text-decoration: none;
+    }
+    .compare-view-link:hover { color: var(--orange-light); text-decoration: underline; }
+    #compare-cols { display: flex; flex-direction: column; gap: 12px; }
+    @media (min-width: 640px) { #compare-cols { flex-direction: row; flex-wrap: wrap; } }
+
+    /* ── Contribute section ──────────────────────────────────────────────── */
+    .path-badge {
+        display: inline-flex; align-items: center;
+        font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+        text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+    }
+    .path-a { background: rgba(255,255,255,0.1); color: var(--fg); }
+    .path-b { background: rgba(107,108,181,0.15); border: 1px solid rgba(107,108,181,0.3); color: var(--indigo); }
+
+    .contrib-card {
+        background: var(--canvas-soft);
+        border: 1px solid var(--border);
+        border-radius: 12px; padding: 24px;
+    }
+    .contrib-step-icon { font-size: 1.5rem; margin-bottom: 12px; }
+    .contrib-step-title {
+        font-size: 0.9rem; font-weight: 700; color: var(--fg); margin-bottom: 8px;
+    }
+    .contrib-step-body {
+        font-size: 0.83rem; color: var(--fg-muted); line-height: 1.65; margin-bottom: 12px;
+    }
+    .contrib-step-body code {
+        font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+        background: rgba(255,255,255,0.07); color: var(--fg);
+        padding: 1px 5px; border-radius: 4px; font-size: 0.8em;
+    }
+    .code-block {
+        background: var(--canvas-inset);
+        border: 1px solid var(--border);
+        border-radius: 8px; overflow: hidden;
+    }
+    .code-block-bar {
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 8px 14px;
+        border-bottom: 1px solid var(--border);
+    }
+    .code-block-label {
+        font-size: 0.72rem; color: var(--fg-subtle);
+        font-family: 'SF Mono', Consolas, monospace;
+    }
+    .code-block-copy {
+        background: none; border: none; cursor: pointer;
+        font-size: 0.72rem; font-weight: 700; color: var(--orange);
+        font-family: inherit; transition: color 0.12s;
+    }
+    .code-block-copy:hover { color: var(--orange-light); }
+    .code-block pre {
+        padding: 16px;
+        font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+        font-size: 0.8rem; line-height: 1.7; color: var(--green);
+        overflow-x: auto; white-space: pre;
+    }
+    pre.yaml-block { color: #79c0ff; }
+    pre.agent-block { color: var(--green); white-space: pre-wrap; }
+
+    details summary {
+        cursor: pointer; font-size: 0.8rem; font-weight: 700;
+        color: var(--orange); list-style: none;
+    }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] summary { margin-bottom: 8px; }
+
+    /* ── Footer ─────────────────────────────────────────────────────────── */
+    footer {
+        background: var(--canvas-soft);
+        border-top: 1px solid var(--border);
+        padding: 60px 24px 0;
+    }
+    .footer-inner {
+        max-width: 1280px; margin: 0 auto;
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 48px;
+        border-bottom: 1px solid var(--border);
+    }
+    @media (max-width: 900px) {
+        .footer-inner { grid-template-columns: 1fr 1fr; gap: 28px; }
+    }
+    @media (max-width: 540px) {
+        .footer-inner { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .footer-brand-name {
+        font-family: 'Lora', Georgia, serif;
+        font-style: italic;
+        background: linear-gradient(90deg,#D4602A,#A85870,#6B6CB5);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 1.3rem; font-weight: 400;
+        margin-bottom: 8px;
+    }
+    .footer-brand-desc {
+        font-size: 0.83rem; color: var(--fg-muted); line-height: 1.65;
+        max-width: 280px;
+    }
+    .footer-col-title {
+        font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+        text-transform: uppercase; color: var(--fg-muted);
+        margin-bottom: 14px;
+    }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a {
+        color: var(--fg-subtle); text-decoration: none;
+        font-size: 0.875rem; transition: color 0.15s;
+    }
+    .footer-links a:hover { color: var(--fg); }
+    .footer-bottom {
+        max-width: 1280px; margin: 0 auto;
+        display: flex; align-items: center; justify-content: space-between;
+        padding: 20px 0;
+        font-size: 0.8rem; color: var(--fg-subtle);
+    }
+    @media (max-width: 540px) { .footer-bottom { flex-wrap: wrap; gap: 6px; } }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         NAVIGATION
-    ════════════════════════════════════════════════════════════════════════ -->
-    <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-lightbulb text-blue-600 text-2xl"></i>
-                    <a href="/" class="text-xl font-bold text-gray-900">Fluently</a>
-                </div>
-                <!-- Desktop links -->
-                <div class="hidden md:flex space-x-8">
-                    <a href="/" class="text-gray-700 hover:text-blue-600 font-medium">Home</a>
-                    <a href="/knowledge.html" class="text-gray-700 hover:text-blue-600 font-medium">Knowledge Base</a>
-                    <a href="/frameworks.html" class="text-blue-600 font-bold border-b-2 border-blue-600">Frameworks</a>
-                    <a href="/guide.html" class="text-gray-700 hover:text-blue-600 font-medium">Guide</a>
-                    <a href="/contribute.html" class="text-gray-700 hover:text-blue-600 font-medium">Contribute</a>
-                    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="text-gray-700 hover:text-blue-600 font-medium">
-                        <i class="fab fa-github"></i> GitHub
+<!-- ── Nav ── -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="/" class="nav-logo">
+            <svg class="nav-logo-svg" viewBox="0 0 200 44" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="nav-g" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%"   stop-color="#D4602A"/>
+                        <stop offset="55%"  stop-color="#A85870"/>
+                        <stop offset="100%" stop-color="#6B6CB5"/>
+                    </linearGradient>
+                </defs>
+                <text x="4" y="34" font-family="Lora, Georgia, serif" font-style="italic" font-size="32" fill="url(#nav-g)" letter-spacing="-0.5">fluent·ly</text>
+            </svg>
+        </a>
+
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/knowledge.html">Knowledge Base</a></li>
+            <!-- Frameworks dropdown — active on this page -->
+            <li class="nav-dd">
+                <button class="nav-dd-btn active" aria-haspopup="true" aria-expanded="false" id="fw-dd-btn">
+                    Frameworks
+                    <svg class="dd-chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3.5l3 3 3-3"/></svg>
+                </button>
+                <div class="nav-dd-panel" id="fw-dd-panel">
+                    <a href="#frameworks" class="panel-active">
+                        <svg class="dd-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                        Browse All Frameworks
+                    </a>
+                    <a href="#compare">
+                        <svg class="dd-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+                        Compare Frameworks
+                    </a>
+                    <div class="nav-dd-sep"></div>
+                    <a href="#contribute">
+                        <svg class="dd-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                        Contribute a Framework
                     </a>
                 </div>
-                <!-- Hamburger (mobile only) -->
-                <button id="menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-gray-100 focus:outline-none" aria-label="Toggle menu" aria-expanded="false">
-                    <i id="menu-icon" class="fas fa-bars text-xl"></i>
+            </li>
+            <li><a href="/guide.html">Guide</a></li>
+            <li><a href="/contribute.html">Contribute</a></li>
+            <li>
+                <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">
+                    <svg width="15" height="15" viewBox="0 0 16 16" fill="currentColor" style="display:inline;vertical-align:-2px"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                    GitHub
+                </a>
+            </li>
+        </ul>
+
+        <div class="nav-cta">
+            <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" class="btn btn-outline" target="_blank" style="font-size:0.83rem;padding:6px 14px;">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                View on GitHub
+            </a>
+        </div>
+
+        <!-- Hamburger -->
+        <button class="hamburger-btn" id="menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <svg id="menu-icon-bars" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            <svg id="menu-icon-x" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+</nav>
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+    <a href="/">Home</a>
+    <a href="/knowledge.html">Knowledge Base</a>
+    <a href="#frameworks" class="active">Frameworks</a>
+    <div class="mobile-sub">
+        <a href="#frameworks">Browse All</a>
+        <a href="#compare">Compare</a>
+        <a href="#contribute">Contribute a Framework</a>
+    </div>
+    <a href="/guide.html">Guide</a>
+    <a href="/contribute.html">Contribute</a>
+    <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a>
+</div>
+
+<!-- ── Page Header ── -->
+<div class="page-header">
+    <div class="page-header-inner">
+        <div class="page-eyebrow">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            Framework Registry
+        </div>
+        <h1 class="page-title">Collaboration Frameworks</h1>
+        <p class="page-sub">
+            Every registered collaboration framework in one place. Browse dimensions, compare frameworks side-by-side, or contribute your own.
+        </p>
+        <div class="page-actions">
+            <a href="#frameworks" class="btn btn-orange btn-sm">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+                Browse Frameworks
+            </a>
+            <a href="#compare" class="btn btn-outline btn-sm">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+                Compare
+            </a>
+            <a href="#contribute" class="btn btn-outline btn-sm">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                Contribute
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     FRAMEWORK CARDS
+════════════════════════════════════════════════════════════════════════ -->
+<section id="frameworks" class="section">
+    <div class="section-inner">
+        <div class="section-header" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px;">
+            <div>
+                <div class="section-eyebrow">Registry</div>
+                <h2 class="section-title" style="margin-bottom:0;">Registered Frameworks</h2>
+            </div>
+            <span id="fw-count-badge" class="fw-count-badge"></span>
+        </div>
+
+        <!-- Loading skeleton -->
+        <div id="frameworks-grid">
+            <div class="fw-card">
+                <div class="skeleton" style="height:16px;width:55%;margin-bottom:10px;"></div>
+                <div class="skeleton" style="height:12px;width:100%;margin-bottom:7px;"></div>
+                <div class="skeleton" style="height:12px;width:70%;"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     COMPARE FRAMEWORKS
+════════════════════════════════════════════════════════════════════════ -->
+<section id="compare" class="section section-alt">
+    <div class="section-inner" style="max-width:900px;">
+        <div class="section-header" style="text-align:center;">
+            <div class="section-eyebrow">Side-by-side</div>
+            <h2 class="section-title">Compare Frameworks</h2>
+            <p class="section-sub" style="margin:0 auto;">
+                Describe your task and see what each framework's best-matching cycle looks like, side by side.
+            </p>
+        </div>
+
+        <div class="compare-form-wrap">
+            <label class="compare-label" for="compare-task">Your task description</label>
+            <textarea id="compare-task" class="compare-textarea" rows="3"
+                placeholder="e.g. Review a customer's medical record and suggest a diagnosis pathway using AI assistance."></textarea>
+            <div class="compare-actions">
+                <button onclick="runCompare()" class="btn btn-orange btn-sm">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+                    Compare
                 </button>
             </div>
-        </div>
-        <!-- Mobile slide-down panel -->
-        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white shadow-md">
-            <div class="px-4 py-3 space-y-1">
-                <a href="/" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Home</a>
-                <a href="/knowledge.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Knowledge Base</a>
-                <a href="/frameworks.html" class="block py-2 px-3 rounded-lg bg-blue-50 text-blue-600 font-bold">Frameworks</a>
-                <a href="/guide.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Guide</a>
-                <a href="/contribute.html" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">Contribute</a>
-                <a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="block py-2 px-3 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600 font-medium">
-                    <i class="fab fa-github mr-1"></i> GitHub
-                </a>
+            <div id="compare-loading" class="compare-loading">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite;display:inline;vertical-align:-3px;margin-right:6px"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0"/></svg>
+                Fetching best cycles from each framework…
             </div>
         </div>
-    </nav>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         PAGE HEADER
-    ════════════════════════════════════════════════════════════════════════ -->
-    <section class="bg-white border-b border-gray-200 py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
-                <i class="fas fa-layer-group mr-2 text-blue-600"></i>Frameworks
-            </h1>
-            <p class="text-lg text-gray-600 mb-4">
-                Every collaboration framework in one knowledge base. Browse, compare, and contribute.
+        <div id="compare-results" style="display:none;">
+            <div id="compare-cols"></div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════════════════
+     CONTRIBUTE A FRAMEWORK
+════════════════════════════════════════════════════════════════════════ -->
+<section id="contribute" class="section">
+    <div class="section-inner" style="max-width:900px;">
+        <div class="section-header">
+            <div class="section-eyebrow">Open source</div>
+            <h2 class="section-title">Contribute a New Framework</h2>
+            <p class="section-sub">
+                Any collaboration framework with named dimensions can be registered. Two paths: submit a PR yourself, or ask your AI agent to build and test it for you.
             </p>
-            <div class="flex flex-wrap gap-3">
-                <a href="#frameworks" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-5 rounded-lg text-sm transition">
-                    <i class="fas fa-layer-group mr-1.5"></i>Browse Frameworks
-                </a>
-                <a href="#compare" class="bg-white hover:bg-gray-50 text-gray-700 font-semibold py-2 px-5 rounded-lg text-sm border border-gray-300 transition">
-                    <i class="fas fa-columns mr-1.5"></i>Compare
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         FRAMEWORK CARDS GRID
-    ════════════════════════════════════════════════════════════════════════ -->
-    <section id="frameworks" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold text-gray-900">
-                <i class="fas fa-layer-group text-blue-600 mr-2"></i>Registered Frameworks
-            </h2>
-            <span id="fw-count-badge" class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full"></span>
         </div>
 
-        <!-- Loading state -->
-        <div id="frameworks-grid">
-            <div class="fw-card p-6">
-                <div class="skeleton h-5 w-2/3 mb-3"></div>
-                <div class="skeleton h-3 w-full mb-2"></div>
-                <div class="skeleton h-3 w-3/4"></div>
+        <!-- Path A -->
+        <div style="margin-bottom:48px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+                <span class="path-badge path-a">Path A</span>
+                <h3 style="font-size:1.05rem;font-weight:700;color:var(--fg);">Manual PR</h3>
             </div>
-        </div>
-    </section>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;">
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         FRAMEWORK COMPARISON
-    ════════════════════════════════════════════════════════════════════════ -->
-    <section id="compare" class="bg-white border-t border-b border-gray-200 py-12">
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-8">
-                <h2 class="text-2xl font-bold text-gray-900 mb-2">
-                    <i class="fas fa-columns text-blue-600 mr-2"></i>Compare Frameworks
-                </h2>
-                <p class="text-gray-600 text-sm sm:text-base">
-                    Describe your task and see what each framework's best cycle looks like, side by side.
-                </p>
-            </div>
-
-            <div class="bg-gray-50 rounded-2xl border border-gray-200 p-5 sm:p-6 mb-6">
-                <label class="block text-sm font-bold text-gray-700 mb-2">Your task description</label>
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <textarea id="compare-task" rows="3"
-                        placeholder="e.g. Review a customer's medical record and suggest a diagnosis pathway using AI assistance."
-                        class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none bg-white"></textarea>
-                    <button onclick="runCompare()"
-                        class="sm:self-start bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-5 rounded-lg text-sm transition shrink-0">
-                        <i class="fas fa-columns mr-1"></i>Compare
-                    </button>
-                </div>
-                <div id="compare-loading" class="hidden mt-3 text-center text-sm text-gray-500">
-                    <i class="fas fa-spinner fa-spin text-blue-500 mr-2"></i>Fetching best cycles from each framework…
-                </div>
-            </div>
-
-            <div id="compare-results" class="hidden">
-                <div id="compare-cols" class="flex flex-col sm:flex-row gap-4 flex-wrap"></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         HOW TO CONTRIBUTE A FRAMEWORK
-    ════════════════════════════════════════════════════════════════════════ -->
-    <section class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">
-            <i class="fas fa-plus-circle text-green-600 mr-2"></i>Contribute a New Framework
-        </h2>
-        <p class="text-gray-600 text-sm mb-8">
-            Any collaboration framework with named dimensions can be registered. Two paths: submit a PR yourself, or ask your AI agent to build and test it for you.
-        </p>
-
-        <!-- Path A: Manual PR -->
-        <div class="mb-10">
-            <div class="flex items-center gap-2 mb-4">
-                <span class="bg-gray-900 text-white text-xs font-bold px-3 py-1 rounded-full">Path A</span>
-                <h3 class="text-lg font-bold text-gray-900">Manual PR</h3>
-            </div>
-            <div class="grid sm:grid-cols-3 gap-5">
-                <div class="bg-white rounded-xl border border-gray-200 p-5">
-                    <div class="text-2xl mb-2">📄</div>
-                    <h4 class="font-bold text-gray-900 mb-1">1. Write the YAML</h4>
-                    <p class="text-sm text-gray-600 mb-3">
-                        Fork the repo and create <code class="bg-gray-100 px-1 rounded text-xs">frameworks/your-id.yaml</code>.
-                        Required fields: <code class="bg-gray-100 px-1 rounded text-xs">id</code> (kebab-case),
-                        <code class="bg-gray-100 px-1 rounded text-xs">name</code>,
-                        <code class="bg-gray-100 px-1 rounded text-xs">version</code>,
-                        <code class="bg-gray-100 px-1 rounded text-xs">contributor</code>,
-                        <code class="bg-gray-100 px-1 rounded text-xs">description</code>,
-                        <code class="bg-gray-100 px-1 rounded text-xs">dimensions</code> (array with <code class="bg-gray-100 px-1 rounded text-xs">key</code>, <code class="bg-gray-100 px-1 rounded text-xs">label</code>, <code class="bg-gray-100 px-1 rounded text-xs">description</code>, <code class="bg-gray-100 px-1 rounded text-xs">canonical_order</code>).
+                <div class="contrib-card">
+                    <div class="contrib-step-icon">📄</div>
+                    <h4 class="contrib-step-title">1. Write the YAML</h4>
+                    <p class="contrib-step-body">
+                        Fork the repo and create <code>frameworks/your-id.yaml</code>.
+                        Required fields: <code>id</code> (kebab-case),
+                        <code>name</code>, <code>version</code>,
+                        <code>contributor</code>, <code>description</code>,
+                        <code>dimensions</code> (array with <code>key</code>, <code>label</code>, <code>description</code>, <code>canonical_order</code>).
                     </p>
-                    <details class="text-xs">
-                        <summary class="font-bold text-blue-600 cursor-pointer">Show template</summary>
-                        <pre class="bg-gray-50 border border-gray-200 rounded p-3 mt-2 overflow-x-auto text-gray-700 leading-relaxed">id: my-framework
+                    <details>
+                        <summary>▸ Show template</summary>
+                        <div class="code-block" style="margin-top:8px;">
+                            <pre class="yaml-block">id: my-framework
 name: My Framework
 version: "1.0.0"
 contributor: Your Name
@@ -236,63 +731,63 @@ description: >
 dimensions:
   - key: plan
     label: Plan
-    description: &gt;
+    description: >
       What is decided before starting?
     canonical_order: 1
   - key: execute
     label: Execute
-    description: &gt;
+    description: >
       How is the work carried out?
     canonical_order: 2
   - key: review
     label: Review
-    description: &gt;
+    description: >
       How is the output evaluated?
     canonical_order: 3</pre>
+                        </div>
                     </details>
                 </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-5">
-                    <div class="text-2xl mb-2">🔍</div>
-                    <h4 class="font-bold text-gray-900 mb-1">2. Validate locally</h4>
-                    <p class="text-sm text-gray-600 mb-3">Run the validation script to catch errors before opening a PR:</p>
-                    <pre class="bg-gray-900 text-green-400 rounded p-3 text-xs overflow-x-auto">npm run build --workspace=packages/scorer
+
+                <div class="contrib-card">
+                    <div class="contrib-step-icon">🔍</div>
+                    <h4 class="contrib-step-title">2. Validate locally</h4>
+                    <p class="contrib-step-body">Run the validation script to catch errors before opening a PR:</p>
+                    <div class="code-block">
+                        <pre>npm run build --workspace=packages/scorer
 node scripts/validate-frameworks.js</pre>
-                    <p class="text-xs text-gray-500 mt-2">CI reruns this automatically on every PR and rejects malformed definitions.</p>
-                </div>
-                <div class="bg-white rounded-xl border border-gray-200 p-5">
-                    <div class="text-2xl mb-2">🔗</div>
-                    <h4 class="font-bold text-gray-900 mb-1">3. Open a PR</h4>
-                    <p class="text-sm text-gray-600">Submit your PR. CI validates the schema, regenerates <code class="bg-gray-100 px-1 rounded text-xs">frameworks/index.json</code>, and the new framework appears in the knowledge base and this page after merge.</p>
-                    <div class="mt-3">
-                        <a href="https://github.com/Fluently-Org/fluently/compare"
-                           data-fluently="compare"
-                           target="_blank"
-                           class="inline-flex items-center gap-1 bg-gray-900 hover:bg-gray-700 text-white text-xs font-bold py-1.5 px-3 rounded transition">
-                            <i class="fab fa-github"></i> Open a PR
-                        </a>
                     </div>
+                    <p class="contrib-step-body" style="margin-top:10px;margin-bottom:0;">CI reruns this automatically on every PR and rejects malformed definitions.</p>
                 </div>
+
+                <div class="contrib-card">
+                    <div class="contrib-step-icon">🔗</div>
+                    <h4 class="contrib-step-title">3. Open a PR</h4>
+                    <p class="contrib-step-body">Submit your PR. CI validates the schema, regenerates <code>frameworks/index.json</code>, and the new framework appears in the knowledge base and this page after merge.</p>
+                    <a href="https://github.com/Fluently-Org/fluently/compare" data-fluently="compare" target="_blank" class="btn btn-outline" style="font-size:0.78rem;padding:6px 14px;margin-top:4px;">
+                        <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                        Open a PR
+                    </a>
+                </div>
+
             </div>
         </div>
 
-        <!-- Path B: Via Agent -->
-        <div class="mb-8">
-            <div class="flex items-center gap-2 mb-4">
-                <span class="bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-full">Path B</span>
-                <h3 class="text-lg font-bold text-gray-900">Via your AI Agent</h3>
+        <!-- Path B -->
+        <div style="margin-bottom:32px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+                <span class="path-badge path-b">Path B</span>
+                <h3 style="font-size:1.05rem;font-weight:700;color:var(--fg);">Via your AI Agent</h3>
             </div>
-            <p class="text-sm text-gray-600 mb-4">
+            <p class="contrib-step-body" style="margin-bottom:16px;">
                 If you have the Fluently MCP server connected, you can ask your agent to generate a framework YAML, validate it, and open the PR — all in one conversation.
                 Copy the prompt below and paste it to Claude, Copilot, Cursor, or any MCP-capable agent.
             </p>
-            <div class="bg-gray-900 rounded-xl border border-gray-700 overflow-hidden">
-                <div class="flex items-center justify-between px-4 py-2 border-b border-gray-700">
-                    <span class="text-xs text-gray-400 font-mono">Agent prompt — paste as-is</span>
-                    <button onclick="copyAgentPrompt()" class="text-xs text-blue-400 hover:text-blue-300 font-bold transition">
-                        <i class="fas fa-copy mr-1"></i>Copy
-                    </button>
+            <div class="code-block">
+                <div class="code-block-bar">
+                    <span class="code-block-label">Agent prompt — paste as-is</span>
+                    <button class="code-block-copy" onclick="copyAgentPrompt()">Copy</button>
                 </div>
-                <pre id="agentPromptBlock" class="text-green-300 text-xs leading-relaxed px-4 py-4 overflow-x-auto whitespace-pre-wrap">I want to contribute a new collaboration framework to the Fluently knowledge base.
+                <pre class="agent-block" id="agentPromptBlock">I want to contribute a new collaboration framework to the Fluently knowledge base.
 
 Framework concept: [DESCRIBE YOUR FRAMEWORK HERE — e.g. "a 3-step Research framework: Question, Investigate, Synthesise"]
 
@@ -305,348 +800,392 @@ Please:
 
 Do not open the PR without my explicit approval.</pre>
             </div>
-            <p class="text-xs text-gray-500 mt-2">Requires: Fluently MCP server connected + a GitHub MCP server or a PAT in your agent's settings.</p>
+            <p style="font-size:0.75rem;color:var(--fg-subtle);margin-top:8px;">Requires: Fluently MCP server connected + a GitHub MCP server or a PAT in your agent's settings.</p>
         </div>
 
-        <div class="mt-4 text-center">
+        <div style="text-align:center;padding-top:8px;">
             <a href="https://github.com/Fluently-Org/fluently/blob/main/CONTRIBUTING.md"
-               data-fluently="contributing"
-               target="_blank"
-               class="inline-flex items-center gap-2 bg-gray-900 hover:bg-gray-700 text-white font-bold py-2.5 px-6 rounded-lg text-sm transition">
-                <i class="fab fa-github"></i>Read CONTRIBUTING.md
+               data-fluently="contributing" target="_blank"
+               class="btn btn-outline">
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                Read CONTRIBUTING.md
             </a>
         </div>
-    </section>
+    </div>
+</section>
 
-    <script>
-    function copyAgentPrompt() {
-        const el = document.getElementById('agentPromptBlock');
-        navigator.clipboard.writeText(el.textContent.trim()).then(() => {
-            const btn = event.currentTarget;
-            btn.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
-            btn.style.color = '#34d399';
-            setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy mr-1"></i>Copy'; btn.style.color = ''; }, 2000);
-        });
-    }
-    </script>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         FOOTER
-    ════════════════════════════════════════════════════════════════════════ -->
-    <footer class="bg-gray-900 text-gray-300 py-12 mt-4">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h4 class="text-white font-bold mb-3">Fluently</h4>
-                    <p class="text-sm">Framework-agnostic AI collaboration knowledge base</p>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-3">Links</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="/" class="hover:text-white transition">Home</a></li>
-                        <li><a href="/knowledge.html" class="hover:text-white transition">Knowledge</a></li>
-                        <li><a href="/frameworks.html" class="hover:text-white transition">Frameworks</a></li>
-                        <li><a href="/contribute.html" class="hover:text-white transition">Contribute</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-3">Community</h4>
-                    <ul class="space-y-2 text-sm">
-                        <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank" class="hover:text-white transition">GitHub</a></li>
-                        <li><a href="https://github.com/Fluently-Org/fluently/issues" data-fluently="issues" target="_blank" class="hover:text-white transition">Issues</a></li>
-                        <li><a href="https://github.com/Fluently-Org/fluently/discussions" data-fluently="discussions" target="_blank" class="hover:text-white transition">Discussions</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="text-white font-bold mb-3">License</h4>
-                    <p class="text-sm">MIT</p>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 pt-8 text-center text-sm">
-                <p>&copy; 2026 Fluently / Dakan &amp; Feller. All rights reserved.</p>
-            </div>
+<!-- ── Footer ── -->
+<footer>
+    <div class="footer-inner">
+        <div>
+            <div class="footer-brand-name">fluent·ly</div>
+            <div class="footer-brand-desc">An open platform for human-AI collaboration knowledge. Framework-agnostic, agent-agnostic. Ships with the AI Fluency 4D Framework by Dakan &amp; Feller.</div>
+            <p style="margin-top:12px;font-size:0.78rem;color:var(--fg-subtle);">Licensed MIT</p>
         </div>
-    </footer>
+        <div>
+            <div class="footer-col-title">Frameworks</div>
+            <ul class="footer-links">
+                <li><a href="#frameworks">Browse frameworks</a></li>
+                <li><a href="#compare">Compare</a></li>
+                <li><a href="#contribute">Contribute a framework</a></li>
+                <li><a href="/knowledge.html">Knowledge base</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="footer-col-title">Tools</div>
+            <ul class="footer-links">
+                <li><a href="https://www.npmjs.com/package/fluently-cli" target="_blank">fluently-cli</a></li>
+                <li><a href="https://www.npmjs.com/package/fluently-mcp-server" target="_blank">fluently-mcp-server</a></li>
+                <li><a href="https://github.com/Fluently-Org/fluently/blob/main/packages/mcp-server/README.md" data-fluently="blob:packages/mcp-server/README.md" target="_blank">MCP server docs</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="footer-col-title">Community</div>
+            <ul class="footer-links">
+                <li><a href="https://github.com/Fluently-Org/fluently" data-fluently="repo" target="_blank">GitHub</a></li>
+                <li><a href="https://github.com/Fluently-Org/fluently/issues" data-fluently="issues" target="_blank">Issues</a></li>
+                <li><a href="https://github.com/Fluently-Org/fluently/pulls" data-fluently="pulls" target="_blank">Pull requests</a></li>
+                <li><a href="https://github.com/Fluently-Org/fluently/blob/main/CONTRIBUTING.md" data-fluently="contributing" target="_blank">Contribute a cycle</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 Fluently · MIT License</span>
+        <span>Open Standard for Human-AI Collaboration</span>
+    </div>
+</footer>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         JAVASCRIPT
-    ════════════════════════════════════════════════════════════════════════ -->
-    <script>
-    'use strict';
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
 
-    // ── URLs ──────────────────────────────────────────────────────────────────
+<!-- ════════════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
 
-    const FRAMEWORKS_URL = (window.FLUENTLY && window.FLUENTLY.rawBase
-        ? window.FLUENTLY.rawBase + '/frameworks/index.json'
-        : 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/frameworks/index.json');
+// ── URLs ──────────────────────────────────────────────────────────────────
 
-    const KNOWLEDGE_URL = (window.FLUENTLY && window.FLUENTLY.indexJsonUrl)
-        || 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json';
+const FRAMEWORKS_URL = (window.FLUENTLY && window.FLUENTLY.rawBase
+    ? window.FLUENTLY.rawBase + '/frameworks/index.json'
+    : 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/frameworks/index.json');
 
-    const BLOB_BASE = (window.FLUENTLY && window.FLUENTLY.blobBase)
-        || 'https://github.com/Fluently-Org/fluently/blob/main';
+const KNOWLEDGE_URL = (window.FLUENTLY && window.FLUENTLY.indexJsonUrl)
+    || 'https://raw.githubusercontent.com/Fluently-Org/fluently/main/knowledge/index.json';
 
-    // ── Palette for dimension pills ────────────────────────────────────────────
+const BLOB_BASE = (window.FLUENTLY && window.FLUENTLY.blobBase)
+    || 'https://github.com/Fluently-Org/fluently/blob/main';
 
-    const PILL_PALETTE = [
-        { bg: '#dbeafe', text: '#1d4ed8' },
-        { bg: '#dcfce7', text: '#15803d' },
-        { bg: '#f3e8ff', text: '#7e22ce' },
-        { bg: '#ffedd5', text: '#c2410c' },
-        { bg: '#fef9c3', text: '#713f12' },
-        { bg: '#e0e7ff', text: '#3730a3' },
-        { bg: '#fee2e2', text: '#991b1b' },
-        { bg: '#f3f4f6', text: '#374151' },
-    ];
+// ── Palette for dimension pills (dark-theme adapted) ──────────────────────
 
-    // ── Data ──────────────────────────────────────────────────────────────────
+const PILL_PALETTE = [
+    { bg: 'rgba(59,130,246,0.18)',  text: '#93c5fd' },
+    { bg: 'rgba(34,197,94,0.15)',   text: '#86efac' },
+    { bg: 'rgba(168,85,247,0.15)',  text: '#d8b4fe' },
+    { bg: 'rgba(249,115,22,0.15)',  text: '#fdba74' },
+    { bg: 'rgba(234,179,8,0.15)',   text: '#fde047' },
+    { bg: 'rgba(99,102,241,0.15)',  text: '#a5b4fc' },
+    { bg: 'rgba(239,68,68,0.15)',   text: '#fca5a5' },
+    { bg: 'rgba(156,163,175,0.12)', text: '#d1d5db' },
+];
 
-    let _frameworks = [];
-    let _entries    = [];
+// ── Data ──────────────────────────────────────────────────────────────────
 
-    function escapeHtml(v) {
-        const el = document.createElement('span');
-        el.textContent = String(v ?? '');
-        return el.innerHTML;
+let _frameworks = [];
+let _entries    = [];
+
+function escapeHtml(v) {
+    const el = document.createElement('span');
+    el.textContent = String(v ?? '');
+    return el.innerHTML;
+}
+
+async function loadData() {
+    const [fwRes, kRes] = await Promise.all([
+        fetch(FRAMEWORKS_URL).catch(() => null),
+        fetch(KNOWLEDGE_URL).catch(() => null),
+    ]);
+
+    if (fwRes && fwRes.ok) {
+        const d = await fwRes.json().catch(() => ({}));
+        _frameworks = d.frameworks || [];
     }
 
-    async function loadData() {
-        const [fwRes, kRes] = await Promise.all([
-            fetch(FRAMEWORKS_URL).catch(() => null),
-            fetch(KNOWLEDGE_URL).catch(() => null),
-        ]);
+    if (kRes && kRes.ok) {
+        const d = await kRes.json().catch(() => ({}));
+        _entries = d.entries || [];
+    }
+}
 
-        if (fwRes && fwRes.ok) {
-            const d = await fwRes.json().catch(() => ({}));
-            _frameworks = d.frameworks || [];
-        }
+// ── Framework cards ───────────────────────────────────────────────────────
 
-        if (kRes && kRes.ok) {
-            const d = await kRes.json().catch(() => ({}));
-            _entries = d.entries || [];
-        }
+function renderFrameworkCards() {
+    const grid  = document.getElementById('frameworks-grid');
+    const badge = document.getElementById('fw-count-badge');
+
+    if (_frameworks.length === 0) {
+        grid.innerHTML = `
+            <div style="grid-column:1/-1;padding:48px 0;text-align:center;">
+                <p style="color:var(--fg-muted);">No frameworks found. Check your network or try refreshing.</p>
+            </div>`;
+        return;
     }
 
-    // ── Framework cards ──────────────────────────────────────────────────────
+    badge.textContent = `${_frameworks.length} framework${_frameworks.length !== 1 ? 's' : ''}`;
 
-    function renderFrameworkCards() {
-        const grid  = document.getElementById('frameworks-grid');
-        const badge = document.getElementById('fw-count-badge');
+    grid.innerHTML = _frameworks.map(fw => {
+        const cycleCount = _entries.filter(e =>
+            (e.framework_id || '4d-framework') === fw.id
+        ).length;
 
-        if (_frameworks.length === 0) {
-            grid.innerHTML = `
-                <div class="col-span-full py-12 text-center">
-                    <i class="fas fa-exclamation-circle text-gray-300 text-4xl mb-3"></i>
-                    <p class="text-gray-500">No frameworks found. Check your network or try refreshing.</p>
-                </div>`;
-            return;
-        }
+        const dimPills = (fw.dimensions || [])
+            .sort((a, b) => a.canonical_order - b.canonical_order)
+            .map((d, idx) => {
+                const c = PILL_PALETTE[idx % PILL_PALETTE.length];
+                return `<span class="dim-pill" style="background:${c.bg};color:${c.text}" title="${escapeHtml(d.description)}">
+                    ${escapeHtml(d.label)}
+                </span>`;
+            }).join('');
 
-        badge.textContent = `${_frameworks.length} framework${_frameworks.length !== 1 ? 's' : ''}`;
+        const tags = (fw.tags || []).map(t =>
+            `<span class="fw-tag">#${escapeHtml(t)}</span>`
+        ).join('');
 
-        grid.innerHTML = _frameworks.map(fw => {
-            const cycleCount = _entries.filter(e =>
-                (e.framework_id || '4d-framework') === fw.id
-            ).length;
+        const levelBadge = fw.level
+            ? `<span class="fw-meta-badge fw-meta-level">${escapeHtml(fw.level)}</span>` : '';
+        const bindingClass = fw.binding === 'Yes' ? 'fw-meta-binding-yes'
+            : fw.binding === 'Voluntary cert.' ? 'fw-meta-binding-cert' : 'fw-meta-binding-vol';
+        const bindingLabel = fw.binding === 'Yes' ? 'Legally binding'
+            : fw.binding === 'Voluntary cert.' ? 'Voluntary cert.' : 'Voluntary';
+        const bindingBadge = fw.binding
+            ? `<span class="fw-meta-badge ${bindingClass}">${escapeHtml(bindingLabel)}</span>` : '';
 
-            const dimPills = (fw.dimensions || [])
-                .sort((a, b) => a.canonical_order - b.canonical_order)
-                .map((d, idx) => {
+        return `
+        <div class="fw-card">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;">
+                <div>
+                    <div class="fw-card-name">${escapeHtml(fw.name)}</div>
+                    <code class="fw-card-id">${escapeHtml(fw.id)}</code>
+                </div>
+                <span class="fw-card-version">v${escapeHtml(fw.version)}</span>
+            </div>
+
+            <p class="fw-card-desc">${escapeHtml(fw.description)}</p>
+
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">${dimPills}</div>
+
+            ${levelBadge || bindingBadge ? `
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;">
+                ${levelBadge}${bindingBadge}
+            </div>` : ''}
+
+            ${tags ? `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;">${tags}</div>` : ''}
+
+            <div class="fw-card-footer">
+                <span style="font-size:0.77rem;color:var(--fg-subtle);">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-1px;margin-right:3px"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                    ${escapeHtml(fw.contributor)}
+                </span>
+                <span class="fw-cycle-badge">${cycleCount} cycle${cycleCount !== 1 ? 's' : ''}</span>
+            </div>
+
+            ${fw.reference ? `
+            <div style="margin-top:8px;">
+                <a href="${escapeHtml(fw.reference)}" target="_blank" class="fw-reference">
+                    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:inline;vertical-align:-1px;margin-right:3px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+                    Reference
+                </a>
+            </div>` : ''}
+        </div>`;
+    }).join('');
+}
+
+// ── Compare frameworks ────────────────────────────────────────────────────
+
+function tokenize(text) {
+    return new Set((text || '').toLowerCase().split(/\W+/).filter(w => w.length > 2));
+}
+
+function cosineSim(a, b) {
+    const all = new Set([...a, ...b]);
+    let dot = 0, ma = 0, mb = 0;
+    for (const w of all) {
+        const x = a.has(w) ? 1 : 0, y = b.has(w) ? 1 : 0;
+        dot += x * y; ma += x; mb += y;
+    }
+    return (ma && mb) ? dot / (Math.sqrt(ma) * Math.sqrt(mb)) : 0;
+}
+
+function findBestMatch(task, fwId) {
+    const q = tokenize(task);
+    const fwEntries = _entries.filter(e => (e.framework_id || '4d-framework') === fwId);
+    if (fwEntries.length === 0) return null;
+
+    return fwEntries
+        .map(e => ({
+            entry: e,
+            sim: cosineSim(q, tokenize([e.title, e.domain, (e.tags || []).join(' '), e.summary || ''].join(' '))),
+        }))
+        .sort((a, b) => b.sim - a.sim)[0]?.entry ?? null;
+}
+
+async function runCompare() {
+    const task = document.getElementById('compare-task').value.trim();
+    if (!task) { alert('Please enter a task description.'); return; }
+
+    document.getElementById('compare-loading').style.display = 'block';
+    document.getElementById('compare-results').style.display = 'none';
+
+    if (_frameworks.length === 0) await loadData();
+
+    document.getElementById('compare-loading').style.display = 'none';
+
+    if (_frameworks.length === 0) {
+        document.getElementById('compare-cols').innerHTML =
+            '<p style="font-size:0.85rem;color:var(--fg-muted);">No frameworks available for comparison.</p>';
+        document.getElementById('compare-results').style.display = 'block';
+        return;
+    }
+
+    const cols = _frameworks.map(fw => {
+        const best = findBestMatch(task, fw.id);
+        const dimOrder = (fw.dimensions || [])
+            .sort((a, b) => a.canonical_order - b.canonical_order)
+            .map(d => d.key);
+
+        const seqHtml = best?.collaboration?.sequence
+            ? `<ol style="list-style:none;padding:0;margin-top:8px;display:flex;flex-direction:column;gap:3px;">` +
+              best.collaboration.sequence.map(s =>
+                `<li class="compare-seq-step">${s.step}. <span class="compare-seq-dim">[${s.d.toUpperCase()}]</span> ${escapeHtml(s.label)}</li>`
+              ).join('') + `</ol>`
+            : '';
+
+        const levelBadge = fw.level
+            ? `<span class="fw-meta-badge fw-meta-level" style="font-size:0.68rem;">${escapeHtml(fw.level)}</span>` : '';
+        const bindingClass = fw.binding === 'Yes' ? 'fw-meta-binding-yes'
+            : fw.binding === 'Voluntary cert.' ? 'fw-meta-binding-cert' : 'fw-meta-binding-vol';
+        const bindingLabel = fw.binding === 'Yes' ? 'Legally binding'
+            : fw.binding === 'Voluntary cert.' ? 'Voluntary cert.' : 'Voluntary';
+        const bindingBadge = fw.binding
+            ? `<span class="fw-meta-badge ${bindingClass}" style="font-size:0.68rem;">${escapeHtml(bindingLabel)}</span>` : '';
+
+        return `
+        <div class="compare-col">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;">
+                <div>
+                    <div class="compare-col-name">${escapeHtml(fw.name)}</div>
+                    <code class="compare-col-id">${escapeHtml(fw.id)}</code>
+                </div>
+            </div>
+            ${levelBadge || bindingBadge ? `<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;">${levelBadge}${bindingBadge}</div>` : ''}
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;">
+                ${dimOrder.map((k, idx) => {
                     const c = PILL_PALETTE[idx % PILL_PALETTE.length];
-                    return `<span class="dim-pill" style="background:${c.bg};color:${c.text}" title="${escapeHtml(d.description)}">
-                        ${escapeHtml(d.label)}
-                    </span>`;
-                }).join('');
+                    return `<span class="dim-pill" style="background:${c.bg};color:${c.text};font-size:0.65rem;">${k.slice(0,3).toUpperCase()}</span>`;
+                }).join('')}
+            </div>
+            ${best ? `
+                <p style="font-size:0.82rem;font-weight:600;color:var(--fg);margin-bottom:2px;">${escapeHtml(best.title)}</p>
+                <p style="font-size:0.78rem;color:var(--fg-muted);margin-bottom:6px;">${escapeHtml(best.domain)} &mdash; ${escapeHtml(best.contributor)}</p>
+                ${seqHtml}
+                <a href="${BLOB_BASE}/knowledge/${escapeHtml(best.file || best.domain + '-' + best.id + '.yaml')}"
+                   target="_blank" class="compare-view-link" style="display:inline-block;margin-top:10px;">
+                    View YAML →
+                </a>
+            ` : `
+                <p style="font-size:0.82rem;color:var(--fg-subtle);font-style:italic;">No cycles registered for this framework yet.</p>
+            `}
+        </div>`;
+    }).join('');
 
-            const tags = (fw.tags || []).map(t =>
-                `<span class="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#${escapeHtml(t)}</span>`
-            ).join('');
+    document.getElementById('compare-cols').innerHTML = cols;
+    document.getElementById('compare-results').style.display = 'block';
+}
 
-            return `
-            <div class="fw-card p-6 flex flex-col">
-                <div class="flex items-start justify-between gap-2 mb-3">
-                    <div>
-                        <h3 class="text-base font-bold text-gray-900">${escapeHtml(fw.name)}</h3>
-                        <code class="text-xs text-gray-400">${escapeHtml(fw.id)}</code>
-                    </div>
-                    <span class="shrink-0 text-xs bg-blue-100 text-blue-700 font-bold px-2 py-1 rounded-full">
-                        v${escapeHtml(fw.version)}
-                    </span>
-                </div>
+// ── Copy agent prompt ─────────────────────────────────────────────────────
 
-                <p class="text-sm text-gray-600 mb-4 leading-relaxed">${escapeHtml(fw.description)}</p>
+function copyAgentPrompt() {
+    const el = document.getElementById('agentPromptBlock');
+    navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+        const btn = event.currentTarget;
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        btn.style.color = 'var(--green)';
+        setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
+    });
+}
 
-                <div class="flex flex-wrap gap-1.5 mb-4">${dimPills}</div>
+// ── Mobile hamburger ──────────────────────────────────────────────────────
 
-                <div class="flex-1"></div>
+function initHamburger() {
+    const btn  = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const bars = document.getElementById('menu-icon-bars');
+    const x    = document.getElementById('menu-icon-x');
+    if (!btn || !menu) return;
+    btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open);
+        bars.style.display = open ? 'none' : '';
+        x.style.display    = open ? '' : 'none';
+    });
+}
 
-                <div class="flex flex-wrap gap-1.5 mb-4">${tags}</div>
+// ── Frameworks dropdown (click fallback for touch) ────────────────────────
 
-                <div class="flex flex-wrap gap-1.5 mb-3">
-                    ${fw.level ? `<span class="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 border border-blue-200 px-2 py-0.5 rounded-full font-medium"><i class="fas fa-layer-group text-blue-400" style="font-size:0.6rem"></i>${escapeHtml(fw.level)}</span>` : ''}
-                    ${fw.binding ? `<span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full font-medium border ${fw.binding === 'Yes' ? 'bg-red-50 text-red-700 border-red-200' : fw.binding === 'Voluntary cert.' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-gray-50 text-gray-500 border-gray-200'}"><i class="fas fa-${fw.binding === 'Yes' ? 'gavel' : fw.binding === 'Voluntary cert.' ? 'certificate' : 'check-circle'}" style="font-size:0.6rem"></i>${escapeHtml(fw.binding === 'Yes' ? 'Legally binding' : fw.binding === 'Voluntary cert.' ? 'Voluntary cert.' : 'Voluntary')}</span>` : ''}
-                </div>
+function initFrameworksDropdown() {
+    const dd    = document.querySelector('.nav-dd');
+    const btn   = document.getElementById('fw-dd-btn');
+    const panel = document.getElementById('fw-dd-panel');
+    if (!dd || !btn || !panel) return;
 
-                <div class="flex items-center justify-between text-xs text-gray-400 border-t border-gray-100 pt-3">
-                    <span><i class="fas fa-user mr-1"></i>${escapeHtml(fw.contributor)}</span>
-                    <span class="bg-gray-100 text-gray-500 px-2 py-0.5 rounded font-medium">
-                        ${cycleCount} cycle${cycleCount !== 1 ? 's' : ''}
-                    </span>
-                </div>
+    // Click toggle (supplements CSS :hover)
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const visible = panel.style.display === 'block';
+        panel.style.display = visible ? '' : 'block';
+        btn.setAttribute('aria-expanded', !visible);
+    });
+    document.addEventListener('click', () => {
+        panel.style.display = '';
+        btn.setAttribute('aria-expanded', 'false');
+    });
+}
 
-                ${fw.reference ? `
-                <div class="mt-2">
-                    <a href="${escapeHtml(fw.reference)}" target="_blank"
-                       class="text-xs text-blue-500 hover:underline">
-                        <i class="fas fa-external-link-alt mr-1"></i>Reference
-                    </a>
-                </div>` : ''}
-            </div>`;
-        }).join('');
-    }
+// ── Config links ──────────────────────────────────────────────────────────
 
-    // ── Compare frameworks ────────────────────────────────────────────────────
+function applyConfigLinks() {
+    if (!window.FLUENTLY) return;
+    document.querySelectorAll('[data-fluently]').forEach(el => {
+        const key = el.getAttribute('data-fluently');
+        const map = {
+            repo:         window.FLUENTLY.repoUrl,
+            issues:       window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/issues'      : null,
+            discussions:  window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/discussions' : null,
+            pulls:        window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/pulls'       : null,
+            contributing: window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/blob/main/CONTRIBUTING.md' : null,
+            compare:      window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/compare'     : null,
+        };
+        if (map[key]) el.href = map[key];
+    });
+}
 
-    function tokenize(text) {
-        return new Set((text || '').toLowerCase().split(/\W+/).filter(w => w.length > 2));
-    }
+// ── Init ──────────────────────────────────────────────────────────────────
 
-    function cosineSim(a, b) {
-        const all = new Set([...a, ...b]);
-        let dot = 0, ma = 0, mb = 0;
-        for (const w of all) {
-            const x = a.has(w) ? 1 : 0, y = b.has(w) ? 1 : 0;
-            dot += x * y; ma += x; mb += y;
-        }
-        return (ma && mb) ? dot / (Math.sqrt(ma) * Math.sqrt(mb)) : 0;
-    }
+async function init() {
+    initHamburger();
+    initFrameworksDropdown();
+    applyConfigLinks();
+    await loadData();
+    renderFrameworkCards();
+}
 
-    function findBestMatch(task, fwId) {
-        const q = tokenize(task);
-        const fwEntries = _entries.filter(e => (e.framework_id || '4d-framework') === fwId);
-        if (fwEntries.length === 0) return null;
-
-        return fwEntries
-            .map(e => ({
-                entry: e,
-                sim: cosineSim(q, tokenize([e.title, e.domain, (e.tags || []).join(' '), e.summary || ''].join(' '))),
-            }))
-            .sort((a, b) => b.sim - a.sim)[0]?.entry ?? null;
-    }
-
-    async function runCompare() {
-        const task = document.getElementById('compare-task').value.trim();
-        if (!task) {
-            alert('Please enter a task description.');
-            return;
-        }
-
-        document.getElementById('compare-loading').classList.remove('hidden');
-        document.getElementById('compare-results').classList.add('hidden');
-
-        // Load data if not already loaded
-        if (_frameworks.length === 0) await loadData();
-
-        document.getElementById('compare-loading').classList.add('hidden');
-
-        if (_frameworks.length === 0) {
-            document.getElementById('compare-cols').innerHTML =
-                '<p class="text-sm text-gray-500">No frameworks available for comparison.</p>';
-            document.getElementById('compare-results').classList.remove('hidden');
-            return;
-        }
-
-        const cols = _frameworks.map(fw => {
-            const best = findBestMatch(task, fw.id);
-            const dimOrder = (fw.dimensions || [])
-                .sort((a, b) => a.canonical_order - b.canonical_order)
-                .map(d => d.key);
-
-            const seqHtml = best?.collaboration?.sequence
-                ? best.collaboration.sequence.map(s =>
-                    `<li class="text-xs text-gray-600">${s.step}. <span class="font-bold text-blue-700">[${s.d.toUpperCase()}]</span> ${escapeHtml(s.label)}</li>`
-                  ).join('')
-                : '';
-
-            return `
-            <div class="compare-col">
-                <div class="flex items-center gap-2 mb-2 flex-wrap">
-                    <h3 class="font-bold text-gray-900 text-sm">${escapeHtml(fw.name)}</h3>
-                    <span class="text-xs text-gray-400 font-mono">${escapeHtml(fw.id)}</span>
-                </div>
-                <div class="flex flex-wrap gap-1 mb-2">
-                    ${fw.level ? `<span class="text-xs bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 rounded-full">${escapeHtml(fw.level)}</span>` : ''}
-                    ${fw.binding ? `<span class="text-xs px-1.5 py-0.5 rounded-full border ${fw.binding === 'Yes' ? 'bg-red-50 text-red-600 border-red-200' : fw.binding === 'Voluntary cert.' ? 'bg-amber-50 text-amber-600 border-amber-200' : 'bg-gray-50 text-gray-500 border-gray-200'}">${escapeHtml(fw.binding === 'Yes' ? 'Legally binding' : fw.binding)}</span>` : ''}
-                </div>
-                <div class="flex flex-wrap gap-1 mb-3">
-                    ${dimOrder.map((k, idx) => {
-                        const c = PILL_PALETTE[idx % PILL_PALETTE.length];
-                        return `<span class="dim-pill" style="background:${c.bg};color:${c.text}">${k.slice(0,3).toUpperCase()}</span>`;
-                    }).join('')}
-                </div>
-                ${best ? `
-                    <p class="text-xs font-semibold text-gray-700 mb-1">${escapeHtml(best.title)}</p>
-                    <p class="text-xs text-gray-500 mb-2">${escapeHtml(best.domain)} &mdash; ${escapeHtml(best.contributor)}</p>
-                    ${seqHtml ? `<ol class="space-y-0.5 pl-0 list-none">${seqHtml}</ol>` : ''}
-                    <a href="${BLOB_BASE}/knowledge/${escapeHtml(best.file || best.domain + '-' + best.id + '.yaml')}"
-                       target="_blank" class="inline-block mt-3 text-xs text-blue-500 hover:underline">
-                        View YAML →
-                    </a>
-                ` : `
-                    <p class="text-xs text-gray-400 italic">No cycles registered for this framework yet.</p>
-                `}
-            </div>`;
-        }).join('');
-
-        document.getElementById('compare-cols').innerHTML = cols;
-        document.getElementById('compare-results').classList.remove('hidden');
-    }
-
-    // ── Mobile hamburger ──────────────────────────────────────────────────────
-
-    function initHamburger() {
-        const btn  = document.getElementById('menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        const icon = document.getElementById('menu-icon');
-        if (!btn || !menu) return;
-        btn.addEventListener('click', () => {
-            const open   = menu.classList.toggle('hidden');
-            const isOpen = !open;
-            btn.setAttribute('aria-expanded', isOpen);
-            icon.className = isOpen ? 'fas fa-times text-xl' : 'fas fa-bars text-xl';
-        });
-    }
-
-    // ── Config links ──────────────────────────────────────────────────────────
-
-    function applyConfigLinks() {
-        if (!window.FLUENTLY) return;
-        document.querySelectorAll('[data-fluently]').forEach(el => {
-            const key = el.getAttribute('data-fluently');
-            const map = {
-                repo:         window.FLUENTLY.repoUrl,
-                issues:       window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/issues'      : null,
-                discussions:  window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/discussions' : null,
-                contributing: window.FLUENTLY.repoUrl ? window.FLUENTLY.repoUrl + '/blob/main/CONTRIBUTING.md' : null,
-            };
-            if (map[key]) el.href = map[key];
-        });
-    }
-
-    // ── Init ──────────────────────────────────────────────────────────────────
-
-    async function init() {
-        initHamburger();
-        applyConfigLinks();
-        await loadData();
-        renderFrameworkCards();
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
-    }
-    </script>
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
+</script>
 </body>
 </html>
